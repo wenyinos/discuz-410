@@ -1,0 +1,106 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang stats}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr><td class="header">{lang stats}
+</td></tr><tr class="altbg1"><td>
+
+{template stats_navbar}
+
+<!--{if $team['admins']}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr><td colspan="10" class="header">{lang stats_team_admins}</td></tr>
+	<tr align="center" class="category"><td>{lang username}</td>
+	<td>{lang status}</td>
+	<td>{lang lastvisit}</td>
+	<td>{lang stats_team_offdays}</td>
+	<td>{lang credits}</td>
+	<td>{lang posts}</td>
+	<td>{lang stats_posts_thismonth}</td>
+	<!--{if $modworkstatus}--><td>{lang stats_modworks_thismonth}</td><!--{/if}-->
+	<!--{if $oltimespan}-->
+		<td>{lang onlinetime_total}</td>
+		<td>{lang onlinetime_thismonth}</td>
+	<!--{/if}-->
+	</tr>
+	<!--{loop $team['admins'] $uid}-->
+		<tr align="center" class="smalltxt">
+		<td class="altbg1"><a href="viewpro.php?uid=$uid">$team[members][$uid][username]</a></td>
+		<td class="altbg2"><!--{if $team['members'][$uid]['adminid'] == 1}-->{lang admin}<!--{elseif $team['members'][$uid]['adminid'] == 2}-->{lang supermod}<!--{elseif $team['members'][$uid]['adminid'] == 3}-->{lang moderator}<!--{/if}--></td>
+		<td class="altbg1">$team[members][$uid][lastactivity]</td>
+		<td class="altbg2">$team[members][$uid][offdays]</td>
+		<td class="altbg1">$team[members][$uid][credits]</td>
+		<td class="altbg2">$team[members][$uid][posts]</td>
+		<td class="altbg1">$team[members][$uid][thismonthposts]</td>
+		<!--{if $modworkstatus}-->
+			<td class="altbg2"><a href="stats.php?type=modworks&uid=$uid">$team[members][$uid][modactions]</a></td>
+		<!--{/if}-->
+		<!--{if $oltimespan}-->
+			<td class="altbg1">$team[members][$uid][totalol] {lang hours}</td>
+			<td class="altbg2">$team[members][$uid][thismonthol] {lang hours}</td>
+		<!--{/if}-->
+		</tr>
+	<!--{/loop}-->
+	</table><br>
+<!--{/if}-->
+
+<!--{loop $team['categories'] $category}-->
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr><td colspan="11" class="header"><a href="index.php?gid=$category[fid]">$category[name]</a></td></tr>
+	<!--{if $oltimespan}-->
+		<tr align="center" class="category">
+		<td width="15%">{lang forum}</td>
+		<td width="12%">{lang username}</td>
+		<td width="10%">{lang status}</td>
+		<td width="12%">{lang lastvisit}</td>
+		<td width="7%">{lang stats_team_offdays}</td>
+		<td width="7%">{lang credits}</td>
+		<td width="7%">{lang posts}</td>
+		<td width="7%">{lang stats_posts_thismonth}</td>
+		<td width="7%">{lang stats_modworks_thismonth}</td>
+		<td width="8%">{lang onlinetime_total}</td>
+		<td width="8%">{lang onlinetime_thismonth}</td>
+		</tr>
+	<!--{else}-->
+		<tr align="center" class="category">
+		<td width="16%">{lang forum}</td>
+		<td width="12%">{lang username}</td>
+		<td width="10%">{lang status}</td>
+		<td width="20%">{lang lastvisit}</td>
+		<td width="8%">{lang stats_team_offdays}</td>
+		<td width="8%">{lang credits}</td>
+		<td width="8%">{lang posts}</td>
+		<td width="8%">{lang stats_posts_thismonth}</td>
+		<td width="8%">{lang stats_modworks_thismonth}</td>
+		</tr>
+	<!--{/if}-->
+	<!--{loop $team['forums'][$category['fid']] $fid $forum}-->
+		<!--{loop $team['moderators'][$fid] $key $uid}-->
+			<tr align="center" class="smalltxt">
+			<!--{if $key == 0}--><td class="altbg1" rowspan="$forum[moderators]"><!--{if $forum[type] == 'group'}--><a href="index.php?gid=$fid"><!--{else}--><a href="forumdisplay.php?fid=$fid"><!--{/if}-->$forum[name]</a></td><!--{/if}-->
+			<td class="altbg2"><a href="viewpro.php?uid=$uid"><!--{if $forum['inheritedmod']}--><b>$team[members][$uid][username]</b><!--{else}-->$team[members][$uid][username]<!--{/if}--></a></td>
+			<td class="altbg1"><!--{if $team['members'][$uid]['adminid'] == 1}-->{lang admin}<!--{elseif $team['members'][$uid]['adminid'] == 2}-->{lang supermod}<!--{elseif $team['members'][$uid]['adminid'] == 3}-->{lang moderator}<!--{/if}--></td>
+			<td class="altbg2">$team[members][$uid][lastactivity]</td>
+			<td class="altbg1">$team[members][$uid][offdays]</td>
+			<td class="altbg2">$team[members][$uid][credits]</td>
+			<td class="altbg1">$team[members][$uid][posts]</td>
+			<td class="altbg2">$team[members][$uid][thismonthposts]</td>
+			<td class="altbg1"><!--{if $modworkstatus}--><a href="stats.php?type=modworks&uid=$uid">$team[members][$uid][modactions]</a><!--{else}-->N/A<!--{/if}--></td>
+			<!--{if $oltimespan}-->
+				<td class="altbg2">$team[members][$uid][totalol] {lang hours}</td>
+				<td class="altbg1">$team[members][$uid][thismonthol] {lang hours}</td>
+			<!--{/if}-->
+			</tr>
+		<!--{/loop}-->
+	<!--{/loop}-->
+	</table>
+<!--{/loop}-->
+
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" class="smalltxt">
+<tr><td align="right">{lang stats_update}</td></tr></table><br>
+
+</td></tr></table>
+{template footer}

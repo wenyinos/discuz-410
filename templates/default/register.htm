@@ -1,0 +1,404 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang register}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<!--{if $bbrules && !$rulesubmit}-->
+	<form name="bbrules" method="post" action="register.php">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="referer" value="$referer">
+
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr>
+	<td class="header">{lang register}</td>
+	</tr>
+
+	<tr class="altbg1">
+	<td width="21%">$bbrulestxt</td>
+	</tr>
+
+	</table><br>
+	<center>
+	<input type="submit" name="rulesubmit" value="{lang agree}" style="height: 23px">
+	<input type="button" name="return" value="{lang disagree}" style="height: 23px" onclick="javascript:history.go(-1);">
+	</center>
+	</form>
+
+	<script language="JavaScript">
+	var secs = 9;
+	var wait = secs * 1000;
+	document.bbrules.rulesubmit.value = "{lang agree}(" + secs + ")";
+	document.bbrules.rulesubmit.disabled = true;
+	for(i = 1; i <= secs; i++) {
+	        window.setTimeout("update(" + i + ")", i * 1000);
+	}
+	window.setTimeout("timer()", wait);
+	function update(num, value) {
+	        if(num == (wait/1000)) {
+	                document.bbrules.rulesubmit.value = "{lang agree}";
+	        } else {
+	                printnr = (wait / 1000)-num;
+	                document.bbrules.rulesubmit.value = "{lang agree}(" + printnr + ")";
+	        }
+	}
+	function timer() {
+	        document.bbrules.rulesubmit.disabled = false;
+	        document.bbrules.rulesubmit.value = "{lang agree}";
+	}
+	</script>
+<!--{else}-->
+	<form method="post" name="register" action="register.php?regsubmit=yes" $enctype onSubmit="this.regsubmit.disabled=true;">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="referer" value="index.php?sid=$sid">
+
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr>
+	<td colspan="2" class="header"><a href="member.php?action=credits&view=promotion_register" target="_blank"><img src="{IMGDIR}/credits.gif" alt="{lang credits_policy_view}" align="right" border="0"></a>{lang register} - {lang required_info}</td>
+	</tr>
+
+	<!--{if $seccodecheck}-->
+		<tr>
+		<td class="altbg1" width="21%">{lang seccode}:</td>
+		<td class="altbg2"><input type="text" name="seccodeverify" size="4" maxlength="4"> <img src="seccode.php" align="absmiddle"> <span class="smalltxt">{lang seccode_comment}</span></td>
+		</tr>
+	<!--{/if}-->
+
+	<tr>
+	<td class="altbg1" width="21%">{lang username}:</td>
+	<td class="altbg2"><input type="text" name="username" size="25" maxlength="25"> 
+	<input type="button" value="{lang register_check_username}" onclick="window.open('member.php?action=check&username='+this.form.username.value);">
+	</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang password}:</td>
+	<td class="altbg2"><input type="password" name="password" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang password_confirm}:</td>
+	<td class="altbg2"><input type="password" name="password2" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang email}:</td>
+	<td class="altbg2"><input type="text" name="email" size="25">
+	<!--{if $regverify == 1}-->&nbsp; <span class="smalltxt">{lang register_email_comment}</span><!--{/if}-->
+	<!--{if $censoremail}-->&nbsp; <span class="smalltxt">{lang register_email_censor}</span><!--{/if}-->
+	</td>
+	</tr>
+	
+	<!--{if $fromuser}-->
+		<tr>
+		<td class="altbg1">{lang register_from}:</td>
+		<td class="altbg2"><input type="text" name="fromuser" size="25" value="$fromuser" disabled></td>
+		</tr>
+	<!--{/if}-->
+	
+	<!--{loop $_DCACHE['fields_required'] $field}-->
+		<tr>
+		<td class="altbg1" width="21%">$field[title]:<!--{if $field['description']}--><br><span class="smalltxt">$field[description]</span><!--{/if}--></td>
+		<td class="altbg2">
+		<!--{if $field['selective']}-->
+			<select name="field_$field[fieldid]new">
+			<option value="">{lang please_select}</option>
+			<!--{loop $field['choices'] $index $choice}-->
+				<option value="$index" <!--{if $index == $member['field_'.$field[fieldid]]}-->selected="selected"<!--{/if}-->>$choice</option>
+			<!--{/loop}-->
+			</select>
+		<!--{else}-->
+			<input type="text" name="field_$field[fieldid]new" size="25" value="$member['field_'.$field[fieldid]]">
+		<!--{/if}-->
+		<!--{if $field['unchangeable']}-->&nbsp;<span class="smalltxt"><span class="bold">{lang memcp_profile_unchangeable_comment}</span></span><!--{/if}-->
+		</td></tr>
+	<!--{/loop}-->
+
+	<!--{if $regverify == 2}-->
+		<tr>
+		<td class="altbg1" valign="top">{lang register_message}:</td>
+		<td class="altbg2"><textarea rows="4" cols="30" name="regmessage"></textarea></td>
+		</tr>
+	<!--{/if}-->
+
+	<tr>
+	<td colspan="2" class="header">{lang register} - {lang optional_info}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang security_question}:</td>
+	<td class="altbg2"><select name="questionid">
+	<option value="0">{lang security_question_0}</option>
+	<option value="1">{lang security_question_1}</option>
+	<option value="2">{lang security_question_2}</option>
+	<option value="3">{lang security_question_3}</option>
+	<option value="4">{lang security_question_4}</option>
+	<option value="5">{lang security_question_5}</option>
+	<option value="6">{lang security_question_6}</option>
+	<option value="7">{lang security_question_7}</option>
+	</select> <span class="smalltxt"><span class="bold">{lang memcp_profile_security_comment}</span></span>
+	</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang security_answer}:</td>
+	<td class="altbg2"><input type="text" name="answer" size="25"></td>
+	</tr>
+
+	<tr><td colspan="2" class="singleborder">&nbsp;</td></tr>
+
+	<!--{loop $_DCACHE['fields_optional'] $field}-->
+		<tr>
+		<td class="altbg1" width="21%">$field[title]:<!--{if $field['description']}--><br><span class="smalltxt">$field[description]</span><!--{/if}--></td>
+		<td class="altbg2">
+		<!--{if $field['selective']}-->
+			<select name="field_$field[fieldid]new">
+			<option value="">{lang please_select}</option>
+			<!--{loop $field['choices'] $index $choice}-->
+				<option value="$index">$choice</option>
+			<!--{/loop}-->
+			</select>
+		<!--{else}-->
+			<input type="text" name="field_$field[fieldid]new" size="25">
+		<!--{/if}-->
+		<!--{if $field['unchangeable']}-->&nbsp;<span class="bold">{lang memcp_profile_unchangeable_comment}</span><!--{/if}-->
+		</td></tr>
+	<!--{/loop}-->
+
+	<!--{if $groupinfo['allownickname']}-->
+		<tr>
+		<td class="altbg1">{lang nickname}:</td>
+		<td class="altbg2"><input type="text" name="nickname" size="25">
+		</tr>
+	<!--{/if}-->
+
+	<tr>
+	<td class="altbg1">{lang gender}:</td>
+	<td class="altbg2">
+	<input type="radio" name="gendernew" value="1"> {lang male} &nbsp; 
+	<input type="radio" name="gendernew" value="2"> {lang female} &nbsp; 
+	<input type="radio" name="gendernew" value="0" checked> {lang secret}
+	</td></tr>
+
+	<tr>
+	<td class="altbg1">{lang birthday}:</td>
+	<td class="altbg2">
+	<input type="text" name="year" size="4"> {lang year} 
+	<select name="month">
+	<option value="">&nbsp;</option>
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	</select> {lang month} 
+	<select name="day">
+	<option value="">&nbsp;</option>
+	$dayselect
+	</select> {lang day}
+	</td></tr>
+
+	<tr>
+	<td class="altbg1">{lang location}:</td>
+	<td class="altbg2"><input type="text" name="locationnew" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang homepage}:</td>
+	<td class="altbg2"><input type="text" name="site" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">QQ:</td>
+	<td class="altbg2"><input type="text" name="qq" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">ICQ:</td>
+	<td class="altbg2"><input type="text" name="icq" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">Yahoo:</td>
+	<td class="altbg2"><input type="text" name="yahoo" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">MSN:</td>
+	<td class="altbg2"><input type="text" name="msn" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang taobao}:</td>
+	<td class="altbg2"><input type="text" name="taobao" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang alipay}:</td>
+	<td class="altbg2"><input type="text" name="alipay" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" valign="top">{lang bio}:</td>
+	<td class="altbg2"><textarea rows="5" cols="30" name="bio"></textarea></td>
+	</tr>
+
+	<tr>
+	<td colspan="2" class="header">{lang register} - {lang board_options}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang style}:</td>
+	<td class="altbg2"><select name="styleidnew">
+	<option value="">{lang use_default}</option>
+	$styleselect
+	</select>
+	</td>
+	</tr>
+	
+	<tr>
+	<td class="altbg1">{lang tpp}:</td>
+	<td class="altbg2"><select name="tppnew">
+	<option value="0">{lang use_default}</option>
+	<option value="10">10</option>
+	<option value="20">20</option>
+	<option value="30">30</option>
+	</select></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang ppp}:</td>
+	<td class="altbg2"><select name="pppnew">
+	<option value="0">{lang use_default}</option>
+	<option value="5">5</option>
+	<option value="10">10</option>
+	<option value="15">15</option>
+	</select></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang timeoffset}:</td>
+	<td class="altbg2">
+	<select name="timeoffsetnew">
+	<option value="9999" selected="selected">{lang use_default}</option>
+	<option value="-12">(GMT -12:00) Eniwetok, Kwajalein</option>
+	<option value="-11">(GMT -11:00) Midway Island, Samoa</option>
+	<option value="-10">(GMT -10:00) Hawaii</option>
+	<option value="-9">(GMT -09:00) Alaska</option>
+	<option value="-8">(GMT -08:00) Pacific Time (US &amp; Canada), Tijuana</option>
+	<option value="-7">(GMT -07:00) Mountain Time (US &amp; Canada), Arizona</option>
+	<option value="-6">(GMT -06:00) Central Time (US &amp; Canada), Mexico City</option>
+	<option value="-5">(GMT -05:00) Eastern Time (US &amp; Canada), Bogota, Lima, Quito</option>
+	<option value="-4">(GMT -04:00) Atlantic Time (Canada), Caracas, La Paz</option>
+	<option value="-3.5">(GMT -03:30) Newfoundland</option>
+	<option value="-3">(GMT -03:00) Brassila, Buenos Aires, Georgetown, Falkland Is</option>
+	<option value="-2">(GMT -02:00) Mid-Atlantic, Ascension Is., St. Helena</option>
+	<option value="-1">(GMT -01:00) Azores, Cape Verde Islands</option>
+	<option value="0">(GMT) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia</option>
+	<option value="1">(GMT +01:00) Amsterdam, Berlin, Brussels, Madrid, Paris, Rome</option>
+	<option value="2">(GMT +02:00) Cairo, Helsinki, Kaliningrad, South Africa</option>
+	<option value="3">(GMT +03:00) Baghdad, Riyadh, Moscow, Nairobi</option>
+	<option value="3.5">(GMT +03:30) Tehran</option>
+	<option value="4">(GMT +04:00) Abu Dhabi, Baku, Muscat, Tbilisi</option>
+	<option value="4.5">(GMT +04:30) Kabul</option>
+	<option value="5">(GMT +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+	<option value="5.5">(GMT +05:30) Bombay, Calcutta, Madras, New Delhi</option>
+	<option value="5.75">(GMT +05:45) Katmandu</option>
+	<option value="6">(GMT +06:00) Almaty, Colombo, Dhaka, Novosibirsk</option>
+	<option value="6.5">(GMT +06:30) Rangoon</option>
+	<option value="7">(GMT +07:00) Bangkok, Hanoi, Jakarta</option>
+	<option value="8">(GMT +08:00) Beijing, Hong Kong, Perth, Singapore, Taipei</option>
+	<option value="9">(GMT +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk</option>
+	<option value="9.5">(GMT +09:30) Adelaide, Darwin</option>
+	<option value="10">(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok</option>
+	<option value="11">(GMT +11:00) Magadan, New Caledonia, Solomon Islands</option>
+	<option value="12">(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island</option>
+	</select></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang timeformat}:</td>
+	<td class="altbg2"><input type="radio" value="0" name="timeformatnew" checked>{lang default} &nbsp; 
+	<input type="radio" value="1" name="timeformatnew">12 {lang hour} &nbsp; 
+	<input type="radio" value="2" name="timeformatnew">24 {lang hour}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang dateformat}:<br><span class="smalltxt">{lang eg} yyyy/mm/dd, mm/dd/yy</span></td>
+	<td class="altbg2"><input type="radio" value="0" name="dateformatnew" checked>{lang default} &nbsp; 
+	<input type="radio" value="1" name="dateformatnew">{lang customize}: 
+	<input type="text" name="cdateformatnew" size="25"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang pmsound}:</td>
+	<td class="altbg2"><input type="radio" value="0" name="pmsoundnew">{lang none} &nbsp; 
+	<input type="radio" value="1" name="pmsoundnew" checked><a href="images/sound/pm_1.wav">#1</a> &nbsp; 
+	<input type="radio" value="2" name="pmsoundnew"><a href="images/sound/pm_2.wav">#2</a> &nbsp; 
+	<input type="radio" value="3" name="pmsoundnew"><a href="images/sound/pm_3.wav">#3</a></td>
+	</tr>
+
+	<!--{if $groupinfo['allowcstatus']}-->
+		<tr>
+		<td class="altbg1" width="21%">{lang custom_status}:</td>
+		<td class="altbg2">
+		<input type="text" name="cstatus" size="25"></td>
+		</tr>
+	<!--{/if}-->
+
+	<tr>
+	<td class="altbg1">{lang other_options}:</td>
+	<td class="altbg2">
+	<!--{if $groupinfo['allowinvisible']}-->
+		<input type="checkbox" name="invisiblenew" value="1"> {lang online_invisible}<br>
+	<!--{/if}-->
+	<input type="checkbox" name="showemail" value="1" checked="checked"> {lang show_email_addr}<br>
+	<input type="checkbox" name="newsletter" value="1" checked="checked"> {lang allow_newsletter}<br>
+	</tr>
+
+	<!--{if $groupinfo['allowavatar'] == 1}-->
+		<tr>
+		<td class="altbg1">{lang avatar}:</td>
+		<td class="altbg2"><input type="button" value="{lang memcp_avatar_list}" onclick="this.form.action='?referer=memcp.php?action=viewavatars&regsubmit=yes';this.form.submit();"></td>
+		</tr>
+	<!--{elseif $groupinfo['allowavatar'] == 2}-->
+		<tr>
+		<td class="altbg1">{lang avatar}:</td>
+		<td class="altbg2"><input type="text" name="avatar" size="25">&nbsp;&nbsp;<input type="button" value="{lang memcp_avatar_list}" onclick="this.form.action='?referer=memcp.php?action=viewavatars&regsubmit=yes';this.form.submit();">
+		<br>{lang width}: <input type="text" name="avatarwidth" size="1" value="*"> &nbsp; {lang height}: <input type="text" name="avatarheight" size="1" value="*"></td>
+		</tr>
+	<!--{elseif $groupinfo['allowavatar'] == 3}-->
+		<tr>
+		<td class="altbg1">{lang avatar}:</td>
+		<td class="altbg2"><input type="text" name="avatar" size="25"> <input type="button" value="{lang memcp_avatar_list}" onclick="this.form.action='?referer=memcp.php?action=viewavatars&regsubmit=yes';this.form.submit();">
+		<br><input type="file" name="customavatar" size="25">
+		<br>{lang width}: <input type="text" name="avatarwidth" size="1" value="*"> {lang height}: <input type="text" name="avatarheight" size="1" value="*"></td>
+		</tr>
+	<!--{/if}-->
+
+	<!--{if $groupinfo['maxsigsize']}-->
+		<tr>
+		<td class="altbg1" valign="top">{lang signature}<!--{if $maxsigsize}--> ($maxsigsize {lang bytes_limited})<!--{/if}-->:<br><br>
+		<span class="smalltxt"><a href="faq.php?page=misc#1" target="_blank">{lang post_discuzcode}</a> <span class="bold"><!--{if $groupinfo['allowsigbbcode']}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span><br>
+		{lang post_imgcode} <span class="bold"><!--{if $groupinfo['allowsigimgcode']}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span>
+		</span></td>
+		<td class="altbg2"><textarea rows="4" cols="30" name="signature"></textarea></td>
+		</tr>
+	<!--{/if}-->
+
+	</table><br>
+	<center><input type="submit" name="regsubmit" value="{lang submit}"></center>
+	</form>
+
+	<script language="JavaScript">
+	document.register.username.focus();
+	</script>
+<!--{/if}-->
+{template footer}

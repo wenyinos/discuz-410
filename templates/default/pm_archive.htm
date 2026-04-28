@@ -1,0 +1,53 @@
+<form method="post" action="pm.php?action=archive" target="_blank">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="99%" class="tableborder">
+
+<tr>
+<td class="header" colspan="2">{lang pm_archive}</td>
+</tr>
+
+<tr>
+<td valign="top" class="altbg1">{lang delete}:</td>
+<td class="altbg2"><input type="checkbox" name="delete" value="1"> {lang pm_archive_delete}</td>
+</tr>
+
+<tr>
+<td class="altbg1" width="15%">{lang pm_archive_folder}:</td>
+<td class="altbg2" width="75%"><input type="radio" name="folder" value="inbox" checked> {lang pm_inbox} &nbsp; <input type="radio" name="folder" value="outbox"> {lang pm_outbox}</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang pm_archive_from}:</td>
+<td class="altbg2"><select name="days">
+<option value="1">{lang pm_archive_from_1_days}</option>
+<option value="2">{lang pm_archive_from_2_days}</option>
+<option value="7">{lang pm_archive_from_7_days}</option>
+<option value="30">{lang pm_archive_from_30_days}</option>
+<option value="90">{lang pm_archive_from_90_days}</option>
+<option value="180">{lang pm_archive_from_180_days}</option>
+<option value="365">{lang pm_archive_from_365_days}</option>
+<option value="0">{lang all}</option>
+</select> <select name="newerolder">
+<option value="newer">{lang pm_archive_from_newer}</option>
+<option value="older">{lang pm_archive_from_older}</option>
+</select></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang pm_archive_amount}:</td>
+<td class="altbg2"><select name="amount">
+<option value="10">10</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="40">40</option>
+<option value="50">50</option>
+<option value="0">{lang all}</option>
+</select></td>
+</tr>
+
+</table>
+<br><table cellspacing="0" cellpadding="0" width="99%">
+<tr><td align="center"><input type="submit" name="archivesubmit" value="{lang submit}"></td></tr>
+</table>
+</form>

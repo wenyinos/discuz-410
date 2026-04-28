@@ -1,0 +1,27 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang announcements}</td>
+<td align="right" width="10%"><a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<br><table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td>$multipage</td></tr>
+</table>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<!--{loop $announcelist $announce}-->
+	<tr class="header"><td align="center" style="font-size: {FONTSIZE}"><a name="$announce[id]"></a><span class="bold">&lt;&lt; $announce[subject] &gt;&gt;</span></td></tr>
+	<tr><td class="altbg2"><br>$announce[message]<br><br></td></tr>
+	<tr><td class="altbg1"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr><td><span class="bold">{lang author}: </span><a href="viewpro.php?username=$announce[authorenc]">$announce[author]</a></td>
+	<td align="right"><span class="bold">{lang starttime}: </span>$announce[starttime] &nbsp; &nbsp; 
+	<span class="bold">{lang endtime}: </span><!--{if $announce[endtime]}-->$announce[endtime]<!--{else}-->{lang unlimited}<!--{/if}-->
+	</td></tr></table></td></tr>
+	<tr><td class="singleborder"></td></tr>
+<!--{/loop}-->
+</table>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td>$multipage</td></tr>
+</table>
+{template footer}

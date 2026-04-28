@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>$bbname - Powered by Discuz! Board</title>
+<meta http-equiv="Content-Type" content="text/html; charset=$charset">
+<style type="text/css">
+body,table {font-size: {FONTSIZE}; font-family: {FONT} }
+</style>
+</head>
+
+<body leftmargin="80">
+<img src="{IMGDIR}/{BOARDIMG}" alt="Board logo" border="0"><br><br>
+<b>{lang subject}: </b>$thread[subject] <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[{lang thread_print}]</a></b></span><br>
+
+<!--{loop $postlist $post}-->
+	<hr noshade size="2" width="100%" color="#808080">
+	<b>{lang author}: </b><!--{if $post['author'] && !$post['anonymous']}-->$post[author]<!--{else}-->{lang anonymous}<!--{/if}-->&nbsp; &nbsp; <b>{lang time}: </b>$post[dateline]
+	<!--{if $post['subject']}--> &nbsp; &nbsp; <b>{lang subject}: </b>$post[subject]<!--{/if}-->
+	<br><br>$post[message]
+	<!--{loop $post['attachments'] $attach}-->
+		<br><br>$attach[attachicon] 
+		<!--{if !$attach['attachimg'] || !$allowgetattach}-->
+			{lang attachment}: <!--{if $attach['description']}-->[{$attach[description]}]<!--{/if}--> <b>$attach[filename]</b> ($attach[dateline], $attach[attachsize]) / {lang attach_download_count} $attach[downloads]<br>{$boardurl}attachment.php?aid=$attach[aid]
+		<!--{else}-->
+			{lang attach_img}: <!--{if $attach['description']}-->[{$attach[description]}]<!--{/if}--> <b>$attach[filename]</b> ($attach[dateline], $attach[attachsize]) / {lang attach_download_count} $attach[downloads]<br>{$boardurl}attachment.php?aid=$attach[aid]<br><br><img src="$attachurl/$attach[attachment]" border="0" onload="if(this.width>screen.width*0.8) this.width=screen.width*0.8">
+		<!--{/if}-->
+	<!--{/loop}-->
+<!--{/loop}-->
+
+<br><br><br><br><hr noshade size="2" width="100%" color="{BORDERCOLOR}">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: {SMFONTSIZE}; font-family: {SMFONT}">
+<tr><td>{lang welcometo} $bbname ($boardurl)</td>
+<td align="right">
+Powered by Discuz! $version</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed">
+<tr><td class="nav" width="85%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation</td>
+<td align="right" width="15%"><!--{if $rssstatus}--><a href="rss.php?auth=$rssauth" target="_blank"><img src="images/common/xml.gif" border="0" align="absmiddle" alt="{lang rss_subscribe_all}"></a><!--{/if}-->
+&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>
+</tr></table><br>
+</div>
+
+<div class="maintable">
+<table cellspacing="{TABLESPACE}" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" class="outertxt">
+<tr><td class="smalltxt">
+{lang timenow} $currenttime, {lang your_lastvisit} $lastvisittime<br>
+{lang credits}: <span class="bold">$credits</span>&nbsp;
+<!--{loop $extcredits $id $credit}-->
+	$credit[title]: <span class="bold">$GLOBALS[extcredits.$id]</span>$credit[unit]&nbsp;
+<!--{/loop}-->
+/ {lang index_status}:
+<!--{if $validdays}--><a href="member.php?action=groupexpiry"><span class="bold">$grouptitle</span>($validdays)</a><!--{else}--><span class="bold">$grouptitle</span><!--{/if}-->
+<!--{if !empty($invisible)}--> / {lang login_invisible_mode}<!--{/if}-->
+</td><td align="right" nowrap class="smalltxt">
+<a href="search.php?srchfrom=$newthreads&searchsubmit=yes">{lang show_newthreads}</a> |
+<!--{if $discuz_uid}-->
+	<a href="search.php?srchuid=$discuz_uid&mytopics=yes&searchsubmit=yes">{lang show_mytopics}</a> |
+	<!--{if $allowuseblog}-->
+		<a href="blog.php?uid=$discuz_uid" target="_blank">{lang blog}</a> |
+	<!--{/if}-->
+<!--{/if}-->
+<a href="digest.php">{lang digest}</a> |
+<a href="member.php?action=markread">{lang mark_read}</a>
+| {lang welcome_newmember} <a href="viewpro.php?username=$memberenc"><span class="bold">$lastmember</span></a><br>
+{lang total} <span class="bold">$threads</span> {lang index_threads} / <span class="bold">$posts</span> {lang index_posts} / {lang index_today} <span class="bold">$todayposts</span> {lang index_posts} / <span class="bold">$totalmembers</span> {lang index_members}
+</td></tr></table>
+</div>
+
+<!--{if empty($gid)}-->
+	<div class="maintable">
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr class="header"><td colspan="3">$bbname {lang index_announcements}</td></tr>
+	<tr class="altbg2" align="center">
+	<td colspan="3" align="center">
+	<!--{if empty($announcements)}-->
+		{lang index_noannouncement}
+	<!--{else}-->
+		<marquee direction="left" scrollamount="3" onMouseOver="this.stop();" onMouseOut="this.start();">
+		$announcements
+		</marquee>
+	<!--{/if}-->
+	</td></tr>
+	<!--{if $qihoo_status && $searchboxstatus}-->
+		<tr class="altbg2"><td>
+		<table width="100%" border="0" cellpadding="1" cellspacing="0">
+		<tr><td width="50%">
+		<!--{if $qihoo_links['keywords']}-->
+			<span class="bold">{lang qihoo_hot_searches}</span>&nbsp;
+			<!--{loop $qihoo_links['keywords'] $link}-->
+				$link&nbsp;
+			<!--{/loop}-->
+		<!--{/if}-->
+		</td><td align="right">
+		<img src="{IMGDIR}/search.gif" border="0" align="bottom" width="16" height="16">&nbsp;&nbsp;<input type="text" name="searchbox" value="{lang qihoo_keyword}" size="30" class="altbg2" onmouseover="this.focus()" onfocus="this.select()">
+		<select name="stype"><option value="" selected>{lang qihoo_search_filltext}</option><option value="1">{lang qihoo_search_title}</option></select>
+		<input name="button" type="button" style="height: 1.8em" onclick="window.open('search.php?srchtype=qihoo&amp;srchtxt='+findobj('searchbox').value+'&amp;stype='+findobj('stype').value+'&amp;searchsubmit=yes');" value="{lang qihoo_search}">
+		</td></tr>
+		<tr><td>
+		<!--{if $qihoo_links['topics']}-->
+			<span class="bold">{lang qihoo_topics}</span>&nbsp;
+			<!--{loop $qihoo_links['topics'] $url}-->
+				{$url} &nbsp;
+			<!--{/loop}-->
+		<!--{/if}-->
+		</td><td align="right">
+		<!--{if $customtopics}-->
+			<span class="bold">{lang qihoo_custom_topics}</span>&nbsp;&nbsp;$customtopics [<a href="###" onclick="window.open('misc.php?action=customtopics', '', 'width=320,height=450,resizable=yes,scrollbars=yes');">{lang edit}</a>]
+		<!--{/if}-->
+		</td></tr>
+		</table>
+		</td></tr>
+	<!--{/if}-->
+	</table><br></div>
+<!--{/if}-->
+
+<!--{if !empty($newpmexists)}-->
+	<div class="maintable">
+	{template pmprompt}
+	</div>
+<!--{/if}-->
+
+<!--{if !empty($advlist['text'])}--><div class="maintable"><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">$advlist[text]</table><br></div><!--{/if}-->
+<!--{loop $forumlist $key $forum}-->
+	<!--{if $forum['type'] == 'group' && $forumlist[($key + 1)]['type'] == 'forum'}-->
+		<!--{if $key}--></tbody></table><br></div><!--{/if}-->
+		<div class="maintable">
+		<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+		<tr><td colspan="7" class="header"><table cellspacing="0" cellpadding="0" width="100%">
+		<tr class="smalltxt"><td class="bold"><a href="index.php?gid=$forum[fid]">$forum[name]</a></td><td align="right">
+		<!--{if $forum['moderators']}--><font color="{HEADERTEXT}">{lang forum_category_modedby}: $forum[moderators]</font> <!--{/if}-->
+		<a href="###" onclick="toggle_collapse('category_$forum[fid]');"><img id="category_$forum[fid]_img" src="{IMGDIR}/$forum[collapseimg]" border="0"></a>
+		</td></tr></table></td></tr>
+		<tr class="category" align="center">
+		<td width="5%">&nbsp;</td>
+		<td width="51%">{lang forum_name}</td>
+		<td width="5%">{lang forum_threads}</td>
+		<td width="5%">{lang forum_posts}</td>
+		<td width="5%">{lang forum_todayposts}</td>
+		<td width="13%">{lang forum_lastpost}</td>
+		<td width="16%">{lang forum_moderators}</td>
+		</tr><tbody id="category_$forum[fid]" style="$collapse['category_'.$forum[fid]]">
+	<!--{elseif $forum['permission']}-->
+		<tr>
+		<td class="altbg1" align="center">$forum[folder]</td>
+		<td class="altbg2" align="left" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">
+		$forum[icon]<a href="forumdisplay.php?fid=$forum[fid]"><span class="bold">$forum[name]</span></a>
+		<br><span class="smalltxt">$forum[description]<!--{if isset($forum['subforums'])}--><br><span class="bold">{lang forum_subforums}:</span> $forum[subforums]<!--{/if}--></span></td>
+		<td class="altbg1" align="center">$forum[threads]</td>
+		<td class="altbg2" align="center">$forum[posts]</td>
+		<td class="altbg1" align="center">$forum[todayposts]</td>
+		<!--{if $forum['permission'] == 1}-->
+			<td class="altbg2" align="center"><span class="smalltxt"></span>{lang private_forum}</span></td>
+		<!--{else}-->
+			<!--{if is_array($forum['lastpost'])}-->
+				<td class="altbg2"><table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr><td align="right" class="smalltxt" title="{lang forum_lastpost_in}: $forum[lastpost][subject]" nowrap>
+				$forum[lastpost][dateline]<br>{lang forum_lastpost_by} <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->{lang anonymous}<!--{/if}--></td>
+				<td nowrap>&nbsp;<a href="redirect.php?tid=$forum[lastpost][tid]&goto=lastpost#lastpost"><img src="{IMGDIR}/lastpost.gif" border="0"></a></td>
+				</tr></table></td>
+			<!--{else}-->
+				<td class="altbg2" align="center"><span class="smalltxt">{lang never}</span></td>
+			<!--{/if}-->
+		<!--{/if}-->
+		<td class="altbg1" align="center" style="word-break: keep-all"><span class="smalltxt">$forum[moderators]</span></td></tr>
+	<!--{/if}-->
+<!--{/loop}-->
+
+<!--{if empty($gid) && ($_DCACHE['forumlinks'] || $whosonlinestatus || $bdaystatus == 1 || $bdaystatus == 3)}-->
+	<!--{if empty($forumlist)}--><br><br><!--{else}--></table><br></div><div class="maintable"><!--{/if}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<!--{/if}-->
+
+<!--{if empty($gid)}-->
+	<!--{if $_DCACHE['forumlinks']}-->
+		<tr><td colspan="3" class="header"><a href="###" onclick="toggle_collapse('forumlinks');"><img id="forumlinks_img" src="{IMGDIR}/$linkcollapseimg" align="right" border="0"></a>
+		<span class="bold">{lang board_links}</span></td></tr>
+		<tbody id="forumlinks" style="$collapse[forumlinks]">
+		<!--{loop $_DCACHE['forumlinks'] $flink}-->
+			<!--{if $flink['type'] == 1}-->
+				<tr>
+				<td class="altbg1" width="5%" align="center" valign="middle"><img src="{IMGDIR}/forumlink.gif"></td>
+				<td class="altbg2" width="77%" valign="middle" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">$flink[content]</td>
+				<td class="altbg2" width="18%" align="center" valign="middle"><img src="$flink[logo]" border="0"></a></td>
+				</tr>
+			<!--{elseif $flink['type'] == 2}-->
+				<tr>
+				<td class="altbg1" width="5%" align="center" valign="middle"><img src="{IMGDIR}/forumlink.gif"></td>
+				<td class="altbg2" width="95%" colspan="2" valign="middle" style="word-break: keep-all" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">$flink[content]</td>
+				</tr>
+			<!--{else}-->
+				<tr>
+				<td class="altbg1" width="5%" align="center" valign="middle"><img src="{IMGDIR}/forumlink.gif"></td>
+				<td class="altbg2" width="95%" colspan="2" valign="middle" style="word-break: keep-all" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">$flink[content]</td>
+				</tr>
+			<!--{/if}-->
+		<!--{/loop}-->
+		</tbody>
+	<!--{/if}-->
+
+	<!--{if $bdaystatus == 1 || $bdaystatus == 3}-->
+		<tr><td colspan="3" class="header"><a href="###" onclick="toggle_collapse('birthdays');"><img id="birthdays_img" src="{IMGDIR}/$linkcollapseimg" align="right" border="0"></a>
+		<span class="bold">{lang todays_birthdays}</span></td></tr>
+		<tbody id="birthdays" style="$collapse[birthdays]">
+		<tr>
+		<td class="altbg1" width="5%" align="center" valign="middle"><img src="{IMGDIR}/birthday.gif"></td>
+		<td class="altbg2" width="95%" colspan="2" valign="middle" style="word-break: keep-all" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">
+		<!--{if $_DCACHE['settings']['todaysbdays']}-->$_DCACHE['settings']['todaysbdays']<!--{else}-->{lang todays_birthdays_none}<!--{/if}-->
+		</td></tr>
+		</tbody>
+	<!--{/if}-->
+
+	<!--{if $whosonlinestatus}-->
+		<!--{if $detailstatus}-->
+			<tr class="header"><td colspan="3" class="smalltxt" style="font-weight: normal; color: {HEADERTEXT}">
+			<a name="online"></a><a href="index.php?showoldetails=no#online"><img src="{IMGDIR}/collapsed_no.gif" align="right" border="0">	</a>
+			<span class="bold"><a href="member.php?action=online">{lang index_activeusers}</a></span> -
+			&nbsp;<span class="bold">$onlinenum</span> {lang onlines} - <span class="bold">$membercount</span> {lang index_members}(<span class="bold">$invisiblecount</span> {lang index_invisibles}),
+			<span class="bold">$guestcount</span> {lang index_guests} | {lang index_mostonlines} <span class="bold">$onlineinfo[0]</span> {lang on} <span class="bold">$onlineinfo[1]</span>.
+			</td></tr>
+		<!--{else}-->
+			<tr class="header"><td colspan="3" class="smalltxt" style="font-weight: normal; color: {HEADERTEXT}">
+			<a name="online"></a><a href="index.php?showoldetails=yes#online"><img src="{IMGDIR}/collapsed_yes.gif" align="right" border="0"></a>
+			<span class="bold"><a href="member.php?action=online">{lang index_activeusers}</a></span> -
+			&nbsp;{lang total} <span class="bold">$onlinenum</span> {lang onlines} | {lang index_mostonlines} <span class="bold">$onlineinfo[0]</span> {lang on} <span class="bold">$onlineinfo[1]</span>.
+			</td></tr>
+		<!--{/if}-->
+		<tr><td class="altbg1" width="5%" align="center"><img src="{IMGDIR}/online.gif"></td>
+		<td class="altbg2" colspan="2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">
+		<table cellspacing="0" cellpadding="0" border="0" width="98%" align="center" class="smalltxt">
+		<tr><td colspan="7" valign="middle">$_DCACHE[onlinelist][legend]</td></tr>
+
+		<!--{if $detailstatus}-->
+			<tr><td colspan="7"><hr noshade size="0" width="100%" color="{BORDERCOLOR}" align="center"></td></tr><tr><td nowrap>
+			<!--{if $whosonline}-->
+				<!--{loop $whosonline $key $online}-->
+					<!--{if $key % 7 == 0}--></td></tr><tr><td width="15%" nowrap><!--{else}--></td><td width="15%" nowrap><!--{/if}-->
+					<img src="images/common/$online[icon]" align="absmiddle">
+					<a href="viewpro.php?uid=$online[uid]" title="{lang time}: $online[lastactivity]{LF}
+					{lang action}: $online[action]
+					<!--{if $online['fid']}-->{LF}{lang forum}: $online[fid]<!--{/if}-->
+					">$online[username]</a>
+				<!--{/loop}-->
+			<!--{else}-->
+				&nbsp; &nbsp; {lang online_only_guests}
+			<!--{/if}-->
+		<!--{/if}-->
+		</td></tr></table></td></tr>
+	<!--{/if}-->
+<!--{/if}-->
+
+</table><br><br></div><div class="maintable"><table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" class="outertxt">
+<tr><td align="center" class="smalltxt">
+<img src="{IMGDIR}/red_forum.gif" align="absmiddle">&nbsp; {lang forum_newposts}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<img src="{IMGDIR}/forum.gif" align="absmiddle">&nbsp; {lang forum_nonewpost}</td></tr></table>
+{template footer}

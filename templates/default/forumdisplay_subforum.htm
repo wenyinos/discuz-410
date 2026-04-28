@@ -1,0 +1,38 @@
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr class="header" align="center">
+<td width="5%">&nbsp;</td>
+<td width="51%">{lang forum_name}</td>
+<td width="5%">{lang forum_threads}</td>
+<td width="5%">{lang forum_posts}</td>
+<td width="5%">{lang forum_todayposts}</td>
+<td width="13%">{lang forum_lastpost}</td>
+<td width="16%">{lang forum_moderators}</td>
+</tr>
+<!--{loop $sublist $sub}-->
+	<!--{if $sub['permission']}-->
+		<tr>
+		<td class="altbg1" align="center">$sub[folder]</td>
+		<td class="altbg2" align="left" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">
+		$sub[icon]<a href="forumdisplay.php?fid=$sub[fid]"><span class="bold">$sub[name]</span></a>
+		<br><span class="smalltxt">$sub[description]</span></td>
+		<td class="altbg1" align="center">$sub[threads]</td>
+		<td class="altbg2" align="center">$sub[posts]</td>
+		<td class="altbg2" align="center">$sub[todayposts]</td>
+		<!--{if $sub['permission'] == 1}-->
+			<td class="altbg1" align="center"><span class="smalltxt">{lang private_forum}</span></td>
+		<!--{else}-->
+			<!--{if is_array($sub['lastpost'])}-->
+				<td class="altbg1"><table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr><td align="right" class="smalltxt" title="{lang forum_lastpost_in}: $sub[lastpost][subject]" nowrap>
+				$sub[lastpost][dateline]<br>{lang forum_lastpost_by} <!--{if $sub['lastpost']['author']}-->$sub['lastpost']['author']<!--{else}-->{lang anonymous}<!--{/if}--></td>
+				<td nowrap>&nbsp;<a href="redirect.php?tid=$sub[lastpost][tid]&goto=lastpost#lastpost"><img src="{IMGDIR}/lastpost.gif" border="0"></a></td>
+				</tr></table></td>
+			<!--{else}-->
+				<td class="altbg1" align="center"><span class="smalltxt">{lang never}</span></td>
+			<!--{/if}-->
+		<!--{/if}-->
+		<td class="altbg2" align="center" style="word-break: keep-all">$sub[moderators]</td>
+		</tr>
+	<!--{/if}-->
+<!--{/loop}-->
+</table><br>

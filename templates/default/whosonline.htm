@@ -1,0 +1,55 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang whosonline}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td>$multipage</td></tr>
+</table>
+
+<!--{if $allowviewip}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr class="header">
+	<td align="center" nowrap>{lang username}</td>
+	<td align="center" nowrap>{lang time}</td>
+	<td align="center" nowrap>{lang online_action}</td>
+	<td align="center" nowrap>{lang online_in_forum}</td>
+	<td align="center" nowrap>{lang online_in_thread}</td>
+	<td align="center" nowrap>{lang online_ip}</td>
+	</tr>
+	<!--{loop $onlinelist $online}-->
+		<tr align="center">
+		<td class="altbg1"><!--{if $online['uid']}--><a href="viewpro.php?uid=$online[uid]">$online[username]</a><!--{else}-->{lang guest}<!--{/if}--></td>
+		<td class="altbg2">$online[lastactivity]</td>
+		<td class="altbg1">$online[action]</td>
+		<td class="altbg2"><!--{if $online['fid']}--><a href="forumdisplay.php?fid=$online[fid]">$online[name]</a><!--{/if}--></td>
+		<td class="altbg1"><!--{if $online['tid']}--><a href="viewthread.php?tid=$online[tid]">$online[subject]</a><!--{/if}--></td>
+		<td class="altbg2">$online[ip]</td>
+		</tr>
+	<!--{/loop}-->
+	</table>
+<!--{else}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr class="header">
+	<td align="center" nowrap>{lang username}</td>
+	<td align="center" nowrap>{lang time}</td>
+	<td align="center" nowrap>{lang online_action}</td>
+	<td align="center" nowrap>{lang online_in_forum}</td>
+	<td align="center" nowrap>{lang online_in_thread}</td>
+	</tr>
+	<!--{loop $onlinelist $online}-->
+		<tr align="center">
+		<td class="altbg1"><!--{if $online['uid']}--><a href="viewpro.php?uid=$online[uid]">$online[username]</a><!--{else}-->{lang guest}<!--{/if}--></td>
+		<td class="altbg2">$online[lastactivity]</td>
+		<td class="altbg1">$online[action]</td>
+		<td class="altbg2"><!--{if $online['fid']}--><a href="forumdisplay.php?fid=$online[fid]">$online[name]</a><!--{/if}--></td>
+		<td class="altbg1"><!--{if $online['tid']}--><a href="viewthread.php?tid=$online[tid]">$online[subject]</a><!--{/if}--></td>
+		</tr>
+	<!--{/loop}-->
+	</table>
+<!--{/if}-->
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td>$multipage</td></tr></table>
+{template footer}

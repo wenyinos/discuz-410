@@ -1,0 +1,27 @@
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; 
+<!--{if empty($action)}-->{lang memcp}
+<!--{else}--><a href="memcp.php">{lang memcp}</a> &raquo; 
+	<!--{if $action == 'profile'}-->{lang memcp_profile}
+		<!--{elseif $action == 'credits'}-->{lang memcp_credits}
+		<!--{elseif $action == 'usergroups'}-->{lang memcp_usergroups}
+		<!--{elseif $action == 'buddylist'}-->{lang memcp_buddylist}
+		<!--{elseif $action == 'subscriptions'}-->{lang memcp_subscriptions}
+		<!--{elseif $action == 'favorites'}-->{lang memcp_favorites}
+		<!--{elseif $action == 'viewavatars'}-->{lang memcp_avatar_list}
+	<!--{/if}-->
+<!--{/if}-->
+</td><td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>
+</tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr align="center" class="smalltxt">
+<!--{if !$action}--><td class="altbg1" width="13%">{lang memcp_home}</td><!--{else}--><td width="13%" class="altbg2"><a href="memcp.php">{lang memcp_home}</a></td><!--{/if}-->
+<!--{if $action == 'profile'}--><td class="altbg1" width="13%">{lang memcp_profile}</td><!--{else}--><td width="13%" class="altbg2"><a href="memcp.php?action=profile">{lang memcp_profile}</a></td><!--{/if}-->
+<!--{if $action == 'credits'}--><td class="altbg1" width="13%">{lang memcp_credits}</td><!--{else}--><td width="13%" class="altbg2"><a href="memcp.php?action=credits">{lang memcp_credits}</a></td><!--{/if}-->
+<!--{if $action == 'usergroups'}--><td class="altbg1" width="13%">{lang memcp_usergroups}</td><!--{else}--><td width="13%" class="altbg2"><a href="memcp.php?action=usergroups">{lang memcp_usergroups}</a></td><!--{/if}-->
+<!--{if $action == 'buddylist'}--><td class="altbg1" width="13%">{lang memcp_buddylist}</td><!--{else}--><td width="13%" class="altbg2"><a href="memcp.php?action=buddylist">{lang memcp_buddylist}</a></td><!--{/if}-->
+<!--{if $action == 'subscriptions'}--><td class="altbg1" width="13%">{lang memcp_subscriptions}</td><!--{else}--><td width="13%" class="altbg2"><a href="memcp.php?action=subscriptions">{lang memcp_subscriptions}</a></td><!--{/if}-->
+<!--{if $action == 'favorites'}--><td class="altbg1" width="13%">{lang memcp_favorites}</td><!--{else}--><td width="13%" class="altbg2"><a href="memcp.php?action=favorites">{lang memcp_favorites}</a></td><!--{/if}-->
+<td class="altbg2"><a href="pm.php" target="_blank" width="13%">{lang pm}</a></td>
+</tr></table><br>

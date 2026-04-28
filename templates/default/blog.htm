@@ -1,0 +1,94 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang blog} $navigation</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="0" cellpadding="0" width="{TABLEWIDTH}" align="center">
+<tr><td width="20%" valign="top">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr class="header"><td colspan="7">
+<table cellspacing="0" cellpadding="0" width="100%" class="header"><tr>
+<td width="30%" align="right"><a href="blog.php?uid=$uid&starttime=$calendar[pstarttime]&endtime=$calendar[pendtime]">&laquo;</a></td>
+<td width="40%" align="center" nowrap><a href="blog.php?uid=$uid&starttime=$calendar[pendtime]&endtime=$calendar[nstarttime]">$curtime</a></td>
+<td width="30%" align="left">
+<!--{if $calendar['nstarttime'] < $timestamp}-->
+	<a href="blog.php?uid=$uid&starttime=$calendar[nstarttime]&endtime=$calendar[nendtime]">&raquo;</a>
+<!--{/if}-->
+&nbsp;</td></tr></table></td></tr>
+<tr align="center" class="category"><td>{lang week_sun}</td><td>{lang week_mon}</td><td>{lang week_tues}</td><td>{lang week_wed}</td><td>{lang week_thurs}</td><td>{lang week_fri}</td><td>{lang week_sat}</td></tr>
+<tr><td colspan="7" class="singleborder">&nbsp;</td></tr>
+$calendar[html]
+</table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr class="header"><td align="center">{lang blog_categories}</td></tr>
+<tr><td class="altbg1"><ul style="margin: 0 0 0.25em 1.5em">
+<!--{if empty($fid)}-->
+	<li><a href="blog.php?uid=$uid" class="bold">{lang blog_home}</a>
+<!--{else}-->
+	<li><a href="blog.php?uid=$uid">{lang blog_home}</a>
+<!--{/if}-->
+<!--{loop $_DCACHE['blog']['forums']['data'] $forum}-->
+	<!--{if (isset($blogtopic['fid']) && $blogtopic['fid'] == $forum['fid']) || $fid == $forum['fid']}-->
+		<li><a href="blog.php?uid=$uid&fid=$forum[fid]" class="bold">$forum[name]</a>
+	<!--{else}-->
+		<li><a href="blog.php?uid=$uid&fid=$forum[fid]">$forum[name]</a>
+	<!--{/if}-->
+<!--{/loop}-->
+</ul></td></tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr class="header"><td align="center">{lang blog_hot}</td></tr>
+<tr><td class="altbg1"><ul style="margin: 0 0 0.25em 1.5em">
+<!--{loop $_DCACHE['blog']['hot']['data'] $blog}-->
+	<li><a href="blog.php?tid=$blog[tid]&starttime=$starttime&endtime=$endtime" title="$blog[views] {lang views}, $blog[replies] {lang blog_comments}">$blog[subject]</a>
+<!--{/loop}-->
+</ul></td></tr></table><br>
+
+<!--{if $allowuseblog}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+	<form method="get" action="post.php">
+	<tr class="header"><td align="center">{lang blog_new}</td></tr>
+	<tr><td class="altbg1" align="center">
+	<input type="hidden" name="action" value="newthread">
+	<input type="hidden" name="isblog" value="yes">
+	<br><select name="fid" style="width: 95%">$forumselect</select><br>
+	<br><input type="submit" value="{lang submit}"><br><br>
+	</td></tr></form></table><br>
+<!--{/if}-->
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr class="header"><td align="center">{lang blog_search}</td></tr>
+<tr><td class="altbg1"><form method="post" action="search.php">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<input type="hidden" name="srchuid" value="$uid">
+<input type="hidden" name="srchtype" value="blog">
+<input type="hidden" name="orderby" value="dateline">
+<table cellspacing="0" cellpadding="0" width="30%" align="center"><tr><td><br>
+<input type="text" name="srchtxt" size="15" maxlength="40"><br>
+<br><center><input type="submit" name="searchsubmit" value="{lang submit}"></center>
+</td></tr></table></form></td></tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr class="header"><td align="center">{lang index_activeusers}: $onlinenum</td></tr>
+<tr><td align="center" class="altbg1"><br>
+<!--{if $membercount}-->
+	<span title="{lang index_activeusers}: $whosonline"><span class="bold">$membercount</span> {lang index_members}, <span class="bold">$guestcount</span> {lang index_guests}</span>
+<!--{else}-->
+	<span class="bold">$membercount</span> {lang index_members}, <span class="bold">$guestcount</span> {lang index_guests}
+<!--{/if}-->
+<br><br></td></tr>
+</tr></table>
+
+</td><td width="2%">&nbsp;</td><td width="78%" valign="top">
+
+<!--{if $tid}-->
+	{template blog_topic}
+<!--{else}-->
+	{template blog_list}
+<!--{/if}-->
+
+</td></tr></table>
+{template footer}

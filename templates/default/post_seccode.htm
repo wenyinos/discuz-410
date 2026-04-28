@@ -1,0 +1,28 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation
+<!--{if $action == 'newthread'}-->&nbsp;&raquo;&nbsp;{lang post_newthread}<!--{elseif $action == 'reply'}-->&nbsp;&raquo;&nbsp;{lang post_newreply}<!--{/if}--></td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<form name="input" method="$request[method]" action="$request[action]" $enctype>
+$request[elements]
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr class="header"><td colspan="2">{lang post_seccode}</td></tr>
+<tr><td class="altbg1" width="21%">{lang seccode}:</td>
+<td class="altbg2"><input type="text" name="seccodeverify" size="4" maxlength="4">
+<img src="seccode.php" align="absmiddle"> {lang seccode_comment}<br></td>
+</tr></table>
+
+<!--{if $allowpostattach}-->
+	{template post_attachments}
+<!--{/if}-->
+
+<br><center><input type="submit" value="{lang submit}"></center>
+</form>
+
+<script language="JavaScript">
+document.input.seccodeverify.focus();
+</script>
+{template footer}

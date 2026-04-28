@@ -1,0 +1,15 @@
+<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+<tr align="center" class="altbg2" style="font: {SMFONTSIZE} {SMFONT}">
+	<!--{if empty($type)}--><td class="altbg1" width="$navwidth"><a href="stats.php">{lang stats_main}</a></td><!--{else}--><td class="altbg2" width="$navwidth"><a href="stats.php">{lang stats_main}</a></td><!--{/if}-->
+	<!--{if $statstatus}--><td $navstyle['views'] width="$navwidth"><a href="stats.php?type=views">{lang stats_views}</a></td><!--{/if}-->
+	<!--{if $statstatus}--><td $navstyle['agent'] width="$navwidth"><a href="stats.php?type=agent">{lang stats_agent}</a></td><!--{/if}-->
+	<!--{if $statstatus}--><td $navstyle['posts'] width="$navwidth"><a href="stats.php?type=posts">{lang stats_posthist}</a></td><!--{/if}-->
+	<td $navstyle['forumsrank'] width="$navwidth"><a href="stats.php?type=forumsrank">{lang stats_forums_rank}</a></td>
+	<td $navstyle['threadsrank'] width="$navwidth"><a href="stats.php?type=threadsrank">{lang stats_threads_rank}</a></td>
+	<td $navstyle['postsrank'] width="$navwidth"><a href="stats.php?type=postsrank">{lang stats_posts_rank}</a></td>
+	<td $navstyle['creditsrank'] width="$navwidth"><a href="stats.php?type=creditsrank">{lang stats_credits_rank}</a></td>
+	<!--{if $oltimespan}--><td $navstyle['onlinetime'] width="$navwidth"><a href="stats.php?type=onlinetime">{lang stats_onlinetime}</a></td><!--{/if}-->
+	<td $navstyle['team'] width="$navwidth"><a href="stats.php?type=team">{lang stats_team}</a></td>
+	<!--{if $modworkstatus}--><td $navstyle['modworks'] width="$navwidth"><a href="stats.php?type=modworks">{lang stats_modworks}</a></td><!--{/if}-->
+</tr>
+</table><br>

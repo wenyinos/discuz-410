@@ -1,0 +1,16 @@
+<tr>
+<td class="altbg1" valign="top">{lang admin_reason}:
+<!--{if $reasonpm == 1 || $reasonpm == 3}--><br><span class="smalltxt">{lang admin_reason_required}</span><!--{/if}-->
+</td>
+<td class="altbg2">
+<select name="selectreason" size="6" style="height: 8em; width: 8em" onchange="this.form.reason.value=this.value">
+<option value="">{lang customize}</option>
+<option value="">--------</option>
+<!--{loop $modreasons $reasonarray}-->
+	<option value="$reasonarray[0]">$reasonarray[1]</option>
+<!--{/loop}-->
+</select>
+<textarea name="reason" style="height: 8em; width: 18em"></textarea><br>
+<input type="checkbox" name="sendreasonpm" value="1" $reasonpmcheck> {lang admin_pm}
+</td>
+</tr>

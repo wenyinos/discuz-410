@@ -1,0 +1,154 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation &raquo; {lang post_editpost}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<script language="JavaScript">
+var postminchars = $minpostsize;
+var postmaxchars = $maxpostsize;
+var disablepostctrl = $disablepostctrl;
+function checklength(theform) {
+	if (postmaxchars != 0) { message = "{lang board_allowed}: "+postminchars+" {lang to} "+postmaxchars+" {lang bytes}"; }
+	else { message = ""; }
+	alert("\n{lang post_curlength}: "+theform.message.value.length+" {lang bytes}\n\n"+message);
+}
+function validate(theform) {
+	if (theform.message.value == "" && theform.subject.value == "") {
+		alert("{lang post_subject_and_message_isnull}");
+		return false;
+	} else if (theform.subject.value.length > 80) {
+		alert("{lang post_subject_toolang}");
+		return false;
+	}
+	if (!disablepostctrl && ((postminchars != 0 && theform.message.value.length < postminchars) || (postmaxchars != 0 && theform.message.value.length > postmaxchars))) {
+		alert("{lang post_message_length_invalid}\n\n{lang post_curlength}: "+theform.message.value.length+" {lang bytes}\n{lang board_allowed}: "+postminchars+" {lang to} "+postmaxchars+" {lang bytes}");
+		return false;
+	}
+	theform.editsubmit.disabled = true;
+	return true;
+}
+</script>
+<!--{if isset($previewpost)}-->
+	{template post_preview}
+<!--{/if}-->
+<form method="post" name="input" action="post.php?action=edit&extra=$extra&editsubmit=yes" $enctype onSubmit="return validate(this)">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<input type="hidden" name="page" value="$page">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr>
+<td colspan="2" class="header">{lang post_editpost}</td>
+</tr>
+
+<!--{if $discuz_uid}-->
+	<tr><td class="altbg1">{lang username}:</td>
+	<td class="altbg2">$discuz_userss <span class="smalltxt">[<a href="$link_logout">{lang member_logout}</a>]</span></td>
+	</tr>
+<!--{/if}-->
+
+<!--{if $allowsetreadperm && $isfirstpost}-->
+	<tr>
+	<td class="altbg1">{lang readperm_thread}:</td>
+	<td class="altbg2"><input type="text" name="readperm" size="6" value="$thread[readperm]"> <span class="smalltxt">({lang post_readperm_comment})</span></td>
+	</tr>
+<!--{/if}-->
+
+<!--{if $maxprice}-->
+	<tr>
+	<td class="altbg1">{lang price}({$extcredits[$creditstrans][title]}):</td>
+	<td class="altbg2">
+	<!--{if $thread['price'] == -1 || $thread['freecharge']}-->
+		<input type="text" name="price" size="6" value="$thread[pricedisplay]" disabled> <span class="smalltxt">{$extcredits[$creditstrans][unit]}&nbsp;
+		<!--{if $thread['price'] == -1}-->({lang post_price_refunded})<!--{else}-->({lang post_price_free})<!--{/if}-->
+		</span>
+	<!--{else}-->
+		<input type="text" name="price" size="6" value="$thread[pricedisplay]"> <span class="smalltxt">{$extcredits[$creditstrans][unit]} ({lang post_price_comment}<!--{if $maxincperthread}-->{lang post_price_income_comment}<!--{/if}--><!--{if $maxchargespan}-->{lang post_price_charge_comment}<!--{/if}-->)</span>
+		{lang post_price_free_comment}
+	<!--{/if}-->
+	</td></tr>
+<!--{/if}-->
+
+<tr>
+<td class="altbg1" width="20%">{lang subject}:</td>
+<td class="altbg2">
+$typeselect 
+<input type="text" name="subject" size="45" value="$postinfo[subject]" tabindex="3">
+<input type="hidden" name="origsubject" value="$postinfo[subject]">
+</td></tr>
+
+<!--{if $isfirstpost}-->
+	<tr>
+	<td class="altbg1">{lang icon}:</td><td class="altbg2"><input type="radio" name="iconid" value="0" checked> {lang none} $icons</td>
+	</tr>
+<!--{/if}-->
+
+{template post_bbinsert}
+
+<!--{if $polloptions}-->
+	<input type="hidden" name="poll" value="yes">
+	<tr>
+	<td class="altbg1" valign="top">{lang post_poll_options}:<br>
+	<span class="smalltxt">{lang post_poll_comment}<br><br>
+	<input type="checkbox" name="multiplepoll" value="1" <!--{if $polloptions['multiple']}-->checked<!--{/if}-->> {lang post_poll_allowmultiple}
+	</span></td><td class="altbg2">
+	<!--{loop $polloptions['options'] $key $option}-->
+		<input type="text" name="polloptions[$key]" value="$option[0]" size="55"><br>
+	<!--{/loop}-->
+	</td></tr>
+<!--{/if}-->
+
+<tr>
+<td class="altbg1" valign="top">
+{template post_sminsert}
+</td>
+
+<td class="altbg2"><span class="smalltxt">
+<textarea rows="18" name="message" style="width: 85%; word-break: break-all" tabindex="4" onSelect="javascript: storeCaret(this);" onClick="javascript: storeCaret(this);" onKeyUp="javascript: storeCaret(this);" onKeyDown="ctlent(event);">$postinfo[message]</textarea>
+<br><br>
+<input type="checkbox" name="parseurloff" value="1" $urloffcheck> {lang disable} {lang post_parseurl}<br>
+<input type="checkbox" name="smileyoff" value="1" $smileyoffcheck> {lang disable} <a href="faq.php?page=messages#6" target="_blank">{lang post_smilies}</a><br>
+<input type="checkbox" name="bbcodeoff" value="1" $codeoffcheck> {lang disable} <a href="faq.php?page=misc#1" target="_blank">{lang post_discuzcode}</a><br>
+<!--{if $orig['allowhtml']}--><input type="checkbox" name="htmlon" value="1" $htmloncheck> {lang enable} {lang post_html}<br><!--{/if}-->
+<!--{if $allowanonymous || (!$allowanonymous && $orig['anonymous'])}--><input type="checkbox" name="isanonymous" value="1" <!--{if $orig['anonymous']}-->checked<!--{/if}-->> {lang post_anonymous}<br><!--{/if}-->
+<input type="checkbox" name="usesig" value="1" $usesigcheck> {lang post_show_sig}<br>
+<!--{if $isorigauthor}--><input type="checkbox" name="delete" value="1"> <b>{lang post_delpost}</b><!--{/if}--></span>
+</td></tr>
+
+</table>
+
+<!--{if $postinfo['attachment']}-->
+	<br>
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr><td colspan="8" class="header">{lang attachments}</td></tr>
+	<tr align="center" class="category"><td>{lang delete_check}</td><td>{lang attachment}</td><td>aid</td><td>{lang time}</td><td>{lang attachment_size}</td><td>{lang downloads}</td><td>{lang readperm}</td><td>{lang description}</td></tr>
+	<!--{loop $attachments $attach}-->
+		<tr align="center">
+		<td class="altbg1"><input type="checkbox" name="deleteaid[]" value="$attach[aid]"></td>
+		<td class="altbg2">$attach[filetype] <a href="attachment.php?aid=$attach[aid]" target="_blank">$attach[filename]</a></td>
+		<td class="altbg1"><a href="###" onclick="AddText('[attach]'+$attach[aid]+'[/attach]')" title="{lang post_attachment_insert}">$attach[aid]</a></td>
+		<td class="altbg2">$attach[dateline]</td>
+		<td class="altbg1">$attach[filesize]</td>
+		<td class="altbg2">$attach[downloads]</td>
+		<td class="altbg1"><!--{if $allowsetattachperm}--><input type="text" size="3" name="attachpermnew[{$attach[aid]}]" value="$attach[readperm]"><!--{else}--><input type="text" size="3" value="$attach[readperm]" disabled><!--{/if}--></td>
+		<td class="altbg2"><input type="text" size="25" name="attachdescnew[{$attach[aid]}]" value="$attach[description]"></td>
+		</tr>
+	<!--{/loop}-->
+	<tr><td class="singleborder" colspan="8">&nbsp;</td></tr>
+	<tr><td class="altbg1" colspan="8">{lang post_attachment_comment}</td></tr>
+	</table>
+<!--{/if}-->
+
+<!--{if $allowpostattach}-->
+	{template post_attachments}
+<!--{/if}-->
+
+<input type="hidden" name="fid" value="$fid">
+<input type="hidden" name="tid" value="$tid">
+<input type="hidden" name="pid" value="$pid">
+<input type="hidden" name="postsubject" value="$postinfo[subject]">
+<br><center><input type="submit" name="editsubmit" value="{lang post_editpost}" tabindex="5">
+<input type="submit" name="previewpost" value="{lang post_previewpost}" tabindex="6">
+</center>
+</form>
+{template footer}

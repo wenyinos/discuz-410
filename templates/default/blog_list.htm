@@ -1,0 +1,17 @@
+<!--{if $blognum}-->
+	$multipage
+	<!--{loop $bloglist $blog}-->
+		<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+		<tr class="header"><td width="15%" align="center" class="bold" nowrap>$blog[postedon]</td><td class="bold"> &nbsp; <a href="blog.php?tid=$blog[tid]&starttime=$starttime&endtime=$endtime">$blog[subject]</a></td></tr>
+		<tr><td colspan="2" class="altbg2">$blog[karma]<br>$blog[message]<br><br></td></tr>
+		<tr class="category"><td colspan="2"><table cellspacing="0" cellpadding="0" width="100%">
+		<tr><td>$blog[dateline] - <a href="viewpro.php?uid=$uid&starttime=$starttime&endtime=$endtime">$blog[author]</a> - <a href="blog.php?tid=$blog[tid]&starttime=$starttime&endtime=$endtime">$blog[views] {lang views}</a> - <a href="blog.php?tid=$blog[tid]">$blog[replies] {lang blog_comments}</a></td>
+		<td align="right"><a href="blog.php?uid=$uid&fid=$blog[fid]">$blog[name]</a></td></tr>
+		</table></td></tr></table><br><br>
+	<!--{/loop}-->
+<!--{else}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+	<tr class="header"><td>$bbname {lang board_message}</td></tr>
+	<tr><td align="center" class="altbg2"><br><br>{lang blog_nonexistence}<br><br><br></td></tr>
+	</table>
+<!--{/if}-->

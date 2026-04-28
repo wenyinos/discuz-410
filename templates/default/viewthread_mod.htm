@@ -1,0 +1,18 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation &raquo; {lang thread_moderations}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr align="center" class="header"><td width="15%">{lang thread_moderations_username}</td><td width="25%">{lang time}</td><td width="30%">{lang thread_moderations_action}</td><td width="30%">{lang thread_moderations_expiration}</td></tr>
+<!--{loop $loglist $log}-->
+	<tr align="center">
+	<td class="altbg1"><!--{if $log['uid']}--><a href="viewpro.php?uid=$log['uid']" target="_blank">$log[username]</a><!--{else}-->{lang thread_moderations_cron}<!--{/if}--></td>
+	<td class="altbg2">$log[dateline]</td>
+	<td class="altbg1" $log[status]>{$modactioncode[$log['action']]}</td>
+	<td class="altbg2" $log[status]><!--{if $log['expiration']}-->$log[expiration]<!--{elseif in_array($log['action'], array('STK', 'HLT', 'DIG', 'CLS', 'OPN'))}-->{lang thread_moderations_expiration_unlimit}<!--{/if}-->
+	</td></tr>
+<!--{/loop}-->
+</table><br>
+{template footer}

@@ -1,0 +1,54 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang member_list}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td>$multipage</td></tr>
+</table>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr class="header">
+<td width="18%" align="center">{lang username}</td>
+<td width="6%" align="center">{lang uid}</td>
+<td width="5%" align="center">{lang gender}</td>
+<td width="6%" align="center">{lang homepage}</td>
+<td width="16%" align="center">{lang location}</td>
+<td width="12%" align="center">{lang regdate}</td>
+<td width="19%" align="center">{lang lastvisit}</td>
+<td width="8%" align="center">{lang posts}</td>
+<td width="10%" align="center">{lang credits}</td>
+</tr>
+<!--{loop $memberlist $member}-->
+	<tr class="smalltxt">
+	<td class="altbg1" align="center" nowrap><a href="viewpro.php?uid=$member[uid]" class="bold">$member[username]</a><!--{if $member['nickname']}--><br>($member[nickname])<!--{/if}--></td>
+	<td class="altbg2" align="center">$member[uid]</td>
+	<td class="altbg1" align="center"><!--{if $member['gender'] == '1'}-->{lang male}<!--{elseif $member['gender'] == 2}-->{lang female}<!--{else}-->&nbsp;<!--{/if}--></td>
+	<td class="altbg2" align="center"><!--{if $member['site']}--><a href="http://$member[site]" target="_blank"><img src="{IMGDIR}/site.gif" border="0" alt="{lang visit_home}"></a><!--{else}-->&nbsp;<!--{/if}--></td>
+	<td class="altbg1" align="center"><!--{if $member['location']}-->$member[location]<!--{else}-->&nbsp;<!--{/if}--></td>
+	<td class="altbg2" align="center">$member[regdate]</td>
+	<td class="altbg1" align="center">$member[lastvisit]</td>
+	<td class="altbg2" align="center">$member[posts]</td>
+	<td class="altbg1" align="center">$member[credits]</td>
+	</tr>
+<!--{/loop}-->
+<form method="post" action="member.php?action=list">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<tr class="smalltxt">
+<td class="altbg2" colspan="9">
+{lang search} <input type="text" size="15" name="srchmem"> <input type="submit" value="{lang submit}">
+&nbsp; &nbsp;<span class="bold">{lang or}</span> &nbsp; 
+{lang orderby}: 
+<a href="member.php?action=list&order=credits">{lang credits}</a> - 
+<a href="member.php?action=list&order=username">{lang username}</a> - 
+<a href="member.php?action=list&order=gender">{lang gender}</a> - 
+<a href="member.php?action=list&order=regdate">{lang regdate}</a> - 
+<a href="member.php?action=list&admins=yes">{lang status}</a>
+</td></tr></form>
+</table>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td>$multipage</td></tr>
+</table>
+{template footer}

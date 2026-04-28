@@ -1,0 +1,23 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation &raquo; {lang admin_getip}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr>
+<td class="header" colspan="3">{lang admin_getip}</td>
+</tr>
+<tr class="altbg2">
+<td align="center">{lang admin_getip_this} <span class="bold">$member[useip]</span> - $member[iplocation]
+</td>
+<tr class="altbg1"><td align="center">
+
+<!--{if $allowviewip}-->
+	<a href="admincp.php?action=ipban&ip=$member[useip]&frames=yes" target="_blank">[ {lang admin_ban_this_ip} ]</a> &nbsp; 
+<!--{/if}-->
+<a href="###" onclick="history.go(-1)">[ {lang go_back} ]</a>
+
+
+</td></tr></table></form>
+{template footer}

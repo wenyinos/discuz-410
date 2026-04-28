@@ -1,0 +1,15 @@
+<form method="post" action="pm.php?action=ignore">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="99%" class="tableborder">
+
+<tr><td class="header" colspan="2">{lang pm_ignore}</td></tr>
+
+<tr>
+<td class="altbg1">{lang pm_ignore}:<br>
+<span class="smalltxt">{lang pm_ignore_comment}</span></td>
+<td class="altbg2"><textarea rows="5" cols="30" name="ignorelist">$ignorepm</textarea></td>
+</tr>
+
+</table><br>
+<center><input type="submit" name="ignoresubmit" value="{lang submit}"></center>
+</form>

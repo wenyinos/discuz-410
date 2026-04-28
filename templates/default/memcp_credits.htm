@@ -1,0 +1,295 @@
+{template header}
+{template memcp_navbar}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td width="200" valign="top">
+
+<!--{if $exchangestatus || $transferstatus || $ec_ratio}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="98%" class="tableborder">
+	<tr class="header"><td colspan="2" align="center">{lang memcp_credits}</td></tr>
+	<!--{if $exchangestatus}-->
+		<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+		<a href="memcp.php?action=credits&operation=exchange"><!--{if $operation == 'exchange'}--><b>{lang memcp_credits_exchange}</b><!--{else}-->{lang memcp_credits_exchange}<!--{/if}--></a></td></tr>
+	<!--{/if}-->
+	<!--{if $transferstatus}-->
+		<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+		<a href="memcp.php?action=credits&operation=transfer"><!--{if $operation == 'transfer'}--><b>{lang memcp_credits_transfer}</b><!--{else}-->{lang memcp_credits_transfer}<!--{/if}--></a></td></tr>
+	<!--{/if}-->
+	<!--{if $ec_ratio}-->
+		<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+		<a href="memcp.php?action=credits&operation=addfunds"><!--{if $operation == 'addfunds'}--><b>{lang memcp_credits_addfunds}</b><!--{else}-->{lang memcp_credits_addfunds}<!--{/if}--></a></td></tr>
+	<!--{/if}-->
+	</table><br>
+<!--{/if}-->
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="98%" class="tableborder">
+<tr class="header"><td colspan="2" align="center">{lang memcp_credits_log}</td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<a href="memcp.php?action=credits&operation=creditslog"><!--{if $operation == 'creditslog'}--><b>{lang memcp_credits_log_transaction}</b><!--{else}-->{lang memcp_credits_log_transaction}<!--{/if}--></a></td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<a href="memcp.php?action=credits&operation=paymentlog"><!--{if $operation == 'paymentlog'}--><b>{lang memcp_credits_log_payment}</b><!--{else}-->{lang memcp_credits_log_payment}<!--{/if}--></a></td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<a href="memcp.php?action=credits&operation=incomelog"><!--{if $operation == 'incomelog'}--><b>{lang memcp_credits_log_income}</b><!--{else}-->{lang memcp_credits_log_income}<!--{/if}--></a></td></tr>
+</table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="98%" class="tableborder">
+<tr class="header"><td colspan="3" align="center">{lang memcp_credits_info}</td></tr>
+<tr class="altbg2"><td colspan="3" class="smalltxt">
+<b>&raquo;</b> {lang credits}: <span class="bold">$credits</span><br>
+<!--{loop $extcredits $id $credit}-->
+	<b>&raquo;</b> $credit[title]: <span class="bold">$GLOBALS[extcredits.$id]</span> $credit[unit]<br>
+<!--{/loop}-->
+</td></tr></table><br>
+
+</td><td align="right" valign="top">
+
+<!--{if $operation == 'transfer'}-->
+	<form method="post" action="memcp.php?action=credits">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="operation" value="transfer">
+	
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="99%" class="tableborder">
+	<tr>
+	<td width="100%" colspan="2" class="header">{lang memcp_credits_transfer}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang password}:</td>
+	<td class="altbg2" width="85%"><input type="password" size="15" name="password"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang to}:</td>
+	<td class="altbg2" width="85%"><input type="text" size="15" name="to"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{$extcredits[$creditstrans][title]}:</td>
+	<td class="altbg2" width="85%"><input type="text" size="15" name="amount" value="0"> {$extcredits[$creditstrans][unit]}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang memcp_credits_min_balance}:</td>
+	<td class="altbg2" width="85%">$transfermincredits {$extcredits[$creditstrans][unit]}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang credits_tax}:</td>
+	<td class="altbg2" width="85%">$taxpercent</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%" valign="top">{lang memcp_credits_transfer_message}:<br><span class="smalltxt">{lang memcp_credits_transfer_message_comment}</span></td>
+	<td class="altbg2" width="85%"><textarea name="transfermessage" rows="8" style="width: 85%; word-break: break-all"></textarea></td>
+	</tr>
+
+	<tr class="altbg1">
+	<td colspan="2" class="smalltxt">{lang memcp_credits_transfer_comment}</td>
+	</tr>
+
+	</table><br>
+	<center><input type="button" name="" value="{lang memcp_credits_caculate}" onclick="this.form.amount.value=Math.floor(this.form.amount.value);alert('{lang memcp_credits_transfer_caculate} {$extcredits[$creditstrans][title]} '+Math.floor(this.form.amount.value*(1-$creditstax)))"> &nbsp; 
+	<input type="submit" name="creditssubmit" value="{lang submit}" onclick="return confirm('{lang memcp_credits_confirm}');">
+	</center></form>
+<!--{elseif $operation == 'exchange'}-->
+	<form method="post" action="memcp.php?action=credits">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="operation" value="exchange">
+
+	<script language="JavaScript">
+	ratioarray = new Array();
+	<!--{loop $exchcredits $id $ecredits}-->
+		ratioarray[$id] = $ecredits[ratio];
+	<!--{/loop}-->
+	</script>
+
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="99%" class="tableborder">
+	<tr>
+	<td width="100%" colspan="2" class="header">{lang memcp_credits_exchange}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang password}:</td>
+	<td class="altbg2" width="85%"><input type="password" size="15" name="password"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang memcp_credits_exchange_amount}:</td>
+	<td class="altbg2" width="85%"><input type="text" size="15" name="amount" value="0"></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang memcp_credits_exchange_source}:</td>
+	<td class="altbg2" width="85%">
+	<select name="fromcredits">
+	<!--{loop $exchcredits $id $credit}-->
+		<option value="$id">$credit[title] ({lang memcp_credits_exchange_ratio} $credit[ratio])</option>
+	<!--{/loop}-->
+	</select>
+	</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1">{lang memcp_credits_exchange_target}:</td>
+	<td class="altbg2">
+	<select name="tocredits">
+	<!--{loop $exchcredits $id $ecredits}-->
+		<option value="$id">$ecredits[title] ({lang memcp_credits_exchange_ratio} $ecredits[ratio])</option>
+	<!--{/loop}-->
+	</select>
+	</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang memcp_credits_min_balance}:</td>
+	<td class="altbg2" width="85%">$exchangemincredits</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{lang credits_tax}:</td>
+	<td class="altbg2" width="85%">$taxpercent</td>
+	</tr>
+
+	<tr class="altbg1">
+	<td colspan="2" class="smalltxt">{lang memcp_credits_exchange_comment}</td>
+	</tr>
+
+	</table><br>
+	<center><input type="button" name="" value="{lang memcp_credits_caculate}" onclick="this.form.amount.value=Math.floor(this.form.amount.value);alert('{lang memcp_credits_exchange_caculate} '+Math.floor(this.form.amount.value*ratioarray[this.form.fromcredits.options[this.form.fromcredits.selectedIndex].value]*(1-$creditstax)/ratioarray[this.form.tocredits.options[this.form.tocredits.selectedIndex].value]))"> &nbsp; 
+	<input type="submit" name="creditssubmit" value="{lang submit}" onclick="return confirm('{lang memcp_credits_confirm}');">
+	</center></form>
+<!--{elseif $operation == 'addfunds'}-->
+	<form method="post" action="memcp.php?action=credits" target="_blank">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<input type="hidden" name="operation" value="addfunds">
+
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="99%" class="tableborder">
+	<tr>
+	<td width="100%" colspan="2" class="header">{lang memcp_credits_addfunds}</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%" valign="top">{lang memcp_credits_addfunds_rules}:</td>
+	<td class="altbg2" width="85%">
+	{lang memcp_credits_addfunds_rules_ratio} = {$extcredits[$creditstrans][title]} <b>$ec_ratio</b> {$extcredits[$creditstrans][unit]}
+	<!--{if $ec_mincredits}--><br>{lang memcp_credits_addfunds_rules_min} {$extcredits[$creditstrans][title]} <b>$ec_mincredits</b> {$extcredits[$creditstrans][unit]}<!--{/if}-->
+	<!--{if $ec_maxcredits}--><br>{lang memcp_credits_addfunds_rules_max} {$extcredits[$creditstrans][title]} <b>$ec_maxcredits</b> {$extcredits[$creditstrans][unit]}<!--{/if}-->
+	<!--{if $ec_maxcreditspermonth}--><br>{lang memcp_credits_addfunds_rules_month} {$extcredits[$creditstrans][title]} <b>$ec_maxcreditspermonth</b> {$extcredits[$creditstrans][unit]}<!--{/if}-->
+	</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="15%">{$extcredits[$creditstrans][title]} {lang memcp_credits_addfunds_amount}:</td>
+	<td class="altbg2" width="85%"><input type="text" size="15" name="amount" value="0"> {$extcredits[$creditstrans][unit]}</td>
+	</tr>
+
+	<tr>
+	<td colspan="2" class="category"><ul><li>{lang memcp_credits_addfunds_comment}</td>
+	</tr>
+
+	</table><br>
+	<center><input type="button" name="" value="{lang memcp_credits_caculate}" onclick="this.form.amount.value=Math.floor(this.form.amount.value);alert('{lang memcp_credits_addfunds_caculate} '+Math.ceil(this.form.amount.value/$ec_ratio*100)/100)"> &nbsp; 
+	<input type="submit" name="creditssubmit" value="{lang submit}">
+	</center></form>
+<!--{elseif $operation == 'paymentlog'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr class="header"><td colspan="7">{lang memcp_credits_log_payment}</td></tr>
+	<tr align="center" class="category">
+	<td width="33%">{lang subject}</td>
+	<td width="10%">{lang author}</td>
+	<td width="8%">{lang dateline}</td>
+	<td width="18%">{lang forum}</td>
+	<td width="8%">{lang memcp_credits_log_payment_dateline}</td>
+	<td width="9%">{lang price}</td>
+	<td width="9%">{lang pay_author_income}</td>
+	</tr>
+	<!--{if $loglist}-->
+		<!--{loop $loglist $log}-->
+			<tr>
+			<td class="altbg1"><a href="viewthread.php?tid=$log[tid]">$log[subject]</a></td>
+			<td class="altbg2" align="center"><a href="viewpro.php?uid=$log[authorid]">$log[author]</a></td>
+			<td class="altbg1" align="center">$log[tdateline]</td>
+			<td class="altbg2" align="center"><a href="forumdisplay.php?fid=$log[fid]">$log[name]</a></td>
+			<td class="altbg1" align="center">$log[dateline]</td>
+			<!--{if !$log['amount'] && !$log['netamount']}-->
+				<td class="altbg2" align="center" colspan="2">{lang memcp_credits_log_payment_refunded}</td>
+			<!--{else}-->
+				<td class="altbg2" align="center">{$extcredits[$creditstrans][title]} $log[amount] {$extcredits[$creditstrans][unit]}</td>
+				<td class="altbg1" align="center">{$extcredits[$creditstrans][title]} $log[netamount] {$extcredits[$creditstrans][unit]}</td>
+			<!--{/if}-->
+			</tr>
+		<!--{/loop}-->
+	<!--{else}-->
+		<td class="altbg1" colspan="7">{lang memcp_credits_log_none}</td></tr>
+	<!--{/if}-->
+
+	</table>
+	<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center"><tr><td>$multipage</td></tr></table>
+<!--{elseif $operation == 'incomelog'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr class="header"><td colspan="7">{lang memcp_credits_log_income}</td></tr>
+	<tr align="center" class="category">
+	<td width="33%">{lang subject}</td>
+	<td width="8%">{lang dateline}</td>
+	<td width="18%">{lang forum}</td>
+	<td width="10%">{lang memcp_credits_log_income_buyer}</td>
+	<td width="8%">{lang memcp_credits_log_payment_dateline}</td>
+	<td width="9%">{lang price}</td>
+	<td width="9%">{lang pay_author_income}</td>
+	</tr>
+	<!--{if $loglist}-->
+		<!--{loop $loglist $log}-->
+			<tr>
+			<td class="altbg1"><a href="viewthread.php?tid=$log[tid]">$log[subject]</a></td>
+			<td class="altbg2" align="center">$log[tdateline]</td>
+			<td class="altbg1" align="center"><a href="forumdisplay.php?fid=$log[fid]">$log[name]</a></td>
+			<td class="altbg2" align="center"><a href="viewpro.php?uid=$log[uid]">$log[username]</a></td>
+			<td class="altbg1" align="center">$log[dateline]</td>
+			<!--{if !$log['amount'] && !$log['netamount']}-->
+				<td class="altbg2" align="center" colspan="2">{lang memcp_credits_log_payment_refunded}</td>
+			<!--{else}-->
+				<td class="altbg2" align="center">{$extcredits[$creditstrans][title]} $log[amount] {$extcredits[$creditstrans][unit]}</td>
+				<td class="altbg1" align="center">{$extcredits[$creditstrans][title]} $log[netamount] {$extcredits[$creditstrans][unit]}</td>
+			<!--{/if}-->
+			</tr>
+		<!--{/loop}-->
+	<!--{else}-->
+		<td class="altbg1" colspan="7">{lang memcp_credits_log_none}</td></tr>
+	<!--{/if}-->
+
+	</table>
+	<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center"><tr><td>$multipage</td></tr></table>
+<!--{elseif $operation == 'creditslog'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr class="header"><td colspan="5">{lang memcp_credits_log_transaction}</td></tr>
+	<tr align="center" class="category"><td width="20%">{lang memcp_credits_log_transaction_fromto}</td><td width="25%">{lang time}</td><td width="15%">{lang memcp_credits_log_transaction_outgo}</td><td width="15%">{lang memcp_credits_log_transaction_income}</td><td width="25%">{lang action}</td></tr> 
+	<!--{if $loglist}-->
+		<!--{loop $loglist $log}-->
+			<tr align="center">
+			<td class="altbg1"><!--{if $log['fromto'] == 'BANK ACCOUNT'}-->{lang memcp_credits_transfer_bank}<!--{else}--><a href="viewpro.php?username=$log[fromtoenc]">$log[fromto]</a><!--{/if}--></td>
+			<td class="altbg2">$log[dateline]</td>
+			<td class="altbg1"><!--{if $log['send']}-->{$extcredits[$log[sendcredits]][title]} $log[send] {$extcredits[$log[sendcredits]][unit]}<!--{/if}--></td>
+			<td class="altbg2"><!--{if $log['receive']}-->{$extcredits[$log[receivecredits]][title]} $log[receive] {$extcredits[$log[receivecredits]][unit]}<!--{/if}--></td>
+			<td class="altbg1">
+			<!--{if $log['operation'] == 'TFR'}-->
+				{lang memcp_credits_transfer_send}
+			<!--{elseif $log['operation'] == 'RCV'}-->
+				{lang memcp_credits_transfer_receive}
+			<!--{elseif $log['operation'] == 'EXC'}-->
+				{lang memcp_credits_exchange}
+			<!--{elseif $log['operation'] == 'UGP'}-->
+				{lang memcp_usergroups_charged}
+			<!--{elseif $log['operation'] == 'AFD'}-->
+				{lang memcp_credits_transfer_bank}
+			<!--{/if}-->
+			</td>
+			</tr>
+		<!--{/loop}-->
+	<!--{else}-->
+		<td class="altbg1" colspan="5">{lang memcp_credits_log_none}</td></tr>
+	<!--{/if}-->
+
+	</table>
+	<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center"><tr><td>$multipage</td></tr></table>
+<!--{/if}-->
+</td></tr></table>
+{template footer}

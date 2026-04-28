@@ -1,0 +1,62 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang credits_policy}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr class="header">
+<td colspan="13">{lang credits_policy}</td>
+</tr>
+
+<tr align="center" class="category">
+<td width="9%">&nbsp;</td>
+<!--{loop $policyarray $operation $policy}-->
+	<td width="7%" nowrap>
+	<!--{if $operation == 'post'}-->
+		{lang credits_policy_post}
+	<!--{elseif $operation == 'forum_post'}-->
+		{lang credits_policy_forum_post}
+	<!--{elseif $operation == 'reply'}-->
+		{lang credits_policy_reply}
+	<!--{elseif $operation == 'forum_reply'}-->
+		{lang credits_policy_forum_reply}
+	<!--{elseif $operation == 'digest'}-->
+		{lang credits_policy_digest}
+	<!--{elseif $operation == 'postattach'}-->
+		{lang credits_policy_postattach}
+	<!--{elseif $operation == 'getattach'}-->
+		{lang credits_policy_getattach}
+	<!--{elseif $operation == 'pm'}-->
+		{lang credits_policy_pm}
+	<!--{elseif $operation == 'search'}-->
+		{lang credits_policy_search}
+	<!--{elseif $operation == 'promotion_visit'}-->
+		{lang credits_policy_promotion_visit}
+	<!--{elseif $operation == 'promotion_register'}-->
+		{lang credits_policy_promotion_register}
+	<!--{/if}-->
+	</td>
+<!--{/loop}-->
+<td width="7%">{lang credits_policy_lowerlimit}</td>
+</tr>
+
+<!--{loop $extcredits $id $credit}-->
+	<tr align="center" class="altbg2">
+	<td class="altbg1">$credit[title]</td>
+	<!--{loop $creditsarray[$id] $operation $policy}-->
+		<!--{if isset($view) && $operation == $view}-->
+			<td class="altbg1"><span class="bold">$policy</span></td>
+		<!--{else}-->
+			<td class="smalltxt">$policy</td>
+		<!--{/if}-->
+	<!--{/loop}-->
+	<td class="altbg1">$extcredits[$id][lowerlimit]</td>
+	</tr>
+<!--{/loop}-->
+
+<tr><td colspan="13" class="altbg1"><span class="bold">{lang credits_policy_lowerlimit}:</span> {lang credits_policy_lowerlimit_comment}</td></tr>
+<tr><td colspan="13" class="altbg1"><span class="bold">{lang credits_policy_formula}:</span> $creditsformulaexp</td></tr>
+</table>
+
+{template footer}

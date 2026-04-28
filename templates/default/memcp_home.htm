@@ -1,0 +1,178 @@
+{template header}
+{template memcp_navbar}
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr class="smalltxt">
+<td class="altbg1" align="center">
+<span class="bold">{lang memcp_welcome}</span>
+<br><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+<tr class="header">
+<td colspan="5">{lang memcp_info}</td>
+</tr>
+
+<tr>
+<td class="altbg1" width="15%">{lang username}:</td>
+<td class="altbg2" width="35%">$discuz_userss<!--{if $member['nickname']}--> ($member[nickname])<!--{/if}--></td>
+<td class="altbg1" width="15%">{lang credits}:</td>
+<td class="altbg2" width="35%" colspan="2">$credits</td>
+</tr>
+
+<tr>
+<td class="altbg1" width="15%" valign="top">{lang usergroup}:</td>
+<td class="altbg2" width="35%" valign="top">$grouptitle<!--{if $regverify == 1 && $groupid == 8}-->&nbsp; [ <a href="member.php?action=emailverify">{lang memcp_email_reverify}</a> ]<!--{/if}--></td>
+<td class="altbg1" width="15%" valign="top">{lang avatar}:</td>
+<!--{if $avatarshow && $avatar}-->
+	<td class="altbg2" width="17%" align="center">$avatarshow</td>
+	<td class="altbg2" width="18%" align="center">$avatar</td>
+<!--{else}-->
+	<td class="altbg2" width="35%" colspan="2">$avatarshow$avatar&nbsp;</td>
+<!--{/if}-->
+</tr>
+</table><br>
+
+<!--{if $validating}-->
+	<form method="post" action="member.php?action=regverify">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="header">
+	<td colspan="4">{lang memcp_validating}</td>
+	</tr>
+	<tr>
+	<td colspan="4" class="category">{lang memcp_validating_info}</td>
+	</tr>
+	<tr>
+	<td class="altbg1" width="15%">{lang memcp_validating_status}:</td>
+	<td class="altbg2" width="35%" class="bold"><!--{if $validating['status'] == 0}-->{lang memcp_validating_status_0}<!--{elseif $validating['status'] == 1}-->{lang memcp_validating_status_1}<!--{/if}--></td>
+	<td class="altbg1" width="15%" rowspan="4" valign="top">{lang register_message}:</td>
+	<td class="altbg2" width="35%" rowspan="4" align="center"><textarea rows="4" cols="30" name="regmessagenew">$validating[message]</textarea></td>
+	</tr>
+	<tr>
+	<td class="altbg1" width="15%">{lang memcp_validating_admin}:</td>
+	<td class="altbg2" width="35%"><!--{if $validating['admin']}--><a href="viewpro.php?username=$validating[adminenc]">$validating[admin]</a><!--{else}-->{lang none}<!--{/if}--></td>
+	</tr>
+	<tr>
+	<td class="altbg1" width="15%">{lang memcp_validating_time}:</td>
+	<td class="altbg2" width="35%"><!--{if $validating['moddate']}-->$validating[moddate]<!--{else}-->{lang none}<!--{/if}--></td>
+	</tr>
+	<tr>
+	<td class="altbg1" width="15%" valign="top">{lang memcp_validating_remark}:</td>
+	<td class="altbg2" width="35%"><!--{if $validating['remark']}--><span class="bold">$validating[remark]</span><!--{else}-->{lang none}<!--{/if}--></td>
+	</tr>
+	</table>
+	<!--{if $validating['status'] == 1}--><br><input type="submit" name="verifysubmit" value="{lang submit}"><br><!--{/if}-->
+	</form>
+<!--{/if}-->
+
+</td></tr></table><br>
+
+<table border="0" cellspacing="0" cellpadding="0" width="{TABLEWIDTH}" align="center">
+<tr><td width="19%">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td valign="top" align="left">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" align="center" class="tableborder">
+<tr>
+<td class="header">{lang memcp_buddylist}</td>
+</tr>
+<tr><td class="altbg1">
+<table border="0" cellspacing="{BORDERWIDTH}" cellpadding="{TABLESPACE}" width="98%">
+<tr>
+<td class="altbg2" align="center" colspan="3" class="smalltxt"><span class="bold">{lang online}</span></td>
+</tr>
+
+<!--{loop $buddyonline $buddy}-->
+	<tr class="altbg1" onMouseOver="this.className='altbg2'" onMouseOut="this.className='altbg1'">
+	<td width="15" align="center"><a href="pm.php?action=send&uid=$buddy[uid]" target="_blank"><img src="{IMGDIR}/buddy_sendpm.gif" border="0" alt="{lang pm_send}"></a></td>
+	<td align="center"><a href="viewpro.php?uid=$buddy[uid]" title="$buddy[description]">$buddy[username]</a></td>
+	<td width="15" align="center"><a href="memcp.php?action=buddylist&delete[]=$buddy[uid]&buddysubmit=yes"><img src="{IMGDIR}/buddy_delete.gif" border="0" alt="{lang memcp_buddylist_remove}"></a></td></tr>
+<!--{/loop}-->
+
+<tr>
+<td class="altbg2" align="center" colspan="3" class="smalltxt"><span class="bold">{lang offline}</span></td>
+</tr>
+
+<!--{loop $buddyoffline $buddy}-->
+	<tr class="altbg1" onMouseOver="this.className='altbg2'" onMouseOut="this.className='altbg1'">
+	<td width="15" align="center"><a href="pm.php?action=send&uid=$buddy[uid]" target="_blank"><img src="{IMGDIR}/buddy_sendpm.gif" border="0" alt="{lang pm_send}"></a></td>
+	<td align="center"><a href="viewpro.php?uid=$buddy[uid]" title="$buddy[description]">$buddy[username]</a></td>
+	<td width="15" align="center"><a href="memcp.php?action=buddylist&delete[]=$buddy[uid]&buddysubmit=yes"><img src="{IMGDIR}/buddy_delete.gif" border="0" alt="{lang memcp_buddylist_remove}"></a></td></tr>
+<!--{/loop}-->
+
+</table>
+
+<tr>
+<td class="altbg2" align="center"><a href="memcp.php?action=buddylist" class="bold">[{lang memcp_buddylist_edit}]</a></td>
+</tr>
+
+</table>
+</form></td>
+
+<td width="1%">&nbsp;</td>
+
+<td align="right" valign="top" width="80%">
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr class="header">
+<td colspan="3">{lang memcp_last_5_pm}</td>
+</tr>
+<tr class="category">
+<td width="52%" align="center">{lang subject}</td>
+<td width="23%" align="center">{lang from}</td>
+<td width="25%" align="center">{lang time}</td>
+</tr>
+
+<!--{if $msgexists}-->
+	<!--{loop $msglist $message}-->
+		<tr>
+		<td class="altbg2" onMouseOver ="this.className='altbg1'" onMouseOut="this.className='altbg2'">
+		<table cellspacing="0" cellpadding="0" border="0" width="100%" style="table-layout: fixed; word-break: break-all">
+		<tr><td><a href="pm.php?action=view&pmid=$message[pmid]" target="_blank">$message[subject]</a></td></tr></table></td>
+		<td class="altbg1" align="center">$message[msgfrom]</td>
+		<td class="altbg2" align="center" class="smalltxt">$message[dateline]</td>
+		</tr>
+	<!--{/loop}-->
+<!--{else}-->
+	<tr><td class="altbg1" colspan="4">{lang memcp_nopm}
+	</td></tr>
+<!--{/if}-->
+
+</table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr class="header">
+<td colspan="5">{lang memcp_last_5_subs}</td>
+</tr>
+<tr class="category">
+<td width="52%" align="center">{lang subject}</td>
+<td width="18%" align="center">{lang forum}</td>
+<td width="8%" align="center">{lang replies}</td>
+<td width="22%" align="center">{lang lastpost}</td>
+</tr>
+
+<!--{if $subsexists}-->
+	<!--{loop $subslist $subs}-->
+		<tr>
+		<td class="altbg2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">
+		<table cellspacing="0" cellpadding="0" border="0" width="100%" style="table-layout: fixed; word-break: break-all">
+		<tr><td><a href="viewthread.php?tid=$subs[tid]">$subs[subject]</a></td></tr></table></td>
+		<td class="altbg1" align="center"><a href="forumdisplay.php?fid=$subs[fid]">$subs[name]</a></td>
+		<td class="altbg2" align="center">$subs[replies]</td>
+		<td class="altbg1" align="center">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr align="right">
+		<td class="smalltxt" nowrap>$subs[lastpost]<br>
+		by <!--{if $subs['lastposter']}--><a href="viewpro.php?username=$subs[lastposterenc]">$subs[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}-->
+		</td><td nowrap>&nbsp;<a href="redirect.php?tid=$subs[tid]&goto=lastpost$highlight#lastpost"><img src="{IMGDIR}/lastpost.gif" border="0"></a>
+		</td></tr></table></td>
+		</tr>
+	<!--{/loop}-->
+<!--{else}-->
+	<tr><td class="altbg1" colspan="6">{lang memcp_nosubs}</td></tr>
+<!--{/if}-->
+
+</table><br><br>
+</td></tr>
+</table>
+</td></tr>
+</table>
+{template footer}

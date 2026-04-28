@@ -1,0 +1,21 @@
+<!--{if isset($trade) && $allowposttrade}-->{lang post_trade_description}<!--{else}-->{lang message}<!--{/if}--> <a href="###" onclick="checklength(document.input)" class="smalltxt">[{lang post_check_length}]</a>:<br><br>
+<span class="smalltxt">
+{lang post_html} <span class="bold"><!--{if $forum['allowhtml'] || $allowhtml}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span><br>
+<a href="faq.php?page=messages#6" target="_blank">{lang post_smilies}</a> <span class="bold"><!--{if $forum['allowsmilies']}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span><br>
+<a href="faq.php?page=misc#1" target="_blank">{lang post_discuzcode}</a> <span class="bold"><!--{if $forum['allowbbcode']}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span><br>
+{lang post_imgcode} <span class="bold"><!--{if $forum['allowimgcode']}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span>
+</span><br><br><br>
+<!--{if $smileyinsert}-->
+	<table cellpadding="3" cellspacing="0" width="50%" border="0" class="altbg1" style="border-width: 2px; border-style: outset" align="center">
+	<tr><td colspan="$smcols" align="center" class="altbg1" style="border-width:1px; border-style:inset">{lang post_smilies}</td></tr>
+	$smilies
+	<!--{if $moresmilies}-->
+		<tr>
+		<td colspan="$smcols" align="center"><br>
+		<a href="###" class="smalltxt"
+		onclick="window.open('post.php?action=smilies', '', 'width=200,height=500,resizable=yes,scrollbars=yes');">
+		<span class="bold">{lang post_smilies_more}</span></a></td>
+		</tr>
+	<!--{/if}-->
+	</table>
+<!--{/if}-->

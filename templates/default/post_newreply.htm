@@ -1,0 +1,101 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation &raquo; {lang post_newreply}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<script language="JavaScript">
+var postminchars = parseInt('$minpostsize');
+var postmaxchars = parseInt('$maxpostsize');
+var disablepostctrl = parseInt('$disablepostctrl');
+function checklength(theform) {
+	if (postmaxchars != 0) { message = "{lang board_allowed}: "+postminchars+" {lang to} "+postmaxchars+" {lang bytes}"; }
+	else { message = ""; }
+	alert("\n{lang post_curlength}: "+theform.message.value.length+" {lang bytes}\n\n"+message);
+}
+function validate(theform) {
+	if (theform.message.value == "" && theform.subject.value == "") {
+		alert("{lang post_subject_and_message_isnull}");
+		return false;
+	} else if (theform.subject.value.length > 80) {
+		alert("{lang post_subject_toolang}");
+		return false;
+	}
+	if (!disablepostctrl && ((postminchars != 0 && theform.message.value.length < postminchars) || (postmaxchars != 0 && theform.message.value.length > postmaxchars))) {
+		alert("{lang post_message_length_invalid}\n\n{lang post_curlength}: "+theform.message.value.length+" {lang bytes}\n{lang board_allowed}: "+postminchars+" {lang to} "+postmaxchars+" {lang bytes}");
+		return false;
+	}			
+	theform.replysubmit.disabled = true;
+	return true;
+}
+</script>
+<!--{if isset($previewpost)}-->
+	{template post_preview}
+<!--{/if}-->
+<form method="post" name="input" action="post.php?action=reply&fid=$fid&tid=$tid&extra=$extra&replysubmit=yes" $enctype onSubmit="return validate(this)">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr>
+<td colspan="2" class="header"><a href="member.php?action=credits&view=forum_reply&fid=$fid" target="_blank"><img src="{IMGDIR}/credits.gif" alt="{lang credits_policy_view}" align="right" border="0"></a>{lang post_newreply}</td>
+</tr>
+
+<!--{if $discuz_uid}-->
+	<tr><td class="altbg1">{lang username}:</td>
+	<td class="altbg2">$discuz_userss <span class="smalltxt">[<a href="$link_logout">{lang member_logout}</a>]</span></td>
+	</tr>
+<!--{/if}-->
+
+<tr>
+<td class="altbg1" width="20%">{lang subject}:</td>
+<td class="altbg2"><input type="text" name="subject" size="45" value="$subject" tabindex="3">&nbsp; <span class="smalltxt">({lang optional})</span></td>
+</tr>
+{template post_bbinsert}
+
+<tr>
+<td class="altbg1" valign="top">
+{template post_sminsert}
+</td>
+
+<td class="altbg2"><span class="smalltxt">
+<textarea rows="18" name="message" style="width: 80%; word-break: break-all" tabindex="4" onSelect="javascript: storeCaret(this);" onClick="javascript: storeCaret(this);" onKeyUp="javascript: storeCaret(this);" onKeyDown="ctlent(event);">$message</textarea>
+<br><br>
+<input type="checkbox" name="parseurloff" value="1" $urloffcheck> {lang disable} {lang post_parseurl}<br>
+<input type="checkbox" name="smileyoff" value="1" $smileyoffcheck> {lang disable} <a href="faq.php?page=messages#6" target="_blank">{lang post_smilies}</a><br>
+<input type="checkbox" name="bbcodeoff" value="1" $codeoffcheck> {lang disable} <a href="faq.php?page=misc#1" target="_blank">{lang post_discuzcode}</a><br>
+<!--{if $allowhtml}--><input type="checkbox" name="htmlon" value="1" $htmloncheck> {lang enable} {lang post_html}<br><!--{/if}-->
+<!--{if $allowanonymous}--><input type="checkbox" name="isanonymous" value="1"> {lang post_anonymous}<br><!--{/if}-->
+<input type="checkbox" name="usesig" value="1" $usesigcheck> {lang post_show_sig}<br>
+<input type="checkbox" name="emailnotify" value="1" $emailcheck> {lang post_email_notify}</span>
+</td></tr></table>
+
+<!--{if $allowpostattach && !$seccodecheck}-->
+	{template post_attachments}
+<!--{/if}-->
+
+<br><center><input type="submit" name="replysubmit" value="{lang post_newreply}" tabindex="5">
+<input type="submit" name="previewpost" value="{lang post_previewpost}" tabindex="6">
+</center>
+</form>
+
+<br>
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr class="header">
+<td colspan="2">{lang post_thread_review}</td>
+</tr>
+
+<!--{if $thread['replies'] > $ppp}-->
+	<tr class="altbg1"><td colspan="2" valign="top" width="20%">{lang post_replies_toolong}</td></tr>
+<!--{else}-->
+	<!--{loop $postlist $post}-->
+		<tr class="$post[thisbg]">
+		<td rowspan="2" valign="top" width="20%"><span class="bold"><!--{if $post['author'] && !$post['anonymous']}-->$post[author]<!--{else}-->{lang anonymous}<!--{/if}--></span><br><br></td><td class="smalltxt">
+		&nbsp;{lang poston} $post[dateline]</td></tr>
+		<tr class="$post[thisbg]"><td>
+		<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+		<tr><td><p>$post[message]</p><br></td></tr></table></td></tr>
+	<!--{/loop}-->
+<!--{/if}-->
+
+</table>
+{template footer}

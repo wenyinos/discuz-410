@@ -1,0 +1,101 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang member_login}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<form method="post" name="login" action="logging.php?action=login">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<input type="hidden" name="referer" value="$referer">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+
+<tr class="header">
+<td colspan="2">{lang member_login}</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang login_invisible}:</td>
+<td class="altbg2"><span class="smalltxt">
+<select name="loginmode">
+<option value=""> {lang use_default}</option>
+<option value="normal"> {lang login_normal_mode}</option>
+<option value="invisible"> {lang login_invisible_mode}</option>
+</select></span>
+</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang style}:</td>
+<td class="altbg2"><select name="styleid"><option value="">{lang use_default}</option>
+$styleselect
+</select>
+</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang login_cookie_time}:</td>
+<td class="altbg2"><span class="smalltxt">
+<input type="radio" name="cookietime" value="315360000" $cookietimecheck[315360000]> {lang login_permanent} &nbsp;
+<input type="radio" name="cookietime" value="2592000" $cookietimecheck[2592000]> {lang login_one_month} &nbsp;
+<input type="radio" name="cookietime" value="86400" $cookietimecheck[86400]> {lang login_one_day} &nbsp;
+<input type="radio" name="cookietime" value="3600" $cookietimecheck[3600]> {lang login_one_hour} &nbsp;
+<input type="radio" name="cookietime" value="0" $cookietimecheck[0]> {lang login_this_task} &nbsp; &nbsp;
+<a href="faq.php?page=usermaint#2" target="_blank">[{lang login_related_faq}]</a></span>
+</td></tr>
+
+<tr><td colspan="2" class="singleborder">&nbsp;</td></tr>
+
+<!--{if $seccodecheck}-->
+	<tr>
+	<td class="altbg1" width="21%">{lang seccode}:</td>
+	<td class="altbg2"><span class="smalltxt"><input type="text" name="seccodeverify" size="4" maxlength="4" tabindex="1"> <img src="seccode.php" align="absmiddle"> {lang seccode_comment}</span></td>
+	</tr>
+<!--{/if}-->
+
+<tr>
+<td class="altbg1" width="21%">
+<input type="radio" name="loginfield" value="username" checked onclick="document.login.username.focus();">{lang username}:<br>
+<input type="radio" name="loginfield" value="uid" onclick="document.login.username.focus();">{lang uid}:</td>
+<td class="altbg2"><span class="smalltxt"><input type="text" name="username" size="25" maxlength="40" tabindex="2"> &nbsp;<a href="register.php">{lang register_now}</a></span></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang password}:</td>
+<td class="altbg2"><span class="smalltxt"><input type="password" name="password" size="25" tabindex="3"> &nbsp;<a href="member.php?action=lostpasswd">{lang lostpassword}</a></span></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang security_question}:</td>
+<td class="altbg2"><span class="smalltxt">
+<select name="questionid" tabindex="4">
+<option value="0">{lang security_question_0}</option>
+<option value="1">{lang security_question_1}</option>
+<option value="2">{lang security_question_2}</option>
+<option value="3">{lang security_question_3}</option>
+<option value="4">{lang security_question_4}</option>
+<option value="5">{lang security_question_5}</option>
+<option value="6">{lang security_question_6}</option>
+<option value="7">{lang security_question_7}</option>
+</select> {lang login_secques_comment}</span>
+</td></tr>
+
+<tr>
+<td class="altbg1">{lang security_answer}:</td>
+<td class="altbg2"><input type="text" name="answer" size="25" tabindex="5"></td>
+</tr>
+
+</table><br>
+<center><input type="submit" name="loginsubmit" value="{lang submit}"></center>
+</form>
+
+<script language="JavaScript">
+document.login.username.focus();
+
+var mydate = new Date();
+var mytimestamp = parseInt(mydate.valueOf() / 1000);
+if(Math.abs(mytimestamp - $timestamp) > 86400) {
+	window.alert('{lang login_timeoffset}');
+}
+</script>
+{template footer}

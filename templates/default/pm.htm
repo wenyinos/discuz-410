@@ -1,0 +1,68 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang pm}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td width="200" valign="top">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="98%" class="tableborder">
+<tr class="header"><td colspan="3" align="center">{lang pm_shortcut}</td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<!--{if $action == 'send'}--><b>{lang pm_send}</b><!--{else}--><a href="pm.php?action=send">{lang pm_send}</a><!--{/if}--></td></tr>
+<!--{if $allowsearch}-->
+	<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+	<!--{if $action == 'search'}--><b><a href="pm.php?action=search">{lang pm_search}</a></b><!--{else}--><a href="pm.php?action=search">{lang pm_search}</a><!--{/if}-->
+	</td></tr>
+<!--{/if}-->
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<!--{if $action == 'archive'}--><b>{lang pm_archive}</b><!--{else}--><a href="pm.php?action=archive">{lang pm_archive}</a><!--{/if}--></td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<!--{if $action == 'ignore'}--><b>{lang pm_ignore}</b><!--{else}--><a href="pm.php?action=ignore">{lang pm_ignore}</a><!--{/if}--></td></tr>
+</table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="98%" class="tableborder">
+<tr class="header"><td colspan="3" align="center">{lang pm_folders}</td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<a href="pm.php?folder=inbox"><!--{if $folder == 'inbox'}--><b>{lang pm_inbox}</b><!--{else}-->{lang pm_inbox}<!--{/if}--></a></td><td class="altbg1" width="20" align="center">$pm_inbox</td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2">
+<a href="pm.php?folder=outbox"><!--{if $folder == 'outbox'}--><b>{lang pm_outbox}</b><!--{else}-->{lang pm_outbox}<!--{/if}--></a></td><td class="altbg1" width="20" align="center">$pm_outbox</td></tr>
+<tr><td class="altbg1" width="20" align="center"><img src="{IMGDIR}/foldersmall.gif"></td><td class="altbg2" colspan="2">
+<a href="pm.php?folder=track"><!--{if $folder == 'track'}--><b>{lang pm_track}</b><!--{else}-->{lang pm_track}<!--{/if}--></a></td></tr>
+</table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="98%" class="tableborder">
+<tr class="header"><td colspan="3" align="center">{lang pm_data_usage}</td></tr>
+<tr class="altbg2"><td colspan="3" class="smalltxt">
+<b>&raquo;</b> {lang pm_total}: $pm_total<br>
+<b>&raquo;</b> {lang pm_storage}: $maxpmnum
+</td></tr><tr class="altbg1"><td colspan="3">
+<table cellspacing="2" cellpadding="0" border="0" width="100%" height="15" align="center">
+<tr><td width="$storage_percent" class="header" style="font-size: 1px">&nbsp;</td><td style="font-size: 1px">&nbsp;</td></tr>
+</table>
+</td></tr>
+<tr class="altbg2">
+<td width="33%" align="left" class="smalltxt">0%</td>
+<td width="34%" align="center" class="smalltxt">50%</td>
+<td width="33%" align="right" class="smalltxt">100%</td>
+</tr></table><br>
+
+</td><td align="right" valign="top">
+
+<!--{if empty($action)}-->
+	{template pm_folder}
+<!--{elseif $action == 'view'}-->
+	{template pm_view}
+<!--{elseif $action == 'send'}-->
+	{template pm_send}
+<!--{elseif $action == 'search'}-->
+	<!--{if $searchid}-->{template pm_search_result}<!--{else}-->{template pm_search}<!--{/if}-->
+<!--{elseif $action == 'archive'}-->
+	{template pm_archive}
+<!--{elseif $action == 'ignore'}-->
+	{template pm_ignore}
+<!--{/if}-->
+
+</td></tr></table>
+{template footer}

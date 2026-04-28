@@ -1,0 +1,136 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed">
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang stats}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>
+</tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr><td class="header">{lang stats}
+</td></tr><tr class="altbg1"><td>
+
+{template stats_navbar}
+
+<!--{if $type == 'views'}-->
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_week}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_week
+	</table></td></tr></table><br>
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_hour}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_hour
+	</table></td></tr></table><br>
+<!--{elseif $type == 'agent'}-->
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_os}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_os
+	</table></td></tr></table>
+
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_browser}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_browser
+	</table></td></tr></table><br>
+<!--{elseif $type == 'posts'}-->
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_month_posts}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_monthposts
+	</table></td></tr></table>
+
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_day_posts}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_dayposts
+	</table></td></tr></table><br>
+<!--{elseif $type == 'forumsrank'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr><td class="altbg1"><table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="98%" align="center" class="smalltxt">
+	<tr align="center" class="bold">
+	<td class="altbg2" width="23%" colspan="2">{lang stats_topics} {lang stats_rank}</td><td width="2%"></td>
+	<td class="altbg2" width="23%" colspan="2">{lang stats_posts} {lang stats_rank}</td><td width="2%"></td>
+	<td class="altbg2" width="23%" colspan="2">{lang stats_posts_thismonth} {lang stats_rank}</td><td width="2%"></td>
+	<td class="altbg2" width="23%" colspan="2">{lang stats_posts_today} {lang stats_rank}</td></tr>
+	$forumsrank
+	</td></table></td></tr></table>
+
+	<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" class="smalltxt">
+	<tr><td align="right">{lang stats_update}</td></tr></table><br>
+<!--{elseif $type == 'threadsrank'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr><td class="altbg1"><table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="99%" align="center" class="smalltxt">
+	<tr align="center" class="bold">
+	<td class="altbg2" colspan="2">{lang stats_threads_most_views}</td><td width="1%"></td>
+	<td class="altbg2" colspan="2">{lang stats_threads_most_replies}</td></tr>
+	$threadsrank
+	</table></td></tr></table><br>
+<!--{elseif $type == 'postsrank'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr><td class="altbg1"><table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="98%" align="center" class="smalltxt">
+	<tr align="center" class="bold">
+	<td class="altbg2" width="23%" colspan="2">{lang stats_posts} {lang stats_rank}</td><td width="2%"></td>
+	<td class="altbg2" width="23%" colspan="2">{lang stats_digest_posts} {lang stats_rank}</td><td width="2%"></td>
+	<td class="altbg2" width="23%" colspan="2">{lang stats_posts_thismonth} {lang stats_rank}</td><td width="2%"></td>
+	<td class="altbg2" width="23%" colspan="2">{lang stats_posts_today} {lang stats_rank}</td></tr>
+	$postsrank
+	</td></table></td></tr></table>
+
+	<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" class="smalltxt">
+	<tr><td align="right">{lang stats_update}</td></tr></table><br>
+<!--{elseif $type == 'creditsrank'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr><td class="altbg1"><table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="98%" align="center" class="smalltxt">
+	<tr align="center" class="bold">
+	<!--{loop $extcredits $id $credit}-->
+		<td class="altbg2" width="$columnwidth" colspan="2">$credit[title] {lang stats_rank}</td><td width="2%"></td>
+	<!--{/loop}-->
+	<td class="altbg2" width="$columnwidth" colspan="2">{lang credits} {lang stats_rank}</td>
+	</tr>
+	$creditsrank
+	</td></table></td></tr></table>
+	<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" class="smalltxt">
+	<tr><td align="right">{lang stats_update}</td></tr></table><br>
+<!--{elseif $type == 'modworks' && $uid}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="header"><td colspan="$tdcols">{lang stats_modworks} - $member[username]</td></tr>
+	<tr class="category" align=center><td width="8%">{lang time}</td><!--{loop $modactioncode $key $val}--><td width="$tdwidth">$val</td><!--{/loop}--></tr>
+	<!--{loop $modactions $day $modaction}-->
+		<tr align="center">
+		<td class="altbg1"><span class="smalltxt">$day</span></td>
+		<!--{loop $modactioncode $key $val}-->
+			<!--{if $modaction[$key]['posts']}--><td class="$bgarray[$key]" title="{lang posts}: $modaction[$key][posts]">$modaction[$key][count]<!--{else}--><td class="$bgarray[$key]"><!--{/if}--></td>
+		<!--{/loop}-->
+		</tr>
+	<!--{/loop}-->
+	<tr class="singleborder"><td colspan="$tdcols"></td></tr>
+	<tr align="center">
+	<td class="altbg1">{lang stats_modworks_thismonth}</td>
+	<!--{loop $modactioncode $key $val}-->
+		<td class="$bgarray[$key]" <!--{if $totalactions[$key]['posts']}-->title="{lang posts}: {$totalactions[$key][posts]}"<!--{/if}-->>$totalactions[$key][count]</td>
+	<!--{/loop}-->
+	</tr>
+	</table>
+	<table cellspacing="0" cellpadding="4" border="0" width="95%" align="center" class="smalltxt">
+	<tr><td align="right">{lang stats_modworks_month}: <!--{loop $monthlinks $link}--> &nbsp;{$link}&nbsp; <!--{/loop}-->
+	</td></tr></table>
+<!--{elseif $type == 'modworks'}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="header"><td colspan="$tdcols">{lang stats_modworks} - {lang stats_modworks_all}</td></tr>
+	<tr class="category" align=center><td width="8%">{lang username}</td><!--{loop $modactioncode $key $val}--><td width="$tdwidth">$val</td><!--{/loop}--></tr>
+	<!--{loop $members $uid $member}-->
+		<tr align="center">
+		<td class="altbg1"><a href="stats.php?type=modworks&before=$before&uid=$uid" title="{lang stats_modworks_details}">{$member[username]}</a></td>
+		<!--{loop $modactioncode $key $val}-->
+			<!--{if $member[$key]['posts']}--><td class="$bgarray[$key]" title="{lang posts}: {$member[$key]['posts']}"><span class="smalltxt">{$member[$key][count]}</span><!--{else}--><td class="$bgarray[$key]"><!--{/if}--></td>
+		<!--{/loop}-->
+		</tr>
+	<!--{/loop}-->
+	</table>
+	<table cellspacing="0" cellpadding="4" border="0" width="95%" align="center" class="smalltxt">
+	<tr><td align="right">{lang stats_modworks_month}: <!--{loop $monthlinks $link}--> &nbsp;{$link}&nbsp; <!--{/loop}-->
+	</td></tr></table>
+<!--{/if}-->
+<br></td></tr></table>
+{template footer}

@@ -1,0 +1,42 @@
+<form method="post" action="pm.php?action=delete&folder=$index['folder']">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="99%" class="tableborder" style="table-layout: fixed; word-break: break-all">
+<tr align="center" class="header">
+<td width="48"><input type="checkbox" name="chkall" class="header" onclick="checkall(this.form)">{lang delete_check}</td>
+<td width="45%">{lang subject}</td>
+<td width="10%">{lang pm_folders}</td>
+<td width="14%">{lang from}</td>
+<td width="14%">{lang to}</td>
+<td width="15%">{lang time}</td></tr>
+<!--{if $pmlist}-->
+	<!--{loop $pmlist $pm}-->
+		<tr>
+		<td class="altbg1" align="center"><!--{if $index['folder'] == 'track' && !$pm['new']}--><input type="checkbox" disabled><!--{else}--><input type="checkbox" name="delete[]" value="$pm[pmid]"><!--{/if}--></td>
+		<td class="altbg2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'"><a href="pm.php?action=view&folder=$index['folder']&pmid=$pm[pmid]&highlight=$index['keywords']" target="_blank">$pm[subject]</a></td>
+		<td class="altbg1" align="center">
+		<!--{if $index['folder'] == inbox}-->
+			{lang pm_inbox}
+		<!--{elseif $index['folder'] == outbox}-->
+			{lang pm_outbox}
+		<!--{elseif $index['folder'] == track}-->
+			{lang pm_track}
+		<!--{/if}--></td>
+		<td class="altbg2" align="center"><a href="viewpro.php?uid=$pm[msgfromid]" target="_blank">$pm[msgfrom]</a></td>
+		<td class="altbg1" align="center"><a href="viewpro.php?uid=$pm[msgtoid]" target="_blank">$pm[msgto]</a></td>
+		<td class="altbg2" align="center"><span class="smalltxt">$pm[dateline]</span></td>
+		</tr>
+	<!--{/loop}-->
+<!--{else}-->
+	<tr><td class="altbg1" colspan="6">{lang search_nomatch}</td></tr>
+<!--{/if}-->
+</table>
+
+<table cellspacing="0" cellpadding="0" border="0" width="99%">
+<tr><td>$multipage</td></tr>
+</table>
+
+<!--{if $pmlist}-->
+	<br><center><input type="submit" value="{lang submit}"></center>
+<!--{/if}-->
+
+</form>

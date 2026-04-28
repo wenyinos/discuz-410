@@ -1,0 +1,57 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang stats}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr><td class="header">{lang stats}
+</td></tr><tr class="altbg1"><td>
+
+{template stats_navbar}
+
+<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_main_member}:</span><br>
+{lang stats_main_members}: <span class="bold">$members</span> &nbsp;|&nbsp; {lang stats_main_admins}: <span class="bold">$admins</span> &nbsp;|&nbsp; {lang stats_main_new}: <span class="bold">$lastmember</span> &nbsp;|&nbsp; {lang stats_main_topposter} <span class="bold">$bestmem</span> - {lang stats_main_total_posted} <span class="bold">$bestmemposts</span> <br>
+{lang stats_main_posters}: <span class="bold">$mempost</span> &nbsp;|&nbsp; {lang stats_main_nonposters}: <span class="bold">$memnonpost</span> &nbsp;|&nbsp; {lang stats_main_posters_percent} <span class="bold">$mempostpercent%</span> &nbsp;|&nbsp; {lang stats_main_posts_avg}: <span class="bold">$mempostavg</span> 
+</td></tr></table>
+
+<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_main_board}:</span><br>
+{lang stats_main_forums_count}: <span class="bold">$forums</span> &nbsp;|&nbsp; {lang stats_main_threads_count}: <span class="bold">$threads</span> &nbsp;|&nbsp; {lang stats_main_posts_count}: <span class="bold">$posts</span> &nbsp;|&nbsp; {lang stats_main_rpt}: <span class="bold">$threadreplyavg</span> <br>
+{lang stats_main_nppd}: <span class="bold">$postsaddavg</span> | {lang stats_main_members}: <span class="bold">$membersaddavg</span> &nbsp;|&nbsp; {lang stats_main_todays_newposts}: <span class="bold">$postsaddtoday</span> , {lang stats_main_members_count}: <span class="bold">$membersaddtoday</span><br>
+{lang stats_main_hot_forum}: <span class="bold"><a href="forumdisplay.php?fid=$hotforum[fid]">$hotforum[name]</a></span> - {lang stats_main_threads_count} <span class="bold">$hotforum[threads]</span>, {lang stats_main_posts_count} <span class="bold">$hotforum[posts]</span> &nbsp;|&nbsp; Discuz! {lang stats_main_board_activity}: <span class="bold">$activeindex</span><br>
+</td></tr></table>
+
+<!--{if $statstatus}-->
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_main_pageview}: </span><br>
+	{lang stats_main_total_pageview}: <span class="bold">$stats_total[hits]</span> &nbsp;|&nbsp; {lang stats_main_total_visitors}: <span class="bold">$stats_total[visitors]</span> {lang stats_main_person_time} - {lang member}: <span class="bold">$stats_total[members]</span>, {lang guest}: <span class="bold">$stats_total[guests]</span> &nbsp;|&nbsp; {lang stats_main_pv_avg}: <span class="bold">$pageviewavg</span><br>
+	{lang stats_main_maxpv_month}, {lang stats_main_total_pageview} <span class="bold">$maxmonth</span> &nbsp;|&nbsp; 
+	{lang stats_main_period_of_time}: <span class="bold">$maxhourfrom</span> {lang to} <span class="bold">$maxhourto</span>, {lang stats_main_total_pageview} <span class="bold">$maxhour</span>
+	</td></tr></table>
+
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_main_month}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_month
+	</table></td></tr></table>
+<!--{else}-->
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_month_posts}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_monthposts
+	</table></td></tr></table>
+
+	<br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="95%" align="center" class="tableborder">
+	<tr class="altbg2"><td class="smalltxt"><span class="bold">{lang stats_day_posts}:</span><br>
+	<table border="0" cellspacing="0" cellpadding="{TABLESPACE}" width="655" class="smalltxt">
+	$statsbar_dayposts
+	</table></td></tr></table>
+<!--{/if}-->
+
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" class="smalltxt">
+<tr><td align="right">{lang stats_update}</td></tr></table><br>
+
+</td></tr></table>
+{template footer}

@@ -1,0 +1,43 @@
+{template header}
+<script language="JavaScript" src="include/qihoo.js"></script>
+<script language="JavaScript" src="http://search.qihoo.com/usearch.html?kw=$keyword&ocs=$charset&site=discuzall&stype=$stype&sort=$relate&bsize=$length&site2=$site&tpp=$tpp&start=$start"></script>
+<script language="JavaScript">
+if(qihoo_num) {
+	var threadslist = qihoothreads(qihoo_perpage);
+	var multipage = multi(qihoo_num, $tpp, $page, "topic.php?topic=$topic&keyword=$keyword&stype=$stype&length=$length&relate=$relate");
+} else {
+	var threadslist = "<tr><td class=\"altbg1\" colspan=\"6\">{lang qihoo_topic_nothreads}</td></tr>";
+	var multipage = "";
+}
+</script>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang qihoo_topics} &raquo; $topic</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>
+</tr></table><br>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td><script language="JavaScript">document.write(multipage);</script></td></tr>
+</table>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr><td colspan="6" class="header"><table cellspacing="0" cellpadding="0" width="100%">
+<tr style="color: {HEADERTEXT}"><td class="bold">{lang qihoo_topics}: $topic</td><td align="right"><a href="http://www.qihoo.com">{lang qihoo_topic_powered_by}</a></td>
+</tr></table></td></tr>
+<tr class="category">
+<td width="48%" align="center">{lang subject}</td>
+<td width="11%" align="center">{lang forum}</td>
+<td width="14%" align="center" nowrap>{lang author}</td>
+<td width="6%" align="center" nowrap>{lang replies}</td>
+<td width="6%" align="center" nowrap>{lang views}</td>
+<td width="15%" align="center">{lang lastpost}</td>
+</tr>
+<script language="javascript">document.write(threadslist);</script>
+</table>
+
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+<tr><td><script language="JavaScript">document.write(multipage);</script></td></tr>
+</table>
+
+<br><br><script language="JavaScript" src="http://pcode.qihoo.com/site/friend/discuz12068.html"></script>
+{template footer}

@@ -1,0 +1,22 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> &raquo; {lang group_expiry}</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr align="center" class="header">
+<td>{lang usergroup}</td>
+<td>{lang group_expiry_time}</td>
+<td>{lang group_expiry_type}</td>
+</tr>
+<!--{loop $expirylist $group}-->
+	<tr align="center">
+	<td class="altbg1">$group[grouptitle]</td>
+	<td class="altbg2">$group[time]</td>
+	<td class="altbg1"><!--{if $group['type'] == 'main'}-->{lang group_expiry_type_main}<!--{else}-->{lang group_expiry_type_ext}<!--{/if}--></td>
+	</tr>
+<!--{/loop}-->
+<tr class="altbg1"><td colspan="3">{lang group_expiry_comment}</td></tr>
+</table>
+{template footer}

@@ -1,0 +1,106 @@
+{template header}
+{template memcp_navbar}
+<!--{if $action == 'buddylist'}-->
+	<form method="post" action="memcp.php?action=buddylist">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr align="center" class="header">
+	<td>{lang delete_check}</td>
+	<td>{lang username}</td>
+	<td>{lang memcp_buddylist_note}</td>
+	<td>{lang memcp_buddylist_time}</td>
+	</tr>
+
+	<!--{loop $buddylist $buddy}-->
+		<tr align="center">
+		<td class="altbg1" width="8%"><input type="checkbox" name="delete[]" value="$buddy[buddyid]"></td>
+		<td class="altbg2" width="16%"><a href="viewpro.php?uid=$buddy[buddyid]" target="_blank">$buddy[username]</a></td>
+		<td class="altbg1" width="60%"><input type="text" name="descriptionnew[{$buddy[buddyid]}]" value="$buddy[description]" style="width: 80%"></td>
+		<td class="altbg2" width="16%">$buddy[dateline]</td>
+		</tr>
+	<!--{/loop}-->
+
+	<tr align="center">
+	<td class="altbg1" width="8%">{lang add_new}</td>
+	<td class="altbg2" width="16%"><input type="text" name="newbuddy" size="15"></td>
+	<td class="altbg1" width="60%"><input type="text" name="newdescription" style="width: 80%"></td>
+	<td class="altbg2" width="16%">&nbsp;</td>
+	</tr></table><br>
+	<center><input type="submit" name="buddysubmit" value="{lang submit}"></center>
+	</form>
+<!--{elseif $action == 'favorites'}-->
+	<form method="post" action="memcp.php?action=favorites">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr align="center" class="header">
+	<td width="48"><input type="checkbox" name="chkall" class="header" onclick="checkall(this.form)">{lang delete_check}</td>
+	<td width="45%">{lang subject}</td>
+	<td>{lang forum}</td>
+	<td>{lang replies}</td>
+	<td>{lang lastpost}</td>
+	</tr>
+
+	<!--{if $favlist}-->
+		<!--{loop $favlist $fav}-->
+			<tr>
+			<td class="altbg1" align="center"><input type="checkbox" name="delete[]" value="$fav[tid]"></td>
+			<td class="altbg2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'"><a href="viewthread.php?tid=$fav[tid]">$fav[subject]</a></td>
+			<td class="altbg1" align="center"><a href="forumdisplay.php?fid=$fav[fid]">$fav[name]</a></td>
+			<td class="altbg2" align="center">$fav[replies]</td>
+			<td class="altbg1" align="center"><font class="smalltxt">$fav[lastpost] by <!--{if $fav['lastposter']}--><a href="viewpro.php?username=$fav[lastposterenc]">$fav[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></font></td>
+			</tr>
+		<!--{/loop}-->
+	<!--{else}-->
+		<td class="altbg1" colspan="5">{lang memcp_nofavs}</td></tr>
+	<!--{/if}-->
+
+	</table><br>
+	<center><input type="submit" name="favsubmit" value="{lang submit}"></center>
+	</form>
+<!--{elseif $action == 'subscriptions'}-->
+	<form method="post" action="memcp.php?action=subscriptions">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr align="center" class="header">
+	<td width="48"><input type="checkbox" name="chkall" class="header" onclick="checkall(this.form)">{lang delete_check}</td>
+	<td width="45%" align="center">{lang subject}</td>
+	<td align="center">{lang forum}</td>
+	<td align="center">{lang replies}</td>
+	<td align="center">{lang lastpost}</td>
+	</tr>
+
+	<!--{if $subslist}-->
+		<!--{loop $subslist $subs}-->
+			<tr>
+			<td class="altbg1" align="center"><input type="checkbox" name="delete[]" value="$subs[tid]"></td>
+			<td class="altbg2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'"><a href="viewthread.php?tid=$subs[tid]">$subs[subject]</a></td>
+			<td class="altbg1" align="center"><a href="forumdisplay.php?fid=$subs[fid]">$subs[name]</a></td>
+			<td class="altbg2" align="center">$subs[replies]</td>
+			<td class="altbg1" align="center"><font class="smalltxt">$subs[lastpost] by <!--{if $subs['lastposter']}--><a href="viewpro.php?username=$subs[lastposterenc]">$subs[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></font></td>
+			</tr>
+		<!--{/loop}-->
+	<!--{else}-->
+		<td class="altbg1" colspan="5">{lang memcp_nosubs}</td></tr>
+	<!--{/if}-->
+
+	</table><br>
+	<center><input type="submit" name="subsubmit" value="{lang submit}"></center>
+	</form>
+<!--{elseif $action == 'viewavatars'}-->
+	<form method="post" action="memcp.php?action=viewavatars">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+	<tr><td>$multipage</td></tr>
+	</table>
+
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder" style="table-layout: fixed">
+	<tr><td colspan="4" class="header">{lang memcp_avatar_list}</td></tr>
+	$avatarlist
+	</table>
+
+	<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center">
+	<tr><td>$multipage</td></tr></table><br>
+	<center><input type="submit" name="avasubmit" value="{lang submit}"></center>
+	</form>
+<!--{/if}-->
+{template footer}

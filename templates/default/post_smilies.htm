@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$charset">
+<title>$bbname - {lang post_smilies_more} - powered by Discuz!</title>
+{template css}
+</head>
+
+<script language="JavaScript">
+function AddText(NewCode) {
+       	opener.document.input.message.value += NewCode;
+}
+</script>
+
+<body leftmargin="0" rightmargin="0" topmargin="0">
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="100%" class="tableborder">
+<tr><td colspan="2" class="header">{lang post_smilies_more}</td></tr>
+
+<!--{loop $_DCACHE['smilies_display'] $smiley}-->
+	<tr align="center">
+	<td class="altbg1"><a href="###" onclick="AddText('$smiley[codeinsert]');">$smiley[code]</a></td>
+	<td class="altbg2"><a href="###" onclick="AddText('$smiley[codeinsert]');"><img src="{SMDIR}/$smiley[url]" border="0"></a></td>
+	</tr>
+<!--{/loop}-->
+
+</table>
+{eval output();}
+
+

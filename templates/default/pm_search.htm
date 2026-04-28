@@ -1,0 +1,79 @@
+<form method="post" onSubmit="if(this.srchtype[0].value=='qihoo' && this.srchtype[0].checked) this.target='_blank'; else this.target=''; return true;">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="99%" class="tableborder">
+
+<tr class="header">
+<td>{lang search_keywords}</td>
+<td><a href="member.php?action=credits&view=search" target="_blank"><img src="{IMGDIR}/credits.gif" alt="{lang credits_policy_view}" align="right" border="0"></a>{lang pm_search_username}</td>
+</tr>
+
+<tr class="smalltxt">
+<td class="altbg2" width="60%">
+<input type="text" name="srchtxt" size="25" maxlength="40">
+&nbsp; &nbsp;{lang search_keywords_comment}</td>
+
+<td class="altbg2" width="40%"><input type="text" name="srchuname" size="25" maxlength="40">
+<br><br>{lang pm_search_username_comment}</td>
+</tr>
+
+<tr class="header"><td>{lang search_range}</td><td>{lang search_orderby}</td></tr>
+
+<tr class="smalltxt">
+<td class="altbg2">
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%" class="smalltxt">
+<tr valign="top">
+
+<td width="50%">
+<select name="srchfolder">
+<option value="inbox">{lang pm_inbox}</option>
+<option value="outbox">{lang pm_outbox}</option>
+<option value="track">{lang pm_track}</option>
+</select><br><br>
+</td>
+
+<td>
+<select name="srchfrom">
+<option value="0">{lang search_any_date}</option>
+<option value="86400">{lang 1_days_ago}</option>
+<option value="172800">{lang 2_days_ago}</option>
+<option value="432000">{lang 7_days_ago}</option>
+<option value="1296000">{lang 30_days_ago}</option>
+<option value="5184000">{lang 90_days_ago}</option>
+<option value="8640000">{lang 180_days_ago}</option>
+<option value="31536000">{lang 356_days_ago}</option>
+</select><br><br>
+</td></tr>
+
+<tr valign="bottom">
+<td>
+<table cellspacing="0" cellpadding="0" border="0" class="smalltxt">
+<tr>
+<td><input type="radio" name="srchtype" value="title" checked> {lang search_title} &nbsp; </td>
+<td><input type="checkbox" name="srchread" value="1" checked> {lang pm_search_read} &nbsp; </td>
+</tr><tr>
+<td><input type="radio" name="srchtype" value="fulltext" $ftdisabled> {lang search_fulltext}</td>
+<td><input type="checkbox" name="srchunread" value="1" checked> {lang pm_search_unread} &nbsp; </td>
+</tr>
+</table></td>
+
+<td>
+<input type="radio" name="before" value="" checked> {lang search_newer}<br>
+<input type="radio" name="before" value="1"> {lang search_older}
+</td>
+
+</tr></table></td>
+
+<td class="altbg2"><select name="orderby">
+<option value="dateline"> {lang pm_search_orderby_dateline}</option>
+<option value="msgfrom"> {lang pm_search_orderby_from}</option>
+</select>
+<br>
+<br><input type="radio" name="ascdesc" value="asc"> {lang order_asc}<br>
+<input type="radio" name="ascdesc" value="desc" checked> {lang order_desc}</td>
+</tr>
+
+</table><br>
+<center><input type="submit" name="searchsubmit" value="{lang submit}"></center>
+</form>

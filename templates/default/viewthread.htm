@@ -1,0 +1,367 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed">
+<tr><td class="nav" width="85%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation</td>
+<td align="right" width="15%"><a href="rss.php?fid=$fid&auth=$rssauth" target="_blank"><img src="images/common/xml.gif" border="0" align="absmiddle" alt="{lang rss_subscribe_this}"></a>
+&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>
+</tr></table><br></div>
+
+<!--{if !empty($advlist['text'])}--><div class="maintable"><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">$advlist[text]</table><br></div><!--{/if}-->
+
+<!--{if $polloptions}-->
+	<div class="maintable">
+	{template viewthread_poll}
+	</div>
+<!--{/if}-->
+
+<!--{if $newpmexists}-->
+	<div class="maintable">
+	{template pmprompt}
+	</div>
+<!--{/if}-->
+
+<div class="maintable">
+<table width="{TABLEWIDTH}" cellspacing="1" cellpadding="0" align="center">
+<tr><td valign="bottom">
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="2" class="tableborder">
+<tr class="smalltxt">
+<!--{if $highlightstatus}--><td class="altbg2"><a href="viewthread.php?tid=$tid&page=$page" style="font-weight: normal">{lang disable_highlight}</a></td><!--{/if}-->
+<td class="altbg2"><a href="redirect.php?fid=$fid&tid=$tid&goto=nextoldset" style="font-weight: normal">{lang last_thread}</a></td>
+<td class="altbg2"><a href="redirect.php?fid=$fid&tid=$tid&goto=nextnewset" style="font-weight: normal">{lang next_thread}</a></td>
+</tr></table>
+$multipage</td><td align="right" valign="bottom">
+<!--{if $allowpost || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra"><img src="{IMGDIR}/newtopic.gif" border="0"></a><!--{/if}-->
+<!--{if $allowpostpoll || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&poll=yes"><img src="{IMGDIR}/poll.gif" border="0"></a><!--{/if}-->
+<!--{if ($allowpost || !$discuz_uid) && $allowposttrade}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&trade=yes"><img src="{IMGDIR}/newtrade.gif" border="0"></a><!--{/if}-->
+<!--{if $allowpostreply || !$discuz_uid}-->&nbsp;<a href="post.php?action=reply&fid=$fid&tid=$tid&extra=$extra"><img src="{IMGDIR}/reply.gif" border="0"></a><!--{/if}-->
+</td></tr></table></div>
+
+<script language="JavaScript">
+function fastreply(subject) {
+	if(document.input) {
+		document.input.subject.value = subject;
+		document.input.message.focus();
+	}
+}
+</script>
+
+<div class="maintable">
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" style="border-bottom:none;" class="tableborder">
+<tr class="header"><td colspan="2">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr style="color: {HEADERTEXT}"><td class="bold" width="65%">{lang subject}: $thread[subject]</td>
+<td width="35%" align="right" nowrap>&nbsp;
+<!--{if $searchboxstatus}-->
+	<img src="{IMGDIR}/search.gif" border="0" align="bottom" width="16" height="16">&nbsp;&nbsp;<input type="text" name="searchbox" value="{lang qihoo_keyword}" size="30" class="altbg2" onmouseover="this.focus()" onfocus="this.select()">
+	<select name="stype"><option value="" selected>{lang qihoo_search_filltext}</option><option value="1">{lang qihoo_search_title}</option></select>
+	<input name="button" type="button" style="height: 1.8em" onclick="window.open('search.php?srchtype=qihoo&amp;srchtxt='+findobj('searchbox').value+'&amp;stype='+findobj('stype').value+'&amp;searchsubmit=yes');" value="{lang qihoo_search}">
+<!--{/if}-->
+</td></tr></table></td></tr>
+
+<!--{if $lastmod['modaction'] || $thread['blog'] || $thread['readperm'] || $thread['price'] > 0}-->
+	<tr class="category"><td colspan="2" align="center" class="bold">
+	<!--{if $lastmod['modaction']}-->&nbsp; <a href="misc.php?action=viewthreadmod&tid=$tid" title="{lang thread_mod}" target="_blank">{lang thread_mod_by}</a>&nbsp;<!--{/if}-->
+	<!--{if $thread['blog']}-->&nbsp; <a href="blog.php?uid=$thread[authorid]" target="_blank">{lang thread_blog}</a> &nbsp;<!--{/if}-->
+	<!--{if $thread['readperm']}-->&nbsp; {lang readperm_thread} <span class=\"bold\">$thread[readperm]</span> &nbsp;<!--{/if}-->
+	<!--{if $thread['price'] > 0}-->&nbsp; <a href="misc.php?action=viewpayments&tid=$tid">{lang price_thread} {$extcredits[$creditstrans][title]} <span class=\"bold\">$thread[price]</span> {$extcredits[$creditstrans][unit]}</a> &nbsp;<!--{/if}-->
+	</td></tr>
+<!--{/if}-->
+</table>
+</div>
+
+<form method="post" name="delpost" action="topicadmin.php?action=delpost&fid=$fid&tid=$tid&page=$page">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<!--{loop $postlist $post}-->
+	<div class="maintable">
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" style="margin-top:-1px;border-bottom:none;border-top:none" class="tableborder">
+	<tr><td colspan="2" class="singleborder">$post[newpostanchor]&nbsp;$post[lastpostanchor]</td></tr>
+	<tr class="$post[thisbg]" height="100%">
+	<td width="21%" valign="top" style="word-break: break-all">
+	<!--{if $forum['ismoderator']}-->
+		<!--{if $allowviewip}--><a href="topicadmin.php?action=getip&fid=$fid&tid=$tid&pid=$post[pid]"><img src="{IMGDIR}/ip.gif" border="0" align="right" alt="{lang admin_getip}"></a><!--{/if}-->
+	<!--{/if}-->
+	<!--{if $post['authorid'] && $post['username'] && !$post['anonymous']}-->
+		<a href="viewpro.php?uid=$post[authorid]" target="_blank" class="bold">$post[author]</a>
+		<!--{if $post['nickname']}--> <span class="smalltxt">($post[nickname])</span><!--{/if}-->
+		<br><span class="smalltxt">
+		$post[authortitle]
+		<br>{eval showstars($post['stars']);}<br><!--{if $post['customstatus']}-->$post[customstatus]<br><!--{/if}--><br>
+		<!--{if $avatarshowpos == 3 && $post['avatarshow']}-->
+			<center>$post[avatarshow]</center><br>
+		<!--{elseif $post['avatar']}-->
+			<table width="95%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+			<tr><td align="center">$post[avatar]</td></tr></table><br>
+		<!--{else}-->
+			<br><br>
+		<!--{/if}-->
+		<!--{if $post['medals']}-->
+			<!--{loop $post['medals'] $medal}-->
+				<img src="images/common/$medal[image]" border="0" alt="$medal[name]"> &nbsp;
+			<!--{/loop}-->
+			<br>
+		<!--{/if}-->
+		{lang uid} $post[uid]<br>
+		{lang digest_posts} <!--{if $post['digestposts']}--><a href="digest.php?authorid=$post[authorid]">$post[digestposts]</a><!--{else}-->$post[digestposts]<!--{/if}--><br>
+		{lang credits} $post[credits]<br>
+		{lang posts} $post[posts]<br>
+		<!--{loop $extcredits_thread $key $credit}-->
+			$credit[title] $post[$key] $credit[unit]<br>
+		<!--{/loop}-->
+		{lang readperm} $post[readaccess]<br>
+		{lang regtime} $post[regdate]
+		<!--{loop $_DCACHE['fields_thread'] $field}-->
+			<br>$field[title]
+			<!--{if $field['selective']}-->
+				$field['choices'][$post['field_'.$field['fieldid']]]
+			<!--{else}-->
+				$post['field_'.$field['fieldid']]
+			<!--{/if}-->
+		<!--{/loop}-->
+		<!--{if $post['location']}--><br>{lang location} $post[location]<!--{/if}--><br>
+		<!--{if $vtonlinestatus && $post['authorid']}-->
+			<!--{if $timestamp - $post['lastactivity'] <= 10800 && !$post['invisible']}-->
+				{lang online_status} <b>{lang online}</b>
+			<!--{else}-->
+				{lang online_status} {lang offline}
+			<!--{/if}-->
+		<!--{/if}-->
+		<!--{if $avatarshowpos == 2}--><br><br><center>$post[avatarshow]</center><!--{/if}-->
+		</span>
+	<!--{if $post['alipay']}--><br><a href="https://www.alipay.com/payto:$post[alipay]?partner=20880020258585430156" target="_blank"><img src="{IMGDIR}/payto.gif" border="0" alt="{lang payto_author}"></a><!--{/if}-->
+	<!--{else}-->
+		<!--{if !$post['authorid']}-->
+			<span class="bold">{lang guest}</span> <span class="smalltxt">$post[useip]</span><br><span class="smalltxt">{lang unregistered}
+		<!--{elseif $post['authorid'] && $post['username'] && $post['anonymous']}-->
+			<span class="bold">
+			<!--{if $forum['ismoderator']}--><a href="viewpro.php?uid=$post[authorid]" target="_blank">{lang anonymous}</a><!--{else}-->{lang anonymous}<!--{/if}-->
+			</span><br>{lang member_anonymous}
+		<!--{else}-->
+			<span class="bold">$post[author]</span><br>
+			{lang member_deleted}
+		<!--{/if}-->
+		<br><br><br><br><br><br><br><br><br><br>
+	<!--{/if}-->
+	</td>
+	<td width="79%" valign="top">
+	<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+	<tr><td valign="top">
+	<!--{if $avatarshowpos == 1}--><div style="float: right">$post[avatarshow]</div><!--{/if}-->
+	<a name="pid$post[pid]" href="misc.php?action=viewratings&tid=$tid&pid=$post[pid]" alt="{lang rate_view}">$post[ratings]</a>
+	<!--{if !empty($advlist['thread'][$post['count']])}--><span class="smalltxt"><span class="bold">[{lang advertisement}]:</span> $advlist[thread][$post[count]]</span><hr width="100%" style="height: 1px; color: {INNERBORDERCOLOR}"><!--{/if}-->
+	<!--{if $post['subject']}--><span class="smalltxt"><span class="bold">$post[subject]</span></span><br><br><!--{/if}-->
+	<!--{if $bannedmessages && (($post['authorid'] && !$post['username']) || ($post['groupid'] == 4 || $post['groupid'] == 5))}-->
+		{lang message_banned}
+	<!--{else}-->
+		<span style="font-size: {MSGFONTSIZE}">$post[message]</span>
+		<!--{if $post['attachment']}-->
+			<br><br><img src="images/attachicons/common.gif">&nbsp;{lang attachment}: <i>{lang attach_nopermission}</i>
+		<!--{else}-->
+			<!--{loop $post['attachments'] $attach}-->
+				<br><br>$attach[attachicon]
+				<!--{if $attach['attachimg']}-->
+					<a href="member.php?action=credits&view=getattach" title="{lang credits_policy_view}" target="_blank">{lang attach_img}</a>:
+					<!--{if $attach['readperm']}-->, {lang readperm} $attach[readperm]<!--{/if}-->
+					<!--{if $attach['description']}-->[{$attach[description]}]<!--{/if}--> <a href="attachment.php?aid=$attach[aid]" target="_blank" class="bold">$attach[filename]</a> ($attach[dateline], $attach[attachsize])<br><br>
+					<!--{if $attachrefcheck}-->
+						<img src="attachment.php?aid=$attach[aid]&noupdate=yes" border="0" onload="if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.alt='{lang image_open_zoom}';}" onmouseover="if(this.resized) this.style.cursor='hand';" onclick="if(!this.resized) {return false;} else {window.open('attachment.php?aid=$attach[aid]');}" onmousewheel="return imgzoom(this);">
+					<!--{else}-->
+						<img src="$attachurl/$attach[attachment]" border="0" onload="if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.alt='{lang image_open_zoom}';}" onmouseover="if(this.resized) this.style.cursor='hand';" onclick="if(!this.resized) {return false;} else {window.open('$attachurl/$attach[attachment]');}" onmousewheel="return imgzoom(this);">
+					<!--{/if}-->
+				<!--{else}-->
+					<a href="member.php?action=credits&view=getattach" title="{lang credits_policy_view}" target="_blank">{lang attachment}</a>:
+					<!--{if $attach['description']}-->[{$attach[description]}]<!--{/if}--> <a href="attachment.php?aid=$attach[aid]" target="_blank" class="bold">$attach[filename]</a> ($attach[dateline], $attach[attachsize])<br>
+					<span class="smalltxt">{lang attach_download_count} $attach[downloads]
+					<!--{if $attach['readperm']}-->, {lang readperm} $attach[readperm]<!--{/if}--></span><br>
+				<!--{/if}-->
+			<!--{/loop}-->
+		<!--{/if}-->
+		<!--{if $post['number'] == 1 && $relatedkeywords}--><br><br><span class="bold">{lang thread_keywords}</span> $relatedkeywords<br><br><br><!--{/if}-->
+		<!--{if $post['signature'] && !$post['anonymous']}--><br><br><br></td></tr><tr><td valign="bottom" $maxsigrows><img src="images/common/sigline.gif"><br>$post[signature]<!--{/if}-->
+	<!--{/if}-->
+	</td></tr></table>
+	</td></tr>
+	<tr class="$post[thisbg]"><td valign="middle">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="smalltxt">
+	<tr><td align="left"><!--{if $forum['ismoderator'] && $allowdelpost}--><!--{if $post['number'] == 1}--><input type="checkbox" disabled><!--{else}--><input type="checkbox" name="delete[]" value="$post[pid]"><!--{/if}--><!--{/if}-->
+	$post[dateline]</td><td align="right"><a href="###" class="bold" onclick="window.clipboardData.setData('text','{$boardurl}viewthread.php?tid=$tid&page=$page#pid$post[pid]')">#$post[number]</a></td></tr></table>
+	</td><td valign="bottom">
+	<table width="100%" height="100%" border="0" cellspacing="2" cellpadding="0">
+	<tr class="smalltxt"><td align="left">
+	<!--{if $post['username'] && !$post['anonymous']}-->
+		<a href="viewpro.php?uid=$post[authorid]"><img src="{IMGDIR}/profile.gif" border="0" align="absmiddle" alt="{lang view_profile}"></a>&nbsp;
+		<!--{if $post['site']}--><a href="$post[site]" target="_blank"><img src="{IMGDIR}/site.gif" border="0" align="absmiddle" alt="{lang visit_home}"></a>&nbsp;<!--{/if}-->
+		<!--{if $post['allowuseblog']}--><a href="blog.php?uid=$post[authorid]" target="_blank"><img src="{IMGDIR}/blog.gif" border="0" align="absmiddle" alt="{lang blog}"></a>&nbsp;<!--{/if}-->
+		<a href="pm.php?action=send&uid=$post[authorid]" target="_blank"><img src="{IMGDIR}/pm.gif" border="0" align="absmiddle" alt="{lang send_pm}"></a>&nbsp;
+		<!--{if $post['qq']}--><a href="http://wpa.qq.com/msgrd?V=1&Uin=$post[qq]&Site=$bbname&Menu=yes" target="_blank"><img src="http://wpa.qq.com/pa?p=1:$post[qq]:4" align="absmiddle" border="0" alt="QQ"></a>&nbsp;<!--{/if}-->
+		<!--{if $post['icq']}--><a href="http://wwp.icq.com/scripts/search.dll?to=$post[icq]" target="_blank"><img src="http://web.icq.com/whitepages/online?icq=$post[icq]&img=5" alt="ICQ {lang online_status}" border="0" align="absmiddle"></a>&nbsp;<!--{/if}-->
+		<!--{if $post['yahoo']}--><a href="http://edit.yahoo.com/config/send_webmesg?.target=$post[yahoo]&.src=pg" target="_blank"><img src="{IMGDIR}/yahoo.gif" alt="Yahoo!" border="0" align="absmiddle"></a>&nbsp;<!--{/if}-->
+		<!--{if $post['taobao']}--><script language="JavaScript">document.write('<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$post[taobao]')+'&s=2"><img src="http://amos1.taobao.com/online.ww?v=2&uid='+encodeURIComponent('$post[taobao]')+'&s=2" alt="{lang taobao}" border="0" align="absmiddle"></a>&nbsp;');</script><!--{/if}-->
+	<!--{/if}-->
+	</td><td align="right">
+	<!--{if $forum['ismoderator'] || $post['authorid'] == $discuz_uid}-->&nbsp;<a href="post.php?action=edit&fid=$fid&tid=$tid&pid=$post[pid]&page=$page&extra=$extra"><img src="{IMGDIR}/edit.gif" border="0" align="absmiddle" alt="{lang edit_post}"></a><!--{/if}-->
+	<!--{if $allowpostreply}-->&nbsp;<a href="post.php?action=reply&fid=$fid&tid=$tid&repquote=$post[pid]&extra=$extra"><img src="{IMGDIR}/quote.gif" border="0" align="absmiddle" alt="{lang reply_quote}"></a><!--{/if}-->
+	<!--{if $discuz_uid && $reportpost}-->&nbsp;<a href="misc.php?action=report&fid=$fid&tid=$tid&pid=$post[pid]&page=$page"><img src="{IMGDIR}/report.gif" border="0" align="absmiddle" alt="{lang report_to_moderator}"></a><!--{/if}-->
+	<!--{if $raterange && $post['authorid']}-->&nbsp;<a href="misc.php?action=rate&tid=$tid&pid=$post[pid]&page=$page"><img src="{IMGDIR}/rate.gif" border="0" align="absmiddle" alt="{lang rate_this_post}"></a><!--{/if}-->
+	<!--{if $fastpost && $allowpostreply}--><a href="###" onclick="fastreply('{lang post_fastreply_author}')"><img src="{IMGDIR}/fastreply.gif" border="0" align="absmiddle" alt="{lang reply}"></a><!--{/if}-->
+	<a href="###" onclick="scroll(0,0)"><img src="{IMGDIR}/top.gif" border="0" align="absmiddle" alt="{lang top}"></a>
+	</td></tr></table>
+	</td></tr></table></div>
+<!--{/loop}-->
+<div class="maintable">
+<table width="{TABLEWIDTH}" cellspacing="0" cellpadding="0" border="0" align="center">
+<tr><td bgcolor="{BORDERCOLOR}" height="1"></td></tr>
+</table></div>
+</form>
+
+<div class="maintable">
+<table width="{TABLEWIDTH}" cellspacing="0" cellpadding="0" align="center">
+<tr>
+<td valign="top">$multipage</td><td align="right">
+<!--{if $allowpost || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra"><img src="{IMGDIR}/newtopic.gif" border="0"></a><!--{/if}-->
+<!--{if $allowpostpoll || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&poll=yes"><img src="{IMGDIR}/poll.gif" border="0"></a><!--{/if}-->
+<!--{if ($allowpost || !$discuz_uid) && $allowposttrade}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&trade=yes"><img src="{IMGDIR}/newtrade.gif" border="0"></a><!--{/if}-->
+<!--{if $allowpostreply || !$discuz_uid}-->&nbsp;<a href="post.php?action=reply&fid=$fid&tid=$tid&extra=$extra"><img src="{IMGDIR}/reply.gif" border="0"></a><!--{/if}--></td></tr>
+</table><br></div>
+
+<!--{if $relatedthreadlist}-->
+	<div class="maintable">
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr class="header"><td colSpan=6><table cellspacing="0" cellpadding="0" border="0" width="100%" class="smalltxt" style="table-layout: fixed; word-wrap: break-word">
+	<tr style="color: {HEADERTEXT}"><td class="bold" width="60%">{lang qihoo_relatedthreads}</td>
+	<td width="40%" align="right" nowrap><a href="http://search.qihoo.com/usearch.html?kw=$searchkeywords&relate=$thread['subjectenc']&sort=rdate&site=discuzall&site=$site" target="_blank">{lang thread_more_related_threads}</a>
+	&nbsp;<a href="###" onclick="toggle_collapse('relatedthreads');"><img id="relatedthreads_img" src="{IMGDIR}/{$relatedthreads['img']}" border="0"></td></tr></table></td></tr>
+	<tbody id="relatedthreads" style="$relatedthreads['style']">
+	<tr class="category">
+	<td width="45%" align="center">{lang subject}</td>
+	<td width="14%" align="center">{lang forum}</td>
+	<td width="14%" align="center">{lang author}</td>
+	<td width="6%" align="center">{lang replies}</td>
+	<td width="6%" align="center">{lang views}</td>
+	<td width="15%" align="center">{lang lastpost}</td>
+	</tr>
+	<!--{loop $relatedthreadlist $key $threads}-->
+		<!--{if $threads[title]}-->
+			<tr>
+			<td class="altbg2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'"><a href="viewthread.php?tid=$threads[tid]" target="_blank">$threads[title]</td>
+			<td class="altbg1" align="center"><a href="forumdisplay.php?fid=$threads[fid]" target="_blank">$threads[chanl]</a></td>
+			<td class="altbg2" align="center"><a href="viewpro.php?username={echo rawurlencode($threads[author])}" target="_blank">$threads[author]</a><br>$threads[pdate]</td>
+			<td class="altbg1" align="center">$threads[rnum]</td>
+			<td class="altbg2" align="center">$threads[vnum]</td>
+			<td class="altbg1" align="center">$threads[rdate]</td>
+			</tr>
+		<!--{/if}-->
+	<!--{/loop}-->
+	</tbody>
+	</table><br></div>
+<!--{/if}-->
+
+<!--{if $fastpost && $allowpostreply}-->
+	<script language="JavaScript">
+	var postminchars = parseInt('$minpostsize');
+	var postmaxchars = parseInt('$maxpostsize');
+	var disablepostctrl = parseInt('$disablepostctrl');
+	function validate(theform) {
+		if (theform.message.value == "" && theform.subject.value == "") {
+			alert("{lang post_subject_and_message_isnull}");
+			return false;
+		} else if (theform.subject.value.length > 80) {
+			alert("{lang post_subject_toolang}");
+			return false;
+		}
+		if (!disablepostctrl && ((postminchars != 0 && theform.message.value.length < postminchars) || (postmaxchars != 0 && theform.message.value.length > postmaxchars))) {
+			alert("{lang post_message_length_invalid}\n\n{lang post_curlength}: "+theform.message.value.length+" {lang bytes}\n{lang board_allowed}: "+postminchars+" {lang to} "+postmaxchars+" {lang bytes}");
+			return false;
+		}
+		theform.replysubmit.disabled = true;
+		return true;
+	}
+	</script>
+	<form method="post" name="input" action="post.php?action=reply&fid=$fid&tid=$tid&extra=$extra&replysubmit=yes" onSubmit="return validate(this)">
+	<input type="hidden" name="formhash" value="{FORMHASH}">
+	<div class="maintable">
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr><td colspan="2" class="header"><a href="member.php?action=credits&view=forum_reply&fid=$fid" target="_blank"><img src="{IMGDIR}/credits.gif" alt="{lang credits_policy_view}" align="right" border="0"></a>{lang post_fastreply}</td></tr>
+	<tr>
+	<td width="18%" class="altbg1">{lang subject}:</td>
+	<td width="82%" class="altbg2"><input type="text" name="subject" size="80" value="" tabindex="1"> &nbsp; <span class="smalltxt">({lang optional})</span></td>
+	</tr>
+	<tr>
+	<td width="18%" class="altbg1" valign="top">{lang options}:<br><span class="smalltxt">
+	<input type="checkbox" name="parseurloff" value="1"> {lang disable} {lang post_parseurl}<br>
+	<input type="checkbox" name="smileyoff" value="1"> {lang disable} <a href="faq.php?page=messages#6" target="_blank">{lang post_smilies}</a><br>
+	<input type="checkbox" name="bbcodeoff" value="1"> {lang disable} <a href="faq.php?page=misc#1" target="_blank">{lang post_discuzcode}</a><br>
+	<!--{if $allowanonymous || $forum['allowanonymous']}--><input type="checkbox" name="isanonymous" value="1"> {lang post_anonymous}<br><!--{/if}-->
+	<input type="checkbox" name="usesig" value="1" $usesigcheck> {lang post_show_sig}<br>
+	<input type="checkbox" name="emailnotify" value="1"> {lang post_email_notify}</span>
+	</td>
+	<td width="82%" class="altbg2"><span class="smalltxt">
+	<textarea rows="7" name="message" style="width: 80%; word-break: break-all" onKeyDown="ctlent(event);" tabindex="2"></textarea><br>
+	<input type="submit" name="replysubmit" value="{lang post_topicsubmit}" tabindex="3">&nbsp;&nbsp;&nbsp;
+	<input type="submit" name="previewpost" value="{lang post_previewpost}" tabindex="4">&nbsp;&nbsp;&nbsp;
+	<input type="reset" name="topicsreset" value="{lang post_topicreset}" tabindex="5">&nbsp; &nbsp;{lang post_submit_hotkey}</span>
+	</td></tr></table></div></form>
+<!--{/if}-->
+
+<div class="maintable"><br><table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" align="center" class="tableborder">
+<tr class="smalltxt"><td class="altbg2" align="center" nowrap> &nbsp;
+<a href="viewthread.php?action=printable&tid=$tid" target="_blank">{lang thread_printable}</a> |
+<a href="misc.php?action=emailfriend&tid=$tid">{lang thread_email_friend}</a> |
+<a href="memcp.php?action=subscriptions&subadd=$tid&lastpost=$thread[lastpost]">{lang thread_subscribe}</a> |
+<a href="memcp.php?action=favorites&favadd=$tid">{lang thread_favorite}</a>
+<!--{if $thread['authorid'] && ($thread['authorid'] == $discuz_uid || $forum['ismoderator'])}-->
+	<!--{if $thread['blog']}-->
+		 | <a href="misc.php?action=blog&tid=$tid">{lang blog_remove}</a>
+	<!--{elseif $allowuseblog && $forum['allowblog'] && $thread['authorid'] == $discuz_uid}-->
+		 | <a href="misc.php?action=blog&tid=$tid">{lang blog_add}</a>
+	<!--{/if}-->
+<!--{/if}-->
+&nbsp; </td></tr></table></div>
+
+<div class="maintable">
+<br><br><table width="{TABLEWIDTH}" cellspacing="0" cellpadding="0" align="center" class="outertxt">
+<tr><td align="left" class="smalltxt">
+
+<!--{if $forumjump}-->
+	<select onchange="if(this.options[this.selectedIndex].value != '') {
+	window.location=('forumdisplay.php?fid='+this.options[this.selectedIndex].value+'&sid=$sid') }">
+	<option value="">{lang forum_jump}</option>
+	$forumselect
+	</select>&nbsp;
+<!--{/if}-->
+<!--{if $visitedforums}-->
+	<select onchange="if(this.options[this.selectedIndex].value != '') {
+	window.location=('forumdisplay.php?fid='+this.options[this.selectedIndex].value+'&sid=$sid') }">
+	<option value="">{lang visited_forums}</option>
+	$visitedforums
+	</select>
+<!--{/if}-->
+</td><td align="right" class="smalltxt">
+
+<!--{if $forum['ismoderator']}-->
+	<span class="bold">{lang admin_modoptions}:</span>
+	<select name="action" id="action" onchange="if(this.options[this.selectedIndex].value != '') { if(this.options[this.selectedIndex].value != 'delpost') {
+	window.location=('topicadmin.php?tid=$tid&fid=$fid&action='+this.options[this.selectedIndex].value+'&sid=$sid');
+	} else { document.delpost.submit(); } }">
+	<option value="" selected>{lang admin_modoptions}</option>
+	<!--{if $allowdelpost}-->
+		<option value="delpost">{lang admin_delpost}</option>
+		<option value="delete">{lang admin_delthread}</option>
+	<!--{/if}-->
+	<option value="close">{lang admin_close}</option>
+	<option value="move">{lang admin_move}</option>
+	<option value="highlight">{lang admin_highlight}</option>
+	<option value="digest">{lang admin_digest}</option>
+	<!--{if $allowstickthread}--><option value="stick">{lang admin_stick}</option><!--{/if}-->
+	<!--{if $thread['price'] > 0 && $allowrefund}--><option value="refund">{lang admin_refund}</option><!--{/if}-->
+	<option value="split">{lang admin_split}</option>
+	<option value="merge">{lang admin_merge}</option>
+	<option value="bump">{lang admin_bump}</option>
+	<option value="repair">{lang admin_repair}</option>
+	</select>
+<!--{/if}-->
+
+</td>
+</tr></table>
+{template footer}
+<!--{if $relatedthreadupdate}-->
+<script language="JavaScript" src="relatethread.php?tid=$tid&subjectenc=$thread[subjectenc]&verifykey=$verifykey"></script>
+<!--{/if}-->

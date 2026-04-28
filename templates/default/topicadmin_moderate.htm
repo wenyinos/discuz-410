@@ -1,0 +1,190 @@
+{template header}
+<table cellspacing="0" cellpadding="0" border="0" width="{TABLEWIDTH}" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php">$bbname</a> $navigation &raquo; 
+<!--{if $operation == 'delete'}-->
+	{lang admin_delthread}
+<!--{elseif $operation == 'move'}-->
+	{lang admin_move}
+<!--{elseif $operation == 'highlight'}-->
+	{lang admin_highlight}
+<!--{elseif $operation == 'type'}-->
+	{lang admin_type}
+<!--{elseif $operation == 'close'}-->
+	{lang admin_openclose}
+<!--{elseif $operation == 'stick'}-->
+	{lang admin_stick_unstick}
+<!--{elseif $operation == 'digest'}-->
+	{lang admin_digest_addremove}
+<!--{/if}--></td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
+</tr></table><br>
+
+<form method="post" action="topicadmin.php?action=moderate&operation=$operation">
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<input type="hidden" name="fid" value="$fid">
+<input type="hidden" name="referer" value="$referer">
+
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr class="header">
+<td colspan="2">
+<!--{if $operation == 'delete'}-->
+	{lang admin_delthread}
+<!--{elseif $operation == 'move'}-->
+	{lang admin_move}
+<!--{elseif $operation == 'highlight'}-->
+	{lang admin_highlight}
+<!--{elseif $operation == 'type'}-->
+	{lang admin_type}
+<!--{elseif $operation == 'close'}-->
+	{lang admin_openclose}
+<!--{elseif $operation == 'stick'}-->
+	{lang admin_stick_unstick}
+<!--{elseif $operation == 'digest'}-->
+	<a href="member.php?action=credits&view=digest" target="_blank"><img src="{IMGDIR}/credits.gif" alt="{lang credits_policy_view}" align="right" border="0"></a>{lang admin_digest_addremove}
+<!--{/if}-->
+</td>
+</tr>
+
+<tr>
+<td class="altbg1" width="21%">{lang username}:</td>
+<td class="altbg2">$discuz_userss <span class="smalltxt">[<a href="$link_logout">{lang member_logout}</a>]</span></td>
+</tr>
+
+<!--{if $operation == 'move'}-->
+	<tr>
+	<td class="altbg1">{lang admin_move_target}:</td>
+	<td class="altbg2"><select name="moveto">
+	$forumselect
+	</select></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" valign="top">{lang admin_move_type}:</td>
+	<td class="altbg2"><input type="radio" name="type" value="normal" checked> {lang admin_move}<br>
+	<input type="radio" name="type" value="redirect"> {lang admin_move_redirect}<br></td>
+	</tr>
+<!--{elseif $operation == 'highlight'}-->
+	<tr>
+	<td class="altbg1" width="21%">{lang admin_highlight_style}:</td>
+	<td class="altbg2">
+	<input type="checkbox" name="highlight_style[1]" value="1" $stylecheck[1]> <b>{lang admin_highlight_bold}</b>&nbsp;
+	<input type="checkbox" name="highlight_style[2]" value="1" $stylecheck[2]> <i>{lang admin_highlight_italic}</i>&nbsp;
+	<input type="checkbox" name="highlight_style[3]" value="1" $stylecheck[3]> <u>{lang admin_highlight_underline}</u>
+	</td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="21%">{lang admin_highlight_color}:</td>
+	<td class="altbg2">
+
+	<table border="0" cellspacing="0" cellpadding="0"><tr>
+	<td><input type="radio" name="highlight_color" value="0" $colorcheck[0]></td><td>{lang default}</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="1" $colorcheck[1]></td><td width="20" bgcolor="red">&nbsp;</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="2" $colorcheck[2]></td><td width="20" bgcolor="orange">&nbsp;</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="3" $colorcheck[3]></td><td width="20" bgcolor="yellow">&nbsp;</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="4" $colorcheck[4]></td><td width="20" bgcolor="green">&nbsp;</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="5" $colorcheck[5]></td><td width="20" bgcolor="cyan">&nbsp;</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="6" $colorcheck[6]></td><td width="20" bgcolor="blue">&nbsp;</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="7" $colorcheck[7]></td><td width="20" bgcolor="purple">&nbsp;</td>
+	<td> &nbsp; <input type="radio" name="highlight_color" value="8" $colorcheck[8]></td><td width="20" bgcolor="gray">&nbsp;</td>
+	</tr></table>
+<!--{elseif $operation == 'type'}-->
+	<tr>
+	<td class="altbg1">{lang admin_move_target}:</td>
+	<td class="altbg2">$typeselect</td>
+	</tr>
+<!--{elseif $operation == 'close'}-->
+	<tr>
+	<td class="altbg1">{lang action}:</td>
+	<td class="altbg2">
+		<input type="radio" name="close" value="0" $closecheck[0]> {lang admin_open} &nbsp; &nbsp; 
+		<input type="radio" name="close" value="1" $closecheck[1]> {lang admin_close}
+	</tr>
+<!--{elseif $operation == 'stick'}-->
+	<tr>
+	<td class="altbg1">{lang level}:</td>
+	<td class="altbg2">
+	<!--{if !$single || $threadlist[0]['displayorder'] > 0}-->
+		<input type="radio" name="level" value="0" onclick="findobj('expirationarea').disabled=1"> {lang admin_unstick} &nbsp; &nbsp; 
+	<!--{/if}-->
+		<input type="radio" name="level" value="1" $stickcheck[1] onclick="findobj('expirationarea').disabled=0"> <img src="{IMGDIR}/star_level1.gif"> &nbsp; &nbsp; 
+	<!--{if $allowstickthread >= 2}-->
+		<input type="radio" name="level" value="2" $stickcheck[2] onclick="findobj('expirationarea').disabled=0"> <img src="{IMGDIR}/star_level1.gif"><img src="{IMGDIR}/star_level1.gif"> &nbsp; &nbsp; 
+		<!--{if $allowstickthread == 3}-->
+			<input type="radio" name="level" value="3" $stickcheck[3] onclick="findobj('expirationarea').disabled=0"> <img src="{IMGDIR}/star_level1.gif"><img src="{IMGDIR}/star_level1.gif"><img src="{IMGDIR}/star_level1.gif"></td>
+		<!--{/if}-->
+	<!--{/if}-->
+	</tr>
+<!--{elseif $operation == 'digest'}-->
+	<tr>
+	<td class="altbg1">{lang level}:</td>
+	<td class="altbg2">
+	<!--{if !$single || ($single && $threadlist[0]['digest'])}-->
+		<input type="radio" name="level" value="0" $digestcheck[0] onclick="findobj('expiration').disabled=1"> {lang admin_digest_remove} &nbsp; &nbsp; 
+	<!--{/if}-->
+		<input type="radio" name="level" value="1" $digestcheck[1] onclick="findobj('expiration').disabled=0"> <img src="{IMGDIR}/star_level1.gif"> &nbsp; &nbsp; 
+		<input type="radio" name="level" value="2" $digestcheck[2] onclick="findobj('expiration').disabled=0"> <img src="{IMGDIR}/star_level1.gif"><img src="{IMGDIR}/star_level1.gif"> &nbsp; &nbsp; 
+		<input type="radio" name="level" value="3" $digestcheck[3] onclick="findobj('expiration').disabled=0"> <img src="{IMGDIR}/star_level1.gif"><img src="{IMGDIR}/star_level1.gif"><img src="{IMGDIR}/star_level1.gif"></td></tr>
+<!--{/if}-->
+
+<!--{if in_array($operation, array('stick', 'digest', 'highlight', 'close'))}-->
+	<tr id="expirationarea">
+	<td class="altbg1">{lang thread_moderations_expiration}:</td>
+	<td class="altbg2"><span class="smalltxt"><input type="text" name="expiration" size="10" value="$expirationdefault" maxlength="10"> {lang thread_moderations_expiration_comment}</a></td>
+	</tr>
+<!--{/if}-->
+
+{template topicadmin_reason}
+
+<!--{if in_array($operation, array('stick', 'digest', 'highlight'))}-->
+	<tr>
+	<td class="altbg1">{lang admin_next}:</td>
+	<td class="altbg2"><input type="radio" name="next" value="" checked> {lang none} &nbsp; 
+	<!--{if $operation != 'highlight'}--><input type="radio" name="next" value="highlight"> {lang admin_highlight} &nbsp; <!--{/if}-->
+	<!--{if $operation != 'stick'}--><input type="radio" name="next" value="stick"> {lang admin_stick_unstick} &nbsp; <!--{/if}-->
+	<!--{if $operation != 'digest'}--><input type="radio" name="next" value="digest"> {lang admin_digest_addremove} &nbsp; <!--{/if}-->
+	</tr>
+<!--{/if}-->
+
+</table><br>
+
+<!--{if $single}-->
+	<input type="hidden" name="moderate[]" value="$moderate[0]">
+	<!--{if $loglist}-->
+		<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+		<tr class="header"><td colspan="4">{lang thread_moderations}</td></tr>
+		<tr align="center" class="category"><td width="15%">{lang thread_moderations_username}</td><td width="25%">{lang time}</td><td width="30%">{lang thread_moderations_action}</td><td width="30%">{lang thread_moderations_expiration}</td></tr>
+		<!--{loop $loglist $log}-->
+			<tr align="center">
+			<td class="altbg1"><!--{if $log[uid]}--><a href="viewpro.php?uid=$log['uid']" target="_blank">$log['username']</a><!--{else}-->{lang thread_moderations_cron}<!--{/if}--></td>
+			<td class="altbg2">$log['dateline']</td>
+			<td class="altbg1" $log['status']>{$modactioncode[$log['action']]}</td>
+			<td class="altbg2" $log['status']><!--{if $log['expiration']}-->$log['expiration']<!--{elseif in_array($log['action'], array('STK', 'HLT', 'DIG', 'CLS', 'OPN'))}-->{lang thread_moderations_expiration_unlimit}<!--{/if}--></td>
+			</tr>
+		<!--{/loop}-->
+		</table><br>
+	<!--{/if}-->
+<!--{else}-->
+	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+	<tr align="center" class="header">
+	<td width="48">&nbsp;</td>
+	<td width="42%">{lang subject}</td>
+	<td>{lang author}</td>
+	<td>{lang replies}</td>
+	<td>{lang lastpost}</td>
+	</tr>
+	<!--{loop $threadlist $thread}-->
+		<tr>
+		<td class="altbg1" align="center"><input type="checkbox" name="moderate[]" value="$thread[tid]" checked></td>
+		<td class="altbg2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'"><a href="viewthread.php?tid=$thread[tid]&extra=$extra">$thread[subject]</a></td>
+		<td class="altbg1" align="center"><!--{if $thread[author]}--><a href="viewpro.php?uid=$thread[authorid]">$thread[author]</a><!--{else}-->{lang anonymous}<!--{/if}--></td>
+		<td class="altbg2" align="center">$thread[replies]</td>
+		<td class="altbg1" align="center"><font class="smalltxt">$thread[lastpost] by <!--{if $thread['lastposter']}--><a href="viewpro.php?username=$thread[lastposterenc]">$thread[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></font></td>
+		</tr>
+	<!--{/loop}-->
+	</td></tr></table><br>
+<!--{/if}-->
+
+<center><input type="submit" name="modsubmit" value="{lang submit}"></center>
+</form>
+{template footer}

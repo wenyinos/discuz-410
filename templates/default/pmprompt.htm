@@ -1,0 +1,24 @@
+<!--{if $pmsound}--><bgsound src="images/sound/pm_$pmsound.wav" border="0"><!--{/if}-->
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+<tr><td class="header">
+<table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+<tr class="smalltxt"><td style="color: {HEADERTEXT}" class="bold">{lang pm_new}</td>
+<td align="right"><a href="pm.php" target="_blank">{lang pm_new_detail}</a> 
+<a href="$ignorelink">{lang pm_new_ignore}</a></td></tr></table>
+</tr>
+
+<!--{if $pmlist}-->
+	<tr>
+	<td class="altbg2" colspan="8" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'">
+	<table cellspacing="0" cellpadding="0" border="0" width="98%" align="center">
+	<tr><td>
+	<table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+	<!--{loop $pmlist $pm}-->
+		<tr><td><li></li></td><td width="20%" nowrap><span class="bold">{lang from}:</span> <a href="viewpro.php?uid=$pm[msgfromid]">$pm[msgfrom]</a></td>
+		<td width="25%"><span class="bold" nowrap>{lang subject}:</span> <a href="pm.php?action=view&pmid=$pm[pmid]" target="_blank">$pm[subject]</a></td>
+		<td width="55%"><span class="bold">{lang content}:</span> $pm[message]</td></tr>
+	<!--{/loop}-->
+	</table></td></tr></table></td></tr>
+<!--{/if}-->
+
+</table><br>

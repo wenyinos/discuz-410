@@ -1,0 +1,357 @@
+{template header}
+{template memcp_navbar}
+<form name="reg" method="post" action="memcp.php?action=profile" $enctype>
+<input type="hidden" name="formhash" value="{FORMHASH}">
+<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
+
+<!--{if !$passport_status || $seccodecheck || $_DCACHE['fields_required']}-->
+	<tr>
+	<td colspan="2" class="header">{lang memcp_profile} - {lang required_info}</td>
+	</tr>
+<!--{/if}-->
+
+<!--{if $seccodecheck}-->
+	<tr>
+	<td class="altbg1">{lang seccode}:</td>
+	<td class="altbg2"><input type="text" name="seccodeverify" size="4" maxlength="4"> <img src="seccode.php" align="absmiddle"> <span class="smalltxt">{lang seccode_comment}</span></td>
+	</tr>
+<!--{/if}-->
+
+<!--{if !$passport_status}-->
+	<tr>
+	<td class="altbg1">{lang old_password}:</td>
+	<td class="altbg2"><input type="password" name="oldpassword" size="25"> <span class="smalltxt">{lang memcp_profile_old_passwd_comment}</span></td>
+	</tr>
+	
+	<tr>
+	<td class="altbg1">{lang new_password}:</td>
+	<td class="altbg2"><input type="password" name="newpassword" size="25"> <span class="smalltxt">{lang memcp_profile_passwd_comment}</span></td>
+	</tr>
+	
+	<tr>
+	<td class="altbg1">{lang new_password_confirm}:</td>
+	<td class="altbg2"><input type="password" name="newpassword2" size="25"> <span class="smalltxt">{lang memcp_profile_passwd_comment}</span></td>
+	</tr>
+	
+	<tr>
+	<td class="altbg1" width="21%">{lang email}:</td>
+	<td class="altbg2"><input type="text" name="emailnew" size="25" value="$member[email]">
+	<!--{if $regverify == 1 && (($grouptype == 'member' && $adminid == 0) && $groupid == 8)}--> <span class="smalltxt"><span class="bold">{lang memcp_profile_email_comment}</span></span><!--{/if}-->
+	</td>
+	</tr>
+<!--{/if}-->
+
+<!--{loop $_DCACHE['fields_required'] $field}-->
+	<tr>
+	<td class="altbg1" width="21%">$field[title]:<!--{if $field['description']}--><br><span class="smalltxt">$field[description]</span><!--{/if}--></td>
+	<td class="altbg2">
+	<!--{if $field['selective']}-->
+		<select name="field_$field[fieldid]new" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}-->>
+		<option value="">{lang please_select}</option>
+		<!--{loop $field['choices'] $index $choice}-->
+			<option value="$index" <!--{if $index == $member['field_'.$field[fieldid]]}-->selected="selected"<!--{/if}-->>$choice</option>
+		<!--{/loop}-->
+		</select>
+	<!--{else}-->
+		<input type="text" name="field_$field[fieldid]new" size="25" value="$member['field_'.$field[fieldid]]" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}-->>
+	<!--{/if}-->
+	<!--{if $field['unchangeable']}-->&nbsp;<span class="smalltxt"><span class="bold">{lang memcp_profile_unchangeable_comment}</span></span><!--{/if}-->
+	</td></tr>
+<!--{/loop}-->
+
+<tr>
+<td colspan="2" class="header">{lang memcp_profile} - {lang optional_info}</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang security_question}:</td>
+<td class="altbg2"><select name="questionidnew">
+<!--{if $discuz_secques}--><option value="-1">{lang memcp_profile_security_keep}</option><!--{/if}-->
+<option value="0">{lang security_question_0}</option>
+<option value="1">{lang security_question_1}</option>
+<option value="2">{lang security_question_2}</option>
+<option value="3">{lang security_question_3}</option>
+<option value="4">{lang security_question_4}</option>
+<option value="5">{lang security_question_5}</option>
+<option value="6">{lang security_question_6}</option>
+<option value="7">{lang security_question_7}</option>
+</select> <span class="smalltxt"><span class="bold">{lang memcp_profile_security_comment}</span></span>
+</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang security_answer}:</td>
+<td class="altbg2"><input type="text" name="answernew" size="25"> <span class="smalltxt">{lang memcp_profile_security_answer_comment}</span></td>
+</tr>
+
+<tr><td colspan="2" class="singleborder">&nbsp;</td></tr>
+
+<!--{loop $_DCACHE['fields_optional'] $field}-->
+	<tr>
+	<td class="altbg1" width="21%">$field[title]:<!--{if $field['description']}--><br><span class="smalltxt">$field[description]</span><!--{/if}--></td>
+	<td class="altbg2">
+	<!--{if $field['selective']}-->
+		<select name="field_$field[fieldid]new" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}-->>
+		<option value="">{lang please_select}</option>
+		<!--{loop $field['choices'] $index $choice}-->
+			<option value="$index" <!--{if $index == $member['field_'.$field[fieldid]]}-->selected="selected"<!--{/if}-->>$choice</option>
+		<!--{/loop}-->
+		</select>
+	<!--{else}-->
+		<input type="text" name="field_$field[fieldid]new" size="25" value="$member['field_'.$field[fieldid]]" <!--{if $member['field_'.$field[fieldid]] && $field['unchangeable']}-->disabled<!--{/if}-->>
+	<!--{/if}-->
+	<!--{if $field['unchangeable']}-->&nbsp;<span class="smalltxt"><span class="bold">{lang memcp_profile_unchangeable_comment}</span></span><!--{/if}-->
+	</td></tr>
+<!--{/loop}-->
+
+<!--{if $allownickname}-->
+	<tr>
+	<td class="altbg1">{lang nickname}:</td>
+	<td class="altbg2"><input type="text" name="nicknamenew" size="25" value="$member[nickname]"></td>
+	</tr>
+<!--{/if}-->
+
+<tr>
+<td class="altbg1" width="21%">{lang gender}:</td>
+<td class="altbg2">
+<input type="radio" name="gendernew" value="1" $gendercheck[1]> {lang male} &nbsp; 
+<input type="radio" name="gendernew" value="2" $gendercheck[2]> {lang female} &nbsp; 
+<input type="radio" name="gendernew" value="0" $gendercheck[0]> {lang secret}
+</td></tr>
+
+<tr>
+<td class="altbg1">{lang birthday}:</td>
+<td class="altbg2">
+<input type="text" name="year" size="4" value="$bday[0]"> {lang year} 
+<select name="month">
+<option value="" $month[0]>&nbsp;</option>
+<option value="1" $month[1]>1</option>
+<option value="2" $month[2]>2</option>
+<option value="3" $month[3]>3</option>
+<option value="4" $month[4]>4</option>
+<option value="5" $month[5]>5</option>
+<option value="6" $month[6]>6</option>
+<option value="7" $month[7]>7</option>
+<option value="8" $month[8]>8</option>
+<option value="9" $month[9]>9</option>
+<option value="10" $month[10]>10</option>
+<option value="11" $month[11]>11</option>
+<option value="12" $month[12]>12</option>
+</select> {lang month} 
+<select name="day">
+<option value="">&nbsp;</option>
+$dayselect
+</select> {lang day}
+</td></tr>
+
+<tr>
+<td class="altbg1" width="21%">{lang location}:</td>
+<td class="altbg2"><input type="text" name="locationnew" size="25" value="$member[location]"></td>
+</tr>
+
+<tr>
+<td class="altbg1" width="21%">{lang homepage}:</td>
+<td class="altbg2"><input type="text" name="sitenew" size="25" value="$member[site]"></td>
+</tr>
+
+<tr>
+<td class="altbg1" width="21%">QQ:</td>
+<td class="altbg2"><input type="text" name="qqnew" size="25" value="$member[qq]"></td>
+</tr>
+
+<tr>
+<td class="altbg1" width="21%">ICQ:</td>
+<td class="altbg2"><input type="text" name="icqnew" size="25" value="$member[icq]"></td>
+</tr>
+
+<tr>
+<td class="altbg1" width="21%">Yahoo:</td>
+<td class="altbg2"><input type="text" name="yahoonew" size="25" value="$member[yahoo]"></td>
+</tr>
+
+<tr>
+<td class="altbg1" width="21%">MSN:</td>
+<td class="altbg2"><input type="text" name="msnnew" size="25" value="$member[msn]"></td>
+</tr>
+
+<tr>
+<td class="altbg1" width="21%">{lang taobao}:</td>
+<td class="altbg2"><input type="text" name="taobaonew" size="25" value="$member[taobao]"></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang alipay}:</td>
+<td class="altbg2"><input type="text" name="alipaynew" size="25" value="$member[alipay]"></td>
+</tr>
+
+<tr>
+<td class="altbg1" valign="top" width="21%">{lang bio}:</td>
+<td class="altbg2"><textarea rows="5" cols="30" name="bionew">$member[bio]</textarea></td>
+</tr>
+
+<tr>
+<td colspan="2" class="header">{lang memcp_profile} - {lang board_options}</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang style}:</td>
+<td class="altbg2"><select name="styleidnew">
+<option value="">{lang use_default}</option>
+$styleselect</select></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang tpp}:</td>
+<td class="altbg2"><select name="tppnew">
+<option value="0" $tppchecked[0]>{lang use_default}</option>
+<option value="10" $tppchecked[10]>10</option>
+<option value="20" $tppchecked[20]>20</option>
+<option value="30" $tppchecked[30]>30</option>
+</select></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang ppp}:</td>
+<td class="altbg2"><select name="pppnew">
+<option value="0" $pppchecked[0]>{lang use_default}</option>
+<option value="5" $pppchecked[5]>5</option>
+<option value="10" $pppchecked[10]>10</option>
+<option value="15" $pppchecked[15]>15</option>
+</select></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang timeoffset}:</td>
+<td class="altbg2">
+<select name="timeoffsetnew">
+<option value="9999" $toselect[9999]>{lang use_default}</option>
+<option value="-12" $toselect[-12]>(GMT -12:00) Eniwetok, Kwajalein</option>
+<option value="-11" $toselect[-11]>(GMT -11:00) Midway Island, Samoa</option>
+<option value="-10" $toselect[-10]>(GMT -10:00) Hawaii</option>
+<option value="-9" $toselect[-9]>(GMT -09:00) Alaska</option>
+<option value="-8" $toselect[-8]>(GMT -08:00) Pacific Time (US &amp; Canada), Tijuana</option>
+<option value="-7" $toselect[-7]>(GMT -07:00) Mountain Time (US &amp; Canada), Arizona</option>
+<option value="-6" $toselect[-6]>(GMT -06:00) Central Time (US &amp; Canada), Mexico City</option>
+<option value="-5" $toselect[-5]>(GMT -05:00) Eastern Time (US &amp; Canada), Bogota, Lima, Quito</option>
+<option value="-4" $toselect[-4]>(GMT -04:00) Atlantic Time (Canada), Caracas, La Paz</option>
+<option value="-3.5" $toselect[-3.5]>(GMT -03:30) Newfoundland</option>
+<option value="-3" $toselect[-3]>(GMT -03:00) Brassila, Buenos Aires, Georgetown, Falkland Is</option>
+<option value="-2" $toselect[-2]>(GMT -02:00) Mid-Atlantic, Ascension Is., St. Helena</option>
+<option value="-1" $toselect[-1]>(GMT -01:00) Azores, Cape Verde Islands</option>
+<option value="0"  $toselect[0]>(GMT) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia</option>
+<option value="1" $toselect[1]>(GMT +01:00) Amsterdam, Berlin, Brussels, Madrid, Paris, Rome</option>
+<option value="2" $toselect[2]>(GMT +02:00) Cairo, Helsinki, Kaliningrad, South Africa</option>
+<option value="3" $toselect[3]>(GMT +03:00) Baghdad, Riyadh, Moscow, Nairobi</option>
+<option value="3.5" $toselect[3.5]>(GMT +03:30) Tehran</option>
+<option value="4" $toselect[4]>(GMT +04:00) Abu Dhabi, Baku, Muscat, Tbilisi</option>
+<option value="4.5" $toselect[4.5]>(GMT +04:30) Kabul</option>
+<option value="5" $toselect[5]>(GMT +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+<option value="5.5" $toselect[5.5]>(GMT +05:30) Bombay, Calcutta, Madras, New Delhi</option>
+<option value="5.75" $toselect[5.75]>(GMT +05:45) Katmandu</option>
+<option value="6" $toselect[6]>(GMT +06:00) Almaty, Colombo, Dhaka, Novosibirsk</option>
+<option value="6.5" $toselect[6.5]>(GMT +06:30) Rangoon</option>
+<option value="7" $toselect[7]>(GMT +07:00) Bangkok, Hanoi, Jakarta</option>
+<option value="8" $toselect[8]>(GMT +08:00) Beijing, Hong Kong, Perth, Singapore, Taipei</option>
+<option value="9" $toselect[9]>(GMT +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk</option>
+<option value="9.5" $toselect[9.5]>(GMT +09:30) Adelaide, Darwin</option>
+<option value="10" $toselect[10]>(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok</option>
+<option value="11" $toselect[11]>(GMT +11:00) Magadan, New Caledonia, Solomon Islands</option>
+<option value="12" $toselect[12]>(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island</option>
+</select></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang timeformat}:</td>
+<td class="altbg2"><input type="radio" value="0" name="timeformatnew" $tfcheck[0]>{lang default} &nbsp; 
+<input type="radio" value="1" name="timeformatnew" $tfcheck[1]>12 {lang hour} &nbsp; 
+<input type="radio" value="2" name="timeformatnew" $tfcheck[2]>24 {lang hour}</td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang dateformat}:<br><span class="smalltxt">{lang eg} yyyy/mm/dd, mm/dd/yy</span></td>
+<td class="altbg2">
+<input type="radio" value="0" name="dateformatnew" $dfcheck[0]>{lang default} &nbsp; 
+<input type="radio" value="1" name="dateformatnew" $dfcheck[1]>{lang customize}: 
+<input type="text" name="cdateformatnew" size="25" value="$member[dateformat]"></td>
+</tr>
+
+<tr>
+<td class="altbg1">{lang pmsound}:</td>
+<td class="altbg2"><input type="radio" value="0" name="pmsoundnew" $pscheck[0]>{lang none} &nbsp; 
+<input type="radio" value="1" name="pmsoundnew" $pscheck[1]><a href="images/sound/pm_1.wav">#1</a> &nbsp; 
+<input type="radio" value="2" name="pmsoundnew" $pscheck[2]><a href="images/sound/pm_2.wav">#2</a> &nbsp; 
+<input type="radio" value="3" name="pmsoundnew" $pscheck[3]><a href="images/sound/pm_3.wav">#3</a></td>
+</tr>
+
+<!--{if $allowcstatus}-->
+	<tr>
+	<td class="altbg1" width="21%">{lang custom_status}:</td>
+	<td class="altbg2">
+	<input type="text" name="cstatusnew" size="25" value="$member[customstatus]"></td>
+	</tr>
+<!--{/if}-->
+
+<tr>
+<td class="altbg1" valign="top">{lang other_options}:</td>
+<td class="altbg2">
+<!--{if $allowinvisible}-->
+	<input type="checkbox" name="invisiblenew" value="1" $invisiblechecked> {lang online_invisible}<br>
+<!--{/if}-->
+<input type="checkbox" name="showemailnew" value="1" $emailchecked> {lang show_email_addr}<br>
+<input type="checkbox" name="newsletternew" value="1" $newschecked> {lang allow_newsletter}<br>
+</td></tr>
+
+<!--{if $avatarshowstatus}-->
+	<tr>
+	<td class="altbg1" valign="top">{lang avatarshow}:<br>{lang memcp_profile_avatarshow_comment}</td>
+	<td class="altbg2">$avatarshow<br>
+	<!--{if $member['avatarshowid']}-->
+		<a href="http://reg.joyinter.net/userBinding.do?uid=$discuz_uid&license=$avatarshow_license&dis=true&url={$boardurl}api/avatarbind.php" target="_blank">[{lang avatarshow_changebind}]</a>
+		<a href="api/avatarbind.php?uid=$discuz_uid&joycode=0" onclick="return confirm('{lang memcp_profile_avatarshow_confirm}')">[{lang avatarshow_unbind}]</a>
+		<a href="http://www.joyinter.net" target="_blank">[{lang avatarshow_dressup}]</a>
+	<!--{else}-->
+		<a href="http://reg.joyinter.net/avatar-register/register.jsp?source=$avatarshow_license" target="_blank">[{lang avatarshow_register}]</a>
+		<a href="http://www.joyinter.net" target="_blank">[{lang avatarshow_dressup}]</a>
+		<a href="http://reg.joyinter.net/userBinding.do?uid=$discuz_uid&license=$avatarshow_license&dis=true&url={$boardurl}api/avatarbind.php" target="_blank">[{lang avatarshow_bind}]</a>
+	<!--{/if}-->
+	</td></tr>
+<!--{/if}-->
+<!--{if $avatarshowstatus != 2}-->
+	<!--{if $allowavatar == 1}-->
+		<tr>
+		<td class="altbg1" valign="top">{lang avatar}:</td>
+		<td class="altbg2"><input type="button" value="{lang memcp_avatar_list}" onclick="window.location=('memcp.php?action=viewavatars&sid=$sid')"></td>
+		</tr>
+	<!--{elseif $allowavatar == 2}-->
+		<tr>
+		<td class="altbg1" valign="top">{lang avatar}:</td>
+		<td class="altbg2"><input type="text" name="avatarnew" size="25" value="$member[avatar]"> <input type="button" value="{lang memcp_avatar_list}" onclick="window.location=('memcp.php?action=viewavatars&sid=$sid')">
+		<br>{lang width}: <input type="text" name="avatarwidthnew" size="1" value="*">($member[avatarwidth]) &nbsp; {lang height}: <input type="text" name="avatarheightnew" size="1" value="*">($member[avatarheight])</td>
+		</tr>
+	<!--{elseif $allowavatar == 3}-->
+		<tr>
+		<td class="altbg1" valign="top">{lang avatar}:</td>
+		<td class="altbg2">
+		<input type="text" name="avatarnew" size="25" value="$member[avatar]"> <input type="button" value="{lang memcp_avatar_list}" onclick="window.location=('memcp.php?action=viewavatars&sid=$sid')">
+		<br><input type="file" name="customavatar" size="25">
+		<br>{lang width}: <input type="text" name="avatarwidthnew" size="1" value="*">($member[avatarwidth]) &nbsp; {lang height}: <input type="text" name="avatarheightnew" size="1" value="*">($member[avatarheight])</td>
+		</tr>
+	<!--{/if}-->
+<!--{/if}-->
+
+<!--{if $maxsigsize}-->
+	<tr>
+	<td class="altbg1" valign="top">{lang signature}<!--{if $maxsigsize}--> ($maxsigsize {lang bytes_limited})<!--{/if}-->:<br><br>
+	<span class="smalltxt">
+	<a href="faq.php?page=misc#1" target="_blank">{lang post_discuzcode}</a> <span class="bold"><!--{if $allowsigbbcode}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span><br>
+	{lang post_imgcode} <span class="bold"><!--{if $allowsigimgcode}-->{lang enabled}<!--{else}-->{lang disabled}<!--{/if}--></span>
+	</span></td>
+	<td class="altbg2"><textarea rows="4" cols="30" name="signaturenew">$member[signature]</textarea></td>
+	</tr>
+<!--{/if}-->
+
+</table><br>
+
+<center><input type="submit" name="editsubmit" value="{lang submit}"></center>
+</form>
+{template footer}
