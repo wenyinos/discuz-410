@@ -24,6 +24,7 @@ Powered by <a href="http://www.discuz.net" target="_blank"><b>Discuz!</b></a> <b
 <a href="http://www.discuz.com/index.php?action=certificate&host=<?=$_SERVER['HTTP_HOST']?>" target="_blank">Licensed</a>
 <?php } ?>
 &nbsp;&copy; 2001-2006 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>
+&nbsp;&copy; 2026 <a href="https://github.com/wenyinos/discuz-410" target="_blank">Wenyin Root</a> &middot; PHP 7.4
 <?php updatesession(); if(debuginfo()) { ?>
 <br>Processed in <?=$debuginfo['time']?> second(s), <?=$debuginfo['queries']?> queries
 <?php if($gzipcompress) { ?>
