@@ -19,7 +19,7 @@ Open-source BBS/forum system originally developed by Comsenz Inc. (2001-2006). T
 
 ## Requirements
 
-- PHP 4.1+ (legacy code, may need compatibility fixes for PHP 8+)
+- PHP 7.4+
 - MySQL 4.1+ or PostgreSQL
 - Web server (Apache/Nginx)
 
@@ -71,7 +71,7 @@ Open-source BBS/forum system originally developed by Comsenz Inc. (2001-2006). T
 ├── include/
 │   ├── common.inc.php      # Bootstrap (loaded by every page)
 │   ├── global.func.php     # Core utility functions
-│   ├── db_mysql.class.php  # Database abstraction (MySQL)
+│   ├── db_mysql.class.php  # Database abstraction (MySQLi)
 │   ├── template.func.php   # Template compiler
 │   ├── cache.func.php      # Cache generation
 │   ├── forum.func.php      # Forum display functions
@@ -104,6 +104,18 @@ Open-source BBS/forum system originally developed by Comsenz Inc. (2001-2006). T
 └── customavatars/          # User-uploaded avatars
 ```
 
+## PHP 7.4 Upgrade
+
+This fork has been upgraded from PHP 4/5 to PHP 7.4 compatible:
+
+- **Database**: `mysql_*` extension replaced with `mysqli_*` (`include/db_mysql.class.php`)
+- **Template compiler**: `preg_replace /e` modifier replaced with `preg_replace_callback` (`include/template.func.php`)
+- **Security**: `extract()` now uses `EXTR_SKIP` to prevent variable overwriting
+- **Compatibility**: Removed `set_magic_quotes_runtime`, `get_magic_quotes_gpc`, `$HTTP_*_VARS`
+- **Syntax**: All short open tags `<?` replaced with `<?php`
+
+See [UPGRADE_PHP74.md](UPGRADE_PHP74.md) for the full upgrade report.
+
 ## Key Technical Notes
 
 - **Bootstrap**: Every page defines `CURSCRIPT` then requires `include/common.inc.php`
@@ -117,3 +129,4 @@ Open-source BBS/forum system originally developed by Comsenz Inc. (2001-2006). T
 MIT License — see [LICENSE](LICENSE) for details.
 
 Originally developed by Comsenz Inc. (2001-2006).
+Maintained by [Wenyin Root](https://github.com/wenyinos/discuz-410).

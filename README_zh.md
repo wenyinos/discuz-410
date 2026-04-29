@@ -19,7 +19,7 @@
 
 ## 环境要求
 
-- PHP 4.1+（旧版代码，PHP 8+ 可能需要兼容性修复）
+- PHP 7.4+
 - MySQL 4.1+ 或 PostgreSQL
 - Web 服务器（Apache/Nginx）
 
@@ -71,7 +71,7 @@
 ├── include/
 │   ├── common.inc.php      # 引导文件（每个页面加载）
 │   ├── global.func.php     # 核心工具函数
-│   ├── db_mysql.class.php  # 数据库抽象层（MySQL）
+│   ├── db_mysql.class.php  # 数据库抽象层（MySQLi）
 │   ├── template.func.php   # 模板编译器
 │   ├── cache.func.php      # 缓存生成
 │   ├── forum.func.php      # 版块显示函数
@@ -104,6 +104,18 @@
 └── customavatars/          # 用户上传头像
 ```
 
+## PHP 7.4 升级说明
+
+本分支已从 PHP 4/5 升级至 PHP 7.4 兼容：
+
+- **数据库层**：`mysql_*` 扩展替换为 `mysqli_*`（`include/db_mysql.class.php`）
+- **模板编译器**：`preg_replace /e` 修饰符替换为 `preg_replace_callback`（`include/template.func.php`）
+- **安全性**：`extract()` 使用 `EXTR_SKIP` 防止变量覆盖
+- **兼容性**：移除 `set_magic_quotes_runtime`、`get_magic_quotes_gpc`、`$HTTP_*_VARS`
+- **语法**：所有短开标签 `<?` 替换为 `<?php`
+
+详见 [UPGRADE_PHP74.md](UPGRADE_PHP74.md) 升级报告。
+
 ## 技术要点
 
 - **引导机制**：每个页面定义 `CURSCRIPT` 常量后引入 `include/common.inc.php`
@@ -117,3 +129,4 @@
 MIT 许可证 —— 详见 [LICENSE](LICENSE)。
 
 原作者：康盛创想（Comsenz Inc.，2001-2006）。
+维护者：[Wenyin Root](https://github.com/wenyinos/discuz-410)。
