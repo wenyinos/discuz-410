@@ -107,7 +107,7 @@ if($action == 'plugins') {
 <br><?=$lang['plugins_tips']?>
 </td></tr></table><br><br>
 <?=$plugins?>
-<?
+<?php
 	} else {
 
 		$query = $db->query("SELECT * FROM {$tablepre}plugins WHERE ".($identifier ? "identifier='$identifier'" : "pluginid='$edit'"));
@@ -262,7 +262,7 @@ if($action == 'plugins') {
 <tr><td bgcolor="<?=ALTBG1?>" align="center"><textarea  name="plugindata" cols="80" rows="8"></textarea><br>
 <input type="checkbox" name="ignoreversion" value="1"> <?=$lang['plugins_import_ignore_version']?></td></tr>
 </table><br><center><input type="submit" name="importsubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} elseif(submitcheck('configsubmit')) {
 
@@ -419,7 +419,7 @@ if($action == 'plugins') {
 <a name="common"></a>
 <form method="post" action="admincp.php?action=pluginsedit&type=common&pluginid=<?=$pluginid?>">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
-<?
+<?php
 
 		$adminidselect = array($plugin['adminid'] => 'selected');
 
@@ -505,7 +505,7 @@ if($action == 'plugins') {
 <td>&nbsp;</td></tr>
 </table><br><center><input type="submit" name="editsubmit" value="<?=$lang['submit']?>"></center>
 </form><br>
-<?
+<?php
 
 	} else {
 
@@ -686,7 +686,7 @@ if($action == 'plugins') {
 <tr bgcolor="<?=ALTBG1?>"><td>
 <br><?=$lang['plugins_edit_hooks_tips']?>
 </td></tr></table><br><br>
-<?
+<?php
 
 		showtype($lang['plugins_edit_hooks'].' - '.$pluginhook['title'], 'top');
 		showsetting('plugins_edit_hooks_description', 'descriptionnew', $pluginhook['description'], 'textarea');

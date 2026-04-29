@@ -39,7 +39,7 @@ if(empty($logout)) {
 		$query = $db->query("SELECT uid AS discuz_uid, username AS discuz_user, password AS discuz_pw, secques AS discuz_secques, groupid, invisible
 			FROM {$tablepre}members WHERE $usernameadd AND password='$password'");
 		if($member = $db->fetch_array($query)) {
-			@extract($member);
+			@extract($member, EXTR_SKIP);
 			/*
 			$sid = random(6);
 			$sessionexists = 0;

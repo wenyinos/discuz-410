@@ -39,7 +39,7 @@ if($action == 'qihoo_config') {
 <tr bgcolor="<?=ALTBG1?>"><td>
 <br><?=$lang['qihoo_tips']?>
 </td></tr></table>
-<?
+<?php
 
 		showtype('qihoo');
 		showsetting('qihoo_status', '', '', '<input type="radio" name="settingsnew[qihoo_status]" value="0" '.$checkstatus[0].'> '.$lang['qihoo_status_disable'].'<br><input type="radio" name="settingsnew[qihoo_status]" value="1" '.$checkstatus[1].'> '.$lang['qihoo_status_enable'].'<br><input type="radio" name="settingsnew[qihoo_status]" value="2" '.$checkstatus[2].'> '.$lang['qihoo_status_enable_default']);
@@ -128,7 +128,7 @@ if($action == 'qihoo_config') {
 <td><a href="###" onClick="window.open('topic.php?topic='+findobj('newtopic').value+'&keyword='+findobj('newkeyword').value+'&stype='+findobj('newstype').value+'&length='+findobj('newlength').value+'&relate='+findobj('newrelate').value+'');">[<?=$lang['preview']?>]</a></td>
 </tr></table><br>
 <center><input type="submit" name="topicsubmit" value="<?=$lang['submit']?>"></center></form></td></tr>
-<?
+<?php
 
 	} else {
 

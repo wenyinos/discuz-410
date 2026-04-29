@@ -41,7 +41,7 @@ if($action == 'alipay') {
 <tr bgcolor="<?=ALTBG1?>"><td>
 <br><?=$lang['alipay_tips']?>
 </td></tr></table><br>
-<?
+<?php
 
 		showtype('alipay', 'top');
 		showsetting('alipay_ratio', 'settingsnew[ec_ratio]', $settings['ec_ratio'], 'text');
@@ -173,7 +173,7 @@ if($action == 'alipay') {
 </table><br>
 <center><input type="submit" name="searchsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -265,7 +265,7 @@ if($action == 'alipay') {
 <tr><td class="multi"><?=$multipage?></td></tr></table><br><center>
 <input type="submit" name="ordersubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	}
 

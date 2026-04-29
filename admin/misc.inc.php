@@ -51,7 +51,7 @@ if($action == 'onlinelist') {
 <td><?=$lang['display_order']?></td><td><?=$lang['usergroups_title']?></td><td><?=$lang['usergroups_title']?></td><td><?=$lang['onlinelist_image']?></td></tr>
 <?=$onlinelist?></table><br>
 <center><input type="submit" name="onlinesubmit" value="<?=$lang['submit']?>"></center></form></td></tr>
-<?
+<?php
 
 	} else {
 
@@ -113,7 +113,7 @@ if($action == 'onlinelist') {
 <td><input type="text" size="15" name="newlogo"></td>
 </tr></table><br>
 <center><input type="submit" name="forumlinksubmit" value="<?=$lang['submit']?>"></center></form></td></tr>
-<?
+<?php
 
 	} else {
 
@@ -180,7 +180,7 @@ if($action == 'onlinelist') {
 <td><input type="text" size="25" name="newimage"></td>
 </tr></table><br>
 <center><input type="submit" name="medalsubmit" value="<?=$lang['submit']?>"></center></form></td></tr>
-<?
+<?php
 
 	} else {
 
@@ -244,7 +244,7 @@ if($action == 'onlinelist') {
 <td colspan="2">&nbsp;</td>
 </tr></table><br>
 <center><input type="submit" name="bbcodessubmit" value="<?=$lang['submit']?>"></center></form></td></tr>
-<?
+<?php
 
 	} elseif(submitcheck('bbcodessubmit')) {
 
@@ -348,7 +348,7 @@ if($action == 'onlinelist') {
 </tr></table><br>
 <center><input type="submit" name="censorsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -428,7 +428,7 @@ if($action == 'onlinelist') {
 <td colspan="2"><input type="text" name="newurl2" size="35"></td><td>&nbsp;</td>
 </tr></table><br>
 <center><input type="submit" name="smiliesubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} else {
 
@@ -495,7 +495,7 @@ if($action == 'onlinelist') {
 </tr></table><br>
 <center><input type="submit" name="typesubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -589,7 +589,7 @@ if($action == 'onlinelist') {
 </tr></table><br>
 <center><input type="submit" name="cronssubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 		} else {
 
@@ -632,7 +632,7 @@ if($action == 'onlinelist') {
 <tr bgcolor="<?=ALTBG1?>"><td>
 <br><?=$lang['crons_edit_tips']?>
 </td></tr></table><br>
-<?
+<?php
 
 				$weekdayselect = $dayselect = $hourselect = $minuteselect = '';
 
@@ -819,7 +819,7 @@ if($action == 'onlinelist') {
 
 <table cellspacing="0" cellpadding="0" border="0" width="98%" align="center">
 <tr><td class="multi"><?=$multipage?></td></tr></table>
-<?
+<?php
 
 } elseif($action == 'logout') {
 

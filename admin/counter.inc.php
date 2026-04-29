@@ -68,7 +68,7 @@ if(!submitcheck('forumsubmit', 1) && !submitcheck('digestsubmit', 1) && !submitc
 </table><br><center>
 <input type="submit" name="movedthreadsubmit" value="<?=$lang['submit']?>"> &nbsp;
 <input type="reset" value="<?=$lang['reset']?>"></center></form>
-<?
+<?php
 
 } elseif(submitcheck('forumsubmit', 1)) {
 

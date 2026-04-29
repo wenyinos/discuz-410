@@ -210,7 +210,7 @@ if($action == 'updatecache') {
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="85%" align="center" class="tableborder">
 <tr class="header"><td><?=$lang['fileperms_check']?></td></tr>
 <tr><td bgcolor="<?=ALTBG1?>"><br><ul>
-<?
+<?php
 
 	$entryarray	= array	(
 				'attachments',

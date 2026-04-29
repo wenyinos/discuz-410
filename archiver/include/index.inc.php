@@ -21,8 +21,7 @@ require_once './include/header.inc.php';
 <tr><td bgcolor="<?=ALTBG1?>" class="bold"><a href="archiver/"><?=$_DCACHE['settings']['bbname']?></a></td></tr></table><br><br>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="<?=TABLEWIDTH?>" align="center" class="tableborder">
 <tr><td bgcolor="<?=ALTBG2?>"><br>
-<?
-
+<?php
 $forums = $subforums = array();
 $categories = array(0 => array('fid' => 0, 'name' => $_DCACHE['settings']['bbname']));
 

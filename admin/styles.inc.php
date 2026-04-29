@@ -117,7 +117,7 @@ if($action == 'styles' && !$export) {
 <tr><td bgcolor="<?=ALTBG1?>" align="center"><textarea  name="styledata" cols="80" rows="8"></textarea><br>
 <input type="checkbox" name="ignoreversion" value="1"> <?=$lang['styles_import_ignore_version']?></td></tr>
 </table><br><center><input type="submit" name="importsubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} elseif(submitcheck('stylesubmit')) {
 
@@ -303,7 +303,7 @@ if($action == 'styles' && !$export) {
 <td bgcolor="<?=ALTBG2?>"><input type='text' name="newcvar" size="20"></td>
 <td bgcolor="<?=ALTBG1?>"><textarea name="newcsubst" cols="50" rows="2"></textarea></td>
 </tr></table><br>
-<?
+<?php
 
 			echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"$lang[submit]\"></center></form>";
 

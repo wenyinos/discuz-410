@@ -45,7 +45,7 @@ setTimeout("reload()", 2001);
 </table>
 </body>
 </html>
-<?
+<?php
 		exit();
 	}
 }
@@ -77,7 +77,7 @@ if(($attackevasive == 2 || $attackevasive == 3) && ($_SERVER['HTTP_X_FORWARDED_F
 </table>
 </body>
 </html>
-<?
+<?php
 	exit();
 }
 

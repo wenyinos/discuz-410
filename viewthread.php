@@ -287,7 +287,7 @@ if(empty($action) && $tid) {
 			}
 
 			foreach($attachtags as $pid) {
-				$postlist[$pid]['message'] = preg_replace("/\[attach\](\d+)\[\/attach\]/ie", "attachtag($pid, \\1)", $postlist[$pid]['message']);
+				$postlist[$pid]['message'] = preg_replace_callback("/\[attach\](\d+)\[\/attach\]/i", function($m) use ($pid) { return attachtag($pid, $m[1]); }, $postlist[$pid]['message']);
 			}
 		} else {
 			$db->query("UPDATE {$tablepre}posts SET attachment='0' WHERE pid IN ($attachpids)", 'UNBUFFERED');

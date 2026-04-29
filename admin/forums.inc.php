@@ -44,7 +44,7 @@ if($action == 'forumadd')  {
 <br><?=$lang['forums_add_tips']?>
 </td></tr></table>
 <br>
-<?
+<?php
 
 		if(empty($addforumtype)) {
 
@@ -57,7 +57,7 @@ if($action == 'forumadd')  {
 <td bgcolor="<?=ALTBG2?>" width="70%"><input type="text" name="newcat" value="<?=$lang['forums_add_category_name']?>" size="40"></td>
 <td bgcolor="<?=ALTBG1?>" width="15%"><input type="submit" name="catsubmit" value="<?=$lang['submit']?>"></td></tr>
 </table></form>
-<?
+<?php
 
 		}
 
@@ -74,7 +74,7 @@ if($action == 'forumadd')  {
 <td bgcolor="<?=ALTBG2?>" width="27%"><?=$groupselect?></td>
 <td bgcolor="<?=ALTBG1?>" width="15%"><input type="submit" name="forumsubmit" value="<?=$lang['submit']?>"></td></tr>
 </table></form>
-<?
+<?php
 
 		}
 
@@ -91,7 +91,7 @@ if($action == 'forumadd')  {
 <td bgcolor="<?=ALTBG2?>" width="27%"><?=$forumselect?></td>
 <td bgcolor="<?=ALTBG1?>" width="15%"><input type="submit" name="forumsubmit" value="<?=$lang['submit']?>"></td></tr>
 </table></form><br>
-<?
+<?php
 
 		}
 
@@ -152,7 +152,7 @@ if($action == 'forumadd')  {
 <tr><td bgcolor="<?=ALTBG1?>"><br>
 <form method="post" action="admincp.php?action=forumsedit">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
-<?
+<?php
 
 		$forums = $showedforums = array();
 		$query = $db->query("SELECT f.fid, f.type, f.status, f.name, f.fup, f.displayorder, f.inheritedmod, ff.moderators
@@ -260,7 +260,7 @@ if($action == 'forumadd')  {
 </table><br>
 <center><input type="submit" name="modsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -411,7 +411,7 @@ if($action == 'forumadd')  {
 <tr align="center"><td bgcolor="<?=ALTBG1?>" width="40%"><?=$lang['forums_merge_target']?>:</td>
 <td bgcolor="<?=ALTBG2?>" width="60%"><?=sprintf($forumselect, "target")?></td></tr>
 </table><br><center><input type="submit" name="mergesubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} else {
 
@@ -467,7 +467,7 @@ if($action == 'forumadd')  {
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
 <input type="hidden" name="type" value="<?=$forum['type']?>">
 <input type="hidden" name="detailsubmit" value="submit">
-<?
+<?php
 
 		if($forum['type'] == 'group') {
 
@@ -483,7 +483,7 @@ if($action == 'forumadd')  {
 <tr bgcolor="<?=ALTBG1?>"><td>
 <br><?=$lang['forums_edit_tips']?>
 </td></tr></table><br><br>
-<?
+<?php
 
 			$fupselect = "<select name=\"fupnew\">\n<option value=\"0\" ".(!$forum[fup] ? "selected=\"selected\"" : NULL)."> - $lang[none] - </option>\n";
 			$query = $db->query("SELECT fid, name FROM {$tablepre}forums WHERE fid<>'$fid' AND type<>'sub' ORDER BY displayorder");
@@ -863,7 +863,7 @@ if($action == 'forumadd')  {
 </table><br>
 <center><input type="submit" name="typesubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -956,7 +956,7 @@ if($action == 'forumadd')  {
 </table><br><center>
 <input type="submit" value="<?=$lang['submit']?>">
 </center></form><br>
-<?
+<?php
 
 	} else {
 
@@ -990,7 +990,7 @@ if($action == 'forumadd')  {
 </table><br><center>
 <input type="submit" name="rulessubmit" value="<?=$lang['submit']?>">
 </center></form><br>
-<?
+<?php
 
 		} else {
 
@@ -1050,7 +1050,7 @@ if($action == 'forumadd')  {
 <form method="post" action="admincp.php?action=forumcopy">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
 <input type="hidden" name="source" value="<?=$source?>">
-<?
+<?php
 
 		showtype($lang['forums_copy'].' - '.$lang['forums_copy_source'].' - '.$sourceforum['name'], 'top');
 		showsetting('forums_copy_target', '', '', $forumselect);
@@ -1092,7 +1092,7 @@ if($action == 'forumadd')  {
 
 		foreach(array('forums', 'forumfields') as $table) {
 			if(is_array($forumoptions[$table]) && !empty($forumoptions[$table])) {
-				$query = $db->query("SELECT ".implode($forumoptions[$table],',')." FROM {$tablepre}$table WHERE fid='$source'");
+				$query = $db->query("SELECT ".implode(',', $forumoptions[$table])." FROM {$tablepre}$table WHERE fid='$source'");
 				if(!$sourceforum = $db->fetch_array($query)) {
 					cpmsg('forums_copy_source_invalid');
 				}

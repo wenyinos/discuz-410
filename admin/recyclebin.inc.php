@@ -102,7 +102,7 @@ if(!submitcheck('rbsubmit')) {
 </table><br>
 <center><input type="submit" name="rbsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 } else {
 
@@ -254,7 +254,7 @@ if(submitcheck('searchsubmit')) {
 <input type="button" value="<?=$lang['recyclebin_all_ignore']?>" onclick="checkalloption(this.form, 'ignore')"></td></tr>
 <?=$threads?>
 </table><br><center><input type="submit" name="rbsubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 }
 

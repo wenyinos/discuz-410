@@ -170,16 +170,16 @@ Copyright&copy; <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a
 <form method="get" action="http://www.php.net/manual-lookup.php" target="_blank"><tr bgcolor="<?=ALTBG2?>"><td><?=$lang['home_php_lookup']?></td>
 <td><input type="text" size="30" name="function"></td><td><input type="submit" value="<?=$lang['submit']?>"></td></tr></form>
 
-<? if(($adminid == 2 || $adminid == 3) && ($allowedituser || $allowbanuser)) { ?>
+<?php if(($adminid == 2 || $adminid == 3) && ($allowedituser || $allowbanuser)) { ?>
 
 <form method="post" action="admincp.php?action=editmember">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
 <tr bgcolor="<?=ALTBG1?>"><td><?=$lang['home_edit_member']?></td>
 <td><input type="text" size="30" name="username"></td><td><input type="submit" name="searchsubmit" value="<?=$lang['submit']?>"></td></tr></form>
 
-<? } ?>
+<?php } ?>
 
-<? if($adminid == 1) { ?>
+<?php if($adminid == 1) { ?>
 
 <form method="post" action="admincp.php?action=members">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
@@ -197,7 +197,7 @@ Copyright&copy; <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a
 <tr bgcolor="<?=ALTBG1?>"><td><?=$lang['home_edit_group']?></td>
 <td><select name="edit"><?=$groupselect?></td><td><input type="submit" value="<?=$lang['submit']?>"></td></tr></form>
 
-<? } ?>
+<?php } ?>
 
 </table></td></tr></table><br>
 
@@ -223,12 +223,12 @@ Copyright&copy; <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a
 <input type="submit" name="notesubmit" value="<?=$lang['submit']?>"></td></tr>
 </table><br>
 
-<? if((($threadsmod || $postsmod) && $allowmodpost) || ($threadsdel && $adminid == 1)) { ?>
+<?php if((($threadsmod || $postsmod) && $allowmodpost) || ($threadsdel && $adminid == 1)) { ?>
 
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="0" width="85%" align="center" class="tableborder">
 <tr><td><table border="0" cellspacing="0" cellpadding="<?=TABLESPACE?>" width="100%">
 <tr class="header"><td colspan="2"><?=$lang['home_threads_posts']?></td></tr>
-<?
+<?php
 
 $thisbg = ALTBG1;
 if($allowmodpost) {
@@ -250,7 +250,7 @@ if($threadsdel && $adminid == 1) {
 
 </table></td></tr></table><br>
 
-<? } if($adminid == 1) { ?>
+<?php } if($adminid == 1) { ?>
 
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="0" width="85%" align="center" class="tableborder">
 <tr><td><table border="0" cellspacing="0" cellpadding="<?=TABLESPACE?>" width="100%">
@@ -262,7 +262,7 @@ if($threadsdel && $adminid == 1) {
 <tr bgcolor="<?=ALTBG2?>"><td><?=$lang['home_attach_size']?></td><td><?=$attachsize?></td></tr>
 </table></td></tr></table><br>
 
-<? } ?>
+<?php } ?>
 
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="0" width="85%" align="center" class="tableborder">
 <tr><td><table border="0" cellspacing="0" cellpadding="<?=TABLESPACE?>" width="100%">
@@ -276,7 +276,7 @@ if($threadsdel && $adminid == 1) {
 <tr bgcolor="<?=ALTBG2?>"><td><?=$lang['home_dev_project_site']?></td><td class="smalltxt"><a href="http://www.discuz.com" target="_blank">http://www.Discuz.com</a></td></tr>
 <tr bgcolor="<?=ALTBG1?>"><td><?=$lang['home_dev_community']?></td><td class="smalltxt"><a href="http://www.discuz.net" target="_blank">http://www.Discuz.net</a></td></tr>
 </table></td></tr></table>
-<?
+<?php
 
 if($adminid == 1) {
 	$members = $db->result($db->query("SELECT COUNT(*) FROM {$tablepre}members"), 0);

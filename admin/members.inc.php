@@ -46,7 +46,7 @@ if($action == 'memberadd') {
 </table><br>
 <center><input type="submit" name="addsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -222,7 +222,7 @@ if($action == 'memberadd') {
 <input type="submit" name="newslettersubmit" value="<?=$lang['members_newsletter']?>">&nbsp;
 <input type="submit" name="creditsubmit" value="<?=$lang['members_credits']?>">&nbsp;
 <input type="submit" name="deletesubmit" value="<?=$lang['members_delete']?>"></center>
-<?
+<?php
 
 	}
 
@@ -313,7 +313,7 @@ if($action == 'memberadd') {
 ?>
 <br><br><table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="90%" align="center" class="tableborder">
 <tr class="header"><td colspan="9"><?=$lang['members_search_result']?> <?=$membernum?></td></tr>
-<?
+<?php
 			if(!$membernum) {
 
 				echo '<tr><td bgcolor="'.ALTBG2.'" colspan="2">'.$lang['members_search_nonexistence'].'</td></tr></table><br></form>';
@@ -334,7 +334,7 @@ if($action == 'memberadd') {
 <br>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="90%" align="center" class="tableborder">
 <tr class="header"><td colspan="2"><input class="header" type="checkbox" name="sendcreditsletter" value="1" onclick="findobj('messagebody').disabled=!this.checked"> <?=$lang['members_credits_notify']?></td></tr>
-<?
+<?php
 
 				}
 
@@ -372,7 +372,7 @@ if($action == 'memberadd') {
 </table><br>
 
 <center><input type="submit" name="<?=$next?>" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 			}
 		}
@@ -530,7 +530,7 @@ if($action == 'memberadd') {
 <tr><td class="multi"><?=$multipage?></td></tr></table><br><center>
 <input type="submit" name="editsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} elseif(submitcheck('deletesubmit')) {
 
@@ -608,7 +608,7 @@ if($action == 'memberadd') {
 <tr align="center"><td bgcolor="<?=ALTBG1?>" width="40%"><?=$lang['members_merge_target']?>:</td>
 <td bgcolor="<?=ALTBG2?>" width="60%"><input type="text" name="target" size="20"></td></tr>
 </table><br><center><input type="submit" name="mergesubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} else {
 
@@ -815,7 +815,7 @@ if($action == 'memberadd') {
 </td></tr></table>
 </td></tr>
 </table>
-<?
+<?php
 
 	} else {
 
@@ -974,7 +974,7 @@ function membercredits() {
 </script>
 <input type="submit" name="creditsubmit" value="<?=$lang['submit']?>">
 </center></form>
-<?
+<?php
 
 	} else {
 
@@ -1049,7 +1049,7 @@ function membercredits() {
 </table><br><center>
 <input type="submit" name="medalsubmit" value="<?=$lang['submit']?>">
 </center></form>
-<?
+<?php
 
 	} else {
 
@@ -1113,7 +1113,7 @@ function membercredits() {
 </table><br><center>
 <input type="submit" name="membersubmit" value="<?=$lang['submit']?>">
 </center></form><br>
-<?
+<?php
 
 	} else {
 
@@ -1286,7 +1286,7 @@ function membercredits() {
 <?=$members?>
 </table><br>
 <center><input type="submit" name="accesssubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} else {
 
@@ -1520,7 +1520,7 @@ function membercredits() {
 <td colspan="6" bgcolor="<?=ALTBG2?>">&nbsp;</td>
 </tr></table><br>
 <center><input type="submit" name="fieldsubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} elseif(submitcheck('fieldsubmit')) {
 
@@ -1651,7 +1651,7 @@ function membercredits() {
 </tr></table><br>
 <center><input type="submit" name="ipbansubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 

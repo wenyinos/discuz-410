@@ -158,7 +158,7 @@ if(!$operation) {
 </table><br>
 <center><input type="submit" name="searchsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 } else {
 
@@ -393,7 +393,7 @@ if(submitcheck('searchsubmit')) {
 <tr>
 <td class="header" colspan="2"><?=$lang['threads_result']?> <?=$threadcount?></td>
 </tr>
-<?
+<?php
 
 	if(!$threadcount) {
 
@@ -450,7 +450,7 @@ if(submitcheck('searchsubmit')) {
 <td bgcolor="<?=ALTBG1?>"><input type="radio" name="operation" value="deleteattach" onclick="this.form.modsubmit.disabled=false;"> <?=$lang['threads_delete_attach']?></td>
 <td bgcolor="<?=ALTBG2?>">&nbsp;</td>
 </tr>
-<?
+<?php
 
 		if($detail) {
 
@@ -459,7 +459,7 @@ if(submitcheck('searchsubmit')) {
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="95%" align="center" class="tableborder">
 <tr class="header" align="center"><td>&nbsp;</td><td><?=$lang['subject']?></td><td><?=$lang['forum']?></td><td><?=$lang['author']?></td><td nowrap><?=$lang['threads_replies']?></td><td nowrap><?=$lang['threads_views']?></td><td><?=$lang['threads_lastpost']?></td></tr>
 <?=$threads?>
-<?
+<?php
 
 		}
 

@@ -17,7 +17,7 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?=$charset?>">
-<? include template('css'); ?>
+<?php include template('css'); ?>
 </head>
 
 <body leftmargin="3" topmargin="3">
@@ -28,7 +28,7 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 <tr><td bgcolor="#FFFFFF">
 <table width="100%" border="0" cellspacing="3" cellpadding="<?=TABLESPACE?>" class="smalltxt">
 <tr><td bgcolor="<?=ALTBG1?>" align="center"><b><a href="admincp.php?action=menu&collapse=0">[+]</a> &nbsp; <a href="admincp.php?action=menu&collapse=1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20">[-]</a></b></td></tr>
-<?
+<?php
 
 		if(preg_match("/(^|_)$change($|_)/", $collapse)) {
 			$collapsedlist = array();

@@ -17,10 +17,10 @@ define('CODETABLE_DIR', DISCUZ_ROOT.'./include/tables/');
 
 class Chinese {
 
-	var $table = '';
-	var $iconv_enabled = false;
-	var $unicode_table = array();
-	var $config  =  array
+	public $table = '';
+	public $iconv_enabled = false;
+	public $unicode_table = array();
+	public $config  =  array
 		(
 		'SourceLang'            => '',                    //  original charset
 		'TargetLang'            => '',                    //  target charset
@@ -28,7 +28,7 @@ class Chinese {
 		'BIG5toUnicode_table'   => 'big5-unicode.table',  //  BIG5 to unicode
 		);
 
-	function Chinese($SourceLang, $TargetLang) {
+	function __construct($SourceLang, $TargetLang) {
 
 		$this->config['SourceLang'] = $this->_lang($SourceLang);
 		$this->config['TargetLang'] = $this->_lang($TargetLang);

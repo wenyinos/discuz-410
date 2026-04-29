@@ -10,11 +10,6 @@ define('DISCUZ_ROOT', './');
 
 $timestamp = time();
 
-if(PHP_VERSION < '4.1.0') {
-	$_GET = &$HTTP_GET_VARS;
-	$_SERVER = &$HTTP_SERVER_VARS;
-}
-
 chdir('../');
 require_once './config.inc.php';
 require_once './include/db_'.$database.'.class.php';

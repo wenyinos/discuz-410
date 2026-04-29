@@ -41,7 +41,7 @@ if(empty($action) || isset($frames)) {
 <frame name="header" noresize scrolling="no" src="admincp.php?action=header&sid=<?=$sid?>">
 <frame name="main" noresize scrolling="yes" src="admincp.php?<?=$extra?>&sid=<?=$sid?>">
 </frameset></frameset></html>
-<?
+<?php
 
 	exit();
 
@@ -168,7 +168,7 @@ if($action == 'menu') {
 <script language="JavaScript">
 document.login.admin_password.focus();
 </script>
-<?
+<?php
 
 			cpfooter();
 			dexit();

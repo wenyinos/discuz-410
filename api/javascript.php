@@ -13,11 +13,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 define('IN_DISCUZ', TRUE);
 define('DISCUZ_ROOT', '../');
 
-if(PHP_VERSION < '4.1.0') {
-	$_GET		=	&$HTTP_GET_VARS;
-	$_SERVER	=	&$HTTP_SERVER_VARS;
-}
-
 require_once DISCUZ_ROOT.'./config.inc.php';
 require_once DISCUZ_ROOT.'./include/global.func.php';
 require_once DISCUZ_ROOT.'./include/db_'.$database.'.class.php';
@@ -139,7 +134,7 @@ if ($function == 'threads') {
 	}
 
 } elseif ($function == 'forums') {
-	//ÂÛÌ³ÁÐ±í
+	//ï¿½ï¿½Ì³ï¿½Ð±ï¿½
 	$fups		=	isset($_GET['fups']) ? $_GET['fups'] : NULL;
 	$orderby	=	isset($_GET['orderby']) ? (in_array($_GET['orderby'],array('displayorder','threads','posts')) ? $_GET['orderby'] : 'displayorder') : 'displayorder';
 	$cachefile	=	DISCUZ_ROOT.'./forumdata/cache/javascript_'.md5("forums|$fups|$startrow|$items|$orderby").'.php';
@@ -159,14 +154,14 @@ if ($function == 'threads') {
 		$writedata = "\$datalist = unserialize('".addcslashes(serialize($datalist), '\\\'')."');";
 		UpdateCache($cachefile,$writedata);
 	}
-	//¶Á³ö²¢ÏÔÊ¾
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 	if (is_array($datalist)) {
 		foreach ($datalist AS $fid=>$name) {
 			echo "document.writeln(\"<a href='".$boardurl."forumdisplay.php?fid=$fid'$LinkTarget>$name</a><br />\");\r\n";
 		}
 	}
 } elseif ($function == 'memberrank') {
-	//»áÔ±ÅÅÐÐ
+	//ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
 	$orderby	=	isset($_GET['orderby']) ? $_GET['orderby'] : 'credits';
 	$cachefile	=	DISCUZ_ROOT.'./forumdata/cache/javascript_'.md5("memberrank|$startrow|$items|$orderby").'.php';
 	if((@!include($cachefile)) || $expiration < $timestamp) {
@@ -196,7 +191,7 @@ if ($function == 'threads') {
 		$writedata = "\$datalist = unserialize('".addcslashes(serialize($datalist), '\\\'')."');";
 		UpdateCache($cachefile,$writedata);
 	}
-	//¶Á³ö²¢ÏÔÊ¾
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 	if (is_array($datalist)) {
 		if ($orderby == 'regdate') {
 			foreach ($datalist AS $value) {
@@ -209,7 +204,7 @@ if ($function == 'threads') {
 		}
 	}
 } elseif ($function == 'stats') {
-	//ÂÛÌ³Í³¼Æ
+	//ï¿½ï¿½Ì³Í³ï¿½ï¿½
 	$info = isset($_GET['info']) ? $_GET['info'] : NULL;
 	$language = $info;
 	if (is_array($info)) {
@@ -223,14 +218,14 @@ if ($function == 'threads') {
 					`status`='1';
 					");
 			while($forumlist = $db->fetch_array($query)) {
-				//forumsÂÛÌ³Êý¡¢threadsÖ÷ÌâÊý¡¢postsÌû×ÓÊý
+				//forumsï¿½ï¿½Ì³ï¿½ï¿½ï¿½ï¿½threadsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½postsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				$statsinfo['forums']++;
 				$statsinfo['threads'] += $forumlist['threads'];
 				$statsinfo['posts'] += $forumlist['posts'];
 			}
 			unset($info['forums'],$info['threads'],$info['posts']);
 			foreach ($info AS $index=>$value) {
-				//members»áÔ±Êý¡¢onlineÔÚÏßÈËÊý¡¢onlinemembersÔÚÏß»áÔ±Êý
+				//membersï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½onlineï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½onlinemembersï¿½ï¿½ï¿½ß»ï¿½Ô±ï¿½ï¿½
 				if ($index == 'members') {
 					$sql = "SELECT COUNT(*) FROM `{$tablepre}members`;";
 				} elseif ($index == 'online') {
@@ -247,13 +242,13 @@ if ($function == 'threads') {
 			$writedata = "\$statsinfo = unserialize('".addcslashes(serialize($statsinfo), '\\\'')."');";
 			UpdateCache($cachefile,$writedata);
 		}
-		//¶Á³öÊý¾Ý²¢ÏÔÊ¾
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½Ê¾
 		foreach ($language AS $index=>$value) {
 			echo "document.write(\"$value$statsinfo[$index]<br />\");\r\n";
 		}
 	}
 } elseif ($function == 'images') {
-	//¸½¼þÍ¼Æ¬µ÷ÓÃ
+	//ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 	$maxwidth	=	isset($_GET['maxwidth']) ? $_GET['maxwidth'] : 0;
 	$maxheight	=	isset($_GET['maxheight']) ? $_GET['maxheight'] : 0;
 	$cachefile	=	DISCUZ_ROOT.'./forumdata/cache/javascript_'.md5("images|$fids|$startrow|$items|$digest").'.php';
@@ -287,7 +282,7 @@ if ($function == 'threads') {
 		$writedata = "\$datalist = unserialize('".addcslashes(serialize($datalist), '\\\'')."');";
 		UpdateCache($cachefile,$writedata);
 	}
-	//¶Á³öÊý¾Ý²¢ÏÔÊ¾
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½Ê¾
 	if (is_array($datalist)) {
 		$imgsize	=	($maxwidth ? " width='$maxwidth'" : NULL)
 					.($maxheight ? " height='$maxheight'" : NULL);
@@ -302,7 +297,7 @@ if ($function == 'threads') {
 }
 
 function UpdateCache($cachfile,$data='') {
-	//Ð´Èë»º´æ
+	//Ð´ï¿½ë»ºï¿½ï¿½
 	global $timestamp,$jscachelife;
 	if(!$fp = @fopen($cachfile, 'wb')) {
 		exit("document.write(\"Unable to write to cache file!<br>Please chmod ./forumdata/cache to 777 and try again.\");");

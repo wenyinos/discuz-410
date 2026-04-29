@@ -47,7 +47,7 @@ if($action == 'templates') {
 <td bgcolor="<?=ALTBG1?>">&nbsp;</td>
 </tr></table><br>
 <center><input type="submit" name="tplsubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 		} else {
 
@@ -174,7 +174,7 @@ if($action == 'templates') {
 <ul><li><b>Discuz! <?=$lang['templates_language_pack']?></b><?=$languages?></ul>
 <ul><li><b>Discuz! <?=$lang['templates_html']?></b><?=$templates?></ul>
 </td></tr></table>
-<?
+<?php
 
 	}
 
@@ -272,7 +272,7 @@ function findInPage(obj, str) {
 </td></tr></table>
 </form>
 
-<?
+<?php
 
 	} elseif($delete == 'yes') {
 

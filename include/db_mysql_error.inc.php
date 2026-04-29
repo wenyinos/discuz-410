@@ -1,12 +1,8 @@
-<?
+<?php
 
 /*
 	[Discuz!] (C)2001-2006 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
-
-	$RCSfile: db_mysql_error.inc.php,v $
-	$Revision: 1.3 $
-	$Date: 2006/02/23 13:44:02 $
 */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,32 +16,6 @@ $dberror = $this->error();
 $dberrno = $this->errno();
 
 if($dberrno == 1114) {
-
-?>
-<html>
-<head>
-<title>Max Onlines Reached</title>
-</head>
-<body bgcolor="#FFFFFF">
-<table cellpadding="0" cellspacing="0" border="0" width="600" align="center" height="85%">
-  <tr align="center" valign="middle">
-    <td>
-    <table cellpadding="10" cellspacing="0" border="0" width="80%" align="center" style="font-family: Verdana, Tahoma; color: #666666; font-size: 9px">
-    <tr>
-      <td valign="middle" align="center" bgcolor="#EBEBEB">
-        <br><b style="font-size: 10px">Forum onlines reached the upper limit</b>
-        <br><br><br>Sorry, the number of online visitors has reached the upper limit.
-        <br>Please wait for someone else going offline or visit us in idle hours.
-        <br><br>
-      </td>
-    </tr>
-    </table>
-    </td>
-  </tr>
-</table>
-</body>
-</html>
-<?
 
 	function_exists('dexit') ? dexit() : exit();
 

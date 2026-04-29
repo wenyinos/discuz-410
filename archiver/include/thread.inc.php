@@ -30,16 +30,14 @@ require_once './include/header.inc.php';
 
 ?>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="<?=TABLEWIDTH?>" align="center" class="tableborder">
-<?
-
+<?php
 if(!$thread || !(!$thread['viewperm'] || ($thread['viewperm'] && forumperm($thread['viewperm'])))) {
 
 ?>
 <tr><td bgcolor="<?=ALTBG1?>" class="bold"><a href="archiver/"><?=$_DCACHE['settings']['bbname']?></a></td></tr></table><br><br>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="<?=TABLEWIDTH?>" align="center" class="tableborder">
 <tr><td bgcolor="<?=ALTBG2?>"><br><?=$lang['thread_nonexistence']?><br><br></td></tr></table>
-<?
-
+<?php
 } else {
 
 	$navsub = $thread['type'] == 'sub' ? " <a href=\"archiver/{$qm}fid-$thread[fup].html\">{$_DCACHE[forums][$thread[fup]][name]}</a> <b>&raquo;</b> ": ' ';
@@ -51,8 +49,7 @@ if(!$thread || !(!$thread['viewperm'] || ($thread['viewperm'] && forumperm($thre
 ?>
 <tr><td bgcolor="<?=ALTBG1?>" class="bold"><a href="archiver/"><?=$_DCACHE['settings']['bbname']?></a> <b>&raquo;</b><?=$navsub?><a href="archiver/<?=$qm?>fid-<?=$thread['fid']?>.html"><?=$thread['name']?></a> <b>&raquo;</b> <?=$thread[subject]?></td></tr></table>
 <table cellspacing="0" cellpadding="0" width="<?=TABLEWIDTH?>" align="center"><tr><td align="center"><br><?=multi($thread['replies'] + 1, $page, $ppp, "{$qm}tid-$tid")?><br><br></td></tr></table>
-<?
-
+<?php
 	$query = $db->query("SELECT author, dateline, subject, message, anonymous
 		FROM {$tablepre}posts
 		WHERE tid='$tid' AND invisible='0'
@@ -66,7 +63,7 @@ if(!$thread || !(!$thread['viewperm'] || ($thread['viewperm'] && forumperm($thre
 			array('&amp;', '&quot;', '&lt;', '&gt;', '&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;'),
 			$post['message'])));
 		if($thread['jammer']) {
-			$post['message'] =  preg_replace("/\<br \/\>/e", "jammer()", $post['message']);
+			$post['message'] =  preg_replace_callback("/\<br \/\>/", function() { return jammer(); }, $post['message']);
 		}
 		$post['author'] = !$post['anonymous'] ? $post['author'] : $lang['anonymous'];
 
@@ -75,8 +72,7 @@ if(!$thread || !(!$thread['viewperm'] || ($thread['viewperm'] && forumperm($thre
 <tr><td bgcolor="<?=ALTBG1?>"><table cellspacing="0" cellpadding="0" width="100%"><td class="bold"><?=$post['author']?></td><td align="right"><?=$post['dateline']?></td></tr></table></td></tr>
 <tr><td bgcolor="<?=ALTBG2?>" class="smalltxt"><?=$post['message']?></td></tr>
 </table><br>
-<?
-
+<?php
 	}
 
 }

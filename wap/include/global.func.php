@@ -73,7 +73,7 @@ function wapcutstr($string, &$length) {
 
 function wmloutput() {
 	global $sid, $charset, $wapcharset, $chs;
-	$content = preg_replace("/\<a(\s*[^\>]+\s*)href\=([\"|\']?)([^\"\'\s]+)/ies", "transsid('\\3','<a\\1href=\\2',1)", ob_get_contents());
+	$content = preg_replace_callback("/\<a(\s*[^\>]+\s*)href\=([\"|\']?)([^\"\'\s]+)/is", function($m) { return transsid($m[3], '<a'.$m[1].'href='.$m[2], 1); }, ob_get_contents());
 	ob_end_clean();
 
 	if($charset != 'utf-8') {

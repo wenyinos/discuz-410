@@ -70,7 +70,7 @@ if(!submitcheck('settingsubmit')) {
 <br>
 <form method="post" name="settings" action="admincp.php?action=settings&edit=yes">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
-<?
+<?php
 	showtype('settings_general', 'top');
 	showsetting('settings_bbname', 'settingsnew[bbname]', $settings['bbname'], 'text');
 	showsetting('settings_sitename', 'settingsnew[sitename]', $settings['sitename'], 'text');
@@ -272,7 +272,7 @@ if(!submitcheck('settingsubmit')) {
 ?>
 <br><center><input type="submit" name="settingsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 } else {
 

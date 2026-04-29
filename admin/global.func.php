@@ -44,7 +44,7 @@ function cpmsg($message, $url_forward = '', $msgtype = 'message', $extra = '') {
 </td></tr></table>
 </td></tr></table>
 <br><br><br>
-<?
+<?php
 
 	cpfooter();
 	dexit();
@@ -123,7 +123,7 @@ function showtype($name, $type = '', $submit = '') {
 <tr class="header">
 <td colspan="2"><?=$name?></td>
 </tr>
-<?
+<?php
 
 		}
 	} else {
@@ -169,7 +169,7 @@ function showmenu($title, $menus = array()) {
 ?>
 <tr><td bgcolor="<?=ALTBG1?>"><a name="#<?=$menucount?>"></a>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="100%" align="center" class="tableborder">
-<?
+<?php
 
 	if(is_array($menus)) {
 		$menucount++;
@@ -231,7 +231,7 @@ function sqldumptable($table, $startfrom = 0, $currsize = 0) {
 				$comma = '';
 				$tabledump .= "INSERT INTO $table VALUES(";
 				for($i = 0; $i < $numfields; $i++) {
-					$tabledump .= $comma.'\''.mysql_escape_string($row[$i]).'\'';
+					$tabledump .= $comma.'\''.mysqli_real_escape_string($db->conn, $row[$i]).'\'';
 					$comma = ',';
 				}
 				$tabledump .= ");\n";
@@ -250,7 +250,7 @@ function sqldumptable($table, $startfrom = 0, $currsize = 0) {
 					$comma = '';
 					$tabledump .= $commas."(";
 					for($i = 0; $i < $numfields; $i++) {
-						$tabledump .= $comma.'\''.mysql_escape_string($row[$i]).'\'';
+						$tabledump .= $comma.'\''.mysqli_real_escape_string($db->conn, $row[$i]).'\'';
 						$comma = ',';
 					}
 					$tabledump .= ')';
@@ -320,7 +320,7 @@ function redirect(url) {
 
 <body <?=BGCODE?> text="<?=TEXT?>" leftmargin="10" topmargin="10">
 <br>
-<?
+<?php
 
 }
 
@@ -334,7 +334,7 @@ Powered by <a href="http://www.discuz.net" target="_blank" style="color: <?=TEXT
 
 </body>
 </html>
-<?
+<?php
 
 	updatesession();
 }

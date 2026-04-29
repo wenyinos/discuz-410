@@ -123,7 +123,7 @@ if($action == 'export') {
 
 </table><br><center>
 <input type="submit" name="exportsubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} else {
 
@@ -384,7 +384,7 @@ if($action == 'export') {
 <?=$exportinfo?>
 </table><br><center>
 <input type="submit" name="deletesubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	 } elseif(submitcheck('importsubmit', 1)) {
 
@@ -479,7 +479,7 @@ if($action == 'export') {
 <br><br>
 <center><input type="submit" name="sqlsubmit" value="<?=$lang['submit']?>"></center>
 </form></td></tr>
-<?
+<?php
 
 	} else {
 
@@ -511,7 +511,7 @@ if($action == 'export') {
 <tr align="center" class="header">
 <td><input type="checkbox" name="chkall" class="header" onclick="checkall(this.form)" checked><?=$lang['database_optimize_opt']?></td><td><?=$lang['database_optimize_table_name']?></td><td><?=$lang['type']?></td><td><?=$lang['database_optimize_rows']?></td>
 <td><?=$lang['database_optimize_data']?></td><td><?=$lang['database_optimize_index']?></td><td><?=$lang['database_optimize_frag']?></td></tr>
-<?
+<?php
 
 	$optimizetable = '';
 	$totalsize = 0;

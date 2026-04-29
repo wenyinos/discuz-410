@@ -18,11 +18,6 @@ define('DISCUZ_ROOT', '');
 $timestamp = time();
 $fidarray = array();
 
-if(PHP_VERSION < '4.1.0') {
-	$_GET = &$HTTP_GET_VARS;
-	$_SERVER = &$HTTP_SERVER_VARS;
-}
-
 require_once DISCUZ_ROOT.'./config.inc.php';
 require_once DISCUZ_ROOT.'./include/global.func.php';
 require_once DISCUZ_ROOT.'./include/db_'.$database.'.class.php';

@@ -34,29 +34,29 @@ function parse_template($file, $templateid, $tpldir) {
 
 	$template = preg_replace("/([\n\r]+)\t+/s", "\\1", $template);
 	$template = preg_replace("/\<\!\-\-\{(.+?)\}\-\-\>/s", "{\\1}", $template);
-	$template = preg_replace("/\{lang\s+(.+?)\}/ies", "languagevar('\\1')", $template);
+	$template = preg_replace_callback("/\{lang\s+(.+?)\}/is", function($m) { return languagevar($m[1]); }, $template);
 	$template = str_replace("{LF}", "<?=\"\\n\"?>", $template);
 
 	$template = preg_replace("/\{(\\\$[a-zA-Z0-9_\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?=\\1?>", $template);
-	$template = preg_replace("/$var_regexp/es", "addquote('<?=\\1?>')", $template);
-	$template = preg_replace("/\<\?\=\<\?\=$var_regexp\?\>\?\>/es", "addquote('<?=\\1?>')", $template);
+	$template = preg_replace_callback("/$var_regexp/s", function($m) { return addquote('<?= '.$m[1].' ?>'); }, $template);
+	$template = preg_replace_callback("/\<\?\=\<\?\=$var_regexp\?\>\?\>/s", function($m) { return addquote('<?= '.$m[1].' ?>'); }, $template);
 
-	$template = "<? if(!defined('IN_DISCUZ')) exit('Access Denied'); ?>\n\n$template";
-	$template = preg_replace("/[\n\r\t]*\{template\s+([a-z0-9_]+)\}[\n\r\t]*/is", "\n<? include template('\\1'); ?>\n", $template);
-	$template = preg_replace("/[\n\r\t]*\{template\s+(.+?)\}[\n\r\t]*/is", "\n<? include template(\\1); ?>\n", $template);
-	$template = preg_replace("/[\n\r\t]*\{eval\s+(.+?)\}[\n\r\t]*/ies", "stripvtags('\n<? \\1 ?>\n','')", $template);
-	$template = preg_replace("/[\n\r\t]*\{echo\s+(.+?)\}[\n\r\t]*/ies", "stripvtags('\n<? echo \\1; ?>\n','')", $template);
-	$template = preg_replace("/[\n\r\t]*\{elseif\s+(.+?)\}[\n\r\t]*/ies", "stripvtags('\n<? } elseif(\\1) { ?>\n','')", $template);
-	$template = preg_replace("/[\n\r\t]*\{else\}[\n\r\t]*/is", "\n<? } else { ?>\n", $template);
+	$template = "<?php if(!defined('IN_DISCUZ')) exit('Access Denied'); ?>\n\n$template";
+	$template = preg_replace("/[\n\r\t]*\{template\s+([a-z0-9_]+)\}[\n\r\t]*/is", "\n<?php include template('\\1'); ?>\n", $template);
+	$template = preg_replace("/[\n\r\t]*\{template\s+(.+?)\}[\n\r\t]*/is", "\n<?php include template(\\1); ?>\n", $template);
+	$template = preg_replace_callback("/[\n\r\t]*\{eval\s+(.+?)\}[\n\r\t]*/is", function($m) { return stripvtags("\n<?php $m[1] ?>\n", ''); }, $template);
+	$template = preg_replace_callback("/[\n\r\t]*\{echo\s+(.+?)\}[\n\r\t]*/is", function($m) { return stripvtags("\n<?php echo $m[1]; ?>\n", ''); }, $template);
+	$template = preg_replace_callback("/[\n\r\t]*\{elseif\s+(.+?)\}[\n\r\t]*/is", function($m) { return stripvtags("\n<?php } elseif($m[1]) { ?>\n", ''); }, $template);
+	$template = preg_replace("/[\n\r\t]*\{else\}[\n\r\t]*/is", "\n<?php } else { ?>\n", $template);
 
 	for($i = 0; $i < $nest; $i++) {
-		$template = preg_replace("/[\n\r\t]*\{loop\s+(\S+)\s+(\S+)\}[\n\r]*(.+?)[\n\r]*\{\/loop\}[\n\r\t]*/ies", "stripvtags('\n<? if(is_array(\\1)) { foreach(\\1 as \\2) { ?>','\n\\3\n<? } } ?>\n')", $template);
-		$template = preg_replace("/[\n\r\t]*\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}[\n\r\t]*(.+?)[\n\r\t]*\{\/loop\}[\n\r\t]*/ies", "stripvtags('\n<? if(is_array(\\1)) { foreach(\\1 as \\2 => \\3) { ?>','\n\\4\n<? } } ?>\n')", $template);
-		$template = preg_replace("/[\n\r\t]*\{if\s+(.+?)\}[\n\r]*(.+?)[\n\r]*\{\/if\}[\n\r\t]*/ies", "stripvtags('\n<? if(\\1) { ?>','\n\\2\n<? } ?>\n')", $template);
+		$template = preg_replace_callback("/[\n\r\t]*\{loop\s+(\S+)\s+(\S+)\}[\n\r]*(.+?)[\n\r]*\{\/loop\}[\n\r\t]*/is", function($m) { return stripvtags("\n<?php if(is_array($m[1])) { foreach($m[1] as $m[2]) { ?>", "\n$m[3]\n<?php } } ?>\n"); }, $template);
+		$template = preg_replace_callback("/[\n\r\t]*\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}[\n\r\t]*(.+?)[\n\r\t]*\{\/loop\}[\n\r\t]*/is", function($m) { return stripvtags("\n<?php if(is_array($m[1])) { foreach($m[1] as $m[2] => $m[3]) { ?>", "\n$m[4]\n<?php } } ?>\n"); }, $template);
+		$template = preg_replace_callback("/[\n\r\t]*\{if\s+(.+?)\}[\n\r]*(.+?)[\n\r]*\{\/if\}[\n\r\t]*/is", function($m) { return stripvtags("\n<?php if($m[1]) { ?>", "\n$m[2]\n<?php } ?>\n"); }, $template);
 	}
 
 	$template = preg_replace("/\{$const_regexp\}/s", "<?=\\1?>", $template);
-	$template = preg_replace("/ \?\>[\n\r]*\<\? /s", " ", $template);
+	$template = preg_replace("/ \?\>[\n\r]*\<\?php? /s", " ", $template);
 
 	if(!@$fp = fopen($objfile, 'w')) {
 		dexit("Directory './forumdata/templates/' not found or have no access!");

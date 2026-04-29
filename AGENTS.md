@@ -4,12 +4,13 @@
 
 Legacy Chinese BBS forum (Comsenz Inc., 2006). PHP 4/5 era code, now MIT-licensed.
 No modern tooling: no composer, no npm, no CI/CD, no test suite, no linter, no .gitignore.
+**PHP 7.4 compatible** — upgraded from mysql_* to mysqli, removed magic_quotes, fixed preg_replace /e modifier.
 
 ## Architecture
 
 **Bootstrap chain**: Every page script sets `define('CURSCRIPT', '...')` then requires `include/common.inc.php`, which:
 - Loads `config.inc.php` (DB credentials, table prefix `cdb_`)
-- Connects to MySQL via `include/db_mysql.class.php`
+- Connects to MySQL via `include/db_mysql.class.php` (mysqli extension)
 - Extracts `$_GET`, `$_POST`, `$_COOKIE` into global scope via `extract(daddslashes(...))`
 - Loads cached settings from `forumdata/cache/cache_settings.php`
 - Restores user session from cookie `auth`
@@ -44,9 +45,8 @@ No modern tooling: no composer, no npm, no CI/CD, no test suite, no linter, no .
 ## Security Concerns (Legacy Code)
 
 - `config.inc.php:17` contains plaintext database credentials - never commit real credentials
-- Extensive use of `extract()` on raw user input (`common.inc.php:35-37`) - all user input becomes global variables
+- Extensive use of `extract()` on raw user input (`common.inc.php`) - user input becomes global variables (mitigated with EXTR_SKIP)
 - SQL queries built via string concatenation, not parameterized queries
-- `magic_quotes` handling code (`set_magic_quotes_runtime`, `get_magic_quotes_gpc`) is PHP 4/5 legacy
 
 ## Development
 

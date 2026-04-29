@@ -61,7 +61,7 @@ if(!submitcheck('deletesubmit') && !submitcheck('searchsubmit')) {
 </table><br><center>
 <input type="submit" name="searchsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 } elseif(submitcheck('searchsubmit')) {
 
@@ -138,7 +138,7 @@ if(!submitcheck('deletesubmit') && !submitcheck('searchsubmit')) {
 <?=$attachments?>
 </table><br>
 <center><input type="submit" name="deletesubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 } elseif(submitcheck('deletesubmit')) {
 

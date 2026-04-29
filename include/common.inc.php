@@ -10,9 +10,7 @@
 */
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-//error_reporting(E_ALL);
 
-set_magic_quotes_runtime(0);
 $mtime = explode(' ', microtime());
 $discuz_starttime = $mtime[1] + $mtime[0];
 
@@ -20,24 +18,13 @@ define('IN_DISCUZ', TRUE);
 define('DISCUZ_ROOT', substr(dirname(__FILE__), 0, -7));
 define('DISCUZ_AVATARSHOW', '3560626219401401200');
 
-if(PHP_VERSION < '4.1.0') {
-	$_GET = &$HTTP_GET_VARS;
-	$_POST = &$HTTP_POST_VARS;
-	$_COOKIE = &$HTTP_COOKIE_VARS;
-	$_SERVER = &$HTTP_SERVER_VARS;
-	$_ENV = &$HTTP_ENV_VARS;
-	$_FILES = &$HTTP_POST_FILES;
-}
-
 require_once DISCUZ_ROOT.'./include/global.func.php';
 
-$magic_quotes_gpc = get_magic_quotes_gpc();
-@extract(daddslashes($_COOKIE));
-@extract(daddslashes($_POST));
-@extract(daddslashes($_GET));
-if(!$magic_quotes_gpc) {
-	$_FILES = daddslashes($_FILES);
-}
+$magic_quotes_gpc = false;
+@extract(daddslashes($_COOKIE), EXTR_SKIP);
+@extract(daddslashes($_POST), EXTR_SKIP);
+@extract(daddslashes($_GET), EXTR_SKIP);
+$_FILES = daddslashes($_FILES);
 
 $charset = $dbcharset = '';
 $plugins = $hooks = array();
@@ -81,7 +68,7 @@ unset($prelength);
 
 
 $cachelost = (@include DISCUZ_ROOT.'./forumdata/cache/cache_settings.php') ? '' : 'settings';
-@extract($_DCACHE['settings']);
+@extract($_DCACHE['settings'], EXTR_SKIP);
 
 if($gzipcompress && function_exists('ob_gzhandler') && CURSCRIPT != 'wap') {
 	ob_start('ob_gzhandler');
@@ -188,7 +175,7 @@ $_DSESSION['dateformat'] = empty($_DSESSION['dateformat']) ? $_DCACHE['settings'
 $_DSESSION['timeformat'] = empty($_DSESSION['timeformat']) ? $_DCACHE['settings']['timeformat'] : ($_DSESSION['timeformat'] == 1 ? 'h:i A' : 'H:i');
 $_DSESSION['timeoffset'] = isset($_DSESSION['timeoffset']) && $_DSESSION['timeoffset'] != 9999 ? $_DSESSION['timeoffset'] : $_DCACHE['settings']['timeoffset'];
 
-@extract($_DSESSION);
+@extract($_DSESSION, EXTR_SKIP);
 
 $lastvisit = empty($lastvisit) ? $timestamp - 86400 : $lastvisit;
 $timenow = array('time' => gmdate("$dateformat $timeformat", $timestamp + 3600 * $timeoffset),
@@ -307,7 +294,7 @@ if($discuz_uid && $_DSESSION) {
 		'creditshigher' => $groupcreditshigher,
 		'creditslower' => $groupcreditslower
 		), $_DSESSION)) {
-		@extract($_DSESSION);
+		@extract($_DSESSION, EXTR_SKIP);
 		$cachelost .= (@include DISCUZ_ROOT.'./forumdata/cache/usergroup_'.intval($groupid).'.php') ? '' : ' usergroup_'.$groupid;
 	}
 }

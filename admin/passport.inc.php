@@ -40,7 +40,7 @@ if(!submitcheck('ppsubmit')) {
 <form method="post" name="settings" action="admincp.php">
 <input type="hidden" name="action" value="<?=$action?>">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
-<?
+<?php
 
 	$passportcredits = '<select name="settingsnew[passport_extcredits]">';
 	for($i = 0; $i <= 8; $i++) {

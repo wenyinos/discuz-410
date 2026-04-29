@@ -38,8 +38,6 @@ if(!$_DCACHE['settings']['archiverstatus']) {
 	exit('Sorry, the bulletin board has been closed temporarily.');
 }
 
-$_SERVER = empty($_SERVER) ? $HTTP_SERVER_VARS : $_SERVER;
-
 require_once '../config.inc.php';
 require_once '../include/db_'.$database.'.class.php';
 require_once '../templates/default/archiver.lang.php';
@@ -114,8 +112,7 @@ Powered by <a href="http://www.discuz.net" target="_blank" style="color: <?=TEXT
 
 </td></tr></table><br>
 </body></html>
-<?
-
+<?php
 function multi($total, $page, $perpage, $link) {
 	$pages = @ceil($total / $perpage) + 1;
 	$pagelink = '';

@@ -100,7 +100,7 @@ $lognames = array
 <tr><td class="multi"><?=$multipage?></td></tr></table>
 
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="98%" align="center" class="tableborder">
-<?
+<?php
 
 $usergroup = array();
 if(in_array($action, array('ratelog', 'modslog', 'banlog', 'cplog'))) {

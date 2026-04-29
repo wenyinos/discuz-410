@@ -35,7 +35,7 @@ if($action == 'avatarshow_config') {
 <tr bgcolor="<?=ALTBG1?>"><td>
 <br><?=$lang['avatarshow_tips']?>
 </td></tr></table><br>
-<?
+<?php
 
 		showtype('avatarshow', 'top');
 		showsetting('avatarshow_status', '', '', '<input type="radio" name="settingsnew[avatarshowstatus]" value="1" '.$checkstatus[1].'> '.$lang['avatarshow_status_1'].'<br><input type="radio" name="settingsnew[avatarshowstatus]" value="2" '.$checkstatus[2].'> '.$lang['avatarshow_status_2'].'<br><input type="radio" name="settingsnew[avatarshowstatus]" value="0" '.$checkstatus[0].'> '.$lang['avatarshow_status_0']);
@@ -77,7 +77,7 @@ if($action == 'avatarshow_config') {
 <tr bgcolor="<?=ALTBG1?>"><td>
 <br><?=$lang['avatarshow_register_tips']?>
 </td></tr></table><br>
-<?
+<?php
 
 		if($avatarshow_license == DISCUZ_AVATARSHOW) {
 			echo '<form method="post" name="settings" action="admincp.php?action=avatarshow_register">'.

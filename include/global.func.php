@@ -102,14 +102,12 @@ function cutstr($string, $length) {
 }
 
 function daddslashes($string, $force = 0) {
-	if(!$GLOBALS['magic_quotes_gpc'] || $force) {
-		if(is_array($string)) {
-			foreach($string as $key => $val) {
-				$string[$key] = daddslashes($val, $force);
-			}
-		} else {
-			$string = addslashes($string);
+	if(is_array($string)) {
+		foreach($string as $key => $val) {
+			$string[$key] = daddslashes($val, $force);
 		}
+	} else {
+		$string = addslashes($string);
 	}
 	return $string;
 }
@@ -409,8 +407,8 @@ function payment($amount, $orderid) {
 
 	$params = array
 		(
-		'subject'	=> $bbname.' - '.$discuz_userss.' - »ý·Ö³äÖµ('.$boardurl.')',
-		'body'		=> 'ÂÛÌ³»ý·Ö³äÖµ '.$extcredits[$creditstrans]['title'].' '.intval($amount * $ec_ratio).' '.$extcredits[$creditstrans]['unit'].' ('.$onlineip.')',
+		'subject'	=> $bbname.' - '.$discuz_userss.' - ï¿½ï¿½ï¿½Ö³ï¿½Öµ('.$boardurl.')',
+		'body'		=> 'ï¿½ï¿½Ì³ï¿½ï¿½ï¿½Ö³ï¿½Öµ '.$extcredits[$creditstrans]['title'].' '.intval($amount * $ec_ratio).' '.$extcredits[$creditstrans]['unit'].' ('.$onlineip.')',
 		'order_no'	=> $orderid,
 		'date'		=> gmdate("Ymd", $timestamp + 8 * 3600),
 		'price'		=> $amount,

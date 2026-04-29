@@ -4,9 +4,7 @@
 	[Discuz!] (C)2001-2006 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
 
-	$RCSfile: db_mysql.class.php,v $
-	$Revision: 1.6 $
-	$Date: 2006/02/23 13:44:02 $
+	Rewritten for PHP 7.4: mysql_* → mysqli_*
 */
 
 if(!defined('IN_DISCUZ')) {
@@ -14,17 +12,18 @@ if(!defined('IN_DISCUZ')) {
 }
 
 class dbstuff {
-	var $querynum = 0;
+	public $querynum = 0;
+	public $conn = null;
 
 	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $pconnect = 0) {
 		if($pconnect) {
-			if(!@mysql_pconnect($dbhost, $dbuser, $dbpw)) {
-				$this->halt('Can not connect to MySQL server');
-			}
+			$this->conn = @new mysqli('p:' . $dbhost, $dbuser, $dbpw);
 		} else {
-			if(!@mysql_connect($dbhost, $dbuser, $dbpw)) {
-				$this->halt('Can not connect to MySQL server');
-			}
+			$this->conn = @new mysqli($dbhost, $dbuser, $dbpw);
+		}
+
+		if($this->conn->connect_error) {
+			$this->halt('Can not connect to MySQL server');
 		}
 
 		if($this->version() > '4.1') {
@@ -34,32 +33,35 @@ class dbstuff {
 			}
 
 			if($dbcharset) {
-				mysql_query("SET character_set_connection=$dbcharset, character_set_results=$dbcharset, character_set_client=binary");
+				$this->conn->query("SET character_set_connection=$dbcharset, character_set_results=$dbcharset, character_set_client=binary");
 			}
 
 			if($this->version() > '5.0.1') {
-				mysql_query("SET sql_mode=''");
+				$this->conn->query("SET sql_mode=''");
 			}
 		}
 
 		if($dbname) {
-			mysql_select_db($dbname);
+			$this->conn->select_db($dbname);
 		}
 
 	}
 
 	function select_db($dbname) {
-		return mysql_select_db($dbname);
+		return $this->conn->select_db($dbname);
 	}
 
-	function fetch_array($query, $result_type = MYSQL_ASSOC) {
-		return mysql_fetch_array($query, $result_type);
+	function fetch_array($query, $result_type = MYSQLI_ASSOC) {
+		return mysqli_fetch_array($query, $result_type);
 	}
 
 	function query($sql, $type = '') {
-		$func = $type == 'UNBUFFERED' && @function_exists('mysql_unbuffered_query') ?
-			'mysql_unbuffered_query' : 'mysql_query';
-		if(!($query = $func($sql)) && $type != 'SILENT') {
+		if($type == 'UNBUFFERED') {
+			$query = @$this->conn->query($sql, MYSQLI_USE_RESULT);
+		} else {
+			$query = @$this->conn->query($sql);
+		}
+		if(!$query && $type != 'SILENT') {
 			$this->halt('MySQL Query Error', $sql);
 		}
 		$this->querynum++;
@@ -67,55 +69,55 @@ class dbstuff {
 	}
 
 	function affected_rows() {
-		return mysql_affected_rows();
+		return $this->conn->affected_rows;
 	}
 
 	function error() {
-		return mysql_error();
+		return $this->conn->error;
 	}
 
 	function errno() {
-		return intval(mysql_errno());
+		return intval($this->conn->errno);
 	}
 
 	function result($query, $row) {
-		$query = @mysql_result($query, $row);
-		return $query;
+		if($query && mysqli_data_seek($query, $row)) {
+			$result = mysqli_fetch_row($query);
+			return $result[0];
+		}
+		return false;
 	}
 
 	function num_rows($query) {
-		$query = mysql_num_rows($query);
-		return $query;
+		return mysqli_num_rows($query);
 	}
 
 	function num_fields($query) {
-		return mysql_num_fields($query);
+		return mysqli_num_fields($query);
 	}
 
 	function free_result($query) {
-		return mysql_free_result($query);
+		return mysqli_free_result($query);
 	}
 
 	function insert_id() {
-		$id = mysql_insert_id();
-		return $id;
+		return $this->conn->insert_id;
 	}
 
 	function fetch_row($query) {
-		$query = mysql_fetch_row($query);
-		return $query;
+		return mysqli_fetch_row($query);
 	}
 
 	function fetch_fields($query) {
-		return mysql_fetch_field($query);
+		return mysqli_fetch_field($query);
 	}
 
 	function version() {
-		return mysql_get_server_info();
+		return $this->conn->server_info;
 	}
 
 	function close() {
-		return mysql_close();
+		return $this->conn->close();
 	}
 
 	function halt($message = '', $sql = '') {

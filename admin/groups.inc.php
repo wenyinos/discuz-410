@@ -54,7 +54,7 @@ if($action == 'admingroups') {
 <tr class="header" align="center"><td><?=$lang['name']?></td><td><?=$lang['type']?></td><td><?=$lang['admingroups_level']?></td><td><?=$lang['admingroups_settings_user']?></td><td><?=$lang['admingroups_settings_admin']?></td></tr>
 <?=$grouplist?>
 </table>
-<?
+<?php
 
 		} else {
 
@@ -71,7 +71,7 @@ if($action == 'admingroups') {
 ?>
 <br><br><form method="post" action="admincp.php?action=admingroups&edit=<?=$edit?>">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
-<?
+<?php
 
 			if($group['radminid'] == 1) {
 
@@ -266,7 +266,7 @@ if($action == 'admingroups') {
 <?=$sysgroup?>
 </table><br><center>
 <input type="submit" name="groupsubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 		} else {
 
@@ -583,7 +583,7 @@ if($action == 'admingroups') {
 <td><input type="text" size="6" name="newcolor"></td>
 </tr></table><br>
 <center><input type="submit" name="ranksubmit" value="<?=$lang['submit']?>"></center></form>
-<?
+<?php
 
 	} else {
 

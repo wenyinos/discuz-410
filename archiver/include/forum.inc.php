@@ -34,16 +34,14 @@ require_once './include/header.inc.php';
 
 ?>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="<?=TABLEWIDTH?>" align="center" class="tableborder">
-<?
-
+<?php
 if(!$forum || !forumperm($forum['viewperm'])) {
 
 ?>
 <tr><td bgcolor="<?=ALTBG1?>" class="bold"><a href="archiver/"><?=$_DCACHE['settings']['bbname']?></a></td></tr></table><br><br>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="<?=TABLEWIDTH?>" align="center" class="tableborder">
 <tr><td bgcolor="<?=ALTBG2?>"><br><?=$lang['forum_nonexistence']?><br><br></td></tr></table>
-<?
-
+<?php
 } else {
 
 	$navsub = $forum['type'] == 'sub' ? "<a href=\"archiver/{$qm}fid-$forum[fup].html\">{$_DCACHE[forums][$forum[fup]][name]}</a> <b>&raquo;</b>": ' ';
@@ -57,8 +55,7 @@ if(!$forum || !forumperm($forum['viewperm'])) {
 <table cellspacing="0" cellpadding="0" width="<?=TABLEWIDTH?>" align="center"><tr><td align="center"><br><?=multi($forum['threads'], $page, $tpp, "{$qm}fid-$fid")?><br><br></td></tr></table>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="<?=TABLEWIDTH?>" align="center" class="tableborder">
 <tr><td bgcolor="<?=ALTBG2?>"><br>
-<?
-
+<?php
 	echo "<ul type=\"1\" start=\"".($start + 1)."\">\n";
 
 	$query = $db->query("SELECT * FROM {$tablepre}threads WHERE fid='$fid' AND displayorder>='0' ORDER BY displayorder DESC, lastpost DESC LIMIT $start, $tpp");

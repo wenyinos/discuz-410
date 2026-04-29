@@ -110,7 +110,7 @@ if($action == 'modmembers') {
 <tr><td class="multi"><?=$multipage?></td></tr></table><br><center>
 <input type="submit" name="modsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} elseif(submitcheck('modsubmit')) {
 
@@ -311,7 +311,7 @@ if($action == 'modthreads') {
 <tr><td class="multi"><?=$multipage?></td></tr></table>
 <br><center><input type="submit" name="modsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -455,7 +455,7 @@ if($action == 'modthreads') {
 <tr><td class="multi"><?=$multipage?></td></tr></table>
 <br><center><input type="submit" name="modsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 

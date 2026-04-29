@@ -14,7 +14,7 @@
 ?>
 <html>
 <head>
-<? @include template('css'); ?>
+<?php @include template('css'); ?>
 </head>
 
 <body leftmargin="0" topmargin="0">

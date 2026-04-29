@@ -79,7 +79,7 @@ if($action == 'adv') {
 
 <br><center><input type="submit" name="advsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -140,7 +140,7 @@ if($action == 'adv') {
 
 <br><form method="post" name="settings" action="admincp.php?action=<?=$action.($action == 'advadd' ? '&type='.$type : '&advid='.$advid)?>">
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
-<?
+<?php
 
 		if($action == 'advadd') {
 			$title = $lang['advertisements_add'].' - '.$lang['advertisements_type_'.$type];

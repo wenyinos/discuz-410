@@ -138,11 +138,11 @@ function discuzcode($message, $smileyoff, $bbcodeoff, $htmlon = 0, $allowsmilies
 	global $discuzcodes, $credits, $tid, $discuz_uid, $highlight, $maxsmilies, $db, $tablepre;
 
 	if(!$bbcodeoff && $allowbbcode) {
-		$message = preg_replace("/\s*\[code\](.+?)\[\/code\]\s*/ies", "codedisp('\\1')", $message);
+		$message = preg_replace_callback("/\s*\[code\](.+?)\[\/code\]\s*/is", function($m) { return codedisp($m[1]); }, $message);
 	}
 
 	if(!$htmlon && !$allowhtml) {
-		$message = $jammer ? preg_replace("/\r\n|\n|\r/e", "jammer()", dhtmlspecialchars($message)) : dhtmlspecialchars($message);
+		$message = $jammer ? preg_replace_callback("/\r\n|\n|\r/", function() { return jammer(); }, dhtmlspecialchars($message)) : dhtmlspecialchars($message);
 	}
 
 	if(!$smileyoff && $allowsmilies && !empty($GLOBALS['_DCACHE']['smilies']) && is_array($GLOBALS['_DCACHE']['smilies'])) {
@@ -155,7 +155,7 @@ function discuzcode($message, $smileyoff, $bbcodeoff, $htmlon = 0, $allowsmilies
 			$discuzcodes['searcharray']['bbcode_regexp'] = array(
 				"/\s*\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s*/is",
 				"/\s*\[free\][\n\r]*(.+?)[\n\r]*\[\/free\]\s*/is",
-				"/\[url\]\s*(www.|https?:\/\/|ftp:\/\/|gopher:\/\/|news:\/\/|telnet:\/\/|rtsp:\/\/|mms:\/\/|callto:\/\/|ed2k:\/\/){1}([^\[\"']+?)\s*\[\/url\]/ie",
+				"/\[url\]\s*(www.|https?:\/\/|ftp:\/\/|gopher:\/\/|news:\/\/|telnet:\/\/|rtsp:\/\/|mms:\/\/|callto:\/\/|ed2k:\/\/){1}([^\[\"']+?)\s*\[\/url\]/is",
 				"/\[url=www.([^\[\"']+?)\](.+?)\[\/url\]/is",
 				"/\[url=(https?|ftp|gopher|news|telnet|rtsp|mms|callto|ed2k){1}:\/\/([^\[\"']+?)\](.+?)\[\/url\]/is",
 				"/\[email\]\s*([a-z0-9\-_.+]+)@([a-z0-9\-_]+[.][a-z0-9\-_.]+)\s*\[\/email\]/i",
@@ -182,7 +182,7 @@ function discuzcode($message, $smileyoff, $bbcodeoff, $htmlon = 0, $allowsmilies
 			$discuzcodes['searcharray']['bbcode_regexp'] = array_merge($discuzcodes['searcharray']['bbcode_regexp'], $discuzcodes['searcharray']['bbcode_regexp']);
 			$discuzcodes['replacearray']['bbcode_regexp'] = array_merge($discuzcodes['replacearray']['bbcode_regexp'], $discuzcodes['replacearray']['bbcode_regexp']);
 
-			$discuzcodes['searcharray']['bbcode_regexp'][] = "/\[payto\]\s*\(seller\)(.*)\(\/seller\)\s*(\(subject\)(.*)\(\/subject\))?\s*(\(body\)(.*)\(\/body\))?\s*(\(gross\)(.*)\(\/gross\))?\s*(\(price\)(.*)\(\/price\))?\s*(\(url\)(.*)\(\/url\))?\s*(\(type\)(.*)\(\/type\))?\s*(\(transport\)(.*)\(\/transport\))?\s*(\(ordinary_fee\)(.*)\(\/ordinary_fee\))?\s*(\(express_fee\)(.*)\(\/express_fee\))?\s*\[\/payto\]/iesU";
+			$discuzcodes['searcharray']['bbcode_regexp'][] = "/\[payto\]\s*\(seller\)(.*)\(\/seller\)\s*(\(subject\)(.*)\(\/subject\))?\s*(\(body\)(.*)\(\/body\))?\s*(\(gross\)(.*)\(\/gross\))?\s*(\(price\)(.*)\(\/price\))?\s*(\(url\)(.*)\(\/url\))?\s*(\(type\)(.*)\(\/type\))?\s*(\(transport\)(.*)\(\/transport\))?\s*(\(ordinary_fee\)(.*)\(\/ordinary_fee\))?\s*(\(express_fee\)(.*)\(\/express_fee\))?\s*\[\/payto\]/isU";
 			$discuzcodes['replacearray']['bbcode_regexp'][] = "payto('\\1',array('subject'=>'\\3','body'=>'\\5','price'=>'\\7','price'=>'\\9','url'=>'\\11','type'=>'\\13','transport'=>'\\15','ordinary_fee'=>'\\17','express_fee'=>'\\19'))";
 
 			$discuzcodes['searcharray']['bbcode_str'] = array(
@@ -221,16 +221,16 @@ function discuzcode($message, $smileyoff, $bbcodeoff, $htmlon = 0, $allowsmilies
 					$message = preg_replace("/\[hide\](.+?)\[\/hide\]/is", '<b>'.$language['post_hide_reply_hidden'].'</b>', $message);
 				}
 			}
-			$message = preg_replace("/\[hide=(\d+)\]\s*(.+?)\s*\[\/hide\]/ies", "creditshide(\\1,'\\2')", $message);
+			$message = preg_replace_callback("/\[hide=(\d+)\]\s*(.+?)\s*\[\/hide\]/is", function($m) { return creditshide($m[1], $m[2]); }, $message);
 		}
 	}
 
 	if(!$bbcodeoff && $allowimgcode) {
 		if(empty($discuzcodes['searcharray']['imgcode'])) {
 			$discuzcodes['searcharray']['imgcode'] = array(
-				"/\[swf\]\s*([^\[\<\r\n]+?)\s*\[\/swf\]/ies",
-				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/ies",
-				"/\[img=(\d{1,3})[x|\,](\d{1,3})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/ies"
+				"/\[swf\]\s*([^\[\<\r\n]+?)\s*\[\/swf\]/is",
+				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
+				"/\[img=(\d{1,3})[x|\,](\d{1,3})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is"
 			);
 			$discuzcodes['replacearray']['imgcode'] = array(
 				"bbcodeurl('\\1', ' <img src=\"images/attachicons/flash.gif\" align=\"absmiddle\"> <a href=\"%s\" target=\"_blank\">Flash: %s</a> ')",

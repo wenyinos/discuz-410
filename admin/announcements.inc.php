@@ -71,7 +71,7 @@ if($action == 'announcements') {
 
 </table><br><center><input type="submit" name="addsubmit" value="<?=$lang['submit']?>">
 </form>
-<?
+<?php
 
 	} elseif($edit) {
 
@@ -105,7 +105,7 @@ if($action == 'announcements') {
 
 </table><br><center><input type="submit" name="editsubmit" value="<?=$lang['submit']?>">
 </form>
-<?
+<?php
 
 		} else {
 

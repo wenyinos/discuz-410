@@ -100,7 +100,7 @@ if($action == 'prune') {
 </table><br>
 <center><input type="submit" name="searchsubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 
@@ -293,7 +293,7 @@ if($action == 'prune') {
 <tr>
 <td class="header" colspan="2"><?=$lang['prune_result']?> <?=$postcount?></td>
 </tr>
-<?
+<?php
 
 		if($error) {
 			echo "<tr><td bgcolor=\"".ALTBG2."\"><b>$lang[discuz_message]: $lang[$error]</b></td></tr>";
@@ -304,7 +304,7 @@ if($action == 'prune') {
 <td bgcolor="<?=ALTBG1?>"><?=$lang['prune']?></td>
 <td bgcolor="<?=ALTBG2?>"><input type="checkbox" name="donotupdatemember" value="1" checked> <?=$lang['prune_no_update_member']?></td>
 </tr>
-<?
+<?php
 
 			if($detail) {
 
@@ -314,7 +314,7 @@ if($action == 'prune') {
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="95%" align="center" class="tableborder">
 <tr class="header" align="center"><td>&nbsp;</td><td><?=$lang['subject']?></td><td><?=$lang['message']?></td><td><?=$lang['forum']?></td><td><?=$lang['author']?></td><td><?=$lang['time']?></td></tr>
 <?=$posts?>
-<?
+<?php
 
 			}
 
@@ -348,7 +348,7 @@ if($action == 'prune') {
 </table><br>
 <center><input type="submit" name="prunesubmit" value="<?=$lang['submit']?>"></center>
 </form>
-<?
+<?php
 
 	} else {
 

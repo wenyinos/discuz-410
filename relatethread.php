@@ -10,7 +10,6 @@
 */
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-set_magic_quotes_runtime(0);
 
 define('DISCUZ_ROOT', './');
 define('IN_DISCUZ', TRUE);
@@ -20,9 +19,6 @@ require_once './forumdata/cache/cache_settings.php';
 if(!$_DCACHE['settings']['qihoo_status'] || !$_DCACHE['settings']['qihoo_relatedthreads']) {
 	exit;
 }
-
-$_SERVER = empty($_SERVER) ? $HTTP_SERVER_VARS : $_SERVER;
-$_GET = empty($_GET) ? $HTTP_GET_VARS : $_GET;
 
 $site = preg_replace("/.*?([^\.\/]+)(\.(com|net|org|gov|edu))?\.[^\.\/]+$/", "\\1", $_SERVER['HTTP_HOST']);
 $subjectenc = rawurlencode($_GET['subjectenc']);
