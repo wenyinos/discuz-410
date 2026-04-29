@@ -386,7 +386,7 @@ if(($action == 'moderate' && $fid) || in_array($action, array('delete', 'move', 
 
 	if(!$allowdelpost || !$tid) {
 		showmessage('admin_nopermission', NULL, 'HALTED');
-	} elseif(!is_array($delete) && !count($delete)) {
+	} elseif(!is_array($delete) || !count($delete)) {
 		showmessage('admin_delpost_invalid');
 	} else {
 		$deletepids = '\''.implode('\',\'', $delete).'\'';

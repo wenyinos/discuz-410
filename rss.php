@@ -42,19 +42,19 @@ $discuz_uid = 0;
 $discuz_user = $discuz_pw = $discuz_secques = '';
 
 if(!empty($_GET['auth'])) {
-	list($uid, $fid, $auth) = explode("\t", authcode($_GET['auth'], 'DECODE', md5($_DCACHE['settings']['authkey'])));
+	list($uid, $fid, $auth) = explode("\t", authcode($_GET['auth'] ?? '', 'DECODE', md5($_DCACHE['settings']['authkey'])));
 	$query = $db->query("SELECT uid AS discuz_uid, username AS discuz_user, password AS discuz_pw, secques AS discuz_secques, groupid
 		FROM {$tablepre}members WHERE uid='".intval($uid)."'");
 	if($member = $db->fetch_array($query)) {
 		if($auth == substr(md5($member['discuz_pw'].$member['discuz_secques']), 0, 8)) {
-			extract($member);
+			extract($member, EXTR_SKIP);
 
 		}
 	}
 }
 
-$PHP_SELF = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-$boardurl = 'http://'.$_SERVER['HTTP_HOST'].substr($PHP_SELF, 0, strrpos($PHP_SELF, '/') + 1);
+$PHP_SELF = $_SERVER['PHP_SELF'] ?? $_SERVER['SCRIPT_NAME'] ?? '';
+$boardurl = 'http://'.($_SERVER['HTTP_HOST'] ?? '').substr($PHP_SELF, 0, strrpos($PHP_SELF, '/') + 1);
 
 $bbname = dhtmlspecialchars(strip_tags($_DCACHE['settings']['bbname']));
 
@@ -65,10 +65,11 @@ if(empty($_GET['fid'])) {
 		}
 	}
 } else {
-	if(intval($_GET['fid']) && ($forum = isset($_DCACHE['forums'][$_GET['fid']]) && $_DCACHE['forums'][$_GET['fid']]['type'] != 'group' ? $_DCACHE['forums'][$_GET['fid']] : array())) {
+	$req_fid = $_GET['fid'] ?? 0;
+	if(intval($req_fid) && ($forum = isset($_DCACHE['forums'][$req_fid]) && $_DCACHE['forums'][$req_fid]['type'] != 'group' ? $_DCACHE['forums'][$req_fid] : array())) {
 		if(rssforumperm($forum)) {
-			$fidarray = array($_GET['fid']);
-			$forumname = dhtmlspecialchars($_DCACHE['forums'][$_GET['fid']]['name']);
+			$fidarray = array($req_fid);
+			$forumname = dhtmlspecialchars($_DCACHE['forums'][$req_fid]['name']);
 		}
 	} else {
 		exit('Specified forum not found');
@@ -85,7 +86,7 @@ echo 	"<?xml version=\"1.0\" encoding=\"".$charset."\"?>\n".
 		"    <description>Latest $num threads of all forums</description>\n"
 		:
 		"    <title>$bbname - $forumname</title>\n".
-		"    <link>{$boardurl}forumdisplay.php?fid=$_GET[fid]</link>\n".
+		"    <link>{$boardurl}forumdisplay.php?fid=$req_fid</link>\n".
 		"    <description>Latest $num threads of $forumname</description>\n"
 	).
 	"    <copyright>Copyright(C) $bbname</copyright>\n".

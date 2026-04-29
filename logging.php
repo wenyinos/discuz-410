@@ -94,7 +94,7 @@ if($action == 'logout') {
 
 			if($member['discuz_secques'] == $secques) {
 
-				extract($member);
+				extract($member, EXTR_SKIP);
 
 				$discuz_userss = $discuz_user;
 				$discuz_user = addslashes($discuz_user);

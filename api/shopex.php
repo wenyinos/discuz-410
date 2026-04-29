@@ -15,18 +15,18 @@ require_once './config.inc.php';
 require_once './include/db_'.$database.'.class.php';
 require_once './forumdata/cache/cache_settings.php';
 
-$discuz_auth_key = md5($_DCACHE['settings']['authkey'].$_SERVER['HTTP_USER_AGENT']);
+$discuz_auth_key = md5($_DCACHE['settings']['authkey'].($_SERVER['HTTP_USER_AGENT'] ?? ''));
 
 if($_DCACHE['settings']['passport_status'] != 'shopex') {
 	exit('Passport disabled');
-} elseif($_GET['verify'] != md5($_GET['action'].$_GET['auth'].$_GET['forward'].$_DCACHE['settings']['passport_key'])) {
+} elseif(($_GET['verify'] ?? '') != md5(($_GET['action'] ?? '').($_GET['auth'] ?? '').($_GET['forward'] ?? '').$_DCACHE['settings']['passport_key'])) {
 	exit('Illegal request');
 }
 
-if($_GET['action'] == 'login') {
+if(($_GET['action'] ?? '') == 'login') {
 
 	$memberfields = $remoteinfo = array();
-	parse_str(passport_decrypt($_GET['auth'], $_DCACHE['settings']['passport_key']), $member);
+	parse_str(passport_decrypt($_GET['auth'] ?? '', $_DCACHE['settings']['passport_key']), $member);
 	foreach($member as $key => $val) {
 		if(in_array($key, array('username', 'password', 'email', 'credits', 'gender', 'bday', 'regip', 'regdate', 'site', 'qq', 'msn', 'yahoo'))) {
 			$memberfields[$key] = addslashes($val);
@@ -127,7 +127,7 @@ if($_GET['action'] == 'login') {
 
 	header('Location: '.(empty($_GET['forward']) ? $_DCACHE['settings']['passport_url'] : $_GET['forward']));
 
-} elseif($_GET['action'] == 'logout') {
+} elseif(($_GET['action'] ?? '') == 'logout') {
 
 	dsetcookie('auth', '', -86400 * 365);
 	dsetcookie('sid', '', -86400 * 365);
@@ -209,7 +209,7 @@ function dsetcookie($var, $value, $life = 0, $prefix = 1) {
 	global $tablepre, $cookiedomain, $cookiepath, $timestamp, $_SERVER;
 	setcookie(($prefix ? $tablepre : '').$var, $value,
 		$life ? $timestamp + $life : 0, $cookiepath,
-		$cookiedomain, $_SERVER['SERVER_PORT'] == 443 ? 1 : 0);
+		$cookiedomain, ($_SERVER['SERVER_PORT'] ?? 80) == 443 ? 1 : 0);
 }
 
 function onlineip() {

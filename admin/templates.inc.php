@@ -106,7 +106,7 @@ if($action == 'templates') {
 				$lang['templates_edit_default_comment'] :
 				$lang['templates_edit_nondefault_comment'];
 		if($keyword) {
-			$keywordadd = " - $lang[templates_keyword] <i>".htmlspecialchars(stripslashes($keyword))."</i> - <a href=\"admincp.php?action=templates&edit=$edit\" style=\"color: ".HEADERTEXT."\">[ $lang[templates_view_all] ]</a>";
+			$keywordadd = " - $lang[templates_keyword] <i>".dhtmlspecialchars(stripslashes($keyword))."</i> - <a href=\"admincp.php?action=templates&edit=$edit\" style=\"color: ".HEADERTEXT."\">[ $lang[templates_view_all] ]</a>";
 			$keywordenc = rawurlencode($keyword);
 		}
 
@@ -196,7 +196,7 @@ if($action == 'templates') {
 		$keywordenc = rawurlencode($keyword);
 
 		$fp = @fopen($filename, 'rb');
-		$content = htmlspecialchars(fread($fp, filesize($filename)));
+		$content = dhtmlspecialchars(fread($fp, filesize($filename)));
 		fclose($fp);
 
 ?>

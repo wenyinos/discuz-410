@@ -48,7 +48,7 @@ function wapfooter() {
 function wapmsg($message, $forward = array()) {
 	extract($GLOBALS, EXTR_SKIP);
 	if(isset($lang[$message])) {
-		eval("\$message = \"".$lang[$message]."\";");
+		$message = dinterpolate($lang[$message]);
 	}
 	echo "<p align=\"center\">$message".
 		($forward ? "<br /><a href=\"$forward[link]\">".(isset($lang[$forward['title']]) ? $lang[$forward['title']] : $forward['title'])."</a>" : '').

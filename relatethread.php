@@ -20,12 +20,12 @@ if(!$_DCACHE['settings']['qihoo_status'] || !$_DCACHE['settings']['qihoo_related
 	exit;
 }
 
-$site = preg_replace("/.*?([^\.\/]+)(\.(com|net|org|gov|edu))?\.[^\.\/]+$/", "\\1", $_SERVER['HTTP_HOST']);
-$subjectenc = rawurlencode($_GET['subjectenc']);
-$tid = intval($_GET['tid']);
+$site = preg_replace("/.*?([^\.\/]+)(\.(com|net|org|gov|edu))?\.[^\.\/]+$/", "\\1", $_SERVER['HTTP_HOST'] ?? '');
+$subjectenc = rawurlencode($_GET['subjectenc'] ?? '');
+$tid = intval($_GET['tid'] ?? 0);
 
 require_once './config.inc.php';
-if($_GET['verifykey'] <> md5($_DCACHE['settings']['authkey'].$tid.$subjectenc.$charset.$site)) {
+if(($_GET['verifykey'] ?? '') <> md5($_DCACHE['settings']['authkey'].$tid.$subjectenc.$charset.$site)) {
 	exit;
 }
 

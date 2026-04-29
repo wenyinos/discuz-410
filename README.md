@@ -104,17 +104,21 @@ Open-source BBS/forum system originally developed by Comsenz Inc. (2001-2006). T
 └── customavatars/          # User-uploaded avatars
 ```
 
-## PHP 7.4 Upgrade
+## PHP 8.4+ Upgrade
 
-This fork has been upgraded from PHP 4/5 to PHP 7.4 compatible:
+This fork has been upgraded from PHP 4/5 to PHP 8.4+ compatible:
 
 - **Database**: `mysql_*` extension replaced with `mysqli_*` (`include/db_mysql.class.php`)
 - **Template compiler**: `preg_replace /e` modifier replaced with `preg_replace_callback` (`include/template.func.php`)
-- **Security**: `extract()` now uses `EXTR_SKIP` to prevent variable overwriting
-- **Compatibility**: Removed `set_magic_quotes_runtime`, `get_magic_quotes_gpc`, `$HTTP_*_VARS`
+- **URL rewrite**: `preg_replace /e` in `output()` replaced with `preg_replace_callback` (`include/global.func.php`)
+- **Security**: `extract()` uses `EXTR_SKIP` to prevent variable overwriting
+- **Compatibility**: Removed `set_magic_quotes_runtime`, `get_magic_quotes_gpc`, `$HTTP_*_VARS`, `$magic_quotes_gpc`
 - **Syntax**: All short open tags `<?` replaced with `<?php`
+- **PHP 8.1+**: Disabled `mysqli` exception mode for legacy error handling (`db_mysql.class.php`)
+- **PHP 8.0+**: Fixed `count()` on non-arrays, replaced `@count()` with `is_array()` guards
+- **PHP 8.1+**: Replaced `htmlspecialchars()` with `dhtmlspecialchars()` to avoid default flag changes
 
-See [UPGRADE_PHP74.md](UPGRADE_PHP74.md) for the full upgrade report.
+See [php84-upgrade-report.md](php84-upgrade-report.md) for the full upgrade report.
 
 ## Key Technical Notes
 

@@ -50,10 +50,10 @@ setTimeout("reload()", 2001);
 	}
 }
 
-if(($attackevasive == 2 || $attackevasive == 3) && ($_SERVER['HTTP_X_FORWARDED_FOR'] ||
-	$_SERVER['HTTP_VIA'] || $_SERVER['HTTP_PROXY_CONNECTION'] ||
-	$_SERVER['HTTP_USER_AGENT_VIA'] || $_SERVER['HTTP_CACHE_CONTROL'] ||
-	$_SERVER['HTTP_CACHE_INFO'] || $_SERVER['HTTP_PROXY_CONNECTION'])) {
+if(($attackevasive == 2 || $attackevasive == 3) && (($_SERVER['HTTP_X_FORWARDED_FOR'] ?? '') ||
+	($_SERVER['HTTP_VIA'] ?? '') || ($_SERVER['HTTP_PROXY_CONNECTION'] ?? '') ||
+	($_SERVER['HTTP_USER_AGENT_VIA'] ?? '') || ($_SERVER['HTTP_CACHE_CONTROL'] ?? '') ||
+	($_SERVER['HTTP_CACHE_INFO'] ?? '') || ($_SERVER['HTTP_PROXY_CONNECTION'] ?? ''))) {
 ?>
 <html>
 <head>

@@ -86,7 +86,7 @@ if(!submitcheck('forumsubmit', 1) && !submitcheck('digestsubmit', 1) && !submitc
 		$processed = 1;
 
 		$query = $db->query("SELECT COUNT(*) AS threads, SUM(replies)+COUNT(*) AS posts FROM {$tablepre}threads WHERE fid='$forum[fid]' AND displayorder>='0'");
-		extract($db->fetch_array($query));
+		extract($db->fetch_array($query), EXTR_SKIP);
 
 		$query = $db->query("SELECT tid, subject, lastpost, lastposter FROM {$tablepre}threads WHERE fid='$forum[fid]' AND displayorder>='0' ORDER BY lastpost DESC LIMIT 1");
 		$thread = $db->fetch_array($query);

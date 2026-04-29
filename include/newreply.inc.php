@@ -78,7 +78,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck)) {
 		    $thaquote['author'] = "[i]$thaquote[author][/i]";
 		}
 
-		eval("\$language['post_reply_quote'] = \"$language[post_reply_quote]\";");
+		$language['post_reply_quote'] = dinterpolate($language[post_reply_quote]);
 		$message = "[quote]$language[post_reply_quote]\n$message [/quote]\n";
 
 	}

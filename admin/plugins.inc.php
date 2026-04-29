@@ -59,7 +59,7 @@ if($action == 'pluginsconfig' && $export) {
 	header('Content-Encoding: none');
 	header('Content-Length: '.strlen($plugin_export));
 	header('Content-Disposition: attachment; filename=discuz_plugin_'.$plugin['identifier'].'.txt');
-	header('Content-Type: '.(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ? 'application/octetstream' : 'application/octet-stream'));
+	header('Content-Type: '.(strpos($_SERVER['HTTP_USER_AGENT'] ?? '', 'MSIE') ? 'application/octetstream' : 'application/octet-stream'));
 	echo $plugin_export;
 	dexit();
 

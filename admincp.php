@@ -17,7 +17,7 @@ require_once DISCUZ_ROOT.'./admin/global.func.php';
 
 if(empty($action) || isset($frames)) {
 
-	parse_str($_SERVER['QUERY_STRING'], $getarray);
+	parse_str($_SERVER['QUERY_STRING'] ?? '', $getarray);
 
 	$extra = $and = '';
 	foreach($getarray as $key => $value) {
@@ -128,7 +128,7 @@ if($action == 'menu') {
 							$semicolon = '; ';
 						}
 					}
-					$extra = nl2br(htmlspecialchars($extra));
+					$extra = nl2br(dhtmlspecialchars($extra));
 				}
 				break;
 		}
@@ -156,7 +156,7 @@ if($action == 'menu') {
 
 ?>
 <br><br><br><br><br><br>
-<form method="post" name="login" action="admincp.php?<?=$_SERVER['QUERY_STRING']?>">
+<form method="post" name="login" action="admincp.php?<?=$_SERVER['QUERY_STRING'] ?? ''?>">
 <input type="hidden" name="sid" value="<?=$sid?>">
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="60%" align="center" class="tableborder">
 <tr class="header"><td colspan="2"><?=$lang['password_required']?></td></tr>

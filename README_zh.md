@@ -104,17 +104,21 @@
 └── customavatars/          # 用户上传头像
 ```
 
-## PHP 7.4 升级说明
+## PHP 8.4+ 升级说明
 
-本分支已从 PHP 4/5 升级至 PHP 7.4 兼容：
+本分支已从 PHP 4/5 升级至 PHP 8.4+ 兼容：
 
 - **数据库层**：`mysql_*` 扩展替换为 `mysqli_*`（`include/db_mysql.class.php`）
 - **模板编译器**：`preg_replace /e` 修饰符替换为 `preg_replace_callback`（`include/template.func.php`）
+- **URL 重写**：`output()` 中 `preg_replace /e` 替换为 `preg_replace_callback`（`include/global.func.php`）
 - **安全性**：`extract()` 使用 `EXTR_SKIP` 防止变量覆盖
-- **兼容性**：移除 `set_magic_quotes_runtime`、`get_magic_quotes_gpc`、`$HTTP_*_VARS`
+- **兼容性**：移除 `set_magic_quotes_runtime`、`get_magic_quotes_gpc`、`$HTTP_*_VARS`、`$magic_quotes_gpc`
 - **语法**：所有短开标签 `<?` 替换为 `<?php`
+- **PHP 8.1+**：禁用 `mysqli` 异常模式以保持旧行为（`db_mysql.class.php`）
+- **PHP 8.0+**：修复 `count()` 非数组 TypeError，`@count()` 改用 `is_array()` 守卫
+- **PHP 8.1+**：`htmlspecialchars()` 替换为 `dhtmlspecialchars()` 避免默认标志变更
 
-详见 [UPGRADE_PHP74.md](UPGRADE_PHP74.md) 升级报告。
+详见 [php84-upgrade-report.md](php84-upgrade-report.md) 升级报告。
 
 ## 技术要点
 

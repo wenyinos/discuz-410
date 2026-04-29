@@ -69,7 +69,7 @@ if(!submitcheck('editsubmit')) {
 			$query = $db->query("SELECT pollopts FROM {$tablepre}polls WHERE tid='$tid'");
 			$polloptions = unserialize($db->result($query, 0));
 			for($i = 0; $i < count($polloptions['options']); $i++) {
-				$polloptions['options'][$i][0] = htmlspecialchars(stripslashes($polloptions['options'][$i][0]))."\n";
+				$polloptions['options'][$i][0] = dhtmlspecialchars(stripslashes($polloptions['options'][$i][0]))."\n";
 			}
 		}
 	}
@@ -207,7 +207,7 @@ if(!submitcheck('editsubmit')) {
 
 			$editor = $isanonymous && $isorigauthor ? $language['anonymous'] : $discuz_userss;
 			$edittime = gmdate($_DCACHE['settings']['dateformat'].' '.$_DCACHE['settings']['timeformat'], $timestamp + $timeoffset * 3600);
-			eval("\$message .= \"$language[post_edit]\";");
+			$message .= dinterpolate($language['post_edit']);
 		}
 
 		$bbcodeoff = checkbbcodes($message, !empty($bbcodeoff));

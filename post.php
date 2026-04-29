@@ -190,7 +190,7 @@ if(!empty($previewpost) || (empty($previewpost) && empty($topicsubmit) && empty(
 
 			$request = array
 				(
-				'method' => $_SERVER['REQUEST_METHOD'],
+				'method' => $_SERVER['REQUEST_METHOD'] ?? '',
 				'action' => $PHP_SELF,
 				'elements' => ''
 				);

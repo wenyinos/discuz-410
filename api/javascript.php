@@ -36,7 +36,7 @@ if ($jsrefdomains && (empty($REFERER) | !in_array($REFERER,explode("\r\n",trim($
 }
 
 $authkey	=	isset($_DCACHE['settings']['authkey']) ? $_DCACHE['settings']['authkey'] : '';
-$jsurl		=	preg_replace("/^(.+?)\&verify\=[0-9a-f]{32}$/", "\\1", $_SERVER['QUERY_STRING']);
+$jsurl		=	preg_replace("/^(.+?)\&verify\=[0-9a-f]{32}$/", "\\1", $_SERVER['QUERY_STRING'] ?? '');
 $verify		=	isset($_GET['verify']) ? $_GET['verify'] : NULL;
 if (!$verify || !$jsurl || $verify != md5($authkey.$jsurl)) {
 	exit("document.write(\"<font color=red>Authentication failed.</font>\");");
@@ -46,8 +46,8 @@ $timestamp	=	time();
 $jscachelife=	isset($_DCACHE['settings']['jscachelife']) ? $_DCACHE['settings']['jscachelife'] : 3600;
 $dateformat	=	isset($_DCACHE['settings']['dateformat']) ? $_DCACHE['settings']['dateformat'] : 'm/d';
 $timeformat	=	isset($_DCACHE['settings']['timeformat']) ? $_DCACHE['settings']['timeformat'] : 'H:i';
-$PHP_SELF	=	$_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-$boardurl	=	'http://'.$_SERVER['HTTP_HOST'].preg_replace("/\/+(api|archiver|wap)?\/*$/i", '', substr($PHP_SELF, 0, strrpos($PHP_SELF, '/'))).'/';
+$PHP_SELF	=	$_SERVER['PHP_SELF'] ?? $_SERVER['SCRIPT_NAME'] ?? '';
+$boardurl	=	'http://'.($_SERVER['HTTP_HOST'] ?? '').preg_replace("/\/+(api|archiver|wap)?\/*$/i", '', substr($PHP_SELF, 0, strrpos($PHP_SELF, '/'))).'/';
 
 $db = new dbstuff;
 $db->connect($dbhost, $dbuser, $dbpw, $dbname, $pconnect);

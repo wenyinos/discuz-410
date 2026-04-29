@@ -23,7 +23,7 @@ $discuzcodes = array
 	'seoarray' => array
 		(
 		0 => '',
-		1 => $_SERVER['HTTP_HOST'],
+		1 => $_SERVER['HTTP_HOST'] ?? '',
 		2 => $bbname,
 		3 => $seotitle,
 		4 => $seokeywords,
@@ -92,9 +92,9 @@ function creditshide($creditsrequire, $message) {
 	include_once language('misc');
 
 	if($GLOBALS['credits'] < $creditsrequire && !$GLOBALS['forum']['ismoderator']) {
-		return '<b>'.eval("return \"$language[post_hide_credits_hidden]\";").'</b>';
+		return '<b>'.dinterpolate($language['post_hide_credits_hidden']).'</b>';
 	} else {
-		return '<b>'.eval("return \"$language[post_hide_credits]\";").'</b><br>'.
+		return '<b>'.dinterpolate($language['post_hide_credits']).'</b><br>'.
 			'==============================<br><br>'.
 			str_replace('\\"', '"', $message).'<br><br>'.
 			'==============================';
@@ -104,7 +104,7 @@ function creditshide($creditsrequire, $message) {
 function codedisp($code) {
 	global $discuzcodes;
 	$discuzcodes['pcodecount']++;
-	$code = htmlspecialchars(str_replace('\\"', '"', preg_replace("/^[\n\r]*(.+?)[\n\r]*$/is", "\\1", $code)));
+	$code = dhtmlspecialchars(str_replace('\\"', '"', preg_replace("/^[\n\r]*(.+?)[\n\r]*$/is", "\\1", $code)));
 	$discuzcodes['codehtml'][$discuzcodes['pcodecount']] = "<br><br><div class=\"smalltxt\" style=\"margin-left: 2em; margin-right: 2em; font-weight: bold\"><div style=\"float: left\">CODE:</div><div style=\"text-align: right; float: right\"><a href=\"###\" class=\"smalltxt\" onclick=\"copycode(findobj('code$discuzcodes[codecount]'));\">[Copy to clipboard]</a></div></div><div class=\"altbg2\" style=\"margin: 2em; margin-top: 3px; clear: both; padding: 10px; padding-top: 5px; border: ".INNERBORDERWIDTH."px solid ".BORDERCOLOR."; word-break: break-all\" id=\"code$discuzcodes[codecount]\">$code</div>";
 	$discuzcodes['codecount']++;
 	return "[\tDISCUZ_CODE_$discuzcodes[pcodecount]\t]";

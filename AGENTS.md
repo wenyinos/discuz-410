@@ -4,7 +4,7 @@
 
 Legacy Chinese BBS forum (Comsenz Inc., 2006). PHP 4/5 era code, now MIT-licensed.
 No modern tooling: no composer, no npm, no CI/CD, no test suite, no linter, no .gitignore.
-**PHP 7.4 compatible** — upgraded from mysql_* to mysqli, removed magic_quotes, fixed preg_replace /e modifier.
+**PHP 8.4+ compatible** — upgraded from mysql_* to mysqli, removed magic_quotes, replaced all preg_replace /e with preg_replace_callback, fixed count() TypeError, disabled mysqli exception mode.
 
 ## Architecture
 

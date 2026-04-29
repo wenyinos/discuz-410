@@ -41,7 +41,7 @@ if(empty($page)) {
 	$discuzcodes = array();
 	$query = $db->query("SELECT * FROM {$tablepre}bbcodes WHERE available='1'");
 	while($discuzcode = $db->fetch_array($query)) {
-		$discuzcode['explanation'] = htmlspecialchars($discuzcode['explanation']);
+		$discuzcode['explanation'] = dhtmlspecialchars($discuzcode['explanation']);
 		$discuzcodes[] = $discuzcode;
 	}
 

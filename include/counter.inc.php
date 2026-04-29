@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ')) {
         exit('Access Denied');
 }
 
-$visitor['agent'] = $_SERVER['HTTP_USER_AGENT'];
+$visitor['agent'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
 list($visitor['month'], $visitor['week'], $visitor['hour']) = explode("\t", gmdate("Ym\tw\tH", $timestamp + $_DCACHE['settings']['timeoffset'] * 3600));
 
 if(!$sessionexists) {

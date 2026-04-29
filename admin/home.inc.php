@@ -85,7 +85,6 @@ if($adminid == 1) {
 	require_once DISCUZ_ROOT.'./forumdata/cache/cache_forums.php';
 
 	$serverinfo = PHP_OS.' / PHP v'.PHP_VERSION;
-	$serverinfo .= @ini_get('safe_mode') ? ' Safe Mode' : NULL;
 	$dbversion = $db->result($db->query("SELECT VERSION()"), 0);
 
 	if(@ini_get('file_uploads')) {
@@ -282,7 +281,7 @@ if($adminid == 1) {
 	$members = $db->result($db->query("SELECT COUNT(*) FROM {$tablepre}members"), 0);
 	$threads = $db->result($db->query("SELECT COUNT(*) FROM {$tablepre}threads"), 0);
 	$posts = $db->result($db->query("SELECT COUNT(*) FROM {$tablepre}posts"), 0);
-	echo '<script language="JavaScript" src="http://customer.discuz.net/news.php?version='.rawurlencode(DISCUZ_VERSION).'&release='.rawurlencode(DISCUZ_RELEASE).'&php='.PHP_VERSION.'&mysql='.$dbversion.'&charset='.rawurlencode($charset).'&bbname='.rawurlencode($bbname).'&members='.$members.'&threads='.$threads.'&posts='.$posts.'&md5hash='.md5(preg_replace("/http:\/\/(.+?)\/.*/i", "\\1", $_SERVER['HTTP_REFERER']).$_SERVER['HTTP_USER_AGENT'].DISCUZ_VERSION.DISCUZ_RELEASE.$bbname.$members.$threads.$posts).'"></script>';
+	echo '<script language="JavaScript" src="http://customer.discuz.net/news.php?version='.rawurlencode(DISCUZ_VERSION).'&release='.rawurlencode(DISCUZ_RELEASE).'&php='.PHP_VERSION.'&mysql='.$dbversion.'&charset='.rawurlencode($charset).'&bbname='.rawurlencode($bbname).'&members='.$members.'&threads='.$threads.'&posts='.$posts.'&md5hash='.md5(preg_replace("/http:\/\/(.+?)\/.*/i", "\\1", $_SERVER['HTTP_REFERER'] ?? '').($_SERVER['HTTP_USER_AGENT'] ?? '').DISCUZ_VERSION.DISCUZ_RELEASE.$bbname.$members.$threads.$posts).'"></script>';
 }
 
 ?>

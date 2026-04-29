@@ -17,7 +17,7 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 
 function cpmsg($message, $url_forward = '', $msgtype = 'message', $extra = '') {
 	extract($GLOBALS, EXTR_SKIP);
-	eval("\$message = \"".(isset($msglang[$message]) ? $msglang[$message] : $message)."\";");
+	$message = dinterpolate(isset($msglang[$message]) ? $msglang[$message] : $message);
 
 	if($msgtype == 'form') {
 		$message = "<form method=\"post\" action=\"$url_forward\"><input type=\"hidden\" name=\"formhash\" value=\"".FORMHASH."\">".

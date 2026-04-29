@@ -5,6 +5,7 @@
 	This is NOT a freeware, use is subject to license terms
 
 	Rewritten for PHP 7.4: mysql_* → mysqli_*
+	Updated for PHP 8.4: disable mysqli exception mode
 */
 
 if(!defined('IN_DISCUZ')) {
@@ -44,6 +45,11 @@ class dbstuff {
 		if($dbname) {
 			$this->conn->select_db($dbname);
 		}
+
+		// PHP 8.1+ defaults to MYSQLI_REPORT_ERROR|MYSQLI_REPORT_STRICT,
+		// which throws exceptions instead of returning false. Disable to
+		// preserve legacy error-handling behavior in query().
+		$this->conn->report_mode = MYSQLI_REPORT_OFF;
 
 	}
 

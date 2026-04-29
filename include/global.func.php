@@ -129,6 +129,26 @@ function dexit($message = '') {
 	exit();
 }
 
+function dinterpolate($string) {
+	// 安全替代 eval() 的变量插值函数
+	// 支持 $var、{$var}、$arr[key] 三种模式
+	return preg_replace_callback('/\{?\$(\w+(?:\[[\w\'\"]+\])*)\}?/', function($m) {
+		$path = $m[1];
+		if(strpos($path, '[') !== false) {
+			// 处理 $arr[key] 模式
+			preg_match('/^(\w+)\[([\'"]?)(\w+)\2\]$/', $path, $pm);
+			if($pm && isset($GLOBALS[$pm[1]][$pm[3]])) {
+				return $GLOBALS[$pm[1]][$pm[3]];
+			}
+		} else {
+			if(isset($GLOBALS[$path])) {
+				return $GLOBALS[$path];
+			}
+		}
+		return $m[0];
+	}, $string);
+}
+
 function dhtmlspecialchars($string) {
 	if(is_array($string)) {
 		foreach($string as $key => $val) {
@@ -165,7 +185,7 @@ function dsetcookie($var, $value, $life = 0, $prefix = 1) {
 	global $tablepre, $cookiedomain, $cookiepath, $timestamp, $_SERVER;
 	setcookie(($prefix ? $tablepre : '').$var, $value,
 		$life ? $timestamp + $life : 0, $cookiepath,
-		$cookiedomain, $_SERVER['SERVER_PORT'] == 443 ? 1 : 0);
+		$cookiedomain, ($_SERVER['SERVER_PORT'] ?? 80) == 443 ? 1 : 0);
 }
 
 function emailconv($email, $tolink = 1) {
@@ -350,35 +370,36 @@ function output() {
 	global $sid, $transsidstatus, $rewritestatus;
 
 	if(($transsidstatus = empty($GLOBALS['_DCOOKIE']['sid']) && $transsidstatus) || in_array($rewritestatus, array(2, 3))) {
-		if($transsidstatus) {
-			$searcharray = array
-				(
-				"/\<a(\s*[^\>]+\s*)href\=([\"|\']?)([^\"\'\s]+)/ies",
-				"/(\<form.+?\>)/is"
-				);
-			$replacearray = array
-				(
-				"transsid('\\3','<a\\1href=\\2')",
-				"\\1\n<input type=\"hidden\" name=\"sid\" value=\"$sid\">"
-				);
-		} else {
-			$searcharray = array
-				(
-				//"/\<a href\=\"index\.php\"\>/",
-				"/\<a href\=\"forumdisplay\.php\?fid\=(\d+)(&page\=(\d+))?\"([^\>]*)\>/e",
-				"/\<a href\=\"viewthread\.php\?tid\=(\d+)(&extra\=page\%3D(\d+))?(&page\=(\d+))?\"([^\>]*)\>/e",
-				"/\<a href\=\"viewpro\.php\?(uid\=(\d+)|username\=([^&]+?))\"([^\>]*)\>/e"
-				);
-			$replacearray = array
-				(
-				//"<a href=\"index.html\">",
-				"rewrite_forum('\\1', '\\3', '\\4')",
-				"rewrite_thread('\\1', '\\5', '\\3', '\\6')",
-				"rewrite_profile('\\2', '\\3', '\\4')"
-				);
-		}
+		$content = ob_get_contents();
 
-		$content = preg_replace($searcharray, $replacearray, ob_get_contents());
+		if($transsidstatus) {
+			$content = preg_replace_callback(
+				"/\<a(\s*[^\>]+\s*)href\=([\"|\']?)([^\"\'\s]+)/is",
+				function($m) { return transsid($m[3], '<a'.$m[1].'href='.$m[2]); },
+				$content
+			);
+			$content = preg_replace(
+				"/(\<form.+?\>)/is",
+				"\\1\n<input type=\"hidden\" name=\"sid\" value=\"$sid\">",
+				$content
+			);
+		} else {
+			$content = preg_replace_callback(
+				"/\<a href\=\"forumdisplay\.php\?fid\=(\d+)(&page\=(\d+))?\"([^\>]*)\>/i",
+				function($m) { return rewrite_forum($m[1], $m[3], $m[4]); },
+				$content
+			);
+			$content = preg_replace_callback(
+				"/\<a href\=\"viewthread\.php\?tid\=(\d+)(&extra\=page\%3D(\d+))?(&page\=(\d+))?\"([^\>]*)\>/i",
+				function($m) { return rewrite_thread($m[1], $m[5], $m[3], $m[6]); },
+				$content
+			);
+			$content = preg_replace_callback(
+				"/\<a href\=\"viewpro\.php\?(uid\=(\d+)|username\=([^&]+?))\"([^\>]*)\>/i",
+				function($m) { return rewrite_profile($m[2], $m[3], $m[4]); },
+				$content
+			);
+		}
 
 		ob_end_clean();
 		$GLOBALS['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
@@ -492,10 +513,10 @@ function sendpm($toid, $subject, $message, $fromid = '', $from = '') {
 	include language('pms');
 
 	if(isset($language[$subject])) {
-		eval("\$subject = addslashes(\"".$language[$subject]."\");");
+		$subject = addslashes(dinterpolate($language[$subject]));
 	}
 	if(isset($language[$message])) {
-		eval("\$message = addslashes(\"".$language[$message]."\");");
+		$message = addslashes(dinterpolate($language[$message]));
 	}
 
 	if(!$fromid && !$from) {
@@ -526,7 +547,7 @@ function showmessage($show_message, $url_forward = '', $extra = '') {
 	include language('messages');
 
 	if(isset($language[$show_message])) {
-		eval("\$show_message = \"".$language[$show_message]."\";");
+		$show_message = dinterpolate($language[$show_message]);
 	}
 	$extrahead .= $url_forward ? '<meta http-equiv="refresh" content="3;url='.
 		(empty($_DCOOKIE['sid']) && $transsidstatus ? transsid($url_forward) : $url_forward).
@@ -565,7 +586,7 @@ function showstars($num) {
 }
 
 function site() {
-	return $_SERVER['HTTP_HOST'];
+	return $_SERVER['HTTP_HOST'] ?? '';
 }
 
 function strexists($haystack, $needle) {
@@ -577,8 +598,8 @@ function submitcheck($var, $allowget = 0, $seccodecheck = 0) {
 		return FALSE;
 	} else {
 		global $_SERVER, $adminid, $submitrefcheck, $seccode, $seccodeverify;
-		if($allowget || ($_SERVER['REQUEST_METHOD'] == 'POST' && $GLOBALS['formhash'] == formhash() && (empty($_SERVER['HTTP_REFERER']) ||
-			preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))) {
+		if($allowget || (($_SERVER['REQUEST_METHOD'] ?? '') == 'POST' && $GLOBALS['formhash'] == formhash() && (empty($_SERVER['HTTP_REFERER']) ||
+			preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER'] ?? '') == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'] ?? '')))) {
 			if($seccodecheck) {
 				if(intval($seccodeverify) == intval($seccode)) {
 					$seccode = random(4, 1);

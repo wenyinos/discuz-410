@@ -20,7 +20,6 @@ define('DISCUZ_AVATARSHOW', '3560626219401401200');
 
 require_once DISCUZ_ROOT.'./include/global.func.php';
 
-$magic_quotes_gpc = false;
 @extract(daddslashes($_COOKIE), EXTR_SKIP);
 @extract(daddslashes($_POST), EXTR_SKIP);
 @extract(daddslashes($_GET), EXTR_SKIP);
@@ -37,9 +36,9 @@ if($attackevasive) {
 }
 
 $timestamp = time();
-$PHP_SELF = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-$SCRIPT_FILENAME = str_replace('\\\\', '/', (!empty($_SERVER['PATH_TRANSLATED']) ? $_SERVER['PATH_TRANSLATED'] : $_SERVER['SCRIPT_FILENAME']));
-$boardurl = 'http://'.$_SERVER['HTTP_HOST'].preg_replace("/\/+(api|archiver|wap)?\/*$/i", '', substr($PHP_SELF, 0, strrpos($PHP_SELF, '/'))).'/';
+$PHP_SELF = $_SERVER['PHP_SELF'] ?? $_SERVER['SCRIPT_NAME'] ?? '';
+$SCRIPT_FILENAME = str_replace('\\\\', '/', ($_SERVER['PATH_TRANSLATED'] ?? $_SERVER['SCRIPT_FILENAME'] ?? ''));
+$boardurl = 'http://'.($_SERVER['HTTP_HOST'] ?? '').preg_replace("/\/+(api|archiver|wap)?\/*$/i", '', substr($PHP_SELF, 0, strrpos($PHP_SELF, '/'))).'/';
 
 if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
 	$onlineip = getenv('HTTP_CLIENT_IP');
@@ -104,7 +103,7 @@ $sid = daddslashes(($transsidstatus || (defined('CURSCRIPT') && CURSCRIPT == 'wa
 	(isset($_GET['sid']) ? $_GET['sid'] : $_POST['sid']) :
 	(isset($_DCOOKIE['sid']) ? $_DCOOKIE['sid'] : ''));
 
-$discuz_auth_key = md5($_DCACHE['settings']['authkey'].$_SERVER['HTTP_USER_AGENT']);
+$discuz_auth_key = md5($_DCACHE['settings']['authkey'].($_SERVER['HTTP_USER_AGENT'] ?? ''));
 list($discuz_pw, $discuz_secques, $discuz_uid) = isset($_DCOOKIE['auth']) ? explode("\t", authcode($_DCOOKIE['auth'], 'DECODE')) : array('', '', 0);
 
 $discuz_pw = addslashes($discuz_pw);
@@ -274,7 +273,7 @@ if(!@include DISCUZ_ROOT.'./forumdata/cache/usergroup_'.$groupid.'.php') {
 }
 
 if($passport_status) {
-	$passport_forward = rawurlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+	$passport_forward = rawurlencode('http://'.($_SERVER['HTTP_HOST'] ?? '').($_SERVER['REQUEST_URI'] ?? ''));
 	$link_login = $passport_url.$passport_login_url.(strpos($passport_login_url, '?') === FALSE ? '?' : '&').'forward='.$passport_forward;
 	$link_logout = $passport_url.$passport_logout_url.(strpos($passport_logout_url, '?') === FALSE ? '?' : '&').'forward='.$passport_forward;
 	$link_register = $passport_url.$passport_register_url.(strpos($passport_register_url, '?') === FALSE ? '?' : '&').'forward='.$passport_forward;

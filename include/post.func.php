@@ -329,7 +329,7 @@ function updatepostcredits($operator, $uidarray, $creditsarray) {
 
 	foreach($postsarray as $posts => $uidarray) {
 		$uids = implode(',', $uidarray);
-		eval("\$creditsadd2 = \"$creditsadd1\";");
+		$creditsadd2 = str_replace('$posts', $posts, $creditsadd1);
 		$db->query("UPDATE {$tablepre}members SET posts=posts$operator$posts $lastpostadd $creditsadd2 WHERE uid IN ($uids)", 'UNBUFFERED');
 	}
 }
@@ -341,7 +341,7 @@ function updateforumcount($fid) {
 		FROM {$tablepre}threads t, {$tablepre}forums f
 		WHERE f.fid='$fid' AND t.fid=f.fid AND t.displayorder>='0'");
 
-	extract($db->fetch_array($query));
+	extract($db->fetch_array($query), EXTR_SKIP);
 
 	$query = $db->query("SELECT tid, subject, lastpost, lastposter FROM {$tablepre}threads
 		WHERE fid='$fid' AND displayorder>='0' ORDER BY lastpost DESC LIMIT 1");

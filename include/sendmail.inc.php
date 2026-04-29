@@ -21,10 +21,10 @@ if($sendmail_silent) {
 }
 
 if(isset($language[$email_subject])) {
-	eval("\$email_subject = \"".$language[$email_subject]."\";");
+	$email_subject = dinterpolate($language[$email_subject]);
 }
 if(isset($language[$email_message])) {
-	eval("\$email_message = \"".$language[$email_message]."\";");
+	$email_message = dinterpolate($language[$email_message]);
 }
 
 $email_subject = str_replace("\r", '', str_replace("\n", '', $email_subject));

@@ -61,7 +61,7 @@ if($action == 'styles' && $export) {
 	header('Content-Encoding: none');
 	header('Content-Length: '.strlen($style_export));
 	header('Content-Disposition: attachment; filename=discuz_style_'.$stylearray['name'].'.txt');
-	header('Content-Type: '.(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ? 'application/octetstream' : 'application/octet-stream'));
+	header('Content-Type: '.(strpos($_SERVER['HTTP_USER_AGENT'] ?? '', 'MSIE') ? 'application/octetstream' : 'application/octet-stream'));
 
 	echo $style_export;
 	dexit();

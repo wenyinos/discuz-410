@@ -13,7 +13,7 @@ require_once './include/common.inc.php';
 
 $discuz_action = 14;
 
-if($attachrefcheck && $_SERVER['HTTP_REFERER'] && preg_replace("/https?:\/\/([^\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) != $_SERVER['HTTP_HOST']) {
+if($attachrefcheck && ($_SERVER['HTTP_REFERER'] ?? '') && preg_replace("/https?:\/\/([^\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER'] ?? '') != ($_SERVER['HTTP_HOST'] ?? '')) {
 	//header("Location: {$boardurl}images/common/invalidreferer.gif");
 	showmessage('attachment_referer_invalid', NULL, 'HALTED');
 }

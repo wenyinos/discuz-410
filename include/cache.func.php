@@ -477,13 +477,13 @@ function getcachearray($cachename) {
 				if(!empty($threadarray[$gid])) {
 					$data['categories'][$gid] = array(
 						'tids'	=> implode(',', $threadarray[$gid]),
-						'count'	=> intval(@count($threadarray[$gid]))
+						'count'	=> intval(is_array($threadarray[$gid]) ? count($threadarray[$gid]) : 0)
 					);
 				}
 			}
 			$data['global'] = array(
 				'tids'	=> empty($threadarray['global']) ? 0 : implode(',', $threadarray['global']),
-				'count'	=> intval(@count($threadarray['global']))
+				'count'	=> intval(is_array($threadarray['global'] ?? null) ? count($threadarray['global']) : 0)
 			);
 			break;
 		case 'censor':

@@ -479,7 +479,7 @@ if(empty($action)) {
 
 	ob_end_clean();
 	header('Content-Encoding: none');
-	header('Content-Type: '.(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ? 'application/octetstream' : 'application/octet-stream'));
+	header('Content-Type: '.(strpos($_SERVER['HTTP_USER_AGENT'] ?? '', 'MSIE') ? 'application/octetstream' : 'application/octet-stream'));
 	header('Content-Disposition: attachment; filename="PM_'.$discuz_userss.'_'.gmdate('ymd_Hi', $timestamp + $timeoffset * 3600).'.htm"');
 	header('Pragma: no-cache');
 	header('Expires: 0');

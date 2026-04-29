@@ -49,8 +49,8 @@ $db->connect($dbhost, $dbuser, $dbpw, $dbname, $pconnect);
 $db->select_db($dbname);
 unset($dbhost, $dbuser, $dbpw, $dbname, $pconnect);
 
-$PHP_SELF = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-$boardurl = 'http://'.$_SERVER['HTTP_HOST'].substr($PHP_SELF, 0, strpos($PHP_SELF, 'archiver/'));
+$PHP_SELF = $_SERVER['PHP_SELF'] ?? $_SERVER['SCRIPT_NAME'] ?? '';
+$boardurl = 'http://'.($_SERVER['HTTP_HOST'] ?? '').substr($PHP_SELF, 0, strpos($PHP_SELF, 'archiver/'));
 
 $groupid = 7;
 $extgroupids = '';
@@ -59,7 +59,7 @@ $navtitle = '';
 $fid = $page = $tid = 0;
 $qm = in_array($_DCACHE['settings']['rewritestatus'], array(1, 3)) ? '' : '?';
 $fullversion = array('title' => $_DCACHE['settings']['bbname'], 'link' => 'index.php');
-$querystring = preg_replace("/\.html$/i", '', trim($_SERVER['QUERY_STRING']));
+$querystring = preg_replace("/\.html$/i", '', trim($_SERVER['QUERY_STRING'] ?? ''));
 
 if($querystring) {
 	$queryparts = explode('-', $querystring);
@@ -84,9 +84,9 @@ if($tid) {
 	$forward = 'index.php';
 }
 
-if($_DCACHE['settings']['archiverstatus'] != 1 && !preg_match("/($kw_spiders)/i", $_SERVER['HTTP_USER_AGENT']) &&
-	(($_DCACHE['settings']['archiverstatus'] == 2 && preg_match("/($kw_searchengines)/", $_SERVER['HTTP_REFERER'])) ||
-	($_DCACHE['settings']['archiverstatus'] == 3 && preg_match("/($kw_browsers)/", $_SERVER['HTTP_USER_AGENT'])))) {
+if($_DCACHE['settings']['archiverstatus'] != 1 && !preg_match("/($kw_spiders)/i", $_SERVER['HTTP_USER_AGENT'] ?? '') &&
+	(($_DCACHE['settings']['archiverstatus'] == 2 && preg_match("/($kw_searchengines)/", $_SERVER['HTTP_REFERER'] ?? '')) ||
+	($_DCACHE['settings']['archiverstatus'] == 3 && preg_match("/($kw_browsers)/", $_SERVER['HTTP_USER_AGENT'] ?? '')))) {
 	header("Location: $boardurl$forward");
 	exit;
 }
