@@ -37,9 +37,7 @@ function parse_template($file, $templateid, $tpldir) {
 	$template = preg_replace_callback("/\{lang\s+(.+?)\}/is", function($m) { return languagevar($m[1]); }, $template);
 	$template = str_replace("{LF}", "<?=\"\\n\"?>", $template);
 
-	$template = preg_replace("/\{(\\\$[a-zA-Z0-9_\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?=\\1?>", $template);
-	$template = preg_replace_callback("/$var_regexp/s", function($m) { return addquote('<?= '.$m[1].' ?>'); }, $template);
-	$template = preg_replace_callback("/\<\?\=\<\?\=$var_regexp\?\>\?\>/s", function($m) { return addquote('<?= '.$m[1].' ?>'); }, $template);
+	$template = varreplace($template);
 
 	$template = "<?php if(!defined('IN_DISCUZ')) exit('Access Denied'); ?>\n\n$template";
 	$template = preg_replace("/[\n\r\t]*\{template\s+([a-z0-9_]+)\}[\n\r\t]*/is", "\n<?php include template('\\1'); ?>\n", $template);
@@ -71,6 +69,14 @@ function addquote($var) {
 	return str_replace("\\\"", "\"", preg_replace("/\[([a-zA-Z0-9_\-\.\x7f-\xff]+)\]/s", "['\\1']", $var));
 }
 
+function varreplace($template) {
+	$var_regexp = "((\\\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(\[[a-zA-Z0-9_\-\.\"\'\[\]\$\x7f-\xff]+\])*)";
+	$template = preg_replace("/\{(\\\$[a-zA-Z0-9_\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?=\\1?>", $template);
+	$template = preg_replace_callback("/$var_regexp/s", function($m) { return addquote('<?='.$m[1].'?>'); }, $template);
+	$template = preg_replace_callback("/\<\?\=\<\?\=$var_regexp\?\>\?\>/s", function($m) { return addquote('<?='.$m[1].'?>'); }, $template);
+	return $template;
+}
+
 function languagevar($var) {
 	if(isset($GLOBALS['language'][$var])) {
 		return $GLOBALS['language'][$var];
@@ -80,7 +86,6 @@ function languagevar($var) {
 }
 
 function stripvtags($expr, $statement) {
-	//$expr = str_replace("\\\"", "\"", preg_replace("/\<\?\=(\\\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\"\'\[\]\$\x7f-\xff]*)\?\>/s", "\\1", $expr));
 	$expr = str_replace("\\\"", "\"", preg_replace("/\<\?\=(\\\$.+?)\?\>/s", "\\1", $expr));
 	$statement = str_replace("\\\"", "\"", $statement);
 	return $expr.$statement;

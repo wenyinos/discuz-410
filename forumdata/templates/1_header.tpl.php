@@ -1,4 +1,4 @@
-<? if(!defined('IN_DISCUZ')) exit('Access Denied'); ?>
+<?php if(!defined('IN_DISCUZ')) exit('Access Denied'); ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html>
@@ -13,7 +13,7 @@
 <meta name="MSSmartTagsPreventParsing" content="TRUE">
 <meta http-equiv="MSThemeCompatible" content="Yes">
 <?=$extrahead?>
-<? include template('css'); ?>
+<?php include template('css'); ?>
 <script language="JavaScript" src="include/common.js"></script>
 </head>
 
@@ -28,36 +28,36 @@
 <tr>
 <td rowspan="2" width="0"><img src="images/spacer.gif" width="0" height="0"></td>
 <td rowspan="2" valign="top"><a href="index.php"><?=BOARDLOGO?></a></td><td height="80" align="right">&nbsp;
-<? if(!empty($advlist['headerbanner'])) { ?>
+<?php if(!empty($advlist['headerbanner'])) { ?>
 <?=$advlist['headerbanner']?>
-<? } ?>
+<?php } ?>
 </td>
 </tr>
 
 <tr>
 <td align="right" class="smalltxt"><span class="bold">&raquo;</span>
-<? if($discuz_uid) { ?>
+<?php if($discuz_uid) { ?>
 <span class="bold"><?=$discuz_userss?>: </span> <a href="<?=$link_logout?>">退出</a>
-<? if($maxpmnum) { ?>
+<?php if($maxpmnum) { ?>
 | <a href="pm.php" target="_blank">短消息</a> 
-<? } ?>
+<?php } ?>
 |  <a href="memcp.php">控制面板</a>
-<? if(in_array($adminid, array(1,2,3))) { ?>
+<?php if(in_array($adminid, array(1,2,3))) { ?>
 | <a href="admincp.php" target="_blank">系统设置</a> 
-<? } } else { ?>
+<?php } } else { ?>
 <span class="bold">游客: &nbsp;</span><a href="<?=$link_register?>">注册</a> 
 | <a href="<?=$link_login?>">登录</a> 
-<? } if($memliststatus) { ?>
+<?php } if($memliststatus) { ?>
 | <a href="member.php?action=list">会员</a> 
-<? } if($allowsearch || $qihoo_status) { ?>
+<?php } if($allowsearch || $qihoo_status) { ?>
 | <a href="search.php">搜索</a> 
-<? } if($allowviewstats) { ?>
+<?php } if($allowviewstats) { ?>
 | <a href="stats.php">统计</a> 
-<? } if(is_array($plugins['links'])) { foreach($plugins['links'] as $plugin) { if(is_array($plugin)) { foreach($plugin as $module) { ?>
+<?php } if(is_array($plugins['links'])) { foreach($plugins['links'] as $plugin) { if(is_array($plugin)) { foreach($plugin as $module) { ?>
      
-<? if(!$module['adminid'] || ($module['adminid'] && $adminid > 0 && $module['adminid'] >= $adminid)) { ?>
+<?php if(!$module['adminid'] || ($module['adminid'] && $adminid > 0 && $module['adminid'] >= $adminid)) { ?>
 | <?=$module['url']?> 
-<? } } } } } ?>
+<?php } } } } } ?>
 | <a href="faq.php">帮助</a>
 
 </td><td rowspan="2" width="0"><img src="images/spacer.gif" width="0" height="0"></td>
