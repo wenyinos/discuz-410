@@ -98,8 +98,8 @@ if(!empty($uid)) {
 	$username = $blogtopic['author'];
 	$thisbg = 'altbg1';
 
-	$navigation = "&raquo; <a href=\"blog.php?uid=$uid&starttime=$starttime&endtime=$endtime\">$username</a> &raquo; $blogtopic[subject]";
-	$navtitle = " - $username - $blogtopic[subject]";
+	$navigation = "&raquo; <a href=\"blog.php?uid=$uid&starttime=$starttime&endtime=$endtime\">$username</a> &raquo; {$blogtopic['subject']}";
+	$navtitle = " - $username - {$blogtopic['subject']}";
 
 	$multipage = $multipage = multi($blogtopic['replies'], $ppp, $page, "blog.php?tid=$tid&starttime=$starttime&endtime=$endtime");
 
@@ -116,7 +116,7 @@ if(!empty($uid)) {
 		require_once DISCUZ_ROOT.'./include/attachment.func.php';
 
 		$query = $db->query("SELECT aid, pid, readperm, filename, description, filetype, attachment, filesize, downloads
-					FROM {$tablepre}attachments WHERE pid='$blogtopic[pid]'");
+					FROM {$tablepre}attachments WHERE pid='{$blogtopic['pid']}'");
 		while($attach = $db->fetch_array($query)) {
 			$extension = strtolower(fileext($attach['filename']));
 			$attach['attachicon'] = attachtype($extension."\t".$attach['filetype']);
@@ -137,7 +137,7 @@ if(!empty($uid)) {
 					FROM {$tablepre}posts p
 					LEFT JOIN {$tablepre}members m ON m.uid=p.authorid
 					LEFT JOIN {$tablepre}memberfields mf ON mf.uid=m.uid
-					WHERE p.tid='$tid' AND p.invisible='0' AND p.pid<>'$blogtopic[pid]'
+					WHERE p.tid='$tid' AND p.invisible='0' AND p.pid<>'{$blogtopic['pid']}'
 					ORDER BY p.dateline
 					LIMIT $start_limit, $ppp");
 
@@ -147,7 +147,7 @@ if(!empty($uid)) {
 			$comment['dateline'] = gmdate("$dateformat $timeformat", $comment['dateline'] + $timeoffset * 3600);
 
 			if($comment['attachment'] && $allowgetattach) {
-				$attachpids .= ",$comment[pid]";
+				$attachpids .= ",{$comment['pid']}";
 				$comment['attachment'] = 0;
 			}
 

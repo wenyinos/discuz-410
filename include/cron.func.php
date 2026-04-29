@@ -30,7 +30,7 @@ function runcron($cronid = 0) {
 	foreach($crons as $id => $cron) {
 		if($cron['nextrun'] <= $timestamp || $id == $cronid) {
 			$cronids[] = $id;
-			if(!include_once DISCUZ_ROOT.($cronfile = "./include/crons/$cron[filename]")) {
+			if(!include_once DISCUZ_ROOT.($cronfile = "./include/crons/{$cron['filename']}")) {
 				errorlog('CRON', $cron['name']." : Cron script($cronfile) not found or syntax error", 0);
 			}
 		}

@@ -263,7 +263,7 @@ if(!submitcheck('regsubmit', 0, $seccodecheck)) {
 	$authstr = $regverify == 1 ? "$timestamp\t2\t$idstring" : '';
 
 	$db->query("INSERT INTO {$tablepre}members (username, password, secques, gender, adminid, groupid, regip, regdate, lastvisit, lastactivity, posts, credits, extcredits1, extcredits2, extcredits3, extcredits4, extcredits5, extcredits6, extcredits7, extcredits8, email, bday, sigstatus, tpp, ppp, styleid, dateformat, timeformat, pmsound, showemail, newsletter, invisible, timeoffset)
-		VALUES ('$username', '$password', '$secques', '$gendernew', '0', '$groupinfo[groupid]', '$onlineip', '$timestamp', '$timestamp', '$timestamp', '0', $initcredits, '$email', '$bday', '$sigstatus', '$tppnew', '$pppnew', '$styleidnew', '$dateformatnew', '$timeformatnew', '$pmsoundnew', '$showemail', '$newsletter', '$invisiblenew', '$timeoffsetnew')");
+		VALUES ('$username', '$password', '$secques', '$gendernew', '0', '{$groupinfo['groupid']}', '$onlineip', '$timestamp', '$timestamp', '$timestamp', '0', $initcredits, '$email', '$bday', '$sigstatus', '$tppnew', '$pppnew', '$styleidnew', '$dateformatnew', '$timeformatnew', '$pmsoundnew', '$showemail', '$newsletter', '$invisiblenew', '$timeoffsetnew')");
 	$uid = $db->insert_id();
 
 	$db->query("INSERT INTO {$tablepre}memberfields (uid, nickname, site, icq, qq, yahoo, msn, taobao, alipay, location, bio, signature, sightml, customstatus, authstr $fieldadd1)

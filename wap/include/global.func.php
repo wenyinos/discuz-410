@@ -34,10 +34,10 @@ function wapheader($title) {
 
 function wapfooter() {
 	global $discuz_uid, $discuz_user, $lang;
-	echo "<p align=\"center\"><br /><a href=\"index.php\">$lang[home]</a><br />\n".
-		($discuz_uid ? "<a href=\"index.php?action=login&amp;logout=yes\">$discuz_user:$lang[logout]</a>" : "<a href=\"index.php?action=login\">$lang[login]</a>")."<br /><br />\n".
+	echo "<p align=\"center\"><br /><a href=\"index.php\">{$lang['home']}</a><br />\n".
+		($discuz_uid ? "<a href=\"index.php?action=login&amp;logout=yes\">$discuz_user:{$lang['logout']}</a>" : "<a href=\"index.php?action=login\">{$lang['login']}</a>")."<br /><br />\n".
 		"<small>Powered by Discuz!</small></p>\n".
-		//"<do type=\"prev\" label=\"$lang[return]\"><exit /></do>\n".
+		//"<do type=\"prev\" label=\"{$lang['return']}\"><exit /></do>\n".
 		"</card>\n".
 		"</wml>";
 
@@ -51,7 +51,7 @@ function wapmsg($message, $forward = array()) {
 		$message = dinterpolate($lang[$message]);
 	}
 	echo "<p align=\"center\">$message".
-		($forward ? "<br /><a href=\"$forward[link]\">".(isset($lang[$forward['title']]) ? $lang[$forward['title']] : $forward['title'])."</a>" : '').
+		($forward ? "<br /><a href=\"{$forward['link']}\">".(isset($lang[$forward['title']]) ? $lang[$forward['title']] : $forward['title'])."</a>" : '').
 		"</p>\n";
 
 	wapfooter();

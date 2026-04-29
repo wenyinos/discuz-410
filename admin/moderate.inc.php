@@ -47,13 +47,13 @@ if($action == 'modmembers') {
 			$member['regdate'] = gmdate("$dateformat $timeformat", $member['regdate'] + $timeoffset * 3600);
 			$member['submitdate'] = gmdate("$dateformat $timeformat", $member['submitdate'] + $timeoffset * 3600);
 			$member['moddate'] = $member['moddate'] ? gmdate("$dateformat $timeformat", $member['moddate'] + $timeoffset * 3600) : $lang['none'];
-			$member['admin'] = $member['admin'] ? "<a href=\"viewpro.php?username=".rawurlencode($member['admin'])."\" target=\"_blank\">$member[admin]</a>" : $lang['none'];
-			$members .= "<tr class=\"smalltxt\"><td bgcolor=\"".ALTBG2."\"><input type=\"radio\" name=\"mod[$member[uid]]\" value=\"invalidate\"> $lang[invalidate]<br><input type=\"radio\" name=\"mod[$member[uid]]\" value=\"validate\" checked> $lang[validate]<br>\n".
-				"<input type=\"radio\" name=\"mod[$member[uid]]\" value=\"delete\"> $lang[delete]<br><input type=\"radio\" name=\"mod[$member[uid]]\" value=\"ignore\"> $lang[ignore]</td><td bgcolor=\"".ALTBG1."\"><b><a href=\"viewpro.php?uid=$member[uid]\" target=\"_blank\">$member[username]</a></b>\n".
-				"<br>$lang[members_edit_regdate] $member[regdate]<br>$lang[members_edit_regip] $member[regip]<br>Email: $member[email]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\"><textarea rows=\"4\" name=\"remark[$member[uid]]\" style=\"width: 100%; word-break: break-all\">$member[message]</textarea></td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$lang[moderate_members_submit_times]: $member[submittimes]<br>$lang[moderate_members_submit_time]: $member[submitdate]<br>$lang[moderate_members_admin]: $member[admin]<br>\n".
-				"$lang[moderate_members_mod_time]: $member[moddate]</td><td bgcolor=\"".ALTBG1."\"><textarea rows=\"4\" name=\"remark[$member[uid]]\" style=\"width: 100%; word-break: break-all\">$member[remark]</textarea></td></tr>\n";
+			$member['admin'] = $member['admin'] ? "<a href=\"viewpro.php?username=".rawurlencode($member['admin'])."\" target=\"_blank\">{$member['admin']}</a>" : $lang['none'];
+			$members .= "<tr class=\"smalltxt\"><td bgcolor=\"".ALTBG2."\"><input type=\"radio\" name=\"mod[{$member['uid']}]\" value=\"invalidate\"> {$lang['invalidate']}<br><input type=\"radio\" name=\"mod[{$member['uid']}]\" value=\"validate\" checked> {$lang['validate']}<br>\n".
+				"<input type=\"radio\" name=\"mod[{$member['uid']}]\" value=\"delete\"> {$lang['delete']}<br><input type=\"radio\" name=\"mod[{$member['uid']}]\" value=\"ignore\"> {$lang['ignore']}</td><td bgcolor=\"".ALTBG1."\"><b><a href=\"viewpro.php?uid={$member['uid']}\" target=\"_blank\">{$member['username']}</a></b>\n".
+				"<br>{$lang['members_edit_regdate']} {$member['regdate']}<br>{$lang['members_edit_regip']} {$member['regip']}<br>Email: {$member['email']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\"><textarea rows=\"4\" name=\"remark[{$member['uid']}]\" style=\"width: 100%; word-break: break-all\">{$member['message']}</textarea></td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$lang['moderate_members_submit_times']}: {$member['submittimes']}<br>{$lang['moderate_members_submit_time']}: {$member['submitdate']}<br>{$lang['moderate_members_admin']}: {$member['admin']}<br>\n".
+				"{$lang['moderate_members_mod_time']}: {$member['moddate']}</td><td bgcolor=\"".ALTBG1."\"><textarea rows=\"4\" name=\"remark[{$member['uid']}]\" style=\"width: 100%; word-break: break-all\">{$member['remark']}</textarea></td></tr>\n";
 		}
 
 		if($vuids) {
@@ -244,7 +244,7 @@ if($action == 'modthreads') {
 		$page = !ispage($page) ? 1 : $page;
 		$start_limit = ($page - 1) * 20;
 
-		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}threads WHERE $fidadd[fids]$fidadd[and] displayorder='-2'");
+		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}threads WHERE {$fidadd['fids']}{$fidadd['and']} displayorder='-2'");
 		$multipage = multi($db->result($query, 0), $tpp, $page, 'admincp.php?action=modthreads');
 
 		$threads = '';
@@ -254,14 +254,14 @@ if($action == 'modthreads') {
 			FROM {$tablepre}threads t
 			LEFT JOIN {$tablepre}posts p ON p.tid=t.tid
 			LEFT JOIN {$tablepre}forums f ON f.fid=t.fid
-			WHERE $fidadd[t]$fidadd[fids]$fidadd[and] t.displayorder='-2'
+			WHERE {$fidadd['t']}{$fidadd['fids']}{$fidadd['and']} t.displayorder='-2'
 			ORDER BY t.dateline DESC LIMIT $start_limit, 20");
 
 		while($thread = $db->fetch_array($query)) {
 			if($thread['authorid'] && $thread['author']) {
-				$thread['author'] = "<a href=\"viewpro.php?uid=$thread[authorid]\" target=\"_blank\">$thread[author]</a>";
+				$thread['author'] = "<a href=\"viewpro.php?uid={$thread['authorid']}\" target=\"_blank\">{$thread['author']}</a>";
 			} elseif($thread['authorid'] && !$thread['author']) {
-				$thread['author'] = "<a href=\"viewpro.php?uid=$thread[authorid]\" target=\"_blank\">$lang[anonymous]</a>";
+				$thread['author'] = "<a href=\"viewpro.php?uid={$thread['authorid']}\" target=\"_blank\">{$lang['anonymous']}</a>";
 			} else {
 				$thread['author'] = $lang['guest'];
 			}
@@ -272,21 +272,21 @@ if($action == 'modthreads') {
 			$thisbg = $thisbg == ALTBG2 ? ALTBG1 : ALTBG2;
 			$threads .= "<tr><td colspan=\"2\" class=\"singleborder\">&nbsp;</td></tr><tr bgcolor=\"$thisbg\"><td rowspan=\"2\" valign=\"top\" width=\"15%\" height=\"100%\">\n".
 				"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" height=\"100%\">\n".
-				"<tr><td valign=\"top\"><b>$thread[author]</b><br>$thread[useip]</td></tr><tr><td valign=\"bottom\" class=\"smalltxt\">\n".
-				"<input type=\"radio\" name=\"mod[$thread[tid]]\" value=\"validate\" checked> $lang[validate]<br>\n".
-				"<input type=\"radio\" name=\"mod[$thread[tid]]\" value=\"delete\"> $lang[delete]<br>\n".
-				"<input type=\"radio\" name=\"mod[$thread[tid]]\" value=\"ignore\"> $lang[ignore]<br><br>\n".
-				"$thread[dateline]</td></tr></table></td><td><a href=\"forumdisplay.php?fid=$thread[fid]\" target=\"_blank\">$thread[forumname]</a> <b>&raquo;</b>\n".
-				"<b>$thread[subject]</b></td></tr><tr bgcolor=\"$thisbg\"><td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" style=\"table-layout: fixed\"><tr><td>\n".
-				"<div style=\"border-style: dotted; border-width: 1; border-color: ".BORDERCOLOR."; padding: 5; overflow: auto; overflow-y: scroll; width: 100%; height:180px\">$thread[message]";
+				"<tr><td valign=\"top\"><b>{$thread['author']}</b><br>{$thread['useip']}</td></tr><tr><td valign=\"bottom\" class=\"smalltxt\">\n".
+				"<input type=\"radio\" name=\"mod[{$thread['tid']}]\" value=\"validate\" checked> {$lang['validate']}<br>\n".
+				"<input type=\"radio\" name=\"mod[{$thread['tid']}]\" value=\"delete\"> {$lang['delete']}<br>\n".
+				"<input type=\"radio\" name=\"mod[{$thread['tid']}]\" value=\"ignore\"> {$lang['ignore']}<br><br>\n".
+				"{$thread['dateline']}</td></tr></table></td><td><a href=\"forumdisplay.php?fid={$thread['fid']}\" target=\"_blank\">{$thread['forumname']}</a> <b>&raquo;</b>\n".
+				"<b>{$thread['subject']}</b></td></tr><tr bgcolor=\"$thisbg\"><td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" style=\"table-layout: fixed\"><tr><td>\n".
+				"<div style=\"border-style: dotted; border-width: 1; border-color: ".BORDERCOLOR."; padding: 5; overflow: auto; overflow-y: scroll; width: 100%; height:180px\">{$thread['message']}";
 
 			if($thread['attachment']) {
 				require_once DISCUZ_ROOT.'./include/attachment.func.php';
 
-				$queryattach = $db->query("SELECT aid, filename, filetype, filesize FROM {$tablepre}attachments WHERE tid='$thread[tid]'");
+				$queryattach = $db->query("SELECT aid, filename, filetype, filesize FROM {$tablepre}attachments WHERE tid='{$thread['tid']}'");
 				while($attach = $db->fetch_array($queryattach)) {
-					$threads .= "<br><br>$lang[attachment]: ".attachtype(fileext($thread['filename'])."\t".$attach['filetype']).
-						" $attach[filename] (".sizecount($attach['filesize']).")";
+					$threads .= "<br><br>{$lang['attachment']}: ".attachtype(fileext($thread['filename'])."\t".$attach['filetype']).
+						" {$attach['filename']} (".sizecount($attach['filesize']).")";
 				}
 			}
 			$threads .= "</div></td></tr></table></td></tr>\n";
@@ -326,7 +326,7 @@ if($action == 'modthreads') {
 
 		if($moderation['delete']) {
 			$deletetids = '0';
-			$query = $db->query("SELECT tid FROM {$tablepre}threads WHERE tid IN ('".implode('\',\'', $moderation['delete'])."') $fidadd[and]$fidadd[fids]");
+			$query = $db->query("SELECT tid FROM {$tablepre}threads WHERE tid IN ('".implode('\',\'', $moderation['delete'])."') {$fidadd['and']}{$fidadd['fids']}");
 			while($thread = $db->fetch_array($query)) {
 				$deletetids .= ','.$thread['tid'];
 			}
@@ -350,7 +350,7 @@ if($action == 'modthreads') {
 			$authoridarray = array();
 			$query = $db->query("SELECT t.fid, t.tid, t.authorid, ff.postcredits FROM {$tablepre}threads t
 				LEFT JOIN {$tablepre}forumfields ff USING(fid)
-				WHERE t.tid IN ($validatetids) AND t.displayorder='-2' $fidadd[and]$fidadd[t]$fidadd[fids]");
+				WHERE t.tid IN ($validatetids) AND t.displayorder='-2' {$fidadd['and']}{$fidadd['t']}{$fidadd['fids']}");
 			while($thread = $db->fetch_array($query)) {
 				$tids .= $comma.$thread['tid'];
 				$comma = ',';
@@ -395,7 +395,7 @@ if($action == 'modthreads') {
 		$page = !ispage($page) ? 1 : $page;
 		$start_limit = ($page - 1) * 20;
 
-		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}posts WHERE invisible='2' $fidadd[and]$fidadd[fids]");
+		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}posts WHERE invisible='2' {$fidadd['and']}{$fidadd['fids']}");
 		$multipage = multi($db->result($query, 0), $tpp, $page, 'admincp.php?action=modreplies');
 
 		$posts = '';
@@ -405,7 +405,7 @@ if($action == 'modthreads') {
 			FROM {$tablepre}posts p
 			LEFT JOIN {$tablepre}threads t ON t.tid=p.tid
 			LEFT JOIN {$tablepre}forums f ON f.fid=p.fid
-			WHERE p.invisible='2' $fidadd[and]$fidadd[p]$fidadd[fids]
+			WHERE p.invisible='2' {$fidadd['and']}{$fidadd['p']}{$fidadd['fids']}
 			ORDER BY p.dateline DESC LIMIT $start_limit, 20");
 
 		while($post = $db->fetch_array($query)) {
@@ -416,21 +416,21 @@ if($action == 'modthreads') {
 			$thisbg = $thisbg == ALTBG2 ? ALTBG1 : ALTBG2;
 			$posts .= "<tr><td colspan=\"2\" class=\"singleborder\">&nbsp;</td></tr><tr bgcolor=\"$thisbg\"><td rowspan=\"2\" valign=\"top\" width=\"15%\" height=\"100%\">\n".
 				"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" height=\"100%\">\n".
-				"<tr><td valign=\"top\"><span class=\"bold\">$post[author]</span><br>$post[useip]</td></tr><tr><td valign=\"bottom\" class=\"smalltxt\">\n".
-				"<input type=\"radio\" name=\"mod[$post[pid]]\" value=\"validate\" checked> $lang[validate]<br>\n".
-				"<input type=\"radio\" name=\"mod[$post[pid]]\" value=\"delete\"> $lang[delete]<br>\n".
-				"<input type=\"radio\" name=\"mod[$post[pid]]\" value=\"ignore\"> $lang[ignore]<br><br>\n".
-				"$post[dateline]</td></tr></table></td><td><a href=\"forumdisplay.php?fid=$post[fid]\" target=\"_blank\">$post[forumname]</a> <b>&raquo;</b> \n".
-				"<a href=\"viewthread.php?tid=$post[tid]\" target=\"_blank\">$post[tsubject]</a> <b>&raquo;</b> $post[subject]</a>\n".
-				"</td></tr><tr bgcolor=\"$thisbg\"><td><div style=\"border-style: dotted; border-width: 1; border-color: ".BORDERCOLOR."; padding: 5; overflow: auto; overflow-y: scroll; width: 100%; height:180px\">$post[message]";
+				"<tr><td valign=\"top\"><span class=\"bold\">{$post['author']}</span><br>{$post['useip']}</td></tr><tr><td valign=\"bottom\" class=\"smalltxt\">\n".
+				"<input type=\"radio\" name=\"mod[{$post['pid']}]\" value=\"validate\" checked> {$lang['validate']}<br>\n".
+				"<input type=\"radio\" name=\"mod[{$post['pid']}]\" value=\"delete\"> {$lang['delete']}<br>\n".
+				"<input type=\"radio\" name=\"mod[{$post['pid']}]\" value=\"ignore\"> {$lang['ignore']}<br><br>\n".
+				"{$post['dateline']}</td></tr></table></td><td><a href=\"forumdisplay.php?fid={$post['fid']}\" target=\"_blank\">{$post['forumname']}</a> <b>&raquo;</b> \n".
+				"<a href=\"viewthread.php?tid={$post['tid']}\" target=\"_blank\">{$post['tsubject']}</a> <b>&raquo;</b> {$post['subject']}</a>\n".
+				"</td></tr><tr bgcolor=\"$thisbg\"><td><div style=\"border-style: dotted; border-width: 1; border-color: ".BORDERCOLOR."; padding: 5; overflow: auto; overflow-y: scroll; width: 100%; height:180px\">{$post['message']}";
 
 			if($post['attachment']) {
 				require_once DISCUZ_ROOT.'./include/attachment.func.php';
 
-				$queryattach = $db->query("SELECT aid, filename, filetype, filesize FROM {$tablepre}attachments WHERE pid='$post[pid]'");
+				$queryattach = $db->query("SELECT aid, filename, filetype, filesize FROM {$tablepre}attachments WHERE pid='{$post['pid']}'");
 				while($attach = $db->fetch_array($queryattach)) {
-					$posts .= "<br>$lang[attachment]: ".attachtype(fileext($post['filename'])."\t".$attach['filetype']).
-						" <a href=\"attachment.php?aid=$attach[aid]\" target=\"_blank\">$attach[filename]</a> (".sizecount($attach['filesize']).")";
+					$posts .= "<br>{$lang['attachment']}: ".attachtype(fileext($post['filename'])."\t".$attach['filetype']).
+						" <a href=\"attachment.php?aid={$attach['aid']}\" target=\"_blank\">{$attach['filename']}</a> (".sizecount($attach['filesize']).")";
 				}
 			}
 			$posts .= "</div></td></tr>\n";
@@ -476,7 +476,7 @@ if($action == 'modthreads') {
 				@unlink($attachdir.'/'.$attach['attachment']);
 			}
 
-			$db->query("DELETE FROM {$tablepre}posts WHERE pid IN ($deletepids) $fidadd[and]$fidadd[fids]", 'UNBUFFERED');
+			$db->query("DELETE FROM {$tablepre}posts WHERE pid IN ($deletepids) {$fidadd['and']}{$fidadd['fids']}", 'UNBUFFERED');
 			$db->query("DELETE FROM {$tablepre}attachments WHERE pid IN ($deletepids)", 'UNBUFFERED');
 			updatemodworks('DLP', count($moderation['delete']));
 		}
@@ -489,7 +489,7 @@ if($action == 'modthreads') {
 				FROM {$tablepre}posts p
 				LEFT JOIN {$tablepre}forumfields ff ON ff.fid=p.fid
 				LEFT JOIN {$tablepre}threads t ON t.tid=p.tid
-				WHERE p.pid IN ($validatepids) AND p.invisible='2' $fidadd[and]$fidadd[p]$fidadd[fids]");
+				WHERE p.pid IN ($validatepids) AND p.invisible='2' {$fidadd['and']}{$fidadd['p']}{$fidadd['fids']}");
 
 			while($post = $db->fetch_array($query)) {
 				$pidarray[] = $post['pid'];
@@ -503,7 +503,7 @@ if($action == 'modthreads') {
 
 				$threads[$post['tid']]['posts']++;
 				$threads[$post['tid']]['lastpostadd'] = $post['dateline'] > $post['lastpost'] && $post['dateline'] > $lastpost[$post['tid']] ?
-					", lastpost='$post[dateline]', lastposter='".addslashes($post[author])."'" : '';
+					", lastpost='{$post['dateline']}', lastposter='".addslashes($post[author])."'" : '';
 				$threads[$post['tid']]['attachadd'] = $threads[$post['tid']]['attachadd'] || $post['attachment'] ? ', attachment=\'1\'' : '';
 			}
 
@@ -512,7 +512,7 @@ if($action == 'modthreads') {
 			}
 
 			foreach($threads as $tid => $thread) {
-				$db->query("UPDATE {$tablepre}threads SET replies=replies+$thread[posts] $thread[lastpostadd] $thread[attachadd] WHERE tid='$tid'", 'UNBUFFERED');
+				$db->query("UPDATE {$tablepre}threads SET replies=replies+{$thread['posts']} {$thread['lastpostadd']} {$thread['attachadd']} WHERE tid='$tid'", 'UNBUFFERED');
 			}
 
 			foreach(array_unique($forums) as $fid) {

@@ -28,9 +28,9 @@ $attachexists = FALSE;
 if(!empty($aid)) {
 	$query = $db->query("SELECT * FROM {$tablepre}attachments WHERE aid='$aid'");
 	if($attach = $db->fetch_array($query)) {
-		$query = $db->query("SELECT fid FROM {$tablepre}threads WHERE tid='$attach[tid]' AND displayorder>='0'");
+		$query = $db->query("SELECT fid FROM {$tablepre}threads WHERE tid='{$attach['tid']}' AND displayorder>='0'");
 		if($attach['fid'] = $db->result($query, 0)) {
-			$query = $db->query("SELECT authorid FROM {$tablepre}posts WHERE pid='$attach[pid]' AND invisible='0'");
+			$query = $db->query("SELECT authorid FROM {$tablepre}posts WHERE pid='{$attach['pid']}' AND invisible='0'");
 			if($db->num_rows($query)) {
 				$attach['authorid'] = $db->result($query, 0);
 				$attachexists = TRUE;
@@ -50,7 +50,7 @@ if(is_readable($filename) && $attachexists) {
 
 	$query = $db->query("SELECT f.getattachperm, a.allowgetattach FROM {$tablepre}forumfields f
 			LEFT JOIN {$tablepre}access a ON a.uid='$discuz_uid' AND a.fid=f.fid
-			WHERE f.fid='$attach[fid]'");
+			WHERE f.fid='{$attach['fid']}'");
 	$forum = $db->fetch_array($query);
 
 	if(!$forum['allowgetattach']) {

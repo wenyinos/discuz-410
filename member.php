@@ -198,9 +198,9 @@ if($action == 'clearcookies') {
 	list($dateline, $operation, $idstring) = explode("\t", $member['authstr']);
 
 	if($operation == 2 && $idstring == $id) {
-		$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND $member[credits]>=creditshigher AND $member[credits]<creditslower LIMIT 1");
-		$db->query("UPDATE {$tablepre}members SET groupid='".$db->result($query, 0)."' WHERE uid='$member[uid]'");
-		$db->query("UPDATE {$tablepre}memberfields SET authstr='' WHERE uid='$member[uid]'");
+		$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND {$member['credits']}>=creditshigher AND {$member['credits']}<creditslower LIMIT 1");
+		$db->query("UPDATE {$tablepre}members SET groupid='".$db->result($query, 0)."' WHERE uid='{$member['uid']}'");
+		$db->query("UPDATE {$tablepre}memberfields SET authstr='' WHERE uid='{$member['uid']}'");
 		showmessage('activate_succeed', 'index.php');
 	} else {
 		showmessage('activate_illegal', NULL, 'HALTED');
@@ -222,7 +222,7 @@ if($action == 'clearcookies') {
 		}
 
 		$idstring = random(6);
-		$db->query("UPDATE {$tablepre}memberfields SET authstr='$timestamp\t1\t$idstring' WHERE uid='$member[uid]'");
+		$db->query("UPDATE {$tablepre}memberfields SET authstr='$timestamp\t1\t$idstring' WHERE uid='{$member['uid']}'");
 
 		sendmail($member['email'], 'get_passwd_subject', 'get_passwd_message');
 		showmessage('getpasswd_send_succeed');

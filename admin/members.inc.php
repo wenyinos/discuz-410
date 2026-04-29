@@ -87,7 +87,7 @@ if($action == 'memberadd') {
 		$newgroupid = $db->result($query, 0);
 
 		$db->query("INSERT INTO {$tablepre}members ($uidadd1 username, password, secques, gender, adminid, groupid, regip, regdate, lastvisit, lastactivity, posts, credits, email, bday, sigstatus, tpp, ppp, styleid, dateformat, timeformat, showemail, newsletter, invisible, timeoffset)
-			VALUES ($uidadd2 '$newusername', '".md5($newpassword)."', '', '0', '0', '$newgroupid', 'Manual Acting', '$timestamp', '$timestamp', '$timestamp', '0', '0', '$newemail', '0000-00-00', '0', '0', '0', '0', '{$_DCACHE[settings][dateformat]}', '{$_DCACHE[settings][timeformat]}', '1', '1', '0', '{$_DCACHE[settings][timeoffset]}')");
+			VALUES ($uidadd2 '$newusername', '".md5($newpassword)."', '', '0', '0', '$newgroupid', 'Manual Acting', '$timestamp', '$timestamp', '$timestamp', '0', '0', '$newemail', '0000-00-00', '0', '0', '0', '0', '{{$_DCACHE['settings']}[dateformat]}', '{{$_DCACHE['settings']}[timeformat]}', '1', '1', '0', '{{$_DCACHE['settings']}[timeoffset]}')");
 		$uid = $db->insert_id();
 
 		$db->query("REPLACE INTO {$tablepre}memberfields (uid) VALUES ('$uid')");
@@ -113,11 +113,11 @@ if($action == 'memberadd') {
 		$query = $db->query("SELECT groupid, grouptitle FROM {$tablepre}usergroups WHERE groupid NOT IN ('6', '7') ORDER BY (creditshigher<>'0' || creditslower<>'0'), creditslower");
 		while($group = $db->fetch_array($query)) {
 			if($group['groupid'] <= 3){
-				$adminselect .= "<option value=\"$group[groupid]\" ".(in_array($group['groupid'], $admingroupid) ? 'selected' : '').">$group[grouptitle]</option>\n";
+				$adminselect .= "<option value=\"{$group['groupid']}\" ".(in_array($group['groupid'], $admingroupid) ? 'selected' : '').">{$group['grouptitle']}</option>\n";
 			} else {
-				$groupselect .= "<option value=\"$group[groupid]\" ".(in_array($group['groupid'], $usergroupid) ? 'selected' : '').">$group[grouptitle]</option>\n";
+				$groupselect .= "<option value=\"{$group['groupid']}\" ".(in_array($group['groupid'], $usergroupid) ? 'selected' : '').">{$group['grouptitle']}</option>\n";
 			}
-			$extgroupselect .= "<option value=\"$group[groupid]\" ".(in_array($group['groupid'], $extusergroupid) ? 'selected' : '').">$group[grouptitle]</option>\n";
+			$extgroupselect .= "<option value=\"{$group['groupid']}\" ".(in_array($group['groupid'], $extusergroupid) ? 'selected' : '').">{$group['grouptitle']}</option>\n";
 		}
 
 		$monthselect = $dayselect = '';
@@ -138,9 +138,9 @@ if($action == 'memberadd') {
 
 		$searchcredits = '';
 		foreach($extcredits as $id => $credit) {
-			$searchcredits .= "<tr><td class=\"altbg1\">$credit[title] $lang[members_search_lower]:</td>\n".
+			$searchcredits .= "<tr><td class=\"altbg1\">{$credit['title']} {$lang['members_search_lower']}:</td>\n".
 				"<td align=\"right\" class=\"altbg2\"><input type=\"text\" name=\"lower[extcredits$id]\" value=\"".dhtmlspecialchars($lower['extcredits'.$id])."\" size=\"40\"></td></tr>\n".
-				"<tr><td class=\"altbg1\">$credit[title] $lang[members_search_higher]:</td>\n".
+				"<tr><td class=\"altbg1\">{$credit['title']} {$lang['members_search_higher']}:</td>\n".
 				"<td align=\"right\" class=\"altbg2\"><input type=\"text\" name=\"higher[extcredits$id]\" value=\"".dhtmlspecialchars($higher['extcredits'.$id])."\" size=\"40\"></td></tr>\n";
 		}
 
@@ -179,10 +179,10 @@ if($action == 'memberadd') {
 <td align="right" bgcolor="<?=ALTBG2?>"><input type="text" name="srchemail" size="40" value="<?=dhtmlspecialchars($srchemail)?>"></td></tr>
 
 <tr><td class="altbg1"><?=$lang['credits']?> <?=$lang['members_search_lower']?>:</td>
-<td align="right" class="altbg2"><input type="text" name="lower[credits]" size="40" value="<?=dhtmlspecialchars($lower[credits])?>"></td></tr>
+<td align="right" class="altbg2"><input type="text" name="lower[credits]" size="40" value="<?=dhtmlspecialchars($lower['credits'])?>"></td></tr>
 
 <tr><td class="altbg1"><?=$lang['credits']?> <?=$lang['members_search_higher']?>:</td>
-<td align="right" class="altbg2"><input type="text" name="higher[credits]" size="40" value="<?=dhtmlspecialchars($higher[credits])?>"></td></tr>
+<td align="right" class="altbg2"><input type="text" name="higher[credits]" size="40" value="<?=dhtmlspecialchars($higher['credits'])?>"></td></tr>
 
 <?=$searchcredits?>
 
@@ -443,7 +443,7 @@ if($action == 'memberadd') {
 				if($sendvia == 'pm') {
 					$uids .= $comma.$member['uid'];
 					$db->query("INSERT INTO {$tablepre}pms (msgfrom, msgfromid, msgtoid, folder, new, subject, dateline, message)
-						VALUES('$discuz_user', '$discuz_uid', '$member[uid]', 'inbox', '1', '".dhtmlspecialchars($subject)."', '$timestamp', '$message')");
+						VALUES('$discuz_user', '$discuz_uid', '{$member['uid']}', 'inbox', '1', '".dhtmlspecialchars($subject)."', '$timestamp', '$message')");
 				} elseif($sendvia == 'email') {
 					$emails .= $comma.$member['email'];
 				}
@@ -457,7 +457,7 @@ if($action == 'memberadd') {
 					sendmail($emails, $subject, $message);
 				}
 				$next = $current + $pertask;
-				cpmsg("$lang[members_newsletter_send]: $lang[members_newsletter_processing]", "admincp.php?action=members&{$submit}=yes&sendvia=".rawurlencode($sendvia)."$urladd&cins=".rawurlencode($cins)."&username=".rawurlencode($username)."&srchemail=".rawurlencode($srchemail)."&regdatebefore=".rawurlencode($regdatebefore)."&regdateafter=".rawurlencode($regdateafter)."&postshigher=".rawurlencode($postshigher)."&postslower=".rawurlencode($postslower)."&regip=".rawurlencode($regip)."&lastip=".rawurlencode($lastip)."&lastvisitafter=".rawurlencode($lastvisitafter)."&lastvisitbefore=".rawurlencode($lastvisitbefore)."&lastpostafter=".rawurlencode($lastpostafter)."&lastpostbefore=".rawurlencode($lastpostbefore)."&birthyear=".rawurlencode($birthyear)."&birthmonth=".rawurlencode($birthmonth)."&birthday=".rawurlencode($birthday)."&current=$next&pertask=$pertask");
+				cpmsg("{$lang['members_newsletter_send']}: {$lang['members_newsletter_processing']}", "admincp.php?action=members&{$submit}=yes&sendvia=".rawurlencode($sendvia)."$urladd&cins=".rawurlencode($cins)."&username=".rawurlencode($username)."&srchemail=".rawurlencode($srchemail)."&regdatebefore=".rawurlencode($regdatebefore)."&regdateafter=".rawurlencode($regdateafter)."&postshigher=".rawurlencode($postshigher)."&postslower=".rawurlencode($postslower)."&regip=".rawurlencode($regip)."&lastip=".rawurlencode($lastip)."&lastvisitafter=".rawurlencode($lastvisitafter)."&lastvisitbefore=".rawurlencode($lastvisitbefore)."&lastpostafter=".rawurlencode($lastpostafter)."&lastpostbefore=".rawurlencode($lastpostbefore)."&birthyear=".rawurlencode($birthyear)."&birthmonth=".rawurlencode($birthmonth)."&birthday=".rawurlencode($birthday)."&current=$next&pertask=$pertask");
 			} else {
 				cpmsg(($submit == 'sendsubmit') ? 'members_newsletter_succeed' : 'members_credits_notify_succeed');
 			}
@@ -481,30 +481,30 @@ if($action == 'memberadd') {
 
 			$creditscolumns = '';
 			foreach($extcredits as $id => $credit) {
-				$creditscolumns .= "<td>$credit[title]</td>";
+				$creditscolumns .= "<td>{$credit['title']}</td>";
 			}
 
 			$query = $db->query("SELECT uid, username, adminid, groupid, credits, extcredits1, extcredits2,
 				extcredits3, extcredits4, extcredits5, extcredits6, extcredits7, extcredits8, posts, bday FROM {$tablepre}members WHERE $conditions LIMIT $start_limit, $memberperpage");
 
 			while($member = $db->fetch_array($query)) {
-				$members .= "<tr align=\"center\" class=\"smalltxt\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[]\" value=\"$member[uid]\"".($member['adminid'] == 1 ? 'disabled' : '')."></td>\n".
-					"<td class=\"altbg2\"><a href=\"viewpro.php?uid=$member[uid]\" target=\"_blank\">$member[username]</a></td>\n".
-					"<td class=\"altbg1\">$member[credits]</td>\n";
+				$members .= "<tr align=\"center\" class=\"smalltxt\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$member['uid']}\"".($member['adminid'] == 1 ? 'disabled' : '')."></td>\n".
+					"<td class=\"altbg2\"><a href=\"viewpro.php?uid={$member['uid']}\" target=\"_blank\">{$member['username']}</a></td>\n".
+					"<td class=\"altbg1\">{$member['credits']}</td>\n";
 				$thisbg = '';
 				foreach($extcredits as $id => $credit) {
 					$thisbg = isset($thisbg) && $thisbg == 'altbg2' ? 'altbg1' : 'altbg2';
 					$members .= "<td class=\"$thisbg\">".$member['extcredits'.$id]."</td>\n";
 				}
-				$members .="<td class=\"$altbg1\">$member[posts]</td>\n".
-					"<td class=\"$altbg2\">{$usergroups[$member[adminid]][grouptitle]}</td>\n".
-					"<td class=\"$altbg1\">{$usergroups[$member[groupid]][grouptitle]}</td>\n".
-					"<td class=\"$altbg2\">$member[bday]</td>\n".
-					"<td class=\"$altbg1\"><a href=\"admincp.php?action=editgroups&uid=$member[uid]\">[$lang[usergroup]]</a> ".
-					"<a href=\"admincp.php?action=access&uid=$member[uid]\">[$lang[access]]</a> ".
-					($extcredits ? "<a href=\"admincp.php?action=editcredits&uid=$member[uid]\">[$lang[credits]]</a> " : "<span disabled>[$lang[edit]]</span> ").
-					"<a href=\"admincp.php?action=editmedals&uid=$member[uid]\">[$lang[medals]]</a> ".
-					"<a href=\"admincp.php?action=memberprofile&uid=$member[uid]\">[$lang[detail]]</a></td></tr>\n";
+				$members .="<td class=\"$altbg1\">{$member['posts']}</td>\n".
+					"<td class=\"$altbg2\">{$usergroups[$member['adminid']]['grouptitle']}</td>\n".
+					"<td class=\"$altbg1\">{$usergroups[$member['groupid']]['grouptitle']}</td>\n".
+					"<td class=\"$altbg2\">{$member['bday']}</td>\n".
+					"<td class=\"$altbg1\"><a href=\"admincp.php?action=editgroups&uid={$member['uid']}\">[{$lang['usergroup']}]</a> ".
+					"<a href=\"admincp.php?action=access&uid={$member['uid']}\">[{$lang['access']}]</a> ".
+					($extcredits ? "<a href=\"admincp.php?action=editcredits&uid={$member['uid']}\">[{$lang['credits']}]</a> " : "<span disabled>[{$lang['edit']}]</span> ").
+					"<a href=\"admincp.php?action=editmedals&uid={$member['uid']}\">[{$lang['medals']}]</a> ".
+					"<a href=\"admincp.php?action=memberprofile&uid={$member['uid']}\">[{$lang['detail']}]</a></td></tr>\n";
 			}
 
 ?>
@@ -675,13 +675,13 @@ if($action == 'memberadd') {
 				FROM {$tablepre}members WHERE uid IN ($suids)");
 
 			$member = $db->fetch_array($query);
-			$db->query("UPDATE {$tablepre}members SET credits=credits+$member[credits],
-				extcredits1=extcredits1+$member[extcredits1], extcredits2=extcredits2+$member[extcredits2],
-				extcredits3=extcredits3+$member[extcredits3], extcredits4=extcredits4+$member[extcredits4],
-				extcredits5=extcredits5+$member[extcredits5], extcredits6=extcredits6+$member[extcredits6],
-				extcredits7=extcredits7+$member[extcredits7], extcredits8=extcredits8+$member[extcredits8],
-				posts=posts+$member[posts], digestposts=digestposts+$member[digestposts],
-				pageviews=pageviews+$member[pageviews], oltime=oltime+$member[oltime]
+			$db->query("UPDATE {$tablepre}members SET credits=credits+{$member['credits']},
+				extcredits1=extcredits1+{$member['extcredits1']}, extcredits2=extcredits2+{$member['extcredits2']},
+				extcredits3=extcredits3+{$member['extcredits3']}, extcredits4=extcredits4+{$member['extcredits4']},
+				extcredits5=extcredits5+{$member['extcredits5']}, extcredits6=extcredits6+{$member['extcredits6']},
+				extcredits7=extcredits7+{$member['extcredits7']}, extcredits8=extcredits8+{$member['extcredits8']},
+				posts=posts+{$member['posts']}, digestposts=digestposts+{$member['digestposts']},
+				pageviews=pageviews+{$member['pageviews']}, oltime=oltime+{$member['oltime']}
 				WHERE uid='$tuid'");
 			$db->query("DELETE FROM {$tablepre}members WHERE uid IN ($suids)");
 
@@ -898,14 +898,14 @@ if($action == 'memberadd') {
 		$groupexpirynew = groupexpiry($groupterms);
 		$extgroupidsnew = $extgroupidsnew && is_array($extgroupidsnew) ? implode("\t", $extgroupidsnew) : '';
 
-		$db->query("UPDATE {$tablepre}members SET groupid='$groupidnew', adminid='$adminidnew', extgroupids='$extgroupidsnew', groupexpiry='$groupexpirynew' WHERE uid='$member[uid]'");
-		$db->query("UPDATE {$tablepre}memberfields SET groupterms='$grouptermsnew' WHERE uid='$member[uid]'");
+		$db->query("UPDATE {$tablepre}members SET groupid='$groupidnew', adminid='$adminidnew', extgroupids='$extgroupidsnew', groupexpiry='$groupexpirynew' WHERE uid='{$member['uid']}'");
+		$db->query("UPDATE {$tablepre}memberfields SET groupterms='$grouptermsnew' WHERE uid='{$member['uid']}'");
 
 		if($groupidnew != $member['groupid'] && (in_array($groupidnew, array(4, 5)) || in_array($member['groupid'], array(4, 5)))) {
 			banlog($member['username'], $member['groupid'], $groupidnew, $groupexpirynew, $reason);
 		}
 
-		cpmsg('members_edit_groups_succeed', "admincp.php?action=editgroups&uid=$member[uid]");
+		cpmsg('members_edit_groups_succeed', "admincp.php?action=editgroups&uid={$member['uid']}");
 
 	}
 
@@ -936,7 +936,7 @@ if($action == 'memberadd') {
 			$creditsvalue .= '<td class="altbg'.(($i + 1) % 2 + 1).'">'.(isset($extcredits[$i]) ? '<input type="text" size="3" name="extcreditsnew['.$i.']" value="'.$member['extcredits'.$i].'" onkeyup="membercredits()"> '.$extcredits['$i']['unit'] : '<input type="text" size="3" value="N/A" disabled>').'</td>';
 		}
 
-		$creditsrangs = $member['type'] == 'member' ? "$member[creditshigher]~$member[creditslower]" : 'N/A';
+		$creditsrangs = $member['type'] == 'member' ? "{$member['creditshigher']}~{$member['creditslower']}" : 'N/A';
 
 ?>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="95%" align="center" class="tableborder">
@@ -1025,9 +1025,9 @@ function membercredits() {
 		$query = $db->query("SELECT * FROM {$tablepre}medals WHERE available='1'");
 		while($medal = $db->fetch_array($query)) {
 			$medals .= "<tr align=\"center\">\n".
-				"<td bgcolor=\"".ALTBG1."\"><img src=\"images/common/$medal[image]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$medal[name]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"medals[$medal[medalid]]\" value=\"1\" ".(in_array($medal['medalid'], $membermedals) ? 'checked' : '')."></td></td>\n";
+				"<td bgcolor=\"".ALTBG1."\"><img src=\"images/common/{$medal['image']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\">{$medal['name']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"medals[{$medal['medalid']}]\" value=\"1\" ".(in_array($medal['medalid'], $membermedals) ? 'checked' : '')."></td></td>\n";
 		}
 
 		if(!$medals) {
@@ -1140,11 +1140,11 @@ function membercredits() {
 				$check['none'] = 'checked';
 			}
 
-			echo "<br><form method=\"post\" action=\"admincp.php?action=editmember&uid=$member[uid]&formhash=".FORMHASH."\">";
+			echo "<br><form method=\"post\" action=\"admincp.php?action=editmember&uid={$member['uid']}&formhash=".FORMHASH."\">";
 
 			if($allowbanuser) {
 				$member['banexpiry'] = !empty($member['groupterms']['main']['time']) && ($member['groupid'] == 4 || $member['groupid'] == 5) ? gmdate('Y-n-j', $member['groupterms']['main']['time'] + $timeoffset * 3600) : '';
-				showtype("$lang[members_edit_ban_user] - $member[username]", 'top');
+				showtype("{$lang['members_edit_ban_user']} - {$member['username']}", 'top');
 				showsetting('members_edit_ban', '', '', '<input type="radio" name="bannew" value="" '.$check['none'].'> '.$lang['members_edit_ban_none'].'<br><input type="radio" name="bannew" value="post" '.$check['post'].'> '.$lang['members_edit_ban_post'].'<br><input type="radio" name="bannew" value="visit" '.$check['visit'].'> '.$lang['members_edit_ban_visit']);
 				showsetting('members_edit_ban_validity', 'banexpirynew', $member['banexpiry'], 'text');
 				showsetting('members_edit_ban_reason', 'reason', '', 'textarea');
@@ -1189,7 +1189,7 @@ function membercredits() {
 						unset($member['groupterms']['ext'][$member['groupid']]);
 						$sql .= ', groupexpiry=\''.groupexpiry($member['groupterms']).'\'';
 					} else {
-						$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND creditshigher<='$member[credits]' AND creditslower>'$member[credits]'");
+						$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND creditshigher<='{$member['credits']}' AND creditslower>'{$member['credits']}'");
 						$groupidnew = $db->result($query, 0);
 						$adminidnew = 0;
 					}
@@ -1208,15 +1208,15 @@ function membercredits() {
 				$locationnew = dhtmlspecialchars($locationnew);
 
 				$sql .= ', sigstatus=\''.($signaturenew ? 1 : 0).'\'';
-				$db->query("UPDATE {$tablepre}memberfields SET location='$locationnew', bio='$bionew', signature='$signaturenew', sightml='$sightmlnew' WHERE uid='$member[uid]'");
+				$db->query("UPDATE {$tablepre}memberfields SET location='$locationnew', bio='$bionew', signature='$signaturenew', sightml='$sightmlnew' WHERE uid='{$member['uid']}'");
 			}
 
-			$db->query("UPDATE {$tablepre}members SET $sql WHERE uid='$member[uid]'");
+			$db->query("UPDATE {$tablepre}members SET $sql WHERE uid='{$member['uid']}'");
 			if($allowbanuser && ($db->affected_rows($query))) {
 				banlog($member['username'], $member['groupid'], $groupidnew, $banexpirynew, $reason);
 			}
 
-			$db->query("UPDATE {$tablepre}memberfields SET groupterms='".($member['groupterms'] ? addslashes(serialize($member['groupterms'])) : '')."' WHERE uid='$member[uid]'");
+			$db->query("UPDATE {$tablepre}memberfields SET groupterms='".($member['groupterms'] ? addslashes(serialize($member['groupterms'])) : '')."' WHERE uid='{$member['uid']}'");
 
 			cpmsg('members_edit_succeed', 'admincp.php?action=editmember');
 
@@ -1260,13 +1260,13 @@ function membercredits() {
 							'postattach'	=> '');
 				}
 
-				$members .= "<tr><td bgcolor=\"".ALTBG1."\" width=\"22%\"><a href=\"admincp.php?action=forumdetail&fid=$forum[fid]\">$forum[name]</a></td>".
-						"<td bgcolor=\"".ALTBG2."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"defaultnew[$fid]\" value=\"1\" $check[default]></td>\n".
-						"<td bgcolor=\"".ALTBG1."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowviewnew[$fid]\" value=\"1\" $check[view]></td>\n".
-						"<td bgcolor=\"".ALTBG2."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowpostnew[$fid]\" value=\"1\" $check[post]></td>\n".
-						"<td bgcolor=\"".ALTBG1."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowreplynew[$fid]\" value=\"1\" $check[reply]></td>\n".
-						"<td bgcolor=\"".ALTBG2."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowgetattachnew[$fid]\" value=\"1\" $check[getattach]></td>\n".
-						"<td bgcolor=\"".ALTBG1."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowpostattachnew[$fid]\" value=\"1\" $check[postattach]></td></tr>";
+				$members .= "<tr><td bgcolor=\"".ALTBG1."\" width=\"22%\"><a href=\"admincp.php?action=forumdetail&fid={$forum['fid']}\">{$forum['name']}</a></td>".
+						"<td bgcolor=\"".ALTBG2."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"defaultnew[$fid]\" value=\"1\" {$check['default']}></td>\n".
+						"<td bgcolor=\"".ALTBG1."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowviewnew[$fid]\" value=\"1\" {$check['view']}></td>\n".
+						"<td bgcolor=\"".ALTBG2."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowpostnew[$fid]\" value=\"1\" {$check['post']}></td>\n".
+						"<td bgcolor=\"".ALTBG1."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowreplynew[$fid]\" value=\"1\" {$check['reply']}></td>\n".
+						"<td bgcolor=\"".ALTBG2."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowgetattachnew[$fid]\" value=\"1\" {$check['getattach']}></td>\n".
+						"<td bgcolor=\"".ALTBG1."\" width=\"13%\" align=\"center\"><input type=\"checkbox\" name=\"allowpostattachnew[$fid]\" value=\"1\" {$check['postattach']}></td></tr>";
 			}
 		}
 
@@ -1332,10 +1332,10 @@ function membercredits() {
 
 	if(!submitcheck('editsubmit')) {
 
-		$styleselect = "<select name=\"styleidnew\">\n<option value=\"\">$lang[use_default]</option>";
+		$styleselect = "<select name=\"styleidnew\">\n<option value=\"\">{$lang['use_default']}</option>";
 		$query = $db->query("SELECT styleid, name FROM {$tablepre}styles");
 		while($style = $db->fetch_array($query)) {
-			$styleselect .= "<option value=\"$style[styleid]\" ".($style['styleid'] == $member['styleid'] ? 'selected="selected"' : '').">$style[name]</option>\n";
+			$styleselect .= "<option value=\"{$style['styleid']}\" ".($style['styleid'] == $member['styleid'] ? 'selected="selected"' : '').">{$style['name']}</option>\n";
 		}
 		$styleselect .= '</select>';
 
@@ -1353,7 +1353,7 @@ function membercredits() {
 
 		echo "<br><form method=\"post\" action=\"admincp.php?action=memberprofile&uid=$uid&formhash=".FORMHASH."\">";
 
-		showtype("$lang[members_edit] - $member[username]", 'top');
+		showtype("{$lang['members_edit']} - {$member['username']}", 'top');
 		showsetting('members_edit_username', 'usernamenew', $member['username'], 'text');
 		showsetting('members_edit_password', 'passwordnew', '', 'text');
 		showsetting('members_edit_clearquestion', 'clearquestion', !$member['secques'], 'radio');
@@ -1403,14 +1403,14 @@ function membercredits() {
 			showtype('members_edit_profilefield');
 			foreach($fields as $field) {
 				if($field['selective']) {
-					$fieldselect = "<select name=\"field_$field[fieldid]new\"><option value=\"\">&nbsp;</option>";
+					$fieldselect = "<select name=\"field_{$field['fieldid']}new\"><option value=\"\">&nbsp;</option>";
 					foreach($field['choices'] as $index => $choice) {
 						$fieldselect .= "<option value=\"$index\" ".($index == $member['field_'.$field['fieldid']] ? 'selected="selected"' : '').">$choice</option>";
 					}
 					$fieldselect .= '</select>';
 					showsetting($field['title'], '', '', $fieldselect);
 				} else {
-					showsetting($field['title'], "field_$field[fieldid]new", $member['field_'.$field['fieldid']], 'text');
+					showsetting($field['title'], "field_{$field['fieldid']}new", $member['field_'.$field['fieldid']], 'text');
 				}
 			}
 		}
@@ -1432,12 +1432,12 @@ function membercredits() {
 			$db->query("UPDATE {$tablepre}announcements SET author='$usernamenew' WHERE author='$usernameold'");
 			$db->query("UPDATE {$tablepre}banned SET admin='$usernamenew' WHERE admin='$usernameold'");
 			$db->query("UPDATE {$tablepre}forums SET lastpost=REPLACE(lastpost, '\t$usernameold', '\t$usernamenew')");
-			$db->query("UPDATE {$tablepre}members SET username='$usernamenew' WHERE uid='$member[uid]'");
-			$db->query("UPDATE {$tablepre}pms SET msgfrom='$usernamenew' WHERE msgfromid='$member[uid]'");
-			$db->query("UPDATE {$tablepre}posts SET author='$usernamenew' WHERE authorid='$member[uid]'");
-			$db->query("UPDATE {$tablepre}threads SET author='$usernamenew' WHERE authorid='$member[uid]'");
+			$db->query("UPDATE {$tablepre}members SET username='$usernamenew' WHERE uid='{$member['uid']}'");
+			$db->query("UPDATE {$tablepre}pms SET msgfrom='$usernamenew' WHERE msgfromid='{$member['uid']}'");
+			$db->query("UPDATE {$tablepre}posts SET author='$usernamenew' WHERE authorid='{$member['uid']}'");
+			$db->query("UPDATE {$tablepre}threads SET author='$usernamenew' WHERE authorid='{$member['uid']}'");
 			$db->query("UPDATE {$tablepre}threads SET lastposter='$usernamenew' WHERE lastposter='$usernameold'");
-			$db->query("UPDATE {$tablepre}threadsmod SET username='$usernamenew' WHERE uid='$member[uid]'");
+			$db->query("UPDATE {$tablepre}threadsmod SET username='$usernamenew' WHERE uid='{$member['uid']}'");
 
 			$username = $usernamenew;
 		}
@@ -1496,14 +1496,14 @@ function membercredits() {
 
 		$query = $db->query("SELECT * FROM {$tablepre}profilefields");
 		while($field = $db->fetch_array($query)) {
-			$profilefields .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[{$field[fieldid]}]\" value=\"$field[fieldid]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"18\" name=\"titlenew[{$field[fieldid]}]\" value=\"$field[title]\">\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"availablenew[{$field[fieldid]}]\" value=\"1\" ".($field['available'] ? 'checked' : '')."></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"checkbox\" name=\"invisiblenew[{$field[fieldid]}]\" value=\"1\" ".($field['invisible'] ? 'checked' : '')."></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"unchangeablenew[{$field[fieldid]}]\" value=\"1\" ".($field['unchangeable'] ? 'checked' : '')."></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"checkbox\" name=\"showinthreadnew[{$field[fieldid]}]\" value=\"1\" ".($field['showinthread'] ? 'checked' : '')."></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\" name=\"displayordernew[{$field[fieldid]}]\" value=\"$field[displayorder]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=profilefields&edit=$field[fieldid]\">[$lang[detail]]</a></td></tr>\n";
+			$profilefields .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[{{$field['fieldid']}}]\" value=\"{$field['fieldid']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"18\" name=\"titlenew[{{$field['fieldid']}}]\" value=\"{$field['title']}\">\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"availablenew[{{$field['fieldid']}}]\" value=\"1\" ".($field['available'] ? 'checked' : '')."></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"checkbox\" name=\"invisiblenew[{{$field['fieldid']}}]\" value=\"1\" ".($field['invisible'] ? 'checked' : '')."></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"unchangeablenew[{{$field['fieldid']}}]\" value=\"1\" ".($field['unchangeable'] ? 'checked' : '')."></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"checkbox\" name=\"showinthreadnew[{{$field['fieldid']}}]\" value=\"1\" ".($field['showinthread'] ? 'checked' : '')."></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\" name=\"displayordernew[{{$field['fieldid']}}]\" value=\"{$field['displayorder']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=profilefields&edit={$field['fieldid']}\">[{$lang['detail']}]</a></td></tr>\n";
 		}
 
 ?>
@@ -1560,7 +1560,7 @@ function membercredits() {
 
 			echo "<form method=\"post\" action=\"admincp.php?action=profilefields&edit=$edit&formhash=".FORMHASH."\">\n";
 
-			showtype("$lang[fields_edit] - $field[title]", 'top');
+			showtype("{$lang['fields_edit']} - {$field['title']}", 'top');
 			showsetting('fields_edit_title', 'titlenew', $field['title'], 'text');
 			showsetting('fields_edit_desc', 'descriptionnew', $field['description'], 'text');
 			showsetting('fields_edit_size', 'sizenew', $field['size'], 'text');
@@ -1572,7 +1572,7 @@ function membercredits() {
 			showsetting('fields_edit_choices', 'choicesnew', $field['choices'], 'textarea');
 			showtype('', 'bottom');
 
-			echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"$lang[submit]\"></center></form>";
+			echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"{$lang['submit']}\"></center></form>";
 
 		} else {
 
@@ -1615,14 +1615,14 @@ function membercredits() {
 			$disabled = $adminid != 1 && $banned['admin'] != $discuz_userss ? 'disabled' : '';
 			$banned['dateline'] = gmdate($dateformat, $banned['dateline'] + $timeoffset * 3600);
 			$banned['expiration'] = gmdate($dateformat, $banned['expiration'] + $timeoffset * 3600);
-			$theip = "$banned[ip1].$banned[ip2].$banned[ip3].$banned[ip4]";
+			$theip = "{$banned['ip1']}.{$banned['ip2']}.{$banned['ip3']}.{$banned['ip4']}";
 			$ipbanned .= "<tr align=\"center\">\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[$banned[id]]\" value=\"$banned[id]\" $disabled></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[{$banned['id']}]\" value=\"{$banned['id']}\" $disabled></td>\n".
 				"<td bgcolor=\"".ALTBG2."\">$theip</td>\n".
 				"<td bgcolor=\"".ALTBG1."\">".convertip($theip, "./")."</td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$banned[admin]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$banned[dateline]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"10\" name=\"expirationnew[$banned[id]]\" value=\"$banned[expiration]\" $disabled></td></tr>\n";
+				"<td bgcolor=\"".ALTBG2."\">{$banned['admin']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$banned['dateline']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"10\" name=\"expirationnew[{$banned['id']}]\" value=\"{$banned['expiration']}\" $disabled></td></tr>\n";
 		}
 
 ?>

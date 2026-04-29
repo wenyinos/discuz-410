@@ -123,12 +123,12 @@ if ($function == 'threads') {
 				$SubjectStyles	.= "'";
 			}
 			echo "document.writeln(\"$prefix&nbsp;"
-				.($forum ? "<a href='".$boardurl."forumdisplay.php?fid=$value[fid]'$LinkTarget>$value[fname]</a>&nbsp;" : NULL)
-				.($dateline ? "$value[time]&nbsp;" : NULL)
-				."<a href='".$boardurl."viewthread.php?tid=$tid' title='$value[subject]'$SubjectStyles$LinkTarget>"
+				.($forum ? "<a href='".$boardurl."forumdisplay.php?fid={$value['fid']}'$LinkTarget>{$value['fname']}</a>&nbsp;" : NULL)
+				.($dateline ? "{$value['time']}&nbsp;" : NULL)
+				."<a href='".$boardurl."viewthread.php?tid=$tid' title='{$value['subject']}'$SubjectStyles$LinkTarget>"
 				.(cutstr($value['subject'],($forum ? ($maxlength - $value['fnamelength']) : $maxlength)))
 				."</a>"
-				.($author ? "&nbsp;(<a href='".$boardurl."viewpro.php?uid=$value[authorid]'$LinkTarget>$value[author]</a>)" : NULL)
+				.($author ? "&nbsp;(<a href='".$boardurl."viewpro.php?uid={$value['authorid']}'$LinkTarget>{$value['author']}</a>)" : NULL)
 				."<br />\");\r\n";
 		}
 	}
@@ -271,8 +271,8 @@ if ($function == 'threads') {
 						LIMIT $startrow,$items;"
 						);
 		while ($data = $db->fetch_array($query)) {
-			$datalist[$data['tid']]['threadlink']	=	$boardurl."viewthread.php?tid=$data[tid]";
-			$datalist[$data['tid']]['imgfile']		=	$boardurl."$attachdir/$data[attachment]";
+			$datalist[$data['tid']]['threadlink']	=	$boardurl."viewthread.php?tid={$data['tid']}";
+			$datalist[$data['tid']]['imgfile']		=	$boardurl."$attachdir/{$data['attachment']}";
 			$datalist[$data['tid']]['subject']		=	str_replace('\'', '&nbsp;',$data['subject']);
 			$datalist[$data['tid']]['author']		=	addslashes($data['author']);
 			$datalist[$data['tid']]['dateline']		=	date("$dateformat $timeformat",$data['dateline']);
@@ -287,9 +287,9 @@ if ($function == 'threads') {
 		$imgsize	=	($maxwidth ? " width='$maxwidth'" : NULL)
 					.($maxheight ? " height='$maxheight'" : NULL);
 		foreach ($datalist AS $value) {
-			echo "document.write(\"<a href='$value[threadlink]'$LinkTarget><img$imgsize src='$value[imgfile]' border='0' alt='"
-				.($value['description'] ? "$value[description]&#13&#10" : NULL)
-				."$value[subject]&#13&#10$value[author]($value[dateline])&#13&#10$value[fname]' /></a>\");\r\n";
+			echo "document.write(\"<a href='{$value['threadlink']}'$LinkTarget><img$imgsize src='{$value['imgfile']}' border='0' alt='"
+				.($value['description'] ? "{$value['description']}&#13&#10" : NULL)
+				."{$value['subject']}&#13&#10{$value['author']}({$value['dateline']})&#13&#10{$value['fname']}' /></a>\");\r\n";
 		}
 	}
 } else {

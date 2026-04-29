@@ -49,17 +49,17 @@ if($action == 'updatecache') {
 	if($jssubmit && $function == 'threads') {
 		$jsurl = "function=$function".
 			($parameter['threads_forums'] && !in_array('all', $parameter['threads_forums'])? '&fids='.jsfids($parameter['threads_forums']) : '').
-			"&maxlength=$parameter[maxlength]".
-			"&startrow=$parameter[startrow]".
+			"&maxlength={$parameter['maxlength']}".
+			"&startrow={$parameter['startrow']}".
 			"&picpre=".rawurlencode($parameter['picpre']).
-			"&items=$parameter[items]".
+			"&items={$parameter['items']}".
 			"&digest=".bindec(intval($parameter['digest'][1]).intval($parameter['digest'][2]).intval($parameter['digest'][3]).intval($parameter['digest'][4])).
-			"&newwindow=$parameter[newwindow]".
-			"&highlight=$parameter[highlight]".
-			"&forum=$parameter[forum]".
-			"&author=$parameter[author]".
-			"&dateline=$parameter[dateline]".			
-			"&orderby=$parameter[orderby]";
+			"&newwindow={$parameter['newwindow']}".
+			"&highlight={$parameter['highlight']}".
+			"&forum={$parameter['forum']}".
+			"&author={$parameter['author']}".
+			"&dateline={$parameter['dateline']}".			
+			"&orderby={$parameter['orderby']}";
 		$jsurl = "{$boardurl}api/javascript.php?$jsurl&verify=".md5($authkey.$jsurl);
 		echo "<tr bgcolor=\"".ALTBG1."\"><td colspan=\"2\">".
 			"<textarea rows=\"3\" style=\"width: 100%; word-break: break-all\" onMouseOver=\"this.focus()\" onFocus=\"this.select()\">".
@@ -90,10 +90,10 @@ if($action == 'updatecache') {
 	if($jssubmit && $function == 'forums') {
 		$jsurl = "function=$function".
 			($parameter['forums_forums'] && !in_array('all', $parameter['forums_forums'])? '&fups='.jsfids($parameter['forums_forums']) : '').
-			"&startrow=$parameter[startrow]".
-			"&items=$parameter[items]".
-			"&newwindow=$parameter[newwindow]".
-			"&orderby=$parameter[orderby]";
+			"&startrow={$parameter['startrow']}".
+			"&items={$parameter['items']}".
+			"&newwindow={$parameter['newwindow']}".
+			"&orderby={$parameter['orderby']}";
 		$jsurl = "{$boardurl}api/javascript.php?$jsurl&verify=".md5($authkey.$jsurl);
 		echo "<tr bgcolor=\"".ALTBG1."\"><td colspan=\"2\">".
 			"<textarea rows=\"3\" style=\"width: 100%; word-break: break-all\" onMouseOver=\"this.focus()\" onFocus=\"this.select()\">".
@@ -116,10 +116,10 @@ if($action == 'updatecache') {
 	showtype('jswizard_memberrank', 'top');
 	if($jssubmit && $function == 'memberrank') {
 		$jsurl = "function=$function".
-			"&startrow=$parameter[startrow]".
-			"&items=$parameter[items]".
-			"&newwindow=$parameter[newwindow]".
-			"&orderby=$parameter[orderby]";
+			"&startrow={$parameter['startrow']}".
+			"&items={$parameter['items']}".
+			"&newwindow={$parameter['newwindow']}".
+			"&orderby={$parameter['orderby']}";
 		$jsurl = "{$boardurl}api/javascript.php?$jsurl&verify=".md5($authkey.$jsurl);
 		echo "<tr bgcolor=\"".ALTBG1."\"><td colspan=\"2\">".
 			"<textarea rows=\"3\" style=\"width: 100%; word-break: break-all\" onMouseOver=\"this.focus()\" onFocus=\"this.select()\">".
@@ -175,12 +175,12 @@ if($action == 'updatecache') {
 	if($jssubmit && $function == 'images') {
 		$jsurl = "function=$function".
 			($parameter['images_forums'] && !in_array('all', $parameter['images_forums'])? '&fids='.jsfids($parameter['images_forums']) : '').
-			"&maxwidth=$parameter[maxwidth]".
-			"&maxheight=$parameter[maxheight]".
-			"&startrow=$parameter[startrow]".
-			"&items=$parameter[items]".
+			"&maxwidth={$parameter['maxwidth']}".
+			"&maxheight={$parameter['maxheight']}".
+			"&startrow={$parameter['startrow']}".
+			"&items={$parameter['items']}".
 			"&digest=".bindec(intval($parameter['digest'][1]).intval($parameter['digest'][2]).intval($parameter['digest'][3]).intval($parameter['digest'][4])).
-			"&newwindow=$parameter[newwindow]";
+			"&newwindow={$parameter['newwindow']}";
 		$jsurl = "{$boardurl}api/javascript.php?$jsurl&verify=".md5($authkey.$jsurl);
 		echo "<tr bgcolor=\"".ALTBG1."\"><td colspan=\"2\">".
 			"<textarea rows=\"3\" style=\"width: 100%; word-break: break-all\" onMouseOver=\"this.focus()\" onFocus=\"this.select()\">".
@@ -236,7 +236,7 @@ if($action == 'updatecache') {
 			continue;
 		} else {
 			if(!is_writeable($fullentry)) {
-				echo '<li style="color: FF0000">'.(is_dir($fullentry) ? $lang['fileperms_dir'] : $lang['fileperms_file'])." ./$entry $lang[fileperms_unwritable]";
+				echo '<li style="color: FF0000">'.(is_dir($fullentry) ? $lang['fileperms_dir'] : $lang['fileperms_file'])." ./$entry {$lang['fileperms_unwritable']}";
 				$fault = 1;
 			}
 		}

@@ -112,7 +112,7 @@ if($action == 'avatarshow_config') {
 				cpmsg('avatarshow_register_license_invalid');
 			}
 			$db->query("REPLACE INTO {$tablepre}settings (variable, value)
-				VALUES ('avatarshow_license', '$avatarnew[license]')");
+				VALUES ('avatarshow_license', '{$avatarnew['license']}')");
 
 			updatecache('settings');
 

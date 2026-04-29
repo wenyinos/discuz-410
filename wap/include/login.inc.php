@@ -19,9 +19,9 @@ if(empty($logout)) {
 
 	if(empty($username)) {
 
-		echo "<p>$lang[username]:<input type=\"text\" name=\"username\" maxlength=\"15\" format=\"M*m\" /></p>\n".
-			"<p>$lang[password]: <input type=\"password\" name=\"password\" value=\"\" format=\"M*m\" /></p>\n".
-			"<p><anchor title=\"$lang[submit]\">$lang[submit]".
+		echo "<p>{$lang['username']}:<input type=\"text\" name=\"username\" maxlength=\"15\" format=\"M*m\" /></p>\n".
+			"<p>{$lang['password']}: <input type=\"password\" name=\"password\" value=\"\" format=\"M*m\" /></p>\n".
+			"<p><anchor title=\"{$lang['submit']}\">{$lang['submit']}".
 			"<go method=\"post\" href=\"index.php?action=login&amp;sid=$sid\">\n".
 			"<postfield name=\"username\" value=\"$(username)\" />\n".
 			"<postfield name=\"password\" value=\"$(password)\" />\n".

@@ -201,13 +201,13 @@ function procthread($thread) {
 		$posts = $postsnum;
 		$topicpages = ceil($posts / $ppp);
 		for ($i = 1; $i <= $topicpages; $i++) {
-			$pagelinks .= "<a href=\"viewthread.php?tid=$thread[tid]&page=$i\" target=\"_blank\">$i</a> ";
+			$pagelinks .= "<a href=\"viewthread.php?tid={$thread['tid']}&page=$i\" target=\"_blank\">$i</a> ";
 			if($i == 6) {
 				$i = $topicpages + 1;
 			}
 		}
 		if($topicpages > 6) {
-			$pagelinks .= " .. <a href=\"viewthread.php?tid=$thread[tid]&page=$topicpages\" target=\"_blank\">$topicpages</a> ";
+			$pagelinks .= " .. <a href=\"viewthread.php?tid={$thread['tid']}&page=$topicpages\" target=\"_blank\">$topicpages</a> ";
 		}
 		$thread['multipage'] = " &nbsp; ( <img src=\"".IMGDIR."/multipage.gif\" align=\"absmiddle\" border=\"0\"> $pagelinks)";
 	} else {
@@ -258,7 +258,7 @@ function modlog($thread, $action) {
 	global $discuz_user, $adminid, $onlineip, $timestamp, $forum, $reason;
 	@$fp = fopen(DISCUZ_ROOT.'./forumdata/modslog.php', 'a');
 	@flock($fp, 2);
-	@fwrite($fp, "$timestamp\t".dhtmlspecialchars($discuz_user)."\t$adminid\t$onlineip\t$forum[fid]\t$forum[name]\t$thread[tid]\t$thread[subject]\t$action\t".dhtmlspecialchars($reason)."\n");
+	@fwrite($fp, "$timestamp\t".dhtmlspecialchars($discuz_user)."\t$adminid\t$onlineip\t{$forum['fid']}\t{$forum['name']}\t{$thread['tid']}\t{$thread['subject']}\t$action\t".dhtmlspecialchars($reason)."\n");
 	@fclose($fp);
 }
 

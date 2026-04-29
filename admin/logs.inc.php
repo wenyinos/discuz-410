@@ -113,11 +113,11 @@ if(in_array($action, array('ratelog', 'modslog', 'banlog', 'cplog'))) {
 if($action == 'illegallog') {
 
 	echo "<tr class=\"header\" align=\"center\">".
-		"<td>$lang[logs_passwd_username]</td>".
-		"<td>$lang[logs_passwd_password]</td>".
-		"<td>$lang[logs_passwd_security]</td>".
-		"<td>$lang[ip]</td>".
-		"<td>$lang[time]</td>".
+		"<td>{$lang['logs_passwd_username']}</td>".
+		"<td>{$lang['logs_passwd_password']}</td>".
+		"<td>{$lang['logs_passwd_security']}</td>".
+		"<td>{$lang['ip']}</td>".
+		"<td>{$lang['time']}</td>".
 		"</tr>\n";
 
 	foreach($logs as $logrow) {
@@ -136,13 +136,13 @@ if($action == 'illegallog') {
 } elseif($action == 'ratelog') {
 
 	echo "<tr class=\"header\" align=\"center\">".
-		"<td width=\"13%\">$lang[username]</td>".
-		"<td width=\"12%\">$lang[usergroup]</td>".
-		"<td width=\"12%\">$lang[time]</td>".
-		"<td width=\"13%\">$lang[logs_rating_username]</td>".
-		"<td width=\"14%\">$lang[logs_rating_rating]</td>".
-		"<td width=\"23%\">$lang[subject]</td>".
-		"<td width=\"13%\">$lang[reason]</td>".
+		"<td width=\"13%\">{$lang['username']}</td>".
+		"<td width=\"12%\">{$lang['usergroup']}</td>".
+		"<td width=\"12%\">{$lang['time']}</td>".
+		"<td width=\"13%\">{$lang['logs_rating_username']}</td>".
+		"<td width=\"14%\">{$lang['logs_rating_rating']}</td>".
+		"<td width=\"23%\">{$lang['subject']}</td>".
+		"<td width=\"13%\">{$lang['reason']}</td>".
 		"</tr>\n";
 
 	foreach($logs as $logrow) {
@@ -155,7 +155,7 @@ if($action == 'illegallog') {
 		}
 		$log[3] = "<a href=\"viewpro.php?username=".rawurlencode($log[3])."\" target=\"_blank\">$log[3]</a>";
 		$log[5] = $extcredits[$log[4]]['title'].' '.($log[5] < 0 ? "<b>$log[5]</b>" : "+$log[5]").' '.$extcredits[$log[4]]['unit'];
-		$log[6] = $log[6] ? "<a href=\"./viewthread.php?tid=$log[6]\" target=\"_blank\" title=\"$log[7]\">".cutstr($log[7], 20)."</a>" : "<i>$lang[logs_rating_manual]</i>";
+		$log[6] = $log[6] ? "<a href=\"./viewthread.php?tid=$log[6]\" target=\"_blank\" title=\"$log[7]\">".cutstr($log[7], 20)."</a>" : "<i>{$lang['logs_rating_manual']}</i>";
 
 		echo "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\">$log[1]</a></td><td bgcolor=\"".ALTBG2."\">$log[2]</td>\n".
 			"<td bgcolor=\"".ALTBG1."\">$log[0]</td><td bgcolor=\"".ALTBG2."\">$log[3]</td>\n".
@@ -168,14 +168,14 @@ if($action == 'illegallog') {
 	include language('modactions');
 
 	echo "<tr class=\"header\" align=\"center\">".
-		"<td width=\"13%\">$lang[operator]</td>".
-		"<td width=\"10%\">$lang[usergroup]</td>".
-		"<td width=\"10%\">$lang[ip]</td>".
-		"<td width=\"16%\">$lang[time]</td>".
-		"<td width=\"12%\">$lang[forum]</td>".
-		"<td width=\"19%\">$lang[thread]</td>".
-		"<td width=\"10%\">$lang[action]</td>".
-		"<td width=\"10%\">$lang[reason]</td>".
+		"<td width=\"13%\">{$lang['operator']}</td>".
+		"<td width=\"10%\">{$lang['usergroup']}</td>".
+		"<td width=\"10%\">{$lang['ip']}</td>".
+		"<td width=\"16%\">{$lang['time']}</td>".
+		"<td width=\"12%\">{$lang['forum']}</td>".
+		"<td width=\"19%\">{$lang['thread']}</td>".
+		"<td width=\"10%\">{$lang['action']}</td>".
+		"<td width=\"10%\">{$lang['reason']}</td>".
 		"</tr>\n";
 
 	foreach($logs as $logrow) {
@@ -200,17 +200,17 @@ if($action == 'illegallog') {
 	$medalsarray = array();
 	$query = $db->query("SELECT * FROM {$tablepre}medals WHERE available>'0'");
 	while($medal = $db->fetch_array($query)) {
-		$medalsarray[$medal['medalid']] = "<img src=\"images/common/$medal[image]\" border=\"0\" align=\"absmiddle\"> $medal[name]";
+		$medalsarray[$medal['medalid']] = "<img src=\"images/common/{$medal['image']}\" border=\"0\" align=\"absmiddle\"> {$medal['name']}";
 	}
 
 	echo "<tr class=\"header\" align=\"center\">".
-		"<td width=\"13%\">$lang[operator]</td>".
-		"<td width=\"13%\">$lang[ip]</td>".
-		"<td width=\"13%\">$lang[time]</td>".
-		"<td width=\"13%\">$lang[username]</td>".
-		"<td width=\"7%\">$lang[action]</td>".
-		"<td width=\"18%\">$lang[logs_medal_name]</td>".
-		"<td width=\"23%\">$lang[reason]</td>".
+		"<td width=\"13%\">{$lang['operator']}</td>".
+		"<td width=\"13%\">{$lang['ip']}</td>".
+		"<td width=\"13%\">{$lang['time']}</td>".
+		"<td width=\"13%\">{$lang['username']}</td>".
+		"<td width=\"7%\">{$lang['action']}</td>".
+		"<td width=\"18%\">{$lang['logs_medal_name']}</td>".
+		"<td width=\"23%\">{$lang['reason']}</td>".
 		"</tr>\n";
 
 	foreach($logs as $logrow) {
@@ -230,15 +230,15 @@ if($action == 'illegallog') {
 } elseif($action == 'banlog') {
 
 	echo "<tr class=\"header\" align=\"center\">".
-		"<td width=\"10%\">$lang[operator]</td>".
-		"<td width=\"10%\">$lang[usergroup]</td>".
-		"<td width=\"10%\">$lang[ip]</td>".
-		"<td width=\"10%\">$lang[time]</td>".
-		"<td width=\"10%\">$lang[username]</td>".
-		"<td width=\"5%\">$lang[operation]</td>".
-		"<td width=\"20%\">$lang[logs_banned_group]</td>".
-		"<td width=\"8%\">$lang[validity]</td>".
-		"<td width=\"17%\">$lang[reason]</td>".
+		"<td width=\"10%\">{$lang['operator']}</td>".
+		"<td width=\"10%\">{$lang['usergroup']}</td>".
+		"<td width=\"10%\">{$lang['ip']}</td>".
+		"<td width=\"10%\">{$lang['time']}</td>".
+		"<td width=\"10%\">{$lang['username']}</td>".
+		"<td width=\"5%\">{$lang['operation']}</td>".
+		"<td width=\"20%\">{$lang['logs_banned_group']}</td>".
+		"<td width=\"8%\">{$lang['validity']}</td>".
+		"<td width=\"17%\">{$lang['reason']}</td>".
 		"</tr>\n";
 
 	foreach($logs as $logrow) {
@@ -259,12 +259,12 @@ if($action == 'illegallog') {
 } elseif($action == 'cplog') {
 
 	echo "<tr class=\"header\" align=\"center\">".
-		"<td width=\"10%\">$lang[operator]</td>".
-		"<td width=\"10%\">$lang[usergroup]</td>".
-		"<td width=\"10%\">$lang[ip]</td>".
-		"<td width=\"18%\">$lang[time]</td>".
-		"<td width=\"15%\">$lang[action]</td>".
-		"<td width=\"37%\">$lang[other]</td>".
+		"<td width=\"10%\">{$lang['operator']}</td>".
+		"<td width=\"10%\">{$lang['usergroup']}</td>".
+		"<td width=\"10%\">{$lang['ip']}</td>".
+		"<td width=\"18%\">{$lang['time']}</td>".
+		"<td width=\"15%\">{$lang['action']}</td>".
+		"<td width=\"37%\">{$lang['other']}</td>".
 		"</tr>\n";
 
 	foreach($logs as $logrow) {
@@ -283,10 +283,10 @@ if($action == 'illegallog') {
 } elseif($action == 'errorlog') {
 
 	echo "<tr class=\"header\" align=\"center\">".
-		"<td width=\"8%\">$lang[type]</td>".
-		"<td width=\"15%\">$lang[username]</td>".
-		"<td width=\"15%\">$lang[time]</td>".
-		"<td width=\"62%\">$lang[message]</td>".
+		"<td width=\"8%\">{$lang['type']}</td>".
+		"<td width=\"15%\">{$lang['username']}</td>".
+		"<td width=\"15%\">{$lang['time']}</td>".
+		"<td width=\"62%\">{$lang['message']}</td>".
 		"</tr>\n";
 
 	foreach($logs as $logrow) {

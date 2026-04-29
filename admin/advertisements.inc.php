@@ -38,16 +38,16 @@ if($action == 'adv') {
 
 			$adv['parameters'] = unserialize($adv['parameters']);
 
-			$advs .= "<tr align=\"center\" ".($adv['endtime'] && $adv['endtime'] <= $timestamp ? 'style="text-decoration: line-through"' : '')."><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[]\" value=\"$adv[advid]\"></td>".
-				"<td class=\"altbg2\"><input type=\"checkbox\" name=\"availablenew[$adv[advid]]\" value=\"1\" ".($adv['available'] ? 'checked' : '')."></td>".
-				"<td class=\"altbg1\"><input type=\"text\" size=\"2\" name=\"displayordernew[$adv[advid]]\" value=\"$adv[displayorder]\"></td>".
-				"<td class=\"altbg2\"><input type=\"text\" size=\"15\" name=\"titlenew[$adv[advid]]\" value=\"".dhtmlspecialchars($adv['title'])."\"></td>".
-				"<td class=\"altbg1\">$adv[type]</td>".
+			$advs .= "<tr align=\"center\" ".($adv['endtime'] && $adv['endtime'] <= $timestamp ? 'style="text-decoration: line-through"' : '')."><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$adv['advid']}\"></td>".
+				"<td class=\"altbg2\"><input type=\"checkbox\" name=\"availablenew[{$adv['advid']}]\" value=\"1\" ".($adv['available'] ? 'checked' : '')."></td>".
+				"<td class=\"altbg1\"><input type=\"text\" size=\"2\" name=\"displayordernew[{$adv['advid']}]\" value=\"{$adv['displayorder']}\"></td>".
+				"<td class=\"altbg2\"><input type=\"text\" size=\"15\" name=\"titlenew[{$adv['advid']}]\" value=\"".dhtmlspecialchars($adv['title'])."\"></td>".
+				"<td class=\"altbg1\">{$adv['type']}</td>".
 				"<td class=\"altbg2\">".$lang['advertisements_style_'.$adv['parameters']['style']]."</td>".
 				"<td class=\"altbg1\">".($adv['starttime'] ? gmdate($dateformat, $adv['starttime'] + $timeoffset * 3600) : $lang['unlimited'])."</td>".
 				"<td class=\"altbg2\">".($adv['endtime'] ? gmdate($dateformat, $adv['endtime'] + $timeoffset * 3600) : $lang['unlimited'])."</td>".
-				"<td class=\"altbg1\">$adv[targets]</td>".
-				"<td class=\"altbg2\"><a href=\"admincp.php?action=advedit&advid=$adv[advid]\">[$lang[detail]]</a></td></tr>";
+				"<td class=\"altbg1\">{$adv['targets']}</td>".
+				"<td class=\"altbg2\"><a href=\"admincp.php?action=advedit&advid={$adv['advid']}\">[{$lang['detail']}]</a></td></tr>";
 		}
 
 ?>
@@ -251,7 +251,7 @@ if($action == 'adv') {
 		}
 		$advnew['code'] = addslashes($advnew['code']);
 
-		$query = $db->query("UPDATE {$tablepre}advertisements SET title='$advnew[title]', targets='$advnew[targets]', parameters='$advnew[parameters]', code='$advnew[code]', starttime='$advnew[starttime]', endtime='$advnew[endtime]' WHERE advid='$advid'");
+		$query = $db->query("UPDATE {$tablepre}advertisements SET title='{$advnew['title']}', targets='{$advnew['targets']}', parameters='{$advnew['parameters']}', code='{$advnew['code']}', starttime='{$advnew['starttime']}', endtime='{$advnew['endtime']}' WHERE advid='$advid'");
 
 		updatecache('settings');
 

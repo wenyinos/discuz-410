@@ -75,10 +75,10 @@ function updatecache($cachename = '') {
 		while($data = $db->fetch_array($query)) {
 			$data = array_merge($data, $stylevars[$data['styleid']]);
 
-			$data['bgcode'] = strpos($data['bgcolor'], '.') ? "background-image: url(\"$data[imgdir]/$data[bgcolor]\")" : "background-color: $data[bgcolor]";
-			$data['maintablebgcode'] = strpos($data['maintablecolor'], '.') ? "background=\"$data[maintablecolor]\"" : "bgcolor=\"$data[maintablecolor]\"";
-			$data['catbgcode'] = strpos($data['catcolor'], '.') ? "background-image: url(\"$data[imgdir]/$data[catcolor]\")" : "background-color: $data[catcolor]";
-			$data['headerbgcode'] = strpos($data['headercolor'], '.') ? "background-image: url(\"$data[imgdir]/$data[headercolor]\")" : "background-color: $data[headercolor]";
+			$data['bgcode'] = strpos($data['bgcolor'], '.') ? "background-image: url(\"{$data['imgdir']}/{$data['bgcolor']}\")" : "background-color: {$data['bgcolor']}";
+			$data['maintablebgcode'] = strpos($data['maintablecolor'], '.') ? "background=\"{$data['maintablecolor']}\"" : "bgcolor=\"{$data['maintablecolor']}\"";
+			$data['catbgcode'] = strpos($data['catcolor'], '.') ? "background-image: url(\"{$data['imgdir']}/{$data['catcolor']}\")" : "background-color: {$data['catcolor']}";
+			$data['headerbgcode'] = strpos($data['headercolor'], '.') ? "background-image: url(\"{$data['imgdir']}/{$data['headercolor']}\")" : "background-color: {$data['headercolor']}";
 			$data['boardlogo'] = image($data['boardimg'], $data['imgdir'], "alt=\"$bbname\"");
 			$data['bold'] = $data['nobold'] ? 'normal' : 'bold';
 
@@ -130,11 +130,11 @@ function updatecache($cachename = '') {
 					$data['modules'][$module['name']] = $module;
 				}
 			}
-			$queryvars = $db->query("SELECT variable, value FROM {$tablepre}pluginvars WHERE pluginid='$plugin[pluginid]'");
+			$queryvars = $db->query("SELECT variable, value FROM {$tablepre}pluginvars WHERE pluginid='{$plugin['pluginid']}'");
 			while($var = $db->fetch_array($queryvars)) {
 				$data['vars'][$var['variable']] = $var['value'];
 			}
-			writetocache($plugin['identifier'], '', "\$_DPLUGIN['$plugin[identifier]'] = ".arrayeval($data), 'plugin_');
+			writetocache($plugin['identifier'], '', "\$_DPLUGIN['{$plugin['identifier']}'] = ".arrayeval($data), 'plugin_');
 		}
 	}
 }
@@ -372,7 +372,7 @@ function getcachearray($cachename) {
 				$data['advertisements']['latestendtime'] = intval($db->result($query, 0));
 			}
 
-			$data['plugins'] = array();
+			$data['plugins'] = array('links' => array(), 'include' => array());
 			$query = $db->query("SELECT available, name, identifier, directory, datatables, modules FROM {$tablepre}plugins");
 			while($plugin = $db->fetch_array($query)) {
 				$plugin['modules'] = unserialize($plugin['modules']);
@@ -381,10 +381,10 @@ function getcachearray($cachename) {
 						if($plugin['available'] && isset($module['name'])) {
 							switch($module['type']) {
 								case 1:
-									$data['plugins']['links'][$plugin['identifier']][$module['name']] = array('adminid' => $module['adminid'], 'url' => "<a href=\"$module[url]\">$module[menu]</a>");
+									$data['plugins']['links'][$plugin['identifier']][$module['name']] = array('adminid' => $module['adminid'], 'url' => "<a href=\"{$module['url']}\">{$module['menu']}</a>");
 									break;
 								case 2:
-									$data['plugins']['links'][$plugin['identifier']][$module['name']] = array('adminid' => $module['adminid'], 'url' => "<a href=\"plugin.php?identifier=$plugin[identifier]&module=$module[name]\">$module[menu]</a>", 'directory' => $plugin['directory']);
+									$data['plugins']['links'][$plugin['identifier']][$module['name']] = array('adminid' => $module['adminid'], 'url' => "<a href=\"plugin.php?identifier={$plugin['identifier']}&module={$module['name']}\">{$module['menu']}</a>", 'directory' => $plugin['directory']);
 									break;
 								case 4:
 									$data['plugins']['include'][] = array('adminid' => $module['adminid'], 'script' => $plugin['directory'].$module['name']);
@@ -516,7 +516,7 @@ function getcachearray($cachename) {
 				if(!isset($data[$forum['fid']])) {
 					$forum['name'] = strip_tags($forum['name']);
 					if($forum['uid']) {
-						$forum['users'] = "\t$forum[uid]\t";
+						$forum['users'] = "\t{$forum['uid']}\t";
 					}
 					unset($forum['uid']);
 					$data[$forum['fid']] = $forum;
@@ -524,7 +524,7 @@ function getcachearray($cachename) {
 					if(!$data[$forum['fid']]['users']) {
 						$data[$forum['fid']]['users'] = "\t";
 					}
-					$data[$forum['fid']]['users'] .= "$forum[uid]\t";
+					$data[$forum['fid']]['users'] .= "{$forum['uid']}\t";
 				}
 			}
 			break;
@@ -532,14 +532,14 @@ function getcachearray($cachename) {
 			$data['legend'] = '';
 			while($list = $db->fetch_array($query)) {
 				$data[$list['groupid']] = $list['url'];
-				$data['legend'] .= "<img src=\"images/common/$list[url]\"> $list[title] &nbsp; &nbsp; &nbsp; ";
+				$data['legend'] .= "<img src=\"images/common/{$list['url']}\"> {$list['title']} &nbsp; &nbsp; &nbsp; ";
 			}
 			break;
 		case 'forumlinks':
 			$tightlink_text = $tightlink_logo = '';
 			while($flink = $db->fetch_array($query)) {
 				if($flink['note']) {
-					$forumlink['content'] = "<a href=\"$flink[url]\" target=\"_blank\"><span class=\"bold\">$flink[name]</span></a><br>$flink[note]";
+					$forumlink['content'] = "<a href=\"{$flink['url']}\" target=\"_blank\"><span class=\"bold\">{$flink['name']}</span></a><br>{$flink['note']}";
 					if($flink['logo']) {
 						$forumlink['type'] = 1;
 						$forumlink['logo'] = $flink['logo'];
@@ -549,9 +549,9 @@ function getcachearray($cachename) {
 					$data[] = $forumlink;
 				} else {
 					if($flink['logo']) {
-						$tightlink_logo .= "<a href=\"$flink[url]\" target=\"_blank\"><img src=\"$flink[logo]\" border=\"0\" alt=\"$flink[name]\"></a> ";
+						$tightlink_logo .= "<a href=\"{$flink['url']}\" target=\"_blank\"><img src=\"{$flink['logo']}\" border=\"0\" alt=\"{$flink['name']}\"></a> ";
 					} else {
-						$tightlink_text .= "<a href=\"$flink[url]\" target=\"_blank\">[$flink[name]]</a> ";
+						$tightlink_text .= "<a href=\"{$flink['url']}\" target=\"_blank\">[{$flink['name']}]</a> ";
 					}
 				}
 			}

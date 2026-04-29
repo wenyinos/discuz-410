@@ -15,7 +15,7 @@ if(!defined('IN_DISCUZ')) {
 
 $discuz_action = 194;
 
-echo "<p>$lang[myphone]<br />".$_SERVER['HTTP_USER_AGENT']."<br /><br />";
+echo "<p>{$lang['myphone']}<br />".$_SERVER['HTTP_USER_AGENT']."<br /><br />";
 if(function_exists('getallheaders')) {
 	foreach(getallheaders() as $key => $value) {
 		echo strtoupper($key).": $value<br/>\n";

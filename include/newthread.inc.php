@@ -119,13 +119,13 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck)) {
 			default:	$item_transport = 2; break;
 		}
 
-		$message = "[b]$language[post_trade_seller]:[/b] $seller\r\n\r\n".
-			"[b]$language[post_trade_name]:[/b] $item_name\r\n\r\n".
-			"[b]$language[post_trade_price]:[/b] $item_price $language[post_trade_yuan]\r\n\r\n".
-			(!empty($item_quality) ? "[b]$language[post_trade_quality]:[/b] $item_quality\r\n\r\n" : '').
-			(!empty($item_locus) ? "[b]$language[post_trade_locus]:[/b] $item_locus\r\n\r\n" : '').
-			"[b]$language[post_trade_transport]:[/b] ".$language['post_trade_transport_'.$transport].($transport == 'buyer' ? (!empty($postage_mail) ? ", $language[post_trade_transport_mail] $postage_mail $language[post_trade_yuan]" : '').(!empty($postage_express) ? ", $language[post_trade_transport_express] $postage_express $language[post_trade_yuan]" : '') : '')."\r\n\r\n".
-			"[b]$language[post_trade_description]:[/b] $message\r\n\r\n".
+		$message = "[b]{$language['post_trade_seller']}:[/b] $seller\r\n\r\n".
+			"[b]{$language['post_trade_name']}:[/b] $item_name\r\n\r\n".
+			"[b]{$language['post_trade_price']}:[/b] $item_price {$language['post_trade_yuan']}\r\n\r\n".
+			(!empty($item_quality) ? "[b]{$language['post_trade_quality']}:[/b] $item_quality\r\n\r\n" : '').
+			(!empty($item_locus) ? "[b]{$language['post_trade_locus']}:[/b] $item_locus\r\n\r\n" : '').
+			"[b]{$language['post_trade_transport']}:[/b] ".$language['post_trade_transport_'.$transport].($transport == 'buyer' ? (!empty($postage_mail) ? ", {$language['post_trade_transport_mail']} $postage_mail {$language['post_trade_yuan']}" : '').(!empty($postage_express) ? ", {$language['post_trade_transport_express']} $postage_express {$language['post_trade_yuan']}" : '') : '')."\r\n\r\n".
+			"[b]{$language['post_trade_description']}:[/b] $message\r\n\r\n".
 			"[payto]\r\n".
 			"(seller)$seller(/seller)\r\n".
 			"(subject)$item_name(/subject)\r\n".
@@ -177,7 +177,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck)) {
 	if($attachment) {
 		foreach($attachments as $attach) {
 			$db->query("INSERT INTO {$tablepre}attachments (tid, pid, dateline, readperm, filename, description, filetype, filesize, attachment, downloads)
-				VALUES ('$tid', '$pid', '$timestamp', '$attach[perm]', '$attach[name]', '$attach[description]', '$attach[type]', '$attach[size]', '$attach[attachment]', '0')");
+				VALUES ('$tid', '$pid', '$timestamp', '{$attach['perm']}', '{$attach['name']}', '{$attach['description']}', '{$attach['type']}', '{$attach['size']}', '{$attach['attachment']}', '0')");
 		}
 		updatecredits($discuz_uid, $creditspolicy['postattach'], count($attachments));
 	}
@@ -199,7 +199,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck)) {
 		$lastpost = "$tid\t$subject\t$timestamp\t$author";
 		$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost', threads=threads+1, posts=posts+1, todayposts=".todayposts()." WHERE fid='$fid'", 'UNBUFFERED');
 		if($forum['type'] == 'sub') {
-			$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='$forum[fup]'", 'UNBUFFERED');
+			$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='{$forum['fup']}'", 'UNBUFFERED');
 		}
 
 		$allowuseblog && $isblog && $blog ? showmessage('post_newthread_blog_succeed', "blog.php?tid=$tid") :

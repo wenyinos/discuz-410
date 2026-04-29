@@ -184,8 +184,8 @@ if($action == 'alipay') {
 
 			$query = $db->query("SELECT * FROM {$tablepre}orders WHERE orderid IN ('".implode('\',\'', $validate)."') AND status='1'");
 			while($order = $db->fetch_array($query)) {
-				$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans+'$order[amount]' WHERE uid='$order[uid]'");
-				$orderids .= "$comma'$order[orderid]'";
+				$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans+'{$order['amount']}' WHERE uid='{$order['uid']}'");
+				$orderids .= "$comma'{$order['orderid']}'";
 				$comma = ',';
 
 				$submitdate = gmdate($_DCACHE['settings']['dateformat'].' '.$_DCACHE['settings']['timeformat'], $order['submitdate'] + $_DCACHE['settings']['timeoffset'] * 3600);
@@ -236,15 +236,15 @@ if($action == 'alipay') {
 			$order['submitdate'] = gmdate("$dateformat $timeformat", $order['submitdate'] + $timeoffset * 3600);
 			$order['confirmdate'] = $order['confirmdate'] ? gmdate("$dateformat $timeformat", $order['confirmdate'] + $timeoffset * 3600) : 'N/A';
 
-			$orders .= "<tr align=\"center\" class=\"smalltxt\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"validate[]\" value=\"$order[orderid]\" ".($order['status'] != 1 ? 'disabled' : '')."></td>\n".
-				"<td class=\"altbg2\">$order[orderid]</td>\n".
-				"<td class=\"altbg1\">$order[orderstatus]</td>\n".
-				"<td class=\"altbg2\"><a href=\"viewpro.php?uid=$order[uid]\" target=\"_blank\">$order[username]</a></td>\n".
-				"<td class=\"altbg1\"><a href=\"mailto:$order[buyer]\">$order[buyer]</a></td>\n".
-				"<td class=\"altbg2\">{$extcredits[$creditstrans]['title']} $order[amount] {$extcredits[$creditstrans]['unit']}</td>\n".
-				"<td class=\"altbg1\">$lang[rmb] $order[price] $lang[rmb_yuan]</td>\n".
-				"<td class=\"altbg2\">$order[submitdate]</td>\n".
-				"<td class=\"altbg1\">$order[confirmdate]</td></tr>\n";
+			$orders .= "<tr align=\"center\" class=\"smalltxt\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"validate[]\" value=\"{$order['orderid']}\" ".($order['status'] != 1 ? 'disabled' : '')."></td>\n".
+				"<td class=\"altbg2\">{$order['orderid']}</td>\n".
+				"<td class=\"altbg1\">{$order['orderstatus']}</td>\n".
+				"<td class=\"altbg2\"><a href=\"viewpro.php?uid={$order['uid']}\" target=\"_blank\">{$order['username']}</a></td>\n".
+				"<td class=\"altbg1\"><a href=\"mailto:{$order['buyer']}\">{$order['buyer']}</a></td>\n".
+				"<td class=\"altbg2\">{$extcredits[$creditstrans]['title']} {$order['amount']} {$extcredits[$creditstrans]['unit']}</td>\n".
+				"<td class=\"altbg1\">{$lang['rmb']} {$order['price']} {$lang['rmb_yuan']}</td>\n".
+				"<td class=\"altbg2\">{$order['submitdate']}</td>\n".
+				"<td class=\"altbg1\">{$order['confirmdate']}</td></tr>\n";
 		}
 
 ?>

@@ -108,9 +108,9 @@ if($fidarray) {
 				break;
 			} else {
 				echo 	"    <item>\n".
-					"      <title>$thread[subject]</title>\n".
-					"      <link>{$boardurl}viewthread.php?tid=$thread[tid]</link>\n".
-					"      <description><![CDATA[$thread[description]]]></description>\n".
+					"      <title>{$thread['subject']}</title>\n".
+					"      <link>{$boardurl}viewthread.php?tid={$thread['tid']}</link>\n".
+					"      <description><![CDATA[{$thread['description']}]]></description>\n".
 					"      <category>".dhtmlspecialchars($thread['forum'])."</category>\n".
 					"      <author>".dhtmlspecialchars($thread['author'])."</author>\n".
 					"      <pubDate>".gmdate('r', $thread['dateline'])."</pubDate>\n".
@@ -146,7 +146,7 @@ function updatersscache() {
 				$thread['subject'] = addslashes($thread['subject']);
 				$thread['description'] = $thread['readperm'] > 0 || $thread['price'] > 0 ? '' : addslashes(cutstr(nl2br(dhtmlspecialchars(preg_replace("/(\[.+\])/s", '', $thread['message']))), 255));
 				$db->query("INSERT INTO {$tablepre}rsscaches (lastupdate, fid, tid, dateline, forum, author, subject, description)
-					VALUES ('$timestamp', '$fid', '$thread[tid]', '$thread[dateline]', '$forum[name]', '$thread[author]', '$thread[subject]', '$thread[description]')");
+					VALUES ('$timestamp', '$fid', '{$thread['tid']}', '{$thread['dateline']}', '{$forum['name']}', '{$thread['author']}', '{$thread['subject']}', '{$thread['description']}')");
 			}
 		}
 	}

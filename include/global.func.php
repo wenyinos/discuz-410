@@ -235,10 +235,10 @@ function getgroupid($uid, $group, &$member) {
 			$updatearray[] = "credits='$credits'";
 		}
 		if($group['type'] == 'member' && !($member['credits'] >= $group['creditshigher'] && $member['credits'] < $group['creditslower'])) {
-			$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND $member[credits]>=creditshigher AND $member[credits]<creditslower LIMIT 1");
+			$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND {$member['credits']}>=creditshigher AND {$member['credits']}<creditslower LIMIT 1");
 			if($db->num_rows($query)) {
 				$member['groupid'] = $db->result($query, 0);
-				$updatearray[] = "groupid='$member[groupid]'";
+				$updatearray[] = "groupid='{$member['groupid']}'";
 			}
 		}
 

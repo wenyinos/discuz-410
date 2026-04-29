@@ -64,7 +64,7 @@ if(empty($action)) {
 	$pmlist = array();
 	while($pm = $db->fetch_array($query)) {
 		$pm['dateline'] = gmdate("$dateformat $timeformat", $pm['dateline'] + $timeoffset * 3600);
-		$pm['subject'] = $pm['new'] ? "<b>$pm[subject]</b>" : $pm['subject'];
+		$pm['subject'] = $pm['new'] ? "<b>{$pm['subject']}</b>" : $pm['subject'];
 		$pmlist[] = $pm;
 	}
 
@@ -134,12 +134,12 @@ if(empty($action)) {
 			$username = $pm['msgfrom'];
 
 			if($do == 'reply') {
-				$subject = "Re: $pm[subject]";
+				$subject = "Re: {$pm['subject']}";
 				$message = '[quote]'.dhtmlspecialchars(trim(preg_replace("/(\[quote])(.*)(\[\/quote])/siU", '', $pm['message']))).'[/quote]'."\n";
 				$touser = $pm['msgfrom'];
 			} elseif($do == 'forward') {
 				$pm['dateline'] = gmdate($_DCACHE['settings']['dateformat'].' '.$_DCACHE['settings']['timeformat'], $pm['dateline'] + $timeoffset * 3600);
-				$subject = "Fw: $pm[subject]";
+				$subject = "Fw: {$pm['subject']}";
 				$message = '[quote]'.dhtmlspecialchars($pm['message']).'[/quote]'."\n";
 				$touser = '';
 			}
@@ -270,12 +270,12 @@ if(empty($action)) {
 			$pmlist = array();
 			$query = $db->query("SELECT p.*, m.username AS msgto FROM {$tablepre}pms p
 				LEFT JOIN {$tablepre}members m ON p.msgtoid=m.uid
-				WHERE p.pmid IN ($index[pmids])
+				WHERE p.pmid IN ({$index['pmids']})
 				ORDER BY p.$orderby $ascdesc LIMIT $start_limit, $tpp");
 
 			while($pm = $db->fetch_array($query)) {
 				$pm['dateline'] = gmdate("$dateformat $timeformat", $pm['dateline'] + $timeoffset * 3600);
-				$pm['subject'] = $pm['new'] ? "<b>$pm[subject]</b>" : $pm['subject'];
+				$pm['subject'] = $pm['new'] ? "<b>{$pm['subject']}</b>" : $pm['subject'];
 				$pmlist[] = $pm;
 			}
 
@@ -358,7 +358,7 @@ if(empty($action)) {
 					$srchuname = str_replace('*', '%', addcslashes($srchuname, '%_'));
 					$query = $db->query("SELECT uid FROM {$tablepre}members WHERE username LIKE '".str_replace('_', '\_', $srchuname)."' LIMIT 50");
 					while($member = $db->fetch_array($query)) {
-						$srchuid .= "$comma'$member[uid]'";
+						$srchuid .= "$comma'{$member['uid']}'";
 						$comma = ', ';
 					}
 					if(!$srchuid) {

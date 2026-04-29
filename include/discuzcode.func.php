@@ -48,18 +48,18 @@ function attachtag($pid, $aid) {
 		$attach = $postlist[$pid]['attachments'][$aid];
 		unset($postlist[$pid]['attachments'][$aid]);
 
-		$replacement = "<br><br>$attach[attachicon] ";
+		$replacement = "<br><br>{$attach['attachicon']} ";
 		if($attach['attachimg']) {
-			$replacement .= "<a href=\"member.php?action=credits&view=getattach\" title=\"$language[attach_credits_policy]\" target=\"_blank\">$language[attach_img]</a>: ".
-				($attach['readperm'] ? ", $language[attach_readperm] $attach[readperm]" : '').
-				($attach['description'] ? "[{$attach[description]}]" : '').
-				" <a href=\"attachment.php?aid=$attach[aid]\" target=\"_blank\" class=\"bold\">$attach[filename]</a> ($attach[dateline], $attach[attachsize])<br><br>".
-				($attachrefcheck ? "<img src=\"attachment.php?aid=$attach[aid]&noupdate=yes\" border=\"0\" onload=\"if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.alt='$language[attach_img_zoom]';}\" onmouseover=\"if(this.resized) this.style.cursor='hand';\" onclick=\"if(!this.resized) {return false;} else {window.open('attachment.php?aid=$attach[aid]');}\" onmousewheel=\"return imgzoom(this);\">" : "<img src=\"$attachurl/$attach[attachment]\" border=\"0\" onload=\"if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.alt='$language[attach_img_zoom]';}\" onmouseover=\"if(this.resized) this.style.cursor='hand';\" onclick=\"if(!this.resized) {return false;} else {window.open('".addslashes("$attachurl/$attach[attachment]")."');}\" onmousewheel=\"return imgzoom(this);\">");
+			$replacement .= "<a href=\"member.php?action=credits&view=getattach\" title=\"{$language['attach_credits_policy']}\" target=\"_blank\">{$language['attach_img']}</a>: ".
+				($attach['readperm'] ? ", {$language['attach_readperm']} {$attach['readperm']}" : '').
+				($attach['description'] ? "[{{$attach['description']}}]" : '').
+				" <a href=\"attachment.php?aid={$attach['aid']}\" target=\"_blank\" class=\"bold\">{$attach['filename']}</a> ({$attach['dateline']}, {$attach['attachsize']})<br><br>".
+				($attachrefcheck ? "<img src=\"attachment.php?aid={$attach['aid']}&noupdate=yes\" border=\"0\" onload=\"if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.alt='{$language['attach_img_zoom']}';}\" onmouseover=\"if(this.resized) this.style.cursor='hand';\" onclick=\"if(!this.resized) {return false;} else {window.open('attachment.php?aid={$attach['aid']}');}\" onmousewheel=\"return imgzoom(this);\">" : "<img src=\"$attachurl/{$attach['attachment']}\" border=\"0\" onload=\"if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.alt='{$language['attach_img_zoom']}';}\" onmouseover=\"if(this.resized) this.style.cursor='hand';\" onclick=\"if(!this.resized) {return false;} else {window.open('".addslashes("$attachurl/{$attach['attachment']}")."');}\" onmousewheel=\"return imgzoom(this);\">");
 		} else {
-			$replacement .= "<a href=\"member.php?action=credits&view=getattach\" title=\"$language[attach_credits_policy]\" target=\"_blank\">$language[attach]</a>: ".
-					($attach['description'] ? "[{$attach[description]}]" : '').
-					" <a href=\"attachment.php?aid=$attach[aid]\" target=\"_blank\" class=\"bold\">$attach[filename]</a> ($attach[dateline], $attach[attachsize])<br><span class=\"smalltxt\">$language[attach_download_count] $attach[downloads]".
-					($attach['readperm'] ? ", $language[attach_readperm] $attach[readperm]" : '').
+			$replacement .= "<a href=\"member.php?action=credits&view=getattach\" title=\"{$language['attach_credits_policy']}\" target=\"_blank\">{$language['attach']}</a>: ".
+					($attach['description'] ? "[{{$attach['description']}}]" : '').
+					" <a href=\"attachment.php?aid={$attach['aid']}\" target=\"_blank\" class=\"bold\">{$attach['filename']}</a> ({$attach['dateline']}, {$attach['attachsize']})<br><span class=\"smalltxt\">{$language['attach_download_count']} {$attach['downloads']}".
+					($attach['readperm'] ? ", {$language['attach_readperm']} {$attach['readperm']}" : '').
 					"</span><br>";
 		}
 
@@ -105,9 +105,9 @@ function codedisp($code) {
 	global $discuzcodes;
 	$discuzcodes['pcodecount']++;
 	$code = dhtmlspecialchars(str_replace('\\"', '"', preg_replace("/^[\n\r]*(.+?)[\n\r]*$/is", "\\1", $code)));
-	$discuzcodes['codehtml'][$discuzcodes['pcodecount']] = "<br><br><div class=\"smalltxt\" style=\"margin-left: 2em; margin-right: 2em; font-weight: bold\"><div style=\"float: left\">CODE:</div><div style=\"text-align: right; float: right\"><a href=\"###\" class=\"smalltxt\" onclick=\"copycode(findobj('code$discuzcodes[codecount]'));\">[Copy to clipboard]</a></div></div><div class=\"altbg2\" style=\"margin: 2em; margin-top: 3px; clear: both; padding: 10px; padding-top: 5px; border: ".INNERBORDERWIDTH."px solid ".BORDERCOLOR."; word-break: break-all\" id=\"code$discuzcodes[codecount]\">$code</div>";
+	$discuzcodes['codehtml'][$discuzcodes['pcodecount']] = "<br><br><div class=\"smalltxt\" style=\"margin-left: 2em; margin-right: 2em; font-weight: bold\"><div style=\"float: left\">CODE:</div><div style=\"text-align: right; float: right\"><a href=\"###\" class=\"smalltxt\" onclick=\"copycode(findobj('code{$discuzcodes['codecount']}'));\">[Copy to clipboard]</a></div></div><div class=\"altbg2\" style=\"margin: 2em; margin-top: 3px; clear: both; padding: 10px; padding-top: 5px; border: ".INNERBORDERWIDTH."px solid ".BORDERCOLOR."; word-break: break-all\" id=\"code{$discuzcodes['codecount']}\">$code</div>";
 	$discuzcodes['codecount']++;
-	return "[\tDISCUZ_CODE_$discuzcodes[pcodecount]\t]";
+	return "[\tDISCUZ_CODE_{$discuzcodes['pcodecount']}\t]";
 }
 
 function karmaimg($rate, $ratetimes) {

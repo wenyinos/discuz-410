@@ -61,7 +61,7 @@ if(($_GET['action'] ?? '') == 'login') {
 	$memberfields['regip'] = empty($memberfields['regip']) ? onlineip() : $memberfields['regip'];
 	$memberfields['regdate'] = empty($memberfields['regdate']) ? $timestamp : $memberfields['regdate'];
 
-	$query = $db->query("SELECT uid FROM {$tablepre}members WHERE username='$memberfields[username]'");
+	$query = $db->query("SELECT uid FROM {$tablepre}members WHERE username='{$memberfields['username']}'");
 	if($member = $db->fetch_array($query)) {
 		$sql = $comma = '';
 		foreach($table_member_columns as $field) {
@@ -70,7 +70,7 @@ if(($_GET['action'] ?? '') == 'login') {
 				$comma = ', ';
 			}
 		}
-		$db->query("UPDATE {$tablepre}members SET $sql WHERE uid='$member[uid]'");
+		$db->query("UPDATE {$tablepre}members SET $sql WHERE uid='{$member['uid']}'");
 
 		$sql = $comma = '';
 		foreach($table_memberfields_columns as $field) {
@@ -79,7 +79,7 @@ if(($_GET['action'] ?? '') == 'login') {
 				$comma = ', ';
 			}
 		}
-		$db->query("UPDATE {$tablepre}memberfields SET $sql WHERE uid='$member[uid]'");
+		$db->query("UPDATE {$tablepre}memberfields SET $sql WHERE uid='{$member['uid']}'");
 	} else {
 		if(empty($memberfields['groupid'])) {
 			$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND creditshigher='0'");
@@ -119,7 +119,7 @@ if(($_GET['action'] ?? '') == 'login') {
 	}
 
 	dsetcookie('sid', '', -86400 * 365);
-	dsetcookie('auth', authcode("$memberfields[password]\t$memberfields[secques]\t$member[uid]", 'ENCODE'), ($remoteinfo['cookietime'] ? $remoteinfo['cookietime'] : 0));
+	dsetcookie('auth', authcode("{$memberfields['password']}\t{$memberfields['secques']}\t{$member['uid']}", 'ENCODE'), ($remoteinfo['cookietime'] ? $remoteinfo['cookietime'] : 0));
 
 	header('Location: '.(empty($_GET['forward']) ? $_DCACHE['settings']['passport_url'] : $_GET['forward']));
 

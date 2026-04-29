@@ -80,23 +80,23 @@ if($action == 'plugins') {
 		while($plugin = $db->fetch_array($query)) {
 			if(!$plugin['adminid'] || $plugin['adminid'] >= $adminid) {
 				$plugin['disabled'] = '';
-				$plugin['edit'] = $plugin['pluginvarid'] ? "<a href=\"admincp.php?action=plugins&edit=$plugin[pluginid]\">[$lang[plugins_settings]]</a> " : '';
+				$plugin['edit'] = $plugin['pluginvarid'] ? "<a href=\"admincp.php?action=plugins&edit={$plugin['pluginid']}\">[{$lang['plugins_settings']}]</a> " : '';
 				if(is_array($plugin['modules'] = unserialize($plugin['modules']))) {
 					foreach($plugin['modules'] as $module) {
 						if($module['type'] == 3 && (!$module['adminid'] || $module['adminid'] >= $adminid)){
-							$plugin['edit'] .= "<a href=\"admincp.php?action=plugins&identifier=$plugin[identifier]&mod=$module[name]\">[$lang[plugins_settings_module]: $module[menu]]</a> ";
+							$plugin['edit'] .= "<a href=\"admincp.php?action=plugins&identifier={$plugin['identifier']}&mod={$module['name']}\">[{$lang['plugins_settings_module']}: {$module['menu']}]</a> ";
 						}
 					}
 				}
 			} else {
 				$plugin['disabled'] = 'disabled';
-				$plugin['edit'] = "[$lang[detail]]";
+				$plugin['edit'] = "[{$lang['detail']}]";
 			}
-			$plugins .= "<table cellspacing=\"".INNERBORDERWIDTH."\" cellpadding=\"".TABLESPACE."\" width=\"80%\" align=\"center\" class=\"tableborder\" $plugin[disabled]>\n".
-				"<tr class=\"header\"><td colspan=\"2\">$plugin[name]".(!$plugin['available'] ? ' ('.$lang['plugins_unavailable'].')' : '')."</td></tr>\n".
-				"<tr><td width=\"20%\" class=\"altbg1\">$lang[description]:</td><td class=\"altbg2\">$plugin[description]</td></tr>\n".
-				"<tr><td width=\"20%\" class=\"altbg1\">$lang[copyright]:</td><td class=\"altbg2\">$plugin[copyright]</td></tr>\n".
-				"<tr><td width=\"20%\" class=\"altbg1\">$lang[edit]:</td><td class=\"altbg2\">$plugin[edit]</td></tr>\n".
+			$plugins .= "<table cellspacing=\"".INNERBORDERWIDTH."\" cellpadding=\"".TABLESPACE."\" width=\"80%\" align=\"center\" class=\"tableborder\" {$plugin['disabled']}>\n".
+				"<tr class=\"header\"><td colspan=\"2\">{$plugin['name']}".(!$plugin['available'] ? ' ('.$lang['plugins_unavailable'].')' : '')."</td></tr>\n".
+				"<tr><td width=\"20%\" class=\"altbg1\">{$lang['description']}:</td><td class=\"altbg2\">{$plugin['description']}</td></tr>\n".
+				"<tr><td width=\"20%\" class=\"altbg1\">{$lang['copyright']}:</td><td class=\"altbg2\">{$plugin['copyright']}</td></tr>\n".
+				"<tr><td width=\"20%\" class=\"altbg1\">{$lang['edit']}:</td><td class=\"altbg2\">{$plugin['edit']}</td></tr>\n".
 				"</table><br>";
 		}
 
@@ -140,7 +140,7 @@ if($action == 'plugins') {
 					if($var['type'] == 'number') {
 						$var['type'] = 'text';
 					} elseif($var['type'] == 'select') {
-						$var['type'] = "<select name=\"$var[variable]\">\n";
+						$var['type'] = "<select name=\"{$var['variable']}\">\n";
 						foreach(explode("\n", $var['extra']) as $key => $option) {
 							$option = trim($option);
 							if(strpos($option, '=') === FALSE) {
@@ -163,7 +163,7 @@ if($action == 'plugins') {
 
 				showtype('', 'bottom');
 
-				echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"$lang[submit]\"></center></form>";
+				echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"{$lang['submit']}\"></center></form>";
 
 			} else {
 
@@ -217,14 +217,14 @@ if($action == 'plugins') {
 		$plugins = '';
 		$query = $db->query("SELECT * FROM {$tablepre}plugins");
 		while($plugin = $db->fetch_array($query)) {
-			$plugins .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$plugin[pluginid]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><b>$plugin[name]</b></td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$plugin[identifier]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$plugin[description]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$plugin[directory]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"checkbox\" name=\"availablenew[$plugin[pluginid]]\" value=\"1\" ".(!$plugin['name'] || !$plugin['identifier'] ? 'disabled' : ($plugin['available'] ? 'checked' : ''))."></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=pluginsconfig&export=$plugin[pluginid]\">[$lang[download]]</a></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=pluginsedit&pluginid=$plugin[pluginid]\">[$lang[detail]]</a></td></tr>\n";
+			$plugins .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$plugin['pluginid']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><b>{$plugin['name']}</b></td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$plugin['identifier']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\">{$plugin['description']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$plugin['directory']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"checkbox\" name=\"availablenew[{$plugin['pluginid']}]\" value=\"1\" ".(!$plugin['name'] || !$plugin['identifier'] ? 'disabled' : ($plugin['available'] ? 'checked' : ''))."></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=pluginsconfig&export={$plugin['pluginid']}\">[{$lang['download']}]</a></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=pluginsedit&pluginid={$plugin['pluginid']}\">[{$lang['detail']}]</a></td></tr>\n";
 		}
 
 ?>
@@ -366,8 +366,8 @@ if($action == 'plugins') {
 				$includecheck = empty($val['include']) ? $lang['no'] : $lang['yes'];
 
 				$modules .= "<tr class=\"altbg1\" align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[$moduleid]\"></td>\n".
-					"<td class=\"altbg2\"><input type=\"text\" size=\"15\" name=\"namenew[$moduleid]\" value=\"$module[name]\"></td>\n".
-					"<td class=\"altbg1\"><input type=\"text\" size=\"15\" name=\"menunew[$moduleid]\" value=\"$module[menu]\"></td>\n".
+					"<td class=\"altbg2\"><input type=\"text\" size=\"15\" name=\"namenew[$moduleid]\" value=\"{$module['name']}\"></td>\n".
+					"<td class=\"altbg1\"><input type=\"text\" size=\"15\" name=\"menunew[$moduleid]\" value=\"{$module['menu']}\"></td>\n".
 					"<td class=\"altbg2\"><input type=\"text\" size=\"15\" name=\"urlnew[$moduleid]\" value=\"".dhtmlspecialchars($module['url'])."\"></td>\n".
 					"<td class=\"altbg1\"><select name=\"typenew[$moduleid]\">";
 				for($i = 1; $i <= 4; $i++) {
@@ -375,38 +375,38 @@ if($action == 'plugins') {
 				}
 				$modules .= "</select></td>\n".
 					"<td class=\"altbg2\"><select name=\"adminidnew[$moduleid]\">\n".
-					"<option value=\"0\" $adminidselect[0]>$lang[usergroups_system_0]</option>\n".
-					"<option value=\"1\" $adminidselect[1]>$lang[usergroups_system_1]</option>\n".
-					"<option value=\"2\" $adminidselect[2]>$lang[usergroups_system_2]</option>\n".
-					"<option value=\"3\" $adminidselect[3]>$lang[usergroups_system_3]</option>\n".
+					"<option value=\"0\" $adminidselect[0]>{$lang['usergroups_system_0']}</option>\n".
+					"<option value=\"1\" $adminidselect[1]>{$lang['usergroups_system_1']}</option>\n".
+					"<option value=\"2\" $adminidselect[2]>{$lang['usergroups_system_2']}</option>\n".
+					"<option value=\"3\" $adminidselect[3]>{$lang['usergroups_system_3']}</option>\n".
 					"</select></td></tr>\n";
 			}
 		}
 
 		$hooks = '';
-		$query = $db->query("SELECT pluginhookid, title, description, available FROM {$tablepre}pluginhooks WHERE pluginid='$plugin[pluginid]'");
+		$query = $db->query("SELECT pluginhookid, title, description, available FROM {$tablepre}pluginhooks WHERE pluginid='{$plugin['pluginid']}'");
 		while($hook = $db->fetch_array($query)) {
 			$hook['description'] = nl2br(cutstr($hook['description'], 50));
 			$hook['evalcode'] = 'eval($hooks[\''.$plugin['identifier'].'_'.$hook['title'].'\']);';
-			$hooks .= "<tr align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[$hook[pluginhookid]]\"></td>\n".
-				"<td class=\"altbg2\"><input type=\"text\" name=\"titlenew[$hook[pluginhookid]]\" size=\"15\" value=\"$hook[title]\"></td>\n".
-				"<td class=\"altbg1\"><input type=\"text\" name=\"hookevalcode{$hook[pluginhookid]}\" size=\"30\" value=\"".($hook['available'] ? $hook[evalcode] : 'N/A')."\" readonly></td>\n".
-				"<td class=\"altbg2\">$hook[description]</td>\n".
-				"<td class=\"altbg1\"><input type=\"checkbox\" name=\"availablenew[$hook[pluginhookid]]\" value=\"1\" ".($hook['available'] ? 'checked' : '')." onclick=\"if(this.checked){findobj('hookevalcode{$hook[pluginhookid]}').value='".addslashes($hook[evalcode])."';}else{findobj('hookevalcode{$hook[pluginhookid]}').value='N/A';}\"></td>\n".
-				"<td class=\"altbg2\"><a href=\"admincp.php?action=pluginhooks&pluginid=$plugin[pluginid]&pluginhookid=$hook[pluginhookid]\">[$lang[edit]]</a></td></tr>";
+			$hooks .= "<tr align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[{$hook['pluginhookid']}]\"></td>\n".
+				"<td class=\"altbg2\"><input type=\"text\" name=\"titlenew[{$hook['pluginhookid']}]\" size=\"15\" value=\"{$hook['title']}\"></td>\n".
+				"<td class=\"altbg1\"><input type=\"text\" name=\"hookevalcode{{$hook['pluginhookid']}}\" size=\"30\" value=\"".($hook['available'] ? $hook[evalcode] : 'N/A')."\" readonly></td>\n".
+				"<td class=\"altbg2\">{$hook['description']}</td>\n".
+				"<td class=\"altbg1\"><input type=\"checkbox\" name=\"availablenew[{$hook['pluginhookid']}]\" value=\"1\" ".($hook['available'] ? 'checked' : '')." onclick=\"if(this.checked){findobj('hookevalcode{{$hook['pluginhookid']}}').value='".addslashes($hook[evalcode])."';}else{findobj('hookevalcode{{$hook['pluginhookid']}}').value='N/A';}\"></td>\n".
+				"<td class=\"altbg2\"><a href=\"admincp.php?action=pluginhooks&pluginid={$plugin['pluginid']}&pluginhookid={$hook['pluginhookid']}\">[{$lang['edit']}]</a></td></tr>";
 		}
 
 		$vars = '';
-		$query = $db->query("SELECT * FROM {$tablepre}pluginvars WHERE pluginid='$plugin[pluginid]' ORDER BY displayorder");
+		$query = $db->query("SELECT * FROM {$tablepre}pluginvars WHERE pluginid='{$plugin['pluginid']}' ORDER BY displayorder");
 		while($var = $db->fetch_array($query)) {
 			$var['type'] = $lang['plugins_edit_vars_type_'. $var['type']];
 			$var['title'] .= isset($lang[$var['title']]) ? '<br>'.$lang[$var['title']] : '';
-			$vars .= "<tr align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[$var[pluginvarid]]\"></td>\n".
-				"<td class=\"altbg2\">$var[title]</td>\n".
-				"<td class=\"altbg1\">$var[variable]</td>\n".
-				"<td class=\"altbg2\">$var[type]</td>\n".
-				"<td class=\"altbg1\"><input type=\"text\" size=\"2\" name=\"displayordernew[$var[pluginvarid]]\" value=\"$var[displayorder]\"></td>\n".
-				"<td class=\"altbg2\"><a href=\"admincp.php?action=pluginvars&pluginid=$plugin[pluginid]&pluginvarid=$var[pluginvarid]\">[$lang[detail]]</a></td></tr>\n";
+			$vars .= "<tr align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[{$var['pluginvarid']}]\"></td>\n".
+				"<td class=\"altbg2\">{$var['title']}</td>\n".
+				"<td class=\"altbg1\">{$var['variable']}</td>\n".
+				"<td class=\"altbg2\">{$var['type']}</td>\n".
+				"<td class=\"altbg1\"><input type=\"text\" size=\"2\" name=\"displayordernew[{$var['pluginvarid']}]\" value=\"{$var['displayorder']}\"></td>\n".
+				"<td class=\"altbg2\"><a href=\"admincp.php?action=pluginvars&pluginid={$plugin['pluginid']}&pluginvarid={$var['pluginvarid']}\">[{$lang['detail']}]</a></td></tr>\n";
 		}
 
 ?>
@@ -693,7 +693,7 @@ if($action == 'plugins') {
 		showsetting('plugins_edit_hooks_code', 'codenew', $pluginhook['code'], 'textarea');
 		showtype('', 'bottom');
 
-		echo "<br><center><input type=\"submit\" name=\"hooksubmit\" value=\"$lang[submit]\"></center></form>\n<br>";
+		echo "<br><center><input type=\"submit\" name=\"hooksubmit\" value=\"{$lang['submit']}\"></center></form>\n<br>";
 
 	} else {
 
@@ -731,7 +731,7 @@ if($action == 'plugins') {
 		showsetting('plugins_edit_vars_extra', 'extranew',  $pluginvar['extra'], 'textarea');
 		showtype('', 'bottom');
 
-		echo "<br><center><input type=\"submit\" name=\"varsubmit\" value=\"$lang[submit]\"></center></form>\n<br>";
+		echo "<br><center><input type=\"submit\" name=\"varsubmit\" value=\"{$lang['submit']}\"></center></form>\n<br>";
 
 	} else {
 

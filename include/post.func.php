@@ -72,7 +72,7 @@ function attach_upload() {
 			if(!isset($todaysize)) {
 				$query = $db->query("SELECT SUM(a.filesize) FROM {$tablepre}posts p
 					LEFT JOIN {$tablepre}attachments a USING (pid)
-					WHERE p.authorid='$GLOBALS[discuz_uid]' AND p.dateline>'$GLOBALS[timestamp]'-86400 AND p.attachment>'0'");
+					WHERE p.authorid='{$GLOBALS['discuz_uid']}' AND p.dateline>'{$GLOBALS['timestamp']}'-86400 AND p.attachment>'0'");
 				$todaysize = intval($db->result($query, 0));
 			}
 			$todaysize += $attach['size'];
@@ -351,7 +351,7 @@ function updateforumcount($fid) {
 	$thread['subject'] = addslashes($thread['subject']);
 	$thread['lastposter'] = addslashes($thread['lastposter']);
 
-	$db->query("UPDATE {$tablepre}forums SET posts='$replycount', threads='$threadcount', lastpost='$thread[tid]\t$thread[subject]\t$thread[lastpost]\t$thread[lastposter]' WHERE fid='$fid'", 'UNBUFFERED');
+	$db->query("UPDATE {$tablepre}forums SET posts='$replycount', threads='$threadcount', lastpost='{$thread['tid']}\t{$thread['subject']}\t{$thread['lastpost']}\t{$thread['lastposter']}' WHERE fid='$fid'", 'UNBUFFERED');
 }
 
 function updatethreadcount($tid, $updateattach = 0) {
@@ -371,7 +371,7 @@ function updatethreadcount($tid, $updateattach = 0) {
 		$attachadd = '';
 	}
 
-	$db->query("UPDATE {$tablepre}threads SET replies='$replycount', lastposter='$lastpost[author]', lastpost='$lastpost[dateline]' $attachadd WHERE tid='$tid'", 'UNBUFFERED');
+	$db->query("UPDATE {$tablepre}threads SET replies='$replycount', lastposter='{$lastpost['author']}', lastpost='{$lastpost['dateline']}' $attachadd WHERE tid='$tid'", 'UNBUFFERED');
 }
 
 function updatemodlog($tids, $action, $expiration = 0, $iscron = 0) {

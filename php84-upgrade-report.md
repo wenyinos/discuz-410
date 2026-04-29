@@ -128,6 +128,21 @@
 - `admin/menu.inc.php:35` — `$collapse` 同上
 - `admin/home.inc.php:157` — `$lang['welcome_to']` 键名错误 → 改为 `$lang['home_welcome_to']`
 
+### 4.13 双引号字符串内裸常量数组键 — ✅ 已修复（68 文件，约 824 处）
+
+- 根因：PHP 8.0 不再将 `$var[key]` 中的 `key` 作为字符串回退（Fatal Error: Undefined constant）
+- 涉及全部 `admin/*.inc.php`、`include/*.php`、根目录 `*.php`、`api/*.php`、`wap/include/*.php`
+- 改造：
+  - 双引号字符串内 `$var[key]` → `{$var['key']}`
+  - 嵌套 `{$var[{$inner}][key]}` → `{$var[$inner]['key']}`（花括号嵌套在 PHP 8 中不合法）
+  - `<?={$var[key]}?>` → `<?=$var['key']?>`（短标签内花括号不合法）
+- 注意：模板编译器 `include/template.func.php` 的 `addquote()` 正则字符类不含 `$`，无法自动处理动态键名
+
+### 4.14 缓存插件结构初始化 — ✅ 已修复
+
+- `include/cache.func.php:375` — `$data['plugins'] = array()` → `array('links' => array(), 'include' => array())`
+- 确保 `$plugins['links']` 和 `$plugins['include']` 键始终存在，避免模板和入口脚本访问时 Warning
+
 ## 5. 实施完成清单
 
 | # | 改造项 | 涉及文件数 | 状态 |
@@ -145,9 +160,11 @@
 | 4.10 | `$_GET` 直接索引 | 5 | ✅ |
 | 4.11 | 模板 `$GLOBALS[extcredits.$id]` Fatal Error | 2 | ✅ |
 | 4.12 | 运行时 `Undefined array key` / `Undefined variable` | 5 | ✅ |
+| 4.13 | 双引号字符串内裸常量数组键 | 68 | ✅ |
+| 4.14 | 缓存插件结构初始化 | 1 | ✅ |
 | — | 新增 `dinterpolate()` 函数 | 1 | ✅ |
 | — | 项目文档更新 | 3 | ✅ |
-| **合计** | | **37 源文件 + 59 编译模板** | |
+| **合计** | | **105 源文件 + 59 编译模板** | |
 
 ## 6. 阶段 C：回归与灰度（待执行）
 

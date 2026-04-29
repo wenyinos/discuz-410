@@ -21,23 +21,23 @@ while($online = $db->fetch_array($query)) {
 	$online['uid'] ? $onlinemem = $online['count'] : $onlineguest = $online['count'];
 }
 
-echo "<p align=\"center\">$lang[home_online]".($onlinemem + $onlineguest)."({$onlinemem} $lang[home_members])<br /></p>\n";
+echo "<p align=\"center\">{$lang['home_online']}".($onlinemem + $onlineguest)."({$onlinemem} {$lang['home_members']})<br /></p>\n";
 
 if($discuz_uid && $newpm) {
 	$query = $db->query("SELECT COUNT(*) FROM {$tablepre}pms WHERE msgtoid='$discuz_uid' AND folder='inbox' AND new='1'");
 	if($newpm = $db->result($query, 0)) {
-		echo "<p align=\"center\"><a href=\"index.php?action=pm&amp;do=list&amp;unread=yes\">$newpm $lang[home_newpm]</a><br /></p>\n";
+		echo "<p align=\"center\"><a href=\"index.php?action=pm&amp;do=list&amp;unread=yes\">$newpm {$lang['home_newpm']}</a><br /></p>\n";
 	} else {
 		$db->query("UPDATE {$tablepre}members SET newpm='0' WHERE uid='$discuz_uid'");
 	}
 }
 
 $catforumexists = 0;
-echo "<p>$lang[home_forums]<br />";
+echo "<p>{$lang['home_forums']}<br />";
 
 foreach($_DCACHE['forums'] as $fid => $forum) {
 	if($forum['type'] == 'group') {
-		echo "<a href=\"index.php?action=forum&amp;fup=$forum[fid]\">$forum[name]</a><br/>";
+		echo "<a href=\"index.php?action=forum&amp;fup={$forum['fid']}\">{$forum['name']}</a><br/>";
 	} elseif($forum['type'] == 'forum' && !$forum['fup']) {
 		$catforumexists = 1;
 	}
@@ -48,10 +48,10 @@ if($catforumexists) {
 }
 
 echo "</p>\n".
-	"<p>$lang[home_tools]<br />".
-	"<a href=\"index.php?action=".($discuz_uid ? 'pm' : 'login')."\">$lang[pm]</a><br />".
-	"<a href=\"index.php?action=stats\">$lang[stats]</a><br />".
-	"<a href=\"index.php?action=myphone\">$lang[myphone]</a><br />".
-	"<a href=\"index.php?action=goto\">$lang[goto]</a></p>";
+	"<p>{$lang['home_tools']}<br />".
+	"<a href=\"index.php?action=".($discuz_uid ? 'pm' : 'login')."\">{$lang['pm']}</a><br />".
+	"<a href=\"index.php?action=stats\">{$lang['stats']}</a><br />".
+	"<a href=\"index.php?action=myphone\">{$lang['myphone']}</a><br />".
+	"<a href=\"index.php?action=goto\">{$lang['goto']}</a></p>";
 
 ?>

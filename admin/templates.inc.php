@@ -24,11 +24,11 @@ if($action == 'templates') {
 			$templates = '';
 			$query = $db->query("SELECT * FROM {$tablepre}templates");
 			while($tpl = $db->fetch_array($query)) {
-				$templates .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$tpl[templateid]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"8\" name=\"namenew[$tpl[templateid]]\" value=\"$tpl[name]\"></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"20\" name=\"directorynew[$tpl[templateid]]\" value=\"$tpl[directory]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\">$tpl[copyright]</td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=templates&edit=$tpl[templateid]\">[$lang[detail]]</a></td></tr>\n";
+				$templates .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$tpl['templateid']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"8\" name=\"namenew[{$tpl['templateid']}]\" value=\"{$tpl['name']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"20\" name=\"directorynew[{$tpl['templateid']}]\" value=\"{$tpl['directory']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\">{$tpl['copyright']}</td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=templates&edit={$tpl['templateid']}\">[{$lang['detail']}]</a></td></tr>\n";
 			}
 
 ?>
@@ -106,7 +106,7 @@ if($action == 'templates') {
 				$lang['templates_edit_default_comment'] :
 				$lang['templates_edit_nondefault_comment'];
 		if($keyword) {
-			$keywordadd = " - $lang[templates_keyword] <i>".dhtmlspecialchars(stripslashes($keyword))."</i> - <a href=\"admincp.php?action=templates&edit=$edit\" style=\"color: ".HEADERTEXT."\">[ $lang[templates_view_all] ]</a>";
+			$keywordadd = " - {$lang['templates_keyword']} <i>".dhtmlspecialchars(stripslashes($keyword))."</i> - <a href=\"admincp.php?action=templates&edit=$edit\" style=\"color: ".HEADERTEXT."\">[ {$lang['templates_view_all']} ]</a>";
 			$keywordenc = rawurlencode($keyword);
 		}
 
@@ -118,7 +118,7 @@ if($action == 'templates') {
 				$tplname = substr($entry, 0, -4);
 				$pos = strpos($tplname, '_');
 				if($keyword) {
-					if(!stristr(implode("\n", file(DISCUZ_ROOT."./$template[directory]/$entry")), $keyword)) {
+					if(!stristr(implode("\n", file(DISCUZ_ROOT."./{$template['directory']}/$entry")), $keyword)) {
 						continue;
 					}
 				}
@@ -141,13 +141,13 @@ if($action == 'templates') {
 			$templates .= "<ul><li><b>$tpl</b><ul>\n";
 			foreach($subtpls as $subtpl) {
 				$filename = "$subtpl.htm";
-				$templates .= "<li>$subtpl &nbsp; <a href=\"admincp.php?action=tpledit&templateid=$template[templateid]&fn=$filename&keyword=$keywordenc\">[$lang[edit]]</a> ".
-					"<a href=\"admincp.php?action=tpledit&templateid=$template[templateid]&fn=$filename&delete=yes\">[$lang[delete]]</a>";
+				$templates .= "<li>$subtpl &nbsp; <a href=\"admincp.php?action=tpledit&templateid={$template['templateid']}&fn=$filename&keyword=$keywordenc\">[{$lang['edit']}]</a> ".
+					"<a href=\"admincp.php?action=tpledit&templateid={$template['templateid']}&fn=$filename&delete=yes\">[{$lang['delete']}]</a>";
 			}
 			$templates .= "</ul></ul>\n";
 		}
 		foreach($langarray as $langpack) {
-			$languages .= "<ul><li>$langpack &nbsp; <a href=\"admincp.php?action=tpledit&templateid=$template[templateid]&fn=$langpack.lang.php\">[$lang[edit]]</a></ul>\n";
+			$languages .= "<ul><li>$langpack &nbsp; <a href=\"admincp.php?action=tpledit&templateid={$template['templateid']}&fn=$langpack.lang.php\">[{$lang['edit']}]</a></ul>\n";
 		}
 
 ?>
@@ -186,7 +186,7 @@ if($action == 'templates') {
 	}
 
 	$fn = str_replace(array('..', '/', '\\'), array('', '', ''), $fn);
-	$filename = DISCUZ_ROOT."./$template[directory]/$fn";
+	$filename = DISCUZ_ROOT."./{$template['directory']}/$fn";
 	if(!is_writeable($filename)) {
 		cpmsg('templates_edit_invalid');
 	}
@@ -305,9 +305,9 @@ function findInPage(obj, str) {
 	} elseif(!istpldir($template['directory'])) {
 		$directory = $template['directory'];
 		cpmsg('templates_directory_invalid');
-	} elseif(file_exists(DISCUZ_ROOT."./$template[directory]/$name.htm")) {
+	} elseif(file_exists(DISCUZ_ROOT."./{$template['directory']}/$name.htm")) {
 		cpmsg('templates_add_duplicate');
-	} elseif(!@$fp = fopen(DISCUZ_ROOT."./$template[directory]/$name.htm", 'wb')) {
+	} elseif(!@$fp = fopen(DISCUZ_ROOT."./{$template['directory']}/$name.htm", 'wb')) {
 		cpmsg('templates_add_file_invalid');
 	}
 

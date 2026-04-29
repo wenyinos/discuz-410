@@ -219,24 +219,24 @@ if(submitcheck('searchsubmit')) {
 
 		$threads .= "<tr><td colspan=\"2\" class=\"singleborder\">&nbsp;</td></tr><tr bgcolor=\"$thisbg\"><td rowspan=\"2\" valign=\"top\" width=\"15%\" height=\"100%\">\n".
 			"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" height=\"100%\">\n".
-			"<tr><td valign=\"top\"><a href=\"viewpro.php?uid=$thread[authorid]\" target=\"_blank\"><b>$thread[author]</b></td></tr><tr><td valign=\"bottom\" class=\"smalltxt\">\n".
-			"<input type=\"radio\" name=\"mod[$thread[tid]]\" value=\"delete\" checked> $lang[delete]<br>\n".
-			"<input type=\"radio\" name=\"mod[$thread[tid]]\" value=\"undelete\"> $lang[undelete]<br>\n".
-			"<input type=\"radio\" name=\"mod[$thread[tid]]\" value=\"ignore\"> $lang[ignore]<br><br>\n".
-			"$lang[threads_replies]: $thread[replies]<br>$lang[threads_views]: $thread[views]<br><br>$thread[dateline]</td>\n".
-			"</tr></table></td><td><a href=\"forumdisplay.php?fid=$thread[fid]\" target=\"_blank\">$thread[forumname]</a> <b>&raquo;</b>\n".
-			"<b>$thread[subject]</b></td></tr><tr bgcolor=\"$thisbg\"><td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" style=\"table-layout: fixed\">".
+			"<tr><td valign=\"top\"><a href=\"viewpro.php?uid={$thread['authorid']}\" target=\"_blank\"><b>{$thread['author']}</b></td></tr><tr><td valign=\"bottom\" class=\"smalltxt\">\n".
+			"<input type=\"radio\" name=\"mod[{$thread['tid']}]\" value=\"delete\" checked> {$lang['delete']}<br>\n".
+			"<input type=\"radio\" name=\"mod[{$thread['tid']}]\" value=\"undelete\"> {$lang['undelete']}<br>\n".
+			"<input type=\"radio\" name=\"mod[{$thread['tid']}]\" value=\"ignore\"> {$lang['ignore']}<br><br>\n".
+			"{$lang['threads_replies']}: {$thread['replies']}<br>{$lang['threads_views']}: {$thread['views']}<br><br>{$thread['dateline']}</td>\n".
+			"</tr></table></td><td><a href=\"forumdisplay.php?fid={$thread['fid']}\" target=\"_blank\">{$thread['forumname']}</a> <b>&raquo;</b>\n".
+			"<b>{$thread['subject']}</b></td></tr><tr bgcolor=\"$thisbg\"><td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" style=\"table-layout: fixed\">".
 			"<tr><td><div style=\"border-style: dotted; border-width: 1; border-color: ".BORDERCOLOR."; padding: 5; overflow: auto; overflow-y: scroll; width: 100%; height:180px\">".
 			"<div align=\"right\" style=\"border-style: dotted; border-width: 1; border-color: ".BORDERCOLOR."; width: 100%\">\n".
-			"$lang[operator]: <a href=\"viewpro.php?uid=$thread[moduid]\" target=\"_blank\">$thread[modusername]</a> \n".
-			"$lang[recyclebin_delete_time]: $thread[moddateline]</div><br>$thread[message]";
+			"{$lang['operator']}: <a href=\"viewpro.php?uid={$thread['moduid']}\" target=\"_blank\">{$thread['modusername']}</a> \n".
+			"{$lang['recyclebin_delete_time']}: {$thread['moddateline']}</div><br>{$thread['message']}";
 
 		if($thread['attachment']) {
 			require_once DISCUZ_ROOT.'./include/attachment.func.php';
-			$queryattach = $db->query("SELECT aid, filename, filetype, filesize FROM {$tablepre}attachments WHERE tid='$thread[tid]'");
+			$queryattach = $db->query("SELECT aid, filename, filetype, filesize FROM {$tablepre}attachments WHERE tid='{$thread['tid']}'");
 			while($attach = $db->fetch_array($queryattach)) {
-				$threads .= "<br><br>$lang[attachment]: ".attachtype(fileext($thread['filename'])."\t".$attach['filetype']).
-					" $attach[filename] (".sizecount($attach['filesize']).")";
+				$threads .= "<br><br>{$lang['attachment']}: ".attachtype(fileext($thread['filename'])."\t".$attach['filetype']).
+					" {$attach['filename']} (".sizecount($attach['filesize']).")";
 			}
 		}
 		$threads .= "</div></td></tr></table></td></tr>\n";

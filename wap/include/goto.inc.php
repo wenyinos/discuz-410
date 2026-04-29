@@ -15,8 +15,8 @@ if(!defined('IN_DISCUZ')) {
 
 $discuz_action = 194;
 
-echo "<p>$lang[goto]:</p>\n".
+echo "<p>{$lang['goto']}:</p>\n".
 	"<p><input title=\"url\" name=\"url\" type=\"text\" value=\"http://\" /></p>\n".
-	"<p><anchor title=\"$lang[submit]\">$lang[submit]<go href=\"index.php?action=goto&amp;url=$(url:escape)\" /></anchor></p>\n";
+	"<p><anchor title=\"{$lang['submit']}\">{$lang['submit']}<go href=\"index.php?action=goto&amp;url=$(url:escape)\" /></anchor></p>\n";
 
 ?>

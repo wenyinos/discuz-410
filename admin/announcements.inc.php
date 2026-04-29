@@ -25,13 +25,13 @@ if($action == 'announcements') {
 			$disabled = $adminid != 1 && $announce['author'] != $discuz_userss ? 'disabled' : NULL;
 			$announce['starttime'] = $announce['starttime'] ? gmdate($dateformat, $announce['starttime'] + $timeoffset * 3600) : $lang['unlimited'];
 			$announce['endtime'] = $announce['endtime'] ? gmdate($dateformat, $announce['endtime'] + $timeoffset * 3600) : $lang['unlimited'];
-			$announcements .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$announce[id]\" $disabled></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><a href=\"./viewpro.php?username=".rawurlencode($announce['author'])."\" target=\"_blank\">$announce[author]</a></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=announcements&edit=$announce[id]\" $disabled>".dhtmlspecialchars($announce['subject'])."</a></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=announcements&edit=$announce[id]\">".cutstr(strip_tags($announce['message']), 20)."</a></td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$announce[starttime]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$announce[endtime]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\" name=\"displayordernew[$announce[id]]\" value=\"$announce[displayorder]\" $disabled></td></tr>\n";
+			$announcements .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$announce['id']}\" $disabled></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><a href=\"./viewpro.php?username=".rawurlencode($announce['author'])."\" target=\"_blank\">{$announce['author']}</a></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=announcements&edit={$announce['id']}\" $disabled>".dhtmlspecialchars($announce['subject'])."</a></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=announcements&edit={$announce['id']}\">".cutstr(strip_tags($announce['message']), 20)."</a></td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$announce['starttime']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\">{$announce['endtime']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\" name=\"displayordernew[{$announce['id']}]\" value=\"{$announce['displayorder']}\" $disabled></td></tr>\n";
 		}
 		$newstarttime = gmdate('Y-n-j', $timestamp + $timeoffset * 3600);
 
@@ -95,10 +95,10 @@ if($action == 'announcements') {
 <td width="79%" bgcolor="<?=ALTBG2?>"><input type="text" size="45" name="subjectnew" value="<?=dhtmlspecialchars($announce['subject'])?>"></td></tr>
 
 <tr><td width="21%" bgcolor="<?=ALTBG1?>"><b><?=$lang['start_time']?>:</b><br><?=$lang['announce_time_comment']?></td>
-<td width="79%" bgcolor="<?=ALTBG2?>"><input type="text" size="45" name="starttimenew" value="<?=$announce[starttime]?>"></td></tr>
+<td width="79%" bgcolor="<?=ALTBG2?>"><input type="text" size="45" name="starttimenew" value="<?=$announce['starttime']?>"></td></tr>
 
 <tr><td width="21%" bgcolor="<?=ALTBG1?>"><b><?=$lang['end_time']?>:</b><br><?=$lang['announce_time_comment']?></td>
-<td width="79%" bgcolor="<?=ALTBG2?>"><input type="text" size="45" name="endtimenew" value="<?=$announce[endtime]?>"> <?=$lang['announce_end_time_comment']?></td></tr>
+<td width="79%" bgcolor="<?=ALTBG2?>"><input type="text" size="45" name="endtimenew" value="<?=$announce['endtime']?>"> <?=$lang['announce_end_time_comment']?></td></tr>
 
 <tr><td width="21%" bgcolor="<?=ALTBG1?>" valign="top"><b><?=$lang['message']?>:</b><br><?=$lang['announce_message_comment']?></td>
 <td width="79%" bgcolor="<?=ALTBG2?>"><textarea name="messagenew" cols="60" rows="10"><?=dhtmlspecialchars($announce['message'])?></textarea></td></tr>

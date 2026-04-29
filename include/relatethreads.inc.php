@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $site = site();
-$data = @implode('', file("http://search.qihoo.com/sint/discuz.html?title=$thread[subjectenc]&ocs=$charset&site=$site"));
+$data = @implode('', file("http://search.qihoo.com/sint/discuz.html?title={$thread['subjectenc']}&ocs=$charset&site=$site"));
 
 if($data) {
 

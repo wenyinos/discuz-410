@@ -48,15 +48,15 @@ if(!$member = $db->fetch_array($query)) {
 if($member['groupid'] != ($member['groupidnew'] = getgroupid($member['uid'], $member, $member))) {
 	$query = $db->query("SELECT groupid, grouptitle, type, creditshigher, creditslower, color AS groupcolor,
 		stars AS groupstars, allownickname, allowuseblog
-		FROM {$tablepre}usergroups WHERE groupid='$member[groupidnew]'");
+		FROM {$tablepre}usergroups WHERE groupid='{$member['groupidnew']}'");
 	$member = array_merge($member, $db->fetch_array($query));
 }
 
 $modforums = $comma = '';
 if($member['adminid'] > 0) {
-	$query = $db->query("SELECT m.fid, f.name, f.type FROM {$tablepre}moderators m, {$tablepre}forums f WHERE m.uid='$member[uid]' AND m.inherited='0' AND f.fid=m.fid");
+	$query = $db->query("SELECT m.fid, f.name, f.type FROM {$tablepre}moderators m, {$tablepre}forums f WHERE m.uid='{$member['uid']}' AND m.inherited='0' AND f.fid=m.fid");
 	while($forum = $db->fetch_array($query)) {
-		$modforums .= "$comma<a href=\"".($forum['type'] == 'group' ? "index.php?gid=" : "forumdisplay.php?fid=")."$forum[fid]\">$forum[name]</a>";
+		$modforums .= "$comma<a href=\"".($forum['type'] == 'group' ? "index.php?gid=" : "forumdisplay.php?fid=")."{$forum['fid']}\">{$forum['name']}</a>";
 		$comma = ', ';
 	}
 }
@@ -88,7 +88,7 @@ $member['regdate'] = gmdate($dateformat, $member['regdate'] + $timeoffset * 3600
 $member['email'] = emailconv($member['email']);
 //$member['site'] = $member['site'] ? 'http://'.str_replace('http://', '', $member['site']) : '';
 
-$member['avatar'] = $member['avatar'] && $avatarshowstatus != 2 ? "<br><img src=\"$member[avatar]\" width=\"$member[avatarwidth]\" height=\"$member[avatarheight]\" border=\"0\"><br>" : '<br>';
+$member['avatar'] = $member['avatar'] && $avatarshowstatus != 2 ? "<br><img src=\"{$member['avatar']}\" width=\"{$member['avatarwidth']}\" height=\"{$member['avatarheight']}\" border=\"0\"><br>" : '<br>';
 $member['avatarshow'] = $avatarshowstatus ? '<br>'.avatarshow($member['avatarshowid'], $member['gender']).'<br><br>' : '<br>';
 
 $member['lastactivity'] = gmdate("$dateformat $timeformat", $member['lastactivity'] + ($timeoffset * 3600));

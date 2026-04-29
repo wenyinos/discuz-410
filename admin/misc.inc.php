@@ -30,10 +30,10 @@ if($action == 'onlinelist') {
 		$group = array('groupid' => 0, 'grouptitle' => 'Member');
 		do {
 			$onlinelist .= "<tr align=\"center\">\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"3\" name=\"displayordernew[$group[groupid]]\" value=\"{$listarray[$group[groupid]][displayorder]}\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"3\" name=\"displayordernew[{$group['groupid']}]\" value=\"{$listarray[$group['groupid']]['displayorder']}\"></td>\n".
 				"<td bgcolor=\"".ALTBG2."\">".($group['groupid'] <= 8 ? $lang['usergroups_system_'.$group['groupid']] : $group['grouptitle'])."</td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"titlenew[$group[groupid]]\" value=\"".($listarray[$group['groupid']]['title'] ? $listarray[$group['groupid']]['title'] : $group['grouptitle'])."\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"20\" name=\"urlnew[$group[groupid]]\" value=\"{$listarray[$group[groupid]][url]}\">\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"titlenew[{$group['groupid']}]\" value=\"".($listarray[$group['groupid']]['title'] ? $listarray[$group['groupid']]['title'] : $group['grouptitle'])."\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"20\" name=\"urlnew[{$group['groupid']}]\" value=\"{$listarray[$group['groupid']]['url']}\">\n".
 				($listarray[$group['groupid']]['url'] ? "<img src=\"images/common/{$listarray[$group['groupid']]['url']}\">" : '')."</td></tr>\n";
 		} while($group = $db->fetch_array($query));
 
@@ -79,12 +79,12 @@ if($action == 'onlinelist') {
 		$query = $db->query("SELECT * FROM {$tablepre}forumlinks ORDER BY displayorder");
 		while($forumlink = $db->fetch_array($query)) {
 			$forumlinks .= "<tr bgcolor=\"".ALTBG2."\" align=\"center\">\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$forumlink[id]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"3\" name=\"displayorder[$forumlink[id]]\" value=\"$forumlink[displayorder]\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"15\" name=\"name[$forumlink[id]]\" value=\"$forumlink[name]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"url[$forumlink[id]]\" value=\"$forumlink[url]\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"15\" name=\"note[$forumlink[id]]\" value=\"$forumlink[note]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"logo[$forumlink[id]]\" value=\"$forumlink[logo]\"></td></tr>\n";
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$forumlink['id']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"3\" name=\"displayorder[{$forumlink['id']}]\" value=\"{$forumlink['displayorder']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"15\" name=\"name[{$forumlink['id']}]\" value=\"{$forumlink['name']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"url[{$forumlink['id']}]\" value=\"{$forumlink['url']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"15\" name=\"note[{$forumlink['id']}]\" value=\"{$forumlink['note']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"logo[{$forumlink['id']}]\" value=\"{$forumlink['logo']}\"></td></tr>\n";
 		}
 
 ?>
@@ -150,11 +150,11 @@ if($action == 'onlinelist') {
 		while($medal = $db->fetch_array($query)) {
 			$checkavailable = $medal['available'] ? 'checked' : '';
 			$medals .= "<tr bgcolor=\"".ALTBG2."\" align=\"center\">\n".
-				"<td bgcolor=\"".ALTBG1."\" width=\"48\"><input type=\"checkbox\" name=\"delete[]\" value=\"$medal[medalid]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"30\" name=\"name[$medal[medalid]]\" value=\"$medal[name]\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"available[$medal[medalid]]\" value=\"1\" $checkavailable></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"25\" name=\"image[$medal[medalid]]\" value=\"$medal[image]\">\n".
-				"<img src=\"images/common/$medal[image]\"></td></tr>\n";
+				"<td bgcolor=\"".ALTBG1."\" width=\"48\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$medal['medalid']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"30\" name=\"name[{$medal['medalid']}]\" value=\"{$medal['name']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"available[{$medal['medalid']}]\" value=\"1\" $checkavailable></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"25\" name=\"image[{$medal['medalid']}]\" value=\"{$medal['image']}\">\n".
+				"<img src=\"images/common/{$medal['image']}\"></td></tr>\n";
 		}
 
 ?>
@@ -215,10 +215,10 @@ if($action == 'onlinelist') {
 		$query = $db->query("SELECT * FROM {$tablepre}bbcodes");
 		while($bbcode = $db->fetch_array($query)) {
 			$discuzcodes .= "<tr bgcolor=\"".ALTBG2."\" align=\"center\">\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$bbcode[id]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"tagnew[$bbcode[id]]\" value=\"$bbcode[tag]\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"availablenew[$bbcode[id]]\" value=\"1\" ".($bbcode['available'] ? 'checked' : NULL)."></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=discuzcodes&edit=$bbcode[id]\">[$lang[detail]]</a></td></tr>\n";
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$bbcode['id']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"tagnew[{$bbcode['id']}]\" value=\"{$bbcode['tag']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"availablenew[{$bbcode['id']}]\" value=\"1\" ".($bbcode['available'] ? 'checked' : NULL)."></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><a href=\"admincp.php?action=discuzcodes&edit={$bbcode['id']}\">[{$lang['detail']}]</a></td></tr>\n";
 		}
 
 ?>
@@ -293,7 +293,7 @@ if($action == 'onlinelist') {
 			showsetting('discuzcodes_edit_nest', 'nestnew', $bbcode['nest'], 'text');
 			showtype('', 'bottom');
 
-			echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"$lang[submit]\"></center></form>";
+			echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"{$lang['submit']}\"></center></form>";
 
 		} else {
 
@@ -320,10 +320,10 @@ if($action == 'onlinelist') {
 		$query = $db->query("SELECT * FROM {$tablepre}words");
 		while($censor =	$db->fetch_array($query)) {
 			$disabled = $adminid != 1 && $censor['admin'] != $discuz_userss ? 'disabled' : NULL;
-			$censorwords .=	"<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$censor[id]\" $disabled></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"30\" name=\"find[$censor[id]]\" value=\"$censor[find]\" $disabled></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"30\" name=\"replace[$censor[id]]\" value=\"$censor[replacement]\" $disabled></td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$censor[admin]</td></tr>\n";
+			$censorwords .=	"<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$censor['id']}\" $disabled></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"30\" name=\"find[{$censor['id']}]\" value=\"{$censor['find']}\" $disabled></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"30\" name=\"replace[{$censor['id']}]\" value=\"{$censor['replacement']}\" $disabled></td>\n".
+				"<td bgcolor=\"".ALTBG2."\">{$censor['admin']}</td></tr>\n";
 		}
 
 ?>
@@ -387,16 +387,16 @@ if($action == 'onlinelist') {
 		$query = $db->query("SELECT * FROM {$tablepre}smilies ORDER BY displayorder");
 		while($smiley =	$db->fetch_array($query)) {
 			if($smiley['type'] == 'smiley') {
-				$smilies .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$smiley[id]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"2\" name=\"displayorder[$smiley[id]]\" value=\"$smiley[displayorder]\"></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"25\" name=\"code[$smiley[id]]\" value=\"".dhtmlspecialchars($smiley['code'])."\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"25\" name=\"url[$smiley[id]]\" value=\"$smiley[url]\"></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"hidden\" name=\"type[$smiley[id]]\" value=\"$smiley[type]\"><img src=\"".SMDIR."/$smiley[url]\"></td></tr>\n";
+				$smilies .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$smiley['id']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"2\" name=\"displayorder[{$smiley['id']}]\" value=\"{$smiley['displayorder']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"25\" name=\"code[{$smiley['id']}]\" value=\"".dhtmlspecialchars($smiley['code'])."\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"25\" name=\"url[{$smiley['id']}]\" value=\"{$smiley['url']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"hidden\" name=\"type[{$smiley['id']}]\" value=\"{$smiley['type']}\"><img src=\"".SMDIR."/{$smiley['url']}\"></td></tr>\n";
 			} elseif($smiley['type'] == 'icon') {
-				$icons	.= "<tr	align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$smiley[id]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"2\" name=\"displayorder[$smiley[id]]\" value=\"$smiley[displayorder]\"></td>\n".
-					"<td bgcolor=\"".ALTBG1."\" colspan=\"2\"><input type=\"text\" size=\"35\" name=\"url[$smiley[id]]\" value=\"$smiley[url]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"hidden\" name=\"type[$smiley[id]]\" value=\"$smiley[type]\"><img src=\"".SMDIR."/$smiley[url]\"></td></tr>\n";
+				$icons	.= "<tr	align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$smiley['id']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"2\" name=\"displayorder[{$smiley['id']}]\" value=\"{$smiley['displayorder']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG1."\" colspan=\"2\"><input type=\"text\" size=\"35\" name=\"url[{$smiley['id']}]\" value=\"{$smiley['url']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"hidden\" name=\"type[{$smiley['id']}]\" value=\"{$smiley['type']}\"><img src=\"".SMDIR."/{$smiley['url']}\"></td></tr>\n";
 			}
 		}
 
@@ -469,9 +469,9 @@ if($action == 'onlinelist') {
 		$attachtypes = '';
 		$query = $db->query("SELECT * FROM {$tablepre}attachtypes");
 		while($type = $db->fetch_array($query)) {
-			$attachtypes .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$type[id]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"10\" name=\"extension[$type[id]]\" value=\"$type[extension]\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"15\" name=\"maxsize[$type[id]]\" value=\"$type[maxsize]\"></td></tr>\n";
+			$attachtypes .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$type['id']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"10\" name=\"extension[{$type['id']}]\" value=\"{$type['extension']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"15\" name=\"maxsize[{$type['id']}]\" value=\"{$type['maxsize']}\"></td></tr>\n";
 		}
 
 ?>
@@ -553,18 +553,18 @@ if($action == 'onlinelist') {
 
 				$cron['lastrun'] = $cron['lastrun'] ? gmdate("$dateformat<\b\\r>$timeformat", $cron['lastrun'] + $_DCACHE['settings']['timeoffset'] * 3600) : '<b>N/A</b>';
 				$cron['nextrun'] = $cron['nextrun'] ? gmdate("$dateformat<\b\\r>$timeformat", $cron['nextrun'] + $_DCACHE['settings']['timeoffset'] * 3600) : '<b>N/A</b>';
-				$crons .= "<tr align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[]\" value=\"$cron[cronid]\" ".($cron['type'] == 'system' ? 'disabled' : '')."></td>\n".
-					"<td class=\"altbg2\"><input type=\"text\" name=\"namenew[$cron[cronid]]\" size=\"20\" value=\"$cron[name]\"><br><b>$cron[filename]</b></td>\n".
-					"<td class=\"altbg1\"><input type=\"checkbox\" name=\"availablenew[$cron[cronid]]\" value=\"1\" ".($cron['available'] ? 'checked' : '')." $disabled></td>\n".
+				$crons .= "<tr align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$cron['cronid']}\" ".($cron['type'] == 'system' ? 'disabled' : '')."></td>\n".
+					"<td class=\"altbg2\"><input type=\"text\" name=\"namenew[{$cron['cronid']}]\" size=\"20\" value=\"{$cron['name']}\"><br><b>{$cron['filename']}</b></td>\n".
+					"<td class=\"altbg1\"><input type=\"checkbox\" name=\"availablenew[{$cron['cronid']}]\" value=\"1\" ".($cron['available'] ? 'checked' : '')." $disabled></td>\n".
 					"<td class=\"altbg2\">".$lang['crons_type_'.$cron['type']]."</td>".
-					"<td class=\"altbg1\">$cron[minute]</td>\n".
-					"<td class=\"altbg2\">$cron[hour]</td>\n".
-					"<td class=\"altbg1\">$cron[day]</td>\n".
-					"<td class=\"altbg2\">$cron[weekday]</td>\n".
-					"<td class=\"altbg1\">$cron[lastrun]</td>\n".
-					"<td class=\"altbg2\">$cron[nextrun]</td>\n".
-					"<td class=\"altbg1\"><a href=\"admincp.php?action=crons&edit=$cron[cronid]\">[$lang[edit]]</a>".
-					($cron['available'] ? " <a href=\"admincp.php?action=crons&run=$cron[cronid]\">[$lang[crons_run]]</a>" : "<span disabled>[$lang[crons_run]]</span>").
+					"<td class=\"altbg1\">{$cron['minute']}</td>\n".
+					"<td class=\"altbg2\">{$cron['hour']}</td>\n".
+					"<td class=\"altbg1\">{$cron['day']}</td>\n".
+					"<td class=\"altbg2\">{$cron['weekday']}</td>\n".
+					"<td class=\"altbg1\">{$cron['lastrun']}</td>\n".
+					"<td class=\"altbg2\">{$cron['nextrun']}</td>\n".
+					"<td class=\"altbg1\"><a href=\"admincp.php?action=crons&edit={$cron['cronid']}\">[{$lang['edit']}]</a>".
+					($cron['available'] ? " <a href=\"admincp.php?action=crons&run={$cron['cronid']}\">[{$lang['crons_run']}]</a>" : "<span disabled>[{$lang['crons_run']}]</span>").
 					"</td></tr>";
 			}
 
@@ -667,7 +667,7 @@ if($action == 'onlinelist') {
 				showsetting('crons_edit_filename', 'filenamenew', $cron['filename'], 'text');
 				showtype('', 'bottom');
 
-				echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"$lang[submit]\"></center></form>";
+				echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"{$lang['submit']}\"></center></form>";
 
 			} else {
 
@@ -706,7 +706,7 @@ if($action == 'onlinelist') {
 
 		} else {
 
-			if(!@include_once DISCUZ_ROOT.($cronfile = "./include/crons/$cron[filename]")) {
+			if(!@include_once DISCUZ_ROOT.($cronfile = "./include/crons/{$cron['filename']}")) {
 				cpmsg('crons_run_invalid');
 			} else {
 				require_once DISCUZ_ROOT.'./include/cron.func.php';
@@ -757,12 +757,12 @@ if($action == 'onlinelist') {
 		$total['receive'][$log['receivecredits']] += $log['receive'];
 		$log['dateline'] = gmdate('y-n-j H:i', $log['dateline'] + $timeoffset * 3600);
 		$log['operation'] = $lang['logs_credit_operation_'.strtolower($log['operation'])];
-		$logs .= "<tr align=\"center\"><td class=\"altbg1\"><a href=\"viewpro.php?username=".rawurlencode($log['username'])."\" target=\"_blank\">$log[username]</td>".
-			"<td class=\"altbg2\">$log[fromto]</td>".
-			"<td class=\"altbg1\">$log[dateline]</td>".
+		$logs .= "<tr align=\"center\"><td class=\"altbg1\"><a href=\"viewpro.php?username=".rawurlencode($log['username'])."\" target=\"_blank\">{$log['username']}</td>".
+			"<td class=\"altbg2\">{$log['fromto']}</td>".
+			"<td class=\"altbg1\">{$log['dateline']}</td>".
 			"<td class=\"altbg2\">".(isset($extcredits[$log['sendcredits']]) ? $extcredits[$log['sendcredits']]['title'].' '.$log['send'].' '.$extcredits[$log['sendcredits']]['unit'] : $log['send'])."</td>".
 			"<td class=\"altbg1\">".(isset($extcredits[$log['receivecredits']]) ? $extcredits[$log['receivecredits']]['title'].' '.$log['receive'].' '.$extcredits[$log['receivecredits']]['unit'] : $log['receive'])."</td>".
-			"<td class=\"altbg2\">$log[operation]</td></tr>";
+			"<td class=\"altbg2\">{$log['operation']}</td></tr>";
 	}
 
 	$result = array('send' => array(), 'receive' => array());

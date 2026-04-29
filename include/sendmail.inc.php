@@ -43,19 +43,19 @@ if($mailsend == 1 && function_exists('mail')) {
 } elseif($mailsend == 2) {
 
 	if(!$fp = fsockopen($mailcfg['server'], $mailcfg['port'], $errno, $errstr, 30)) {
-		errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) CONNECT - Unable to connect to the SMTP server, please check your \"mail_config.php\".", 0);
+		errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) CONNECT - Unable to connect to the SMTP server, please check your \"mail_config.php\".", 0);
 	}
  	stream_set_blocking($fp, true);
 
 	$lastmessage = fgets($fp, 512);
 	if(substr($lastmessage, 0, 3) != '220') {
-		errorlog('SMTP', "$mailcfg[server]:$mailcfg[port] CONNECT - $lastmessage", 0);
+		errorlog('SMTP', "{$mailcfg['server']}:{$mailcfg['port']} CONNECT - $lastmessage", 0);
 	}
 
 	fputs($fp, ($mailcfg['auth'] ? 'EHLO' : 'HELO')." discuz\r\n");
 	$lastmessage = fgets($fp, 512);
 	if(substr($lastmessage, 0, 3) != 220 && substr($lastmessage, 0, 3) != 250) {
-		errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) HELO/EHLO - $lastmessage", 0);
+		errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) HELO/EHLO - $lastmessage", 0);
 	}
 
 	while(1) {
@@ -69,19 +69,19 @@ if($mailsend == 1 && function_exists('mail')) {
 		fputs($fp, "AUTH LOGIN\r\n");
 		$lastmessage = fgets($fp, 512);
 		if(substr($lastmessage, 0, 3) != 334) {
-			errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) AUTH LOGIN - $lastmessage", 0);
+			errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) AUTH LOGIN - $lastmessage", 0);
 		}
 
 		fputs($fp, base64_encode($mailcfg['auth_username'])."\r\n");
 		$lastmessage = fgets($fp, 512);
 		if(substr($lastmessage, 0, 3) != 334) {
-			errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) USERNAME - $lastmessage", 0);
+			errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) USERNAME - $lastmessage", 0);
 		}
 
 		fputs($fp, base64_encode($mailcfg['auth_password'])."\r\n");
 		$lastmessage = fgets($fp, 512);
 		if(substr($lastmessage, 0, 3) != 235) {
-			errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) PASSWORD - $lastmessage", 0);
+			errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) PASSWORD - $lastmessage", 0);
 		}
 
 		$email_from = $mailcfg['from'];
@@ -93,7 +93,7 @@ if($mailsend == 1 && function_exists('mail')) {
 		fputs($fp, "MAIL FROM: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $email_from).">\r\n");
 		$lastmessage = fgets($fp, 512);
 		if(substr($lastmessage, 0, 3) != 250) {
-			errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) MAIL FROM - $lastmessage", 0);
+			errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) MAIL FROM - $lastmessage", 0);
 		}
 	}
 
@@ -105,7 +105,7 @@ if($mailsend == 1 && function_exists('mail')) {
 			if(substr($lastmessage, 0, 3) != 250) {
 				fputs($fp, "RCPT TO: <$touser>\r\n");
 				$lastmessage = fgets($fp, 512);
-				errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) RCPT TO - $lastmessage", 0);
+				errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) RCPT TO - $lastmessage", 0);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ if($mailsend == 1 && function_exists('mail')) {
 	fputs($fp, "DATA\r\n");
 	$lastmessage = fgets($fp, 512);
 	if(substr($lastmessage, 0, 3) != 354) {
-		errorlog('SMTP', "($mailcfg[server]:$mailcfg[port]) DATA - $lastmessage", 0);
+		errorlog('SMTP', "({$mailcfg['server']}:{$mailcfg['port']}) DATA - $lastmessage", 0);
 	}
 
  	fputs($fp, "To: $email_to\r\nFrom: $email_from\r\nSubject: ".str_replace("\n", ' ', $email_subject)."\r\n\r\n$email_message\r\n.\r\n"); 

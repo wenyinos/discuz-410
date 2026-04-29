@@ -38,7 +38,7 @@ if(!isset($action)) {
 	}
 
 	$avatarshow = $avatarshowstatus ? $avatar = avatarshow($member['avatarshowid'], $member['gender']) : '';
-	$avatar = $avatarshowstatus != 2 && $member['avatar'] ? "<img src=\"$member[avatar]\" width=\"$member[avatarwidth]\" height=\"$member[avatarheight]\" border=\"0\">" : '';
+	$avatar = $avatarshowstatus != 2 && $member['avatar'] ? "<img src=\"{$member['avatar']}\" width=\"{$member['avatarwidth']}\" height=\"{$member['avatarheight']}\" border=\"0\">" : '';
 
 	$buddyonline = $buddyoffline = array();
 	$query = $db->query("SELECT b.buddyid AS uid, b.description, m.username, s.username AS onlineuser
@@ -57,7 +57,7 @@ if(!isset($action)) {
 	while($message = $db->fetch_array($query)) {
 		$msgexists = 1;
 		$message['dateline'] = gmdate("$dateformat $timeformat", $message['dateline'] + $timeoffset * 3600);
-		$message['subject'] = $message['new'] ? "<b>$message[subject]</b>" : $message['subject'];
+		$message['subject'] = $message['new'] ? "<b>{$message['subject']}</b>" : $message['subject'];
 
 		$msglist[] = $message;
 	}
@@ -106,9 +106,9 @@ if(!isset($action)) {
 		$styleselect = '';
 		$query = $db->query("SELECT styleid, name FROM {$tablepre}styles WHERE available='1'");
 		while($style = $db->fetch_array($query)) {
-			$styleselect .= "<option value=\"$style[styleid]\" ".
+			$styleselect .= "<option value=\"{$style['styleid']}\" ".
 				($style['styleid'] == $member['styleid'] ? 'selected="selected"' : NULL).
-				">$style[name]</option>\n";
+				">{$style['name']}</option>\n";
 		}
 
 		$bday = explode('-', $member['bday']);
@@ -374,10 +374,10 @@ if(!isset($action)) {
 			}
 
 			$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans-'$amount' WHERE uid='$discuz_uid'");
-			$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans+'$netamount' WHERE uid='$member[uid]'");
+			$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans+'$netamount' WHERE uid='{$member['uid']}'");
 			$db->query("INSERT INTO {$tablepre}creditslog (uid, fromto, sendcredits, receivecredits, send, receive, dateline, operation)
 				VALUES ('$discuz_uid', '".addslashes($member['username'])."', '$creditstrans', '$creditstrans', '$amount', '0', '$timestamp', 'TFR'),
-				('$member[uid]', '$discuz_user', '$creditstrans', '$creditstrans', '0', '$netamount', '$timestamp', 'RCV')");
+				('{$member['uid']}', '$discuz_user', '$creditstrans', '$creditstrans', '0', '$netamount', '$timestamp', 'RCV')");
 
 			if(!empty($transfermessage)) {
 				$transfermessage = stripslashes($transfermessage);

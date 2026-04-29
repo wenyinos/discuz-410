@@ -37,9 +37,9 @@ if($action == 'admingroups') {
 				LEFT JOIN {$tablepre}usergroups u ON u.groupid=a.admingid
 				WHERE a.admingid<>'1' ORDER BY u.radminid, a.admingid");
 			while($group = $db->fetch_array($query)) {
-				$grouplist .= "<tr align=\"center\"><td class=\"altbg1\">$group[grouptitle]</td><td class=\"altbg2\">".
+				$grouplist .= "<tr align=\"center\"><td class=\"altbg1\">{$group['grouptitle']}</td><td class=\"altbg2\">".
 					($group['admingid'] <= 3 ? $lang['admingroups_type_system'] : $lang['admingroups_type_user'])."</td><td class=\"altbg1\">".$lang['usergroups_system_'.$group['radminid']].
-					"</td><td class=\"altbg2\"><a href=\"admincp.php?action=usergroups&edit={$group[admingid]}&return=admingroups\">[{$lang[edit]}]</a></td><td class=\"altbg1\"><a href=\"admincp.php?action=admingroups&edit=$group[admingid]\">[{$lang[edit]}]</a></td></tr>\n";
+					"</td><td class=\"altbg2\"><a href=\"admincp.php?action=usergroups&edit={$group['admingid']}&return=admingroups\">[{$lang['edit']}]</a></td><td class=\"altbg1\"><a href=\"admincp.php?action=admingroups&edit={$group['admingid']}\">[{$lang['edit']}]</a></td></tr>\n";
 			}
 
 ?>
@@ -110,7 +110,7 @@ if($action == 'admingroups') {
 
 			}
 
-			echo "<br><center><input type=\"submit\" name=\"groupsubmit\" value=\"$lang[submit]\"><center></form>";
+			echo "<br><center><input type=\"submit\" name=\"groupsubmit\" value=\"{$lang['submit']}\"><center></form>";
 
 		}
 
@@ -133,7 +133,7 @@ if($action == 'admingroups') {
 			}
 
 			$db->query("REPLACE INTO {$tablepre}adminactions (admingid, disabledactions)
-				VALUES ('$group[groupid]', '".addslashes(serialize($dactionarray))."')");
+				VALUES ('{$group['groupid']}', '".addslashes(serialize($dactionarray))."')");
 
 		} else {
 
@@ -142,7 +142,7 @@ if($action == 'admingroups') {
 				allowmassprune='$allowmassprunenew', allowrefund='$allowrefundnew', allowcensorword='$allowcensorwordnew',
 				allowviewip='$allowviewipnew', allowbanip='$allowbanipnew', allowedituser='$alloweditusernew', allowbanuser='$allowbanusernew',
 				allowmoduser='$allowmodusernew', allowpostannounce='$allowpostannouncenew', allowviewlog='$allowviewlognew',
-				disablepostctrl='$disablepostctrlnew' WHERE admingid='$group[groupid]' AND admingid<>'1'");
+				disablepostctrl='$disablepostctrlnew' WHERE admingid='{$group['groupid']}' AND admingid<>'1'");
 
 		}
 
@@ -163,22 +163,22 @@ if($action == 'admingroups') {
 			$query = $db->query("SELECT groupid, type, grouptitle, creditshigher, creditslower, stars, color, groupavatar FROM {$tablepre}usergroups ORDER BY creditshigher");
 			while($group = $db->fetch_array($query)) {
 				if($group['type'] == 'member') {
-					$membergroup .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[$group[groupid]]\" value=\"$group[groupid]\"></td>\n".
-						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"groupnew[$group[groupid]][grouptitle]\" value=\"$group[grouptitle]\"></td>\n".
-						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"6\" name=\"groupnew[$group[groupid]][creditshigher]\" value=\"$group[creditshigher]\">\n".
-						"<td bgcolor=\"".ALTBG2."\">$group[creditslower]\n".
-						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\"name=\"groupnew[$group[groupid]][stars]\" value=\"$group[stars]\"></td>\n".
-						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"6\"name=\"groupnew[$group[groupid]][color]\" value=\"$group[color]\"></td>\n".
-						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"12\" name=\"groupnew[$group[groupid]][groupavatar]\" value=\"$group[groupavatar]\"></td>".
-						"<td bgcolor=\"".ALTBG2."\" nowrap><a href=\"admincp.php?action=usergroups&edit=$group[groupid]\">[$lang[detail]]</a></td></tr>\n";
+					$membergroup .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[{$group['groupid']}]\" value=\"{$group['groupid']}\"></td>\n".
+						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"groupnew[{$group['groupid']}][grouptitle]\" value=\"{$group['grouptitle']}\"></td>\n".
+						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"6\" name=\"groupnew[{$group['groupid']}][creditshigher]\" value=\"{$group['creditshigher']}\">\n".
+						"<td bgcolor=\"".ALTBG2."\">{$group['creditslower']}\n".
+						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\"name=\"groupnew[{$group['groupid']}][stars]\" value=\"{$group['stars']}\"></td>\n".
+						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"6\"name=\"groupnew[{$group['groupid']}][color]\" value=\"{$group['color']}\"></td>\n".
+						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"12\" name=\"groupnew[{$group['groupid']}][groupavatar]\" value=\"{$group['groupavatar']}\"></td>".
+						"<td bgcolor=\"".ALTBG2."\" nowrap><a href=\"admincp.php?action=usergroups&edit={$group['groupid']}\">[{$lang['detail']}]</a></td></tr>\n";
 				} elseif($group['type'] == 'system') {
 					$sysgroup .= "<tr align=\"center\">\n".
-						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"group_title[$group[groupid]]\" value=\"$group[grouptitle]\"></td>\n".
+						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"group_title[{$group['groupid']}]\" value=\"{$group['grouptitle']}\"></td>\n".
 						"<td bgcolor=\"".ALTBG1."\">".$lang['usergroups_system_'.$group['groupid']]."</td>\n".
-						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"2\"name=\"group_stars[$group[groupid]]\" value=\"$group[stars]\"></td>\n".
-						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"6\"name=\"group_color[$group[groupid]]\" value=\"$group[color]\"></td>\n".
-						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"group_avatar[$group[groupid]]\" value=\"$group[groupavatar]\"></td>\n".
-						"<td bgcolor=\"".ALTBG1."\" nowrap><a href=\"admincp.php?action=usergroups&edit=$group[groupid]\">[$lang[detail]]</a></td></tr>\n";
+						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"2\"name=\"group_stars[{$group['groupid']}]\" value=\"{$group['stars']}\"></td>\n".
+						"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"6\"name=\"group_color[{$group['groupid']}]\" value=\"{$group['color']}\"></td>\n".
+						"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"group_avatar[{$group['groupid']}]\" value=\"{$group['groupavatar']}\"></td>\n".
+						"<td bgcolor=\"".ALTBG1."\" nowrap><a href=\"admincp.php?action=usergroups&edit={$group['groupid']}\">[{$lang['detail']}]</a></td></tr>\n";
 				} elseif($group['type'] == 'special') {
 					$sgroups[] = $group;
 					$sgroupids .= ','.$group['groupid'];
@@ -202,14 +202,14 @@ if($action == 'admingroups') {
 					$num = 0;
 				}
 
-				$specialgroup .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[$group[groupid]]\" value=\"$group[groupid]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"group_title[$group[groupid]]\" value=\"$group[grouptitle]\"></td>\n".
+				$specialgroup .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[{$group['groupid']}]\" value=\"{$group['groupid']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"group_title[{$group['groupid']}]\" value=\"{$group['grouptitle']}\"></td>\n".
 					"<td bgcolor=\"".ALTBG1."\"><span class=\"smalltxt\">$specifiedusers</span></td>\n".
 					"<td bgcolor=\"".ALTBG2."\"><span class=\"smalltxt\">$num</span></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\"name=\"group_stars[$group[groupid]]\" value=\"$group[stars]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"6\"name=\"group_color[$group[groupid]]\" value=\"$group[color]\"></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"12\" name=\"group_avatar[$group[groupid]]\" value=\"$group[groupavatar]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\" nowrap><a href=\"admincp.php?action=usergroups&edit=$group[groupid]\">[$lang[detail]]</a></td></tr>\n";
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\"name=\"group_stars[{$group['groupid']}]\" value=\"{$group['stars']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"6\"name=\"group_color[{$group['groupid']}]\" value=\"{$group['color']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"12\" name=\"group_avatar[{$group['groupid']}]\" value=\"{$group['groupavatar']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\" nowrap><a href=\"admincp.php?action=usergroups&edit={$group['groupid']}\">[{$lang['detail']}]</a></td></tr>\n";
 			}
 
 ?>
@@ -285,7 +285,7 @@ if($action == 'admingroups') {
 				showsetting('usergroups_edit_title', 'grouptitlenew', $group['grouptitle'], 'text');
 				if($group['type'] == 'special') {
 					$selectra = array($group['radminid'] => 'selected="selected"');
-					showsetting('usergroups_edit_radminid', '', '', "<select name=\"radminidnew\"><option value=\"0\" $selectra[0]>$lang[none]</option><option value=\"1\" $selectra[1]>$lang[usergroups_system_1]</option><option value=\"2\" $selectra[2]>$lang[usergroups_system_2]</option><option value=\"3\" $selectra[3]>$lang[usergroups_system_3]</option>");
+					showsetting('usergroups_edit_radminid', '', '', "<select name=\"radminidnew\"><option value=\"0\" $selectra[0]>{$lang['none']}</option><option value=\"1\" $selectra[1]>{$lang['usergroups_system_1']}</option><option value=\"2\" $selectra[2]>{$lang['usergroups_system_2']}</option><option value=\"3\" $selectra[3]>{$lang['usergroups_system_3']}</option>");
 
 					showtype('usergroups_edit_system');
 					echo '<tr><td colspan="2" class="altbg2">'.$lang['usergroups_edit_system_comment'].'</td></tr>';
@@ -312,9 +312,9 @@ if($action == 'admingroups') {
 				showsetting('usergroups_edit_invisible', 'allowinvisiblenew', $group['allowinvisible'], 'radio');
 				showsetting('usergroups_edit_multigroups', 'allowmultigroupsnew', $group['allowmultigroups'], 'radio');
 				showsetting('usergroups_edit_allowtransfer', 'allowtransfernew', $group['allowtransfer'], 'radio');
-				showsetting('usergroups_edit_search', '', '', "<input type=\"radio\" name=\"allowsearchnew\" value=\"0\" $checksearch[0]> $lang[usergroups_edit_search_disable]<br><input type=\"radio\" name=\"allowsearchnew\" value=\"1\" $checksearch[1]> $lang[usergroups_edit_search_thread]<br><input type=\"radio\" name=\"allowsearchnew\" value=\"2\" $checksearch[2]> $lang[usergroups_edit_search_post]");
-				showsetting('usergroups_edit_avatar', '', '', "<input type=\"radio\" name=\"allowavatarnew\" value=\"0\" $checkavatar[0]> $lang[usergroups_edit_avatar_disable]<br><input type=\"radio\" name=\"allowavatarnew\" value=\"1\" $checkavatar[1]> $lang[usergroups_edit_avatar_board]<br><input type=\"radio\" name=\"allowavatarnew\" value=\"2\" $checkavatar[2]> $lang[usergroups_edit_avatar_custom]<br><input type=\"radio\" name=\"allowavatarnew\" value=\"3\" $checkavatar[3]> $lang[usergroups_edit_avatar_upload]");
-				showsetting('usergroups_edit_reasonpm', '', '', "<input type=\"radio\" name=\"reasonpmnew\" value=\"0\" $checkreasonpm[0]> $lang[usergroups_edit_reasonpm_none]<br><input type=\"radio\" name=\"reasonpmnew\" value=\"1\" $checkreasonpm[1]> $lang[usergroups_edit_reasonpm_reason]<br><input type=\"radio\" name=\"reasonpmnew\" value=\"2\" $checkreasonpm[2]> $lang[usergroups_edit_reasonpm_pm]<br><input type=\"radio\" name=\"reasonpmnew\" value=\"3\" $checkreasonpm[3]> $lang[usergroups_edit_reasonpm_both]");
+				showsetting('usergroups_edit_search', '', '', "<input type=\"radio\" name=\"allowsearchnew\" value=\"0\" $checksearch[0]> {$lang['usergroups_edit_search_disable']}<br><input type=\"radio\" name=\"allowsearchnew\" value=\"1\" $checksearch[1]> {$lang['usergroups_edit_search_thread']}<br><input type=\"radio\" name=\"allowsearchnew\" value=\"2\" $checksearch[2]> {$lang['usergroups_edit_search_post']}");
+				showsetting('usergroups_edit_avatar', '', '', "<input type=\"radio\" name=\"allowavatarnew\" value=\"0\" $checkavatar[0]> {$lang['usergroups_edit_avatar_disable']}<br><input type=\"radio\" name=\"allowavatarnew\" value=\"1\" $checkavatar[1]> {$lang['usergroups_edit_avatar_board']}<br><input type=\"radio\" name=\"allowavatarnew\" value=\"2\" $checkavatar[2]> {$lang['usergroups_edit_avatar_custom']}<br><input type=\"radio\" name=\"allowavatarnew\" value=\"3\" $checkavatar[3]> {$lang['usergroups_edit_avatar_upload']}");
+				showsetting('usergroups_edit_reasonpm', '', '', "<input type=\"radio\" name=\"reasonpmnew\" value=\"0\" $checkreasonpm[0]> {$lang['usergroups_edit_reasonpm_none']}<br><input type=\"radio\" name=\"reasonpmnew\" value=\"1\" $checkreasonpm[1]> {$lang['usergroups_edit_reasonpm_reason']}<br><input type=\"radio\" name=\"reasonpmnew\" value=\"2\" $checkreasonpm[2]> {$lang['usergroups_edit_reasonpm_pm']}<br><input type=\"radio\" name=\"reasonpmnew\" value=\"3\" $checkreasonpm[3]> {$lang['usergroups_edit_reasonpm_both']}");
 				showsetting('usergroups_edit_blog', 'allowuseblognew', $group['allowuseblog'], 'radio');
 				showsetting('usergroups_edit_nickname', 'allownicknamenew', $group['allownickname'], 'radio');
 				showsetting('usergroups_edit_cstatus', 'allowcstatusnew', $group['allowcstatus'], 'radio');
@@ -326,7 +326,7 @@ if($action == 'admingroups') {
 				showsetting('usergroups_edit_reply', 'allowreplynew', $group['allowreply'], 'radio');
 				showsetting('usergroups_edit_post_poll', 'allowpostpollnew', $group['allowpostpoll'], 'radio');
 				showsetting('usergroups_edit_vote', 'allowvotenew', $group['allowvote'], 'radio');
-				showsetting('usergroups_edit_direct_post', '', '', "<input type=\"radio\" name=\"allowdirectpostnew\" value=\"0\" $checkdirectpost[0]> $lang[usergroups_edit_direct_post_none]<br><input type=\"radio\" name=\"allowdirectpostnew\" value=\"1\" $checkdirectpost[1]> $lang[usergroups_edit_direct_post_reply]<br><input type=\"radio\" name=\"allowdirectpostnew\" value=\"2\" $checkdirectpost[2]> $lang[usergroups_edit_direct_post_thread]<br><input type=\"radio\" name=\"allowdirectpostnew\" value=\"3\" $checkdirectpost[3]> $lang[usergroups_edit_direct_post_all]");
+				showsetting('usergroups_edit_direct_post', '', '', "<input type=\"radio\" name=\"allowdirectpostnew\" value=\"0\" $checkdirectpost[0]> {$lang['usergroups_edit_direct_post_none']}<br><input type=\"radio\" name=\"allowdirectpostnew\" value=\"1\" $checkdirectpost[1]> {$lang['usergroups_edit_direct_post_reply']}<br><input type=\"radio\" name=\"allowdirectpostnew\" value=\"2\" $checkdirectpost[2]> {$lang['usergroups_edit_direct_post_thread']}<br><input type=\"radio\" name=\"allowdirectpostnew\" value=\"3\" $checkdirectpost[3]> {$lang['usergroups_edit_direct_post_all']}");
 				showsetting('usergroups_edit_anonymous', 'allowanonymousnew', $group['allowanonymous'], 'radio');
 				showsetting('usergroups_edit_set_read_perm', 'allowsetreadpermnew', $group['allowsetreadperm'], 'radio');
 				showsetting('usergroups_edit_maxprice', 'maxpricenew', $group['maxprice'], 'text');
@@ -365,7 +365,7 @@ if($action == 'admingroups') {
 				echo '<tr><td colspan="6" bgcolor="'.ALTBG2.'">'.$lang['usergroups_edit_raterange_comment'].'</td></tr></table></td></tr>';
 				showtype('', 'bottom');
 
-				echo "<br><center><input type=\"submit\" name=\"detailsubmit\" value=\"$lang[submit]\"><center></form>";
+				echo "<br><center><input type=\"submit\" name=\"detailsubmit\" value=\"{$lang['submit']}\"><center></form>";
 
 			} else {
 
@@ -389,21 +389,21 @@ if($action == 'admingroups') {
 						}
 					}
 					if(in_array($radminidnew, array(1, 2, 3))) {
-						$query = $db->query("SELECT admingid FROM {$tablepre}admingroups WHERE admingid='$group[groupid]'");
+						$query = $db->query("SELECT admingid FROM {$tablepre}admingroups WHERE admingid='{$group['groupid']}'");
 						if(!$db->num_rows($query)) {
 							if($radminidnew == 1) {
 								$db->query("REPLACE INTO {$tablepre}admingroups (admingid, alloweditpost, alloweditpoll, allowstickthread, allowmodpost, allowdelpost, allowmassprune, allowcensorword, allowviewip, allowbanip, allowedituser, allowmoduser, allowbanuser, allowpostannounce, allowviewlog, disablepostctrl)
-									VALUES ('$group[groupid]', 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)");
+									VALUES ('{$group['groupid']}', 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)");
 								$db->query("REPLACE INTO {$tablepre}adminactions (admingid, disabledactions)
-									VALUES ('$group[groupid]', '')");
+									VALUES ('{$group['groupid']}', '')");
 							} else {
 								$db->query("REPLACE INTO {$tablepre}admingroups (admingid)
-									VALUES ('$group[groupid]')");
+									VALUES ('{$group['groupid']}')");
 							}
 						}
 					} else {
 						$radminidnew = 0;
-						$db->query("DELETE FROM {$tablepre}admingroups WHERE admingid='$group[groupid]'");
+						$db->query("DELETE FROM {$tablepre}admingroups WHERE admingid='{$group['groupid']}'");
 					}
 				} else {
 					$radminidnew = $group['type'] == 'system' && in_array($group['groupid'], array(1, 2, 3)) ? $group['groupid'] : 0;
@@ -453,7 +453,7 @@ if($action == 'admingroups') {
 				}
 
 				if($group['type'] == 'special' && $radminidnew != $group['radminid']) {
-					$db->query("UPDATE {$tablepre}members SET adminid='".($radminidnew ? $radminidnew : -1)."' WHERE groupid='$edit' AND adminid='$group[radminid]'");
+					$db->query("UPDATE {$tablepre}members SET adminid='".($radminidnew ? $radminidnew : -1)."' WHERE groupid='$edit' AND adminid='{$group['radminid']}'");
 				}
 
 				updatecache('usergroups');
@@ -500,10 +500,10 @@ if($action == 'admingroups') {
 					cpmsg('usergroups_update_credits_duplicate');
 				}
 				if($id) {
-					$db->query("UPDATE {$tablepre}usergroups SET grouptitle='$group[grouptitle]', creditshigher='$creditshighernew', creditslower='$creditslowernew', stars='$group[stars]', color='$group[color]', groupavatar='$group[groupavatar]' WHERE groupid='$id' AND type='member'");
+					$db->query("UPDATE {$tablepre}usergroups SET grouptitle='{$group['grouptitle']}', creditshigher='$creditshighernew', creditslower='$creditslowernew', stars='{$group['stars']}', color='{$group['color']}', groupavatar='{$group['groupavatar']}' WHERE groupid='$id' AND type='member'");
 				} elseif($group['grouptitle'] && $group['creditshigher'] != '') {
 					$db->query("INSERT INTO {$tablepre}usergroups (type, grouptitle, creditshigher, creditslower, stars, color, groupavatar, allowvisit, readaccess, allowpost, allowsigbbcode)
-						VALUES ('member', '$group[grouptitle]', '$creditshighernew', '$creditslowernew', '$groupnew[stars]', '$groupnew[color]', '$groupnew[groupavatar]', '1', '1', '1', '1')");
+						VALUES ('member', '{$group['grouptitle']}', '$creditshighernew', '$creditslowernew', '{$groupnew['stars']}', '{$groupnew['color']}', '{$groupnew['groupavatar']}', '1', '1', '1', '1')");
 				}
 			}
 
@@ -555,11 +555,11 @@ if($action == 'admingroups') {
 		$ranks = '';
 		$query = $db->query("SELECT * FROM {$tablepre}ranks ORDER BY postshigher");
 		while($rank = $db->fetch_array($query)) {
-			$ranks .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[{$rank[rankid]}]\" value=\"$rank[rankid]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"ranktitlenew[{$rank[rankid]}]\" value=\"$rank[ranktitle]\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"6\" name=\"postshighernew[{$rank[rankid]}]\" value=\"$rank[postshigher]\">\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\"name=\"starsnew[{$rank[rankid]}]\" value=\"$rank[stars]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"6\"name=\"colornew[{$rank[rankid]}]\" value=\"$rank[color]\"></td>";
+			$ranks .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[{{$rank['rankid']}}]\" value=\"{$rank['rankid']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"12\" name=\"ranktitlenew[{{$rank['rankid']}}]\" value=\"{$rank['ranktitle']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"6\" name=\"postshighernew[{{$rank['rankid']}}]\" value=\"{$rank['postshigher']}\">\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\"name=\"starsnew[{{$rank['rankid']}}]\" value=\"{$rank['stars']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"6\"name=\"colornew[{{$rank['rankid']}}]\" value=\"{$rank['color']}\"></td>";
 		}
 
 ?>

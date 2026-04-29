@@ -43,7 +43,7 @@ if($action == 'logout') {
 		$styleselect = '';
 		$query = $db->query("SELECT styleid, name FROM {$tablepre}styles WHERE available='1'");
 		while($styleinfo = $db->fetch_array($query)) {
-			$styleselect .= "<option value=\"$styleinfo[styleid]\">$styleinfo[name]</option>\n";
+			$styleselect .= "<option value=\"{$styleinfo['styleid']}\">{$styleinfo['name']}</option>\n";
 		}
 
 		$_DCOOKIE['cookietime'] = isset($_DCOOKIE['cookietime']) ? $_DCOOKIE['cookietime'] : 2592000;
@@ -100,7 +100,7 @@ if($action == 'logout') {
 				$discuz_user = addslashes($discuz_user);
 
 				if(($allowinvisible && $loginmode == 'invisible') || $loginmode == 'normal') {
-					$db->query("UPDATE {$tablepre}members SET invisible='".($loginmode == 'invisible' ? 1 : 0)."' WHERE uid='$member[discuz_uid]'", 'UNBUFFERED');
+					$db->query("UPDATE {$tablepre}members SET invisible='".($loginmode == 'invisible' ? 1 : 0)."' WHERE uid='{$member['discuz_uid']}'", 'UNBUFFERED');
 				}
 
 				$styleid = intval(empty($_POST['styleid']) ? ($styleidmem ? $styleidmem :

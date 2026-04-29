@@ -22,15 +22,15 @@ function cpmsg($message, $url_forward = '', $msgtype = 'message', $extra = '') {
 	if($msgtype == 'form') {
 		$message = "<form method=\"post\" action=\"$url_forward\"><input type=\"hidden\" name=\"formhash\" value=\"".FORMHASH."\">".
 			"<br><br><br>$message$extra<br><br><br><br>\n".
-        		"<input type=\"submit\" name=\"confirmed\" value=\"$lang[ok]\"> &nbsp; \n".
-       			"<input type=\"button\" value=\"$lang[cancel]\" onClick=\"history.go(-1);\"></form><br>";
+        		"<input type=\"submit\" name=\"confirmed\" value=\"{$lang['ok']}\"> &nbsp; \n".
+       			"<input type=\"button\" value=\"{$lang['cancel']}\" onClick=\"history.go(-1);\"></form><br>";
 	} else {
 		if($url_forward) {
-			$message .= "<br><br><br><a href=\"$url_forward\">$lang[message_redirect]</a>";
+			$message .= "<br><br><br><a href=\"$url_forward\">{$lang['message_redirect']}</a>";
 			$url_forward = transsid($url_forward);
 			$message .= "<script>setTimeout(\"redirect('$url_forward');\", 1250);</script>";
 		} elseif(strpos($message, $lang['return'])) {
-			$message .= "<br><br><br><a href=\"javascript:history.go(-1);\" class=\"mediumtxt\">$lang[message_return]</a>";
+			$message .= "<br><br><br><a href=\"javascript:history.go(-1);\" class=\"mediumtxt\">{$lang['message_return']}</a>";
 		}
 		$message = "<br><br><br>$message$extra<br><br>";
 	}
@@ -142,13 +142,13 @@ function showsetting($setname, $varname, $value, $type = 'radio', $width = '60%'
 
 	if($type == 'radio') {
 		$value ? $check['true'] = "checked" : $check['false'] = "checked";
-		echo "<input type=\"radio\" name=\"$varname\" value=\"1\" $check[true]> {$GLOBALS[lang][yes]} &nbsp; &nbsp; \n".
-			"<input type=\"radio\" name=\"$varname\" value=\"0\" $check[false]> {$GLOBALS[lang][no]}\n";
+		echo "<input type=\"radio\" name=\"$varname\" value=\"1\" {$check['true']}> {{$GLOBALS['lang']}[yes]} &nbsp; &nbsp; \n".
+			"<input type=\"radio\" name=\"$varname\" value=\"0\" {$check['false']}> {{$GLOBALS['lang']}[no]}\n";
 	} elseif($type == 'radioplus') {
 		$value == -1 ? $check['default'] = 'checked' : ($value ? $check['true'] = 'checked' : $check['false'] = 'checked');
-		echo "<input type=\"radio\" name=\"$varname\" value=\"-1\" $check[default]> ".$GLOBALS['lang']['default']." &nbsp; &nbsp; \n".
-			"<input type=\"radio\" name=\"$varname\" value=\"1\" $check[true]> {$GLOBALS[lang][yes]} &nbsp; &nbsp; \n".
-			"<input type=\"radio\" name=\"$varname\" value=\"0\" $check[false]> {$GLOBALS[lang][no]}\n";
+		echo "<input type=\"radio\" name=\"$varname\" value=\"-1\" {$check['default']}> ".$GLOBALS['lang']['default']." &nbsp; &nbsp; \n".
+			"<input type=\"radio\" name=\"$varname\" value=\"1\" {$check['true']}> {{$GLOBALS['lang']}[yes]} &nbsp; &nbsp; \n".
+			"<input type=\"radio\" name=\"$varname\" value=\"0\" {$check['false']}> {{$GLOBALS['lang']}[no]}\n";
 	} elseif($type == 'color') {
 		$preview_varname = str_replace('[', '_', str_replace(']', '', $varname));
 		echo "<input type=\"text\" size=\"30\" value=\"$value\" name=\"$varname\" onchange=\"this.form.$preview_varname.style.backgroundColor=this.value;\">\n".
@@ -215,7 +215,7 @@ function sqldumptable($table, $startfrom = 0, $currsize = 0) {
 
 		$query = $db->query("SHOW TABLE STATUS LIKE '$table'");
 		$tablestatus = $db->fetch_array($query);
-		$tabledump .= ($tablestatus['Auto_increment'] ? " AUTO_INCREMENT=$tablestatus[Auto_increment]" : '').";\n\n";
+		$tabledump .= ($tablestatus['Auto_increment'] ? " AUTO_INCREMENT={$tablestatus['Auto_increment']}" : '').";\n\n";
 
 	}
 

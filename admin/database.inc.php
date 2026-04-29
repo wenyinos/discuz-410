@@ -22,7 +22,7 @@ if($action == 'export') {
 	if(!submitcheck('exportsubmit', 1)) {
 
 		$shelldisabled = function_exists('shell_exec') ? '' : 'disabled';
-		$sqlcharsets = "<input type=\"radio\" name=\"sqlcharset\" value=\"\" checked> $lang[default]".
+		$sqlcharsets = "<input type=\"radio\" name=\"sqlcharset\" value=\"\" checked> {$lang['default']}".
 			($dbcharset ? " &nbsp; <input type=\"radio\" name=\"sqlcharset\" value=\"$dbcharset\"> ".strtoupper($dbcharset) : '').
 			($db->version() > '4.1' && $dbcharset != 'utf8' ? " &nbsp; <input type=\"radio\" name=\"sqlcharset\" value='utf8'> UTF-8</option>" : '');
 
@@ -37,7 +37,7 @@ if($action == 'export') {
 		$rowcount = 0;
 		while($table = $db->fetch_array($query)) {
 			$checked = $tables && in_array($table['Name'], $tables) ? 'checked' : '';
-			$tablelist .= ($rowcount % 4 ? '' : '</tr><tr>')."<td><input type=\"checkbox\" name=\"customtables[]\" value=\"$table[Name]\" $checked> $table[Name]</td>\n";
+			$tablelist .= ($rowcount % 4 ? '' : '</tr><tr>')."<td><input type=\"checkbox\" name=\"customtables[]\" value=\"{$table['Name']}\" $checked> {$table['Name']}</td>\n";
 			$rowcount++;
 		}
 
@@ -334,16 +334,16 @@ if($action == 'export') {
 			$info['size'] = sizecount($info['size']);
 			$info['volume'] = $info['method'] == 'multivol' ? $info['volume'] : '';
 			$info['method'] = $info['method'] == 'multivol' ? $lang['database_multivol'] : $lang['database_shell'];
-			$exportinfo .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$info[filename]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><a href=\"$info[filename]\">".substr(strrchr($info['filename'], "/"), 1)."</a></td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$info[version]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$info[dateline]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$info[type]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$info[size]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\">$info[method]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\">$info[volume]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=import&from=server&datafile_server=$info[filename]&importsubmit=yes\"".
-				($info['version'] != $version ? " onclick=\"return confirm('$lang[database_import_confirm]');\"" : '').">[$lang[import]]</a></td>\n";
+			$exportinfo .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$info['filename']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><a href=\"{$info['filename']}\">".substr(strrchr($info['filename'], "/"), 1)."</a></td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$info['version']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\">{$info['dateline']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$info['type']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\">{$info['size']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\">{$info['method']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\">{$info['volume']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><a href=\"admincp.php?action=import&from=server&datafile_server={$info['filename']}&importsubmit=yes\"".
+				($info['version'] != $version ? " onclick=\"return confirm('{$lang['database_import_confirm']}');\"" : '').">[{$lang['import']}]</a></td>\n";
 		}
 
 ?>
@@ -422,8 +422,8 @@ if($action == 'export') {
 				}
 			}
 
-			$datafile_next = preg_replace("/-($dumpinfo[volume])(\..+)$/", "-".($dumpinfo['volume'] + 1)."\\2", $datafile_server);
-			//$datafile_next = str_replace("-$dumpinfo[volume].sql", '-'.($dumpinfo['volume'] + 1).'.sql', $datafile_server);
+			$datafile_next = preg_replace("/-({$dumpinfo['volume']})(\..+)$/", "-".($dumpinfo['volume'] + 1)."\\2", $datafile_server);
+			//$datafile_next = str_replace("-{$dumpinfo['volume']}.sql", '-'.($dumpinfo['volume'] + 1).'.sql', $datafile_server);
 
 			if($dumpinfo['volume'] == 1) {
 				cpmsg('database_import_multivol_prompt',
@@ -519,16 +519,16 @@ if($action == 'export') {
 		$query = $db->query("SHOW TABLE STATUS LIKE '$tablepre%'");
 		while($table = $db->fetch_array($query)) {
 			$checked = $table['Type'] == 'MyISAM' || $table['Engine'] == 'MyISAM' ? 'checked' : 'disabled';
-			echo "<tr><td bgcolor=\"".ALTBG1."\" align=\"center\"><input type=\"checkbox\" name=\"optimizetables[]\" value=\"$table[Name]\" $checked></td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\">$table[Name]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" align=\"center\">$table[Type]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\">$table[Rows]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" align=\"center\">$table[Data_length]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\">$table[Index_length]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" align=\"center\">$table[Data_free]</td></tr>\n";
+			echo "<tr><td bgcolor=\"".ALTBG1."\" align=\"center\"><input type=\"checkbox\" name=\"optimizetables[]\" value=\"{$table['Name']}\" $checked></td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$table['Name']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\" align=\"center\">{$table['Type']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$table['Rows']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\" align=\"center\">{$table['Data_length']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$table['Index_length']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\" align=\"center\">{$table['Data_free']}</td></tr>\n";
 			$totalsize += $table['Data_length'] + $table['Index_length'];
 		}
-		echo "<tr class=\"header\"><td colspan=\"7\" align=\"right\">$lang[database_optimize_used] ".sizecount($totalsize)."</td></tr></table><br><br><center><input type=\"submit\" name=\"optimizesubmit\" value=\"$lang[submit]\"></center>\n";
+		echo "<tr class=\"header\"><td colspan=\"7\" align=\"right\">{$lang['database_optimize_used']} ".sizecount($totalsize)."</td></tr></table><br><br><center><input type=\"submit\" name=\"optimizesubmit\" value=\"{$lang['submit']}\"></center>\n";
 	} else {
 		$db->query("DELETE FROM {$tablepre}subscriptions", 'UNBUFFERED');
 		$db->query("UPDATE {$tablepre}memberfields SET authstr=''", 'UNBUFFERED');
@@ -537,23 +537,23 @@ if($action == 'export') {
 		while($table = $db->fetch_array($query)) {
 			if(is_array($optimizetables) && in_array($table['Name'], $optimizetables)) {
 				$optimized = $lang['yes'];
-				$db->query("OPTIMIZE TABLE $table[Name]");
+				$db->query("OPTIMIZE TABLE {$table['Name']}");
 			} else {
 				$optimized = '<b>'.$lang['no'].'</b>';
 			}
 
 			echo "<tr>\n".
 				"<td bgcolor=\"".ALTBG1."\" align=\"center\">$optimized</td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\">$table[Name]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" align=\"center\">$table[Type]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\">$table[Rows]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" align=\"center\">$table[Data_length]</td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\">$table[Index_length]</td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$table['Name']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\" align=\"center\">{$table['Type']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$table['Rows']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\" align=\"center\">{$table['Data_length']}</td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$table['Index_length']}</td>\n".
 				"<td bgcolor=\"".ALTBG1."\" align=\"center\">0</td>\n".
 				"</tr>\n";
 			$totalsize += $table['Data_length'] + $table['Index_length'];
 		}
-		echo "<tr class=\"header\"><td colspan=\"7\" align=\"right\">$lang[database_optimize_used] ".sizecount($totalsize)."</td></tr></table>";
+		echo "<tr class=\"header\"><td colspan=\"7\" align=\"right\">{$lang['database_optimize_used']} ".sizecount($totalsize)."</td></tr></table>";
 	}
 
 	echo '</table></form>';

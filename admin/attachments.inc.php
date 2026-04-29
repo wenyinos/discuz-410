@@ -111,16 +111,16 @@ if(!submitcheck('deletesubmit') && !submitcheck('searchsubmit')) {
 		FROM {$tablepre}attachments a, {$tablepre}posts p, {$tablepre}threads t, {$tablepre}forums f
 		WHERE t.tid=a.tid AND f.fid=p.fid AND t.displayorder>='0' AND p.invisible='0' AND $sql");
 	while($attachment = $db->fetch_array($query)) {
-		$matched = file_exists($attachdir.'/'.$attachment['attachment']) ? '' : "$lang[attachments_lost]";
+		$matched = file_exists($attachdir.'/'.$attachment['attachment']) ? '' : "{$lang['attachments_lost']}";
 		$attachsize = sizecount($attachment['filesize']);
 		if(!$nomatched || ($nomatched && $matched)) {
-			$attachments .= "<tr><td bgcolor=\"".ALTBG1."\" align=\"center\" valign=\"middle\"><input type=\"checkbox\" name=\"delete[]\" value=\"$attachment[aid]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\"><b>$attachment[filename]</b><br>$attachment[description]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" align=\"center\"><b>".($matched ? $matched : "<a href=\"attachment.php?aid=$attachment[aid]\" target=\"_blank\">[$lang[attachments_download]]</a>")."</b><br><a href=\"$attachurl/$attachment[attachment]\" class=\"smalltxt\" target=\"_blank\">$attachment[attachment]</a></td>\n".
-				"<td bgcolor=\"".ALTBG2."\" align=\"center\">$attachment[author]</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" valign=\"middle\"><a href=\"viewthread.php?tid=$attachment[tid]\" target=\"_blank\"><b>".cutstr($attachment['subject'], 18)."</b></a><br>$lang[forum]:<a href=\"forumdisplay.php?fid=$attachment[fid]\" target=\"_blank\">$attachment[fname]</a></td>\n".
+			$attachments .= "<tr><td bgcolor=\"".ALTBG1."\" align=\"center\" valign=\"middle\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$attachment['aid']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\"><b>{$attachment['filename']}</b><br>{$attachment['description']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\" align=\"center\"><b>".($matched ? $matched : "<a href=\"attachment.php?aid={$attachment['aid']}\" target=\"_blank\">[{$lang['attachments_download']}]</a>")."</b><br><a href=\"$attachurl/{$attachment['attachment']}\" class=\"smalltxt\" target=\"_blank\">{$attachment['attachment']}</a></td>\n".
+				"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$attachment['author']}</td>\n".
+				"<td bgcolor=\"".ALTBG1."\" valign=\"middle\"><a href=\"viewthread.php?tid={$attachment['tid']}\" target=\"_blank\"><b>".cutstr($attachment['subject'], 18)."</b></a><br>{$lang['forum']}:<a href=\"forumdisplay.php?fid={$attachment['fid']}\" target=\"_blank\">{$attachment['fname']}</a></td>\n".
 				"<td bgcolor=\"".ALTBG2."\" valign=\"middle\" align=\"center\">$attachsize</td>\n".
-				"<td bgcolor=\"".ALTBG1."\" valign=\"middle\" align=\"center\">$attachment[downloads]</td></tr>\n";
+				"<td bgcolor=\"".ALTBG1."\" valign=\"middle\" align=\"center\">{$attachment['downloads']}</td></tr>\n";
 		}
 	}
 

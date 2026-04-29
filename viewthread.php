@@ -52,12 +52,12 @@ if($lastvisit < $thread['lastpost'] && (!isset($_DCOOKIE['f'.$fid]) || $thread['
 	dsetcookie('fid'.$fid, $thread['lastpost'], 3600);
 }
 
-$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fid".($extra ? '&'.preg_replace("/^(&)*/", '', $extra) : '')."\">$forum[name]</a> &raquo; $thread[subject]";
+$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fid".($extra ? '&'.preg_replace("/^(&)*/", '', $extra) : '')."\">{$forum['name']}</a> &raquo; {$thread['subject']}";
 $navtitle = ' - '.strip_tags($forum['name']).' - '.$thread['subject'];
 if($forum['type'] == 'sub') {
-	$query = $db->query("SELECT fid, name FROM {$tablepre}forums WHERE fid='$forum[fup]'");
+	$query = $db->query("SELECT fid, name FROM {$tablepre}forums WHERE fid='{$forum['fup']}'");
 	$fup = $db->fetch_array($query);
-	$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fup[fid]\">$fup[name]</a> $navigation";
+	$navigation = "&raquo; <a href=\"forumdisplay.php?fid={$fup['fid']}\">{$fup['name']}</a> $navigation";
 	$navtitle = ' - '.strip_tags($fup['name']).$navtitle;
 }
 
@@ -252,7 +252,7 @@ if(empty($action) && $tid) {
 
 		$post['attachments'] = array();
 		if($post['attachment'] && $allowgetattach) {
-			$attachpids .= ",$post[pid]";
+			$attachpids .= ",{$post['pid']}";
 			$post['attachment'] = 0;
 			if(preg_match("/\[attach\](\d+)\[\/attach\]/i", $post['message'])) {
 				$attachtags[] = $post['pid'];

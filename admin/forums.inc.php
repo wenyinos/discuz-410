@@ -19,7 +19,7 @@ if($action == 'forumadd')  {
 
 	if((!submitcheck('catsubmit') && !submitcheck('forumsubmit'))) {
 		$addforumtype = '';
-		$groupselect = $forumselect = "<select name=\"fup\">\n<option value=\"0\"> - $lang[none] - </option>\n";
+		$groupselect = $forumselect = "<select name=\"fup\">\n<option value=\"0\"> - {$lang['none']} - </option>\n";
 		$query = $db->query("SELECT fid, name, type FROM {$tablepre}forums WHERE type<>'sub' ORDER BY displayorder");
 		while($fup = $db->fetch_array($query)) {
 			if(isset($fupid) && $fupid == $fup['fid']) {
@@ -29,9 +29,9 @@ if($action == 'forumadd')  {
 				$fupselected = '';
 			}
 			if($fup['type'] == 'group') {
-				$groupselect .= "<option value=\"$fup[fid]\" $fupselected>$fup[name]</option>\n";
+				$groupselect .= "<option value=\"{$fup['fid']}\" $fupselected>{$fup['name']}</option>\n";
 			} else {
-				$forumselect .= "<option value=\"$fup[fid]\" $fupselected>$fup[name]</option>\n";
+				$forumselect .= "<option value=\"{$fup['fid']}\" $fupselected>{$fup['name']}</option>\n";
 			}
 		}
 		$groupselect .= '</select>';
@@ -127,7 +127,7 @@ if($action == 'forumadd')  {
 		while($mod = $db->fetch_array($query)) {
 			if($mod['inherited'] || $forum['inheritedmod']) {
 				$db->query("REPLACE INTO {$tablepre}moderators (uid, fid, inherited)
-					VALUES ('$mod[uid]', '$fid', '1')");
+					VALUES ('{$mod['uid']}', '$fid', '1')");
 			}
 		}
 
@@ -191,12 +191,12 @@ if($action == 'forumadd')  {
 
 		foreach($forums as $key => $forum) {
 			if(!in_array($key, $showedforums)) {
-				$db->query("UPDATE {$tablepre}forums SET fup='0', type='forum' WHERE fid='$forum[fid]'");
+				$db->query("UPDATE {$tablepre}forums SET fup='0', type='forum' WHERE fid='{$forum['fid']}'");
 				echo '<ul>'.showforum($key).'</ul>';
 			}
 		}
 
-		echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"$lang[submit]\"></center><br></td></tr></table>\n";
+		echo "<br><center><input type=\"submit\" name=\"editsubmit\" value=\"{$lang['submit']}\"></center><br></td></tr></table>\n";
 
 	} else {
 
@@ -226,9 +226,9 @@ if($action == 'forumadd')  {
 		$query = $db->query("SELECT m.username, mo.* FROM {$tablepre}members m, {$tablepre}moderators mo WHERE mo.fid='$fid' AND m.uid=mo.uid ORDER BY mo.inherited, mo.displayorder");
 		while($mod = $db->fetch_array($query)) {
 
-			$moderators .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$mod[uid]\" ".($mod['inherited'] ? 'disabled' : '').">\n".
-				"<td bgcolor=\"".ALTBG2."\"><a href=\"viewpro.php?uid=$mod[uid]\" target=\"_blank\">$mod[username]</a></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" name=\"displayordernew[$mod[uid]]\" value=\"$mod[displayorder]\" size=\"2\"></td>\n".
+			$moderators .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$mod['uid']}\" ".($mod['inherited'] ? 'disabled' : '').">\n".
+				"<td bgcolor=\"".ALTBG2."\"><a href=\"viewpro.php?uid={$mod['uid']}\" target=\"_blank\">{$mod['username']}</a></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" name=\"displayordernew[{$mod['uid']}]\" value=\"{$mod['displayorder']}\" size=\"2\"></td>\n".
 				"<td bgcolor=\"".ALTBG2."\">".($mod['inherited'] ? '<b>'.$lang['yes'].'</b>' : $lang['no'])."</td></tr>\n";
 		}
 
@@ -322,7 +322,7 @@ if($action == 'forumadd')  {
 							}
 						}
 					}
-					$db->query("UPDATE {$tablepre}members SET adminid='$adminidnew', groupid='$groupidnew' WHERE uid='$member[uid]'");
+					$db->query("UPDATE {$tablepre}members SET adminid='$adminidnew', groupid='$groupidnew' WHERE uid='{$member['uid']}'");
 				}
 			}
 
@@ -345,10 +345,10 @@ if($action == 'forumadd')  {
 					cpmsg('members_edit_nonexistence');
 				} else {
 					$newmodarray[] = $member['uid'];
-					$db->query("UPDATE {$tablepre}members SET groupid='3' WHERE uid='$member[uid]' AND adminid NOT IN (1,2,3,4,5,6,7,8,-1)");
-					$db->query("UPDATE {$tablepre}members SET adminid='3' WHERE uid='$member[uid]' AND adminid NOT IN (1,2)");
+					$db->query("UPDATE {$tablepre}members SET groupid='3' WHERE uid='{$member['uid']}' AND adminid NOT IN (1,2,3,4,5,6,7,8,-1)");
+					$db->query("UPDATE {$tablepre}members SET adminid='3' WHERE uid='{$member['uid']}' AND adminid NOT IN (1,2)");
 					$db->query("REPLACE INTO {$tablepre}moderators (uid, fid, displayorder, inherited)
-						VALUES ('$member[uid]', '$fid', '$newdisplayorder', '0')");
+						VALUES ('{$member['uid']}', '$fid', '$newdisplayorder', '0')");
 				}
 			}
 
@@ -398,7 +398,7 @@ if($action == 'forumadd')  {
 		require_once DISCUZ_ROOT.'./include/forum.func.php';
 		require_once DISCUZ_ROOT.'./forumdata/cache/cache_forums.php';
 
-		$forumselect = "<select name=\"%s\">\n<option value=\"\">&nbsp;&nbsp;> $lang[select]</option><option value=\"\">&nbsp;</option>".str_replace('%', '%%', forumselect()).'</select>';
+		$forumselect = "<select name=\"%s\">\n<option value=\"\">&nbsp;&nbsp;> {$lang['select']}</option><option value=\"\">&nbsp;</option>".str_replace('%', '%%', forumselect()).'</select>';
 
 ?>
 <br><br><br><br><br>
@@ -431,7 +431,7 @@ if($action == 'forumadd')  {
 		$query = $db->query("SELECT threads, posts FROM {$tablepre}forums WHERE fid='$source'");
 		$sourceforum = $db->fetch_array($query);
 
-		$db->query("UPDATE {$tablepre}forums SET threads=threads+$sourceforum[threads], posts=posts+$sourceforum[posts] WHERE fid='$target'");
+		$db->query("UPDATE {$tablepre}forums SET threads=threads+{$sourceforum['threads']}, posts=posts+{$sourceforum['posts']} WHERE fid='$target'");
 		$db->query("DELETE FROM {$tablepre}forums WHERE fid='$source'");
 		$db->query("DELETE FROM {$tablepre}forumfields WHERE fid='$source'");
 		$db->query("DELETE FROM {$tablepre}moderators WHERE fid='$source'");
@@ -439,7 +439,7 @@ if($action == 'forumadd')  {
 		$query = $db->query("SELECT * FROM {$tablepre}access WHERE fid='$source'");
 		while($access = $db->fetch_array($query)) {
 			$db->query("INSERT INTO {$tablepre}access (uid, fid, allowview, allowpost, allowreply, allowgetattach)
-				VALUES ('$access[uid]', '$target', '$access[allowview]', '$access[allowpost]', '$access[allowreply]', '$access[allowgetattach]')", 'SILENT');
+				VALUES ('{$access['uid']}', '$target', '{$access['allowview']}', '{$access['allowpost']}', '{$access['allowreply']}', '{$access['allowgetattach']}')", 'SILENT');
 		}
 		$db->query("DELETE FROM {$tablepre}access WHERE fid='$source'");
 
@@ -471,7 +471,7 @@ if($action == 'forumadd')  {
 
 		if($forum['type'] == 'group') {
 
-			showtype("$lang[forums_cat_detail] - $forum[name]", 'top');
+			showtype("{$lang['forums_cat_detail']} - {$forum['name']}", 'top');
 			showsetting('forums_cat_name', 'namenew', $forum['name'], 'text');
 			showtype('', 'bottom');
 
@@ -485,11 +485,11 @@ if($action == 'forumadd')  {
 </td></tr></table><br><br>
 <?php
 
-			$fupselect = "<select name=\"fupnew\">\n<option value=\"0\" ".(!$forum[fup] ? "selected=\"selected\"" : NULL)."> - $lang[none] - </option>\n";
+			$fupselect = "<select name=\"fupnew\">\n<option value=\"0\" ".(!$forum[fup] ? "selected=\"selected\"" : NULL)."> - {$lang['none']} - </option>\n";
 			$query = $db->query("SELECT fid, name FROM {$tablepre}forums WHERE fid<>'$fid' AND type<>'sub' ORDER BY displayorder");
 			while($fup = $db->fetch_array($query)) {
 				$selected = $fup['fid'] == $forum['fup'] ? "selected=\"selected\"" : NULL;
-				$fupselect .= "<option value=\"$fup[fid]\" $selected>$fup[name]</option>\n";
+				$fupselect .= "<option value=\"{$fup['fid']}\" $selected>{$fup['name']}</option>\n";
 			}
 			$fupselect .= '</select>';
 
@@ -499,12 +499,12 @@ if($action == 'forumadd')  {
 				$groups[] = $group;
 			}
 
-			$styleselect = "<select name=\"styleidnew\"><option value=\"0\">$lang[use_default]</option>";
+			$styleselect = "<select name=\"styleidnew\"><option value=\"0\">{$lang['use_default']}</option>";
 			$query = $db->query("SELECT styleid, name FROM {$tablepre}styles");
 			while($style = $db->fetch_array($query)) {
-				$styleselect .= "<option value=\"$style[styleid]\" ".
+				$styleselect .= "<option value=\"{$style['styleid']}\" ".
 					($style['styleid'] == $forum['styleid'] ? 'selected="selected"' : NULL).
-					">$style[name]</option>\n";
+					">{$style['name']}</option>\n";
 			}
 			$styleselect .= '</select>';
 
@@ -533,8 +533,8 @@ if($action == 'forumadd')  {
 					if($num && $num % 4 == 0) {
 						$$perm .= "</tr><tr>";
 					}
-					$checked = strstr($forum[$perm], "\t$group[groupid]\t") ? 'checked' : NULL;
-					$$perm .= "<td><input type=\"checkbox\" name=\"{$perm}[]\" value=\"$group[groupid]\" $checked> $group[grouptitle]</td>\n";
+					$checked = strstr($forum[$perm], "\t{$group['groupid']}\t") ? 'checked' : NULL;
+					$$perm .= "<td><input type=\"checkbox\" name=\"{$perm}[]\" value=\"{$group['groupid']}\" $checked> {$group['grouptitle']}</td>\n";
 				}
 				$$perm .= '</tr></table>';
 			}
@@ -543,7 +543,7 @@ if($action == 'forumadd')  {
 
 			$query = $db->query("SELECT m.username, a.* FROM {$tablepre}access a LEFT JOIN {$tablepre}members m USING (uid) WHERE fid='$fid'");
 			while($access = $db->fetch_array($query)) {
-				$member = ", <a href=\"admincp.php?action=access&uid=$access[uid]\" target=\"_blank\">$access[username]</a>";
+				$member = ", <a href=\"admincp.php?action=access&uid={$access['uid']}\" target=\"_blank\">{$access['username']}</a>";
 				$viewaccess .= $access['allowview'] ? $member : NULL;
 				$postaccess .= $access['allowpost'] ? $member : NULL;
 				$replyaccess .= $access['allowreply'] ? $member : NULL;
@@ -574,7 +574,7 @@ if($action == 'forumadd')  {
 			$forum['postcredits'] = $forum['postcredits']? unserialize($forum['postcredits']) : array();
 			$forum['replycredits'] = $forum['replycredits']? unserialize($forum['replycredits']) : array();
 
-			showtype("$lang[forums_detail] - $forum[name]", 'top');
+			showtype("{$lang['forums_detail']} - {$forum['name']}", 'top');
 			showsetting('forums_edit_display', 'statusnew', $forum['status'], 'radio');
 			showsetting('forums_edit_up', '', '', $fupselect);
 			showsetting('forums_edit_style', '', '', $styleselect);
@@ -648,7 +648,7 @@ if($action == 'forumadd')  {
 
 		}
 
-		echo "<br><br><center><input type=\"submit\" name=\"detailsubmit\" value=\"$lang[submit]\"></form>";
+		echo "<br><br><center><input type=\"submit\" name=\"detailsubmit\" value=\"{$lang['submit']}\"></form>";
 
 	} else {
 
@@ -687,13 +687,13 @@ if($action == 'forumadd')  {
 				$query = $db->query("SELECT fid, type, inheritedmod FROM {$tablepre}forums WHERE fid='$fupnew'");
 				$fup = $db->fetch_array($query);
 
-				$fupadd = ", type='".($fup['type'] == 'forum' ? 'sub' : 'forum')."', fup='$fup[fid]'";
+				$fupadd = ", type='".($fup['type'] == 'forum' ? 'sub' : 'forum')."', fup='{$fup['fid']}'";
 
 				$db->query("DELETE FROM {$tablepre}moderators WHERE fid='$fid' AND inherited='1'");
 				$query = $db->query("SELECT * FROM {$tablepre}moderators WHERE fid='$fupnew' ".($fup['inheritedmod'] ? '' : "AND inherited='1'"));
 				while($mod = $db->fetch_array($query)) {
 					$db->query("REPLACE INTO {$tablepre}moderators (uid, fid, displayorder, inherited)
-						VALUES ('$mod[uid]', '$fid', '0', '1')");
+						VALUES ('{$mod['uid']}', '$fid', '0', '1')");
 				}
 
 				$moderators = $tab = '';
@@ -838,10 +838,10 @@ if($action == 'forumadd')  {
 		$threadtypes = '';
 		$query = $db->query("SELECT * FROM {$tablepre}threadtypes ORDER BY displayorder");
 		while($type = $db->fetch_array($query)) {
-			$threadtypes .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"$type[typeid]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"namenew[$type[typeid]]\" value=\"".dhtmlspecialchars($type['name'])."\"></td>\n".
-				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\" name=\"displayordernew[$type[typeid]]\" value=\"$type[displayorder]\"></td>\n".
-				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"30\" name=\"descriptionnew[$type[typeid]]\" value=\"$type[description]\"></td>\n".
+			$threadtypes .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$type['typeid']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"15\" name=\"namenew[{$type['typeid']}]\" value=\"".dhtmlspecialchars($type['name'])."\"></td>\n".
+				"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\" name=\"displayordernew[{$type['typeid']}]\" value=\"{$type['displayorder']}\"></td>\n".
+				"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"30\" name=\"descriptionnew[{$type['typeid']}]\" value=\"{$type['description']}\"></td>\n".
 				"<td bgcolor=\"".ALTBG1."\">".(is_array($forumsarray[$type['typeid']]) ? implode(', ', $forumsarray[$type['typeid']]) : '')."</td></tr>\n";
 		}
 
@@ -936,7 +936,7 @@ if($action == 'forumadd')  {
 
 		while($forum = $db->fetch_array($query)) {
 			if($forum['uid'] || $adminid == 2) {
-				$forums .= "<option value=\"$forum[fid]\">".strip_tags($forum['name'])."</option>";
+				$forums .= "<option value=\"{$forum['fid']}\">".strip_tags($forum['name'])."</option>";
 			}
 		}
 
@@ -1056,7 +1056,7 @@ if($action == 'forumadd')  {
 		showsetting('forums_copy_target', '', '', $forumselect);
 		showsetting('forums_copy_options', '', '', $optselect);
 		showtype('', 'bottom');
-		echo "<br><br><center><input type=\"submit\" name=\"copysubmit\" value=\"$lang[submit]\"></form>";
+		echo "<br><br><center><input type=\"submit\" name=\"copysubmit\" value=\"{$lang['submit']}\"></form>";
 
 	} else {
 

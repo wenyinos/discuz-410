@@ -17,7 +17,7 @@ require_once DISCUZ_ROOT.'./include/forum.func.php';
 $discuz_action = 2;
 
 if($forum['redirect']) {
-	header("Location: $forum[redirect]");
+	header("Location: {$forum['redirect']}");
 	exit();
 }
 
@@ -35,11 +35,11 @@ if(!$forum['fid'] || $forum['type'] == 'group') {
 }
 
 if($forum['type'] == 'forum') {
-	$navigation = "&raquo; $forum[name]";
+	$navigation = "&raquo; {$forum['name']}";
 	$navtitle = ' - '.strip_tags($forum['name']);
 } else {
 	$forumup = $_DCACHE['forums'][$forum['fup']]['name'];
-	$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$forum[fup]\">$forumup</a> &raquo; $forum[name]";
+	$navigation = "&raquo; <a href=\"forumdisplay.php?fid={$forum['fup']}\">$forumup</a> &raquo; {$forum['name']}";
 	$navtitle = ' - '.strip_tags($forumup).' - '.strip_tags($forum['name']);
 }
 
@@ -234,13 +234,13 @@ while(($querysticky && $thread = $db->fetch_array($querysticky)) || ($query && $
 		$pagelinks = '';
 		$topicpages = ceil($topicposts / $ppp);
 		for ($i = 1; $i <= $topicpages; $i++) {
-			$pagelinks .= "<a href=\"viewthread.php?tid=$thread[tid]&extra=$extra&page=$i\">$i</a> ";
+			$pagelinks .= "<a href=\"viewthread.php?tid={$thread['tid']}&extra=$extra&page=$i\">$i</a> ";
 			if($i == 6) {
 				$i = $topicpages + 1;
 			}
 		}
 		if($topicpages > 6) {
-			$pagelinks .= " .. <a href=\"viewthread.php?tid=$thread[tid]&page=$topicpages&extra=$extra\">$topicpages</a> ";
+			$pagelinks .= " .. <a href=\"viewthread.php?tid={$thread['tid']}&page=$topicpages&extra=$extra\">$topicpages</a> ";
 		}
 		$thread['multipage'] = '&nbsp; &nbsp;( <img src="'.IMGDIR.'/multipage.gif" align="absmiddle" border="0"> '.$pagelinks.')';
 	} else {

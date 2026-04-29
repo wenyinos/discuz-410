@@ -26,7 +26,7 @@ if(!submitcheck('settingsubmit')) {
 	$query = $db->query("SELECT styleid, name FROM {$tablepre}styles");
 	while($style = $db->fetch_array($query)) {
 	        $selected = $style['styleid'] == $settings['styleid'] ? 'selected="selected"' : NULL;
-	        $stylelist .= "<option value=\"$style[styleid]\" $selected>$style[name]</option>\n";
+	        $stylelist .= "<option value=\"{$style['styleid']}\" $selected>{$style['name']}</option>\n";
 	}
 	$stylelist .= '</select>';
 
@@ -418,7 +418,7 @@ if(!submitcheck('settingsubmit')) {
 				VALUES ('$key', '$val')");
 		}
 	}
-	$db->query("ALTER TABLE {$tablepre}sessions MAX_ROWS=$settingsnew[maxonlines]");
+	$db->query("ALTER TABLE {$tablepre}sessions MAX_ROWS={$settingsnew['maxonlines']}");
 	if ($settingsnew['maxonlines'] < $settings['maxonlines']) {
 		$db->query("DELETE FROM $table_sessions");
 	}

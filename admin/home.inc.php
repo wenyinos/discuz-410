@@ -30,10 +30,10 @@ $query = $db->query("SELECT a.*, m.username, m.adminid, m.regip
 
 while($member = $db->fetch_array($query)) {
 	$memlink = '<a href="viewpro.php?uid='.$member['uid'].'" target="_blank" alt="'.
-		"$lang[time]: ".gmdate("$dateformat $timeformat", $member['dateline'] + $timeoffset * 3600)."\n".
-		($member['errorcount'] == -1 ? '' : "$lang[home_onlines_errors]: $member[errorcount]\n").
-		($allowviewip && ($adminid <= $member['adminid'] || $member['adminid'] <= 0) ? "$lang[home_online_regip]: ".
-		"$member[regip]\n$lang[home_onlines_ip]: $member[ip]" : '').'">'.
+		"{$lang['time']}: ".gmdate("$dateformat $timeformat", $member['dateline'] + $timeoffset * 3600)."\n".
+		($member['errorcount'] == -1 ? '' : "{$lang['home_onlines_errors']}: {$member['errorcount']}\n").
+		($allowviewip && ($adminid <= $member['adminid'] || $member['adminid'] <= 0) ? "{$lang['home_online_regip']}: ".
+		"{$member['regip']}\n{$lang['home_onlines_ip']}: {$member['ip']}" : '').'">'.
 		$member['username'].'</a>';
 	$onlines[] = $member['errorcount'] == -1 ? $memlink : "<i>$memlink</i>";
 }
@@ -62,20 +62,20 @@ $notes = '';
 $query = $db->query("SELECT * FROM {$tablepre}adminnotes WHERE access IN ($access) ORDER BY dateline DESC");
 while($note = $db->fetch_array($query)) {
 	if($note['expiration'] < $timestamp) {
-		$db->query("DELETE FROM {$tablepre}adminnotes WHERE id='$note[id]'");
+		$db->query("DELETE FROM {$tablepre}adminnotes WHERE id='{$note['id']}'");
 	} else {
 		$note['adminenc'] = rawurlencode($note['admin']);
 		$note['dateline'] = gmdate("$dateformat $timeformat", $note['dateline'] + $timeoffset * 3600);
 		$note['expiration'] = gmdate($dateformat, $note['expiration'] + $timeoffset * 3600);
 		$note['access'] = sprintf('%03b', $note['access']);
-		$notes .= "<tr class=\"smalltxt\"><td bgcolor=\"".ALTBG1."\" align=\"center\"><input type=\"checkbox\" name=\"delete[]\" ".($note['admin'] == $discuz_userss || $note['adminid'] >= $adminid ? "value=\"$note[id]\"" : 'disabled')."></td>\n".
-			"<td bgcolor=\"".ALTBG2."\" align=\"center\"><a href=\"viewpro.php?username=$note[adminenc]\" target=\"_blank\">$note[admin]</a></td>\n".
-			"<td bgcolor=\"".ALTBG1."\" align=\"center\">$note[dateline]</td>\n".
-			"<td bgcolor=\"".ALTBG2."\"><b>$note[message]</b></td>\n".
+		$notes .= "<tr class=\"smalltxt\"><td bgcolor=\"".ALTBG1."\" align=\"center\"><input type=\"checkbox\" name=\"delete[]\" ".($note['admin'] == $discuz_userss || $note['adminid'] >= $adminid ? "value=\"{$note['id']}\"" : 'disabled')."></td>\n".
+			"<td bgcolor=\"".ALTBG2."\" align=\"center\"><a href=\"viewpro.php?username={$note['adminenc']}\" target=\"_blank\">{$note['admin']}</a></td>\n".
+			"<td bgcolor=\"".ALTBG1."\" align=\"center\">{$note['dateline']}</td>\n".
+			"<td bgcolor=\"".ALTBG2."\"><b>{$note['message']}</b></td>\n".
 			"<td bgcolor=\"".ALTBG1."\" align=\"center\">".($note['access'][0] ? $lang['yes'] : '')."</td>\n".
 			"<td bgcolor=\"".ALTBG2."\" align=\"center\">".($note['access'][1] ? $lang['yes'] : '')."</td>\n".
 			"<td bgcolor=\"".ALTBG1."\" align=\"center\">".($note['access'][2] ? $lang['yes'] : '')."</td>\n".
-			"<td bgcolor=\"".ALTBG2."\" align=\"center\">$note[expiration]</td></tr>\n";
+			"<td bgcolor=\"".ALTBG2."\" align=\"center\">{$note['expiration']}</td></tr>\n";
 	}
 }
 
@@ -233,16 +233,16 @@ $thisbg = ALTBG1;
 if($allowmodpost) {
 	if($threadsmod) {
 		$thisbg = $thisbg == ALTBG2 ? ALTBG1 : ALTBG2;
-		echo "<tr bgcolor=\"$thisbg\" style=\"font-weight: bold\"><td width=\"45%\"><a href=\"admincp.php?action=modthreads\">$lang[home_mod_threads]</a></td><td>$threadsmod</td></tr>\n";
+		echo "<tr bgcolor=\"$thisbg\" style=\"font-weight: bold\"><td width=\"45%\"><a href=\"admincp.php?action=modthreads\">{$lang['home_mod_threads']}</a></td><td>$threadsmod</td></tr>\n";
 	}
 	if($postsmod) {
 		$thisbg = $thisbg == ALTBG2 ? ALTBG1 : ALTBG2;
-		echo "<tr bgcolor=\"$thisbg\" style=\"font-weight: bold\"><td width=\"45%\"><a href=\"admincp.php?action=modreplies\">$lang[home_mod_posts]</a></td><td>$postsmod</td></tr>\n";
+		echo "<tr bgcolor=\"$thisbg\" style=\"font-weight: bold\"><td width=\"45%\"><a href=\"admincp.php?action=modreplies\">{$lang['home_mod_posts']}</a></td><td>$postsmod</td></tr>\n";
 	}
 }
 if($threadsdel && $adminid == 1) {
 	$thisbg = $thisbg == ALTBG2 ? ALTBG1 : ALTBG2;
-	echo "<tr bgcolor=\"$thisbg\" style=\"font-weight: bold\"><td width=\"45%\"><a href=\"admincp.php?action=recyclebin\">$lang[home_delete_threads]</td><td>$threadsdel</td></tr>\n";
+	echo "<tr bgcolor=\"$thisbg\" style=\"font-weight: bold\"><td width=\"45%\"><a href=\"admincp.php?action=recyclebin\">{$lang['home_delete_threads']}</td><td>$threadsdel</td></tr>\n";
 }
 
 ?>

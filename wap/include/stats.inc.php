@@ -19,9 +19,9 @@ $members = $totalmembers;
 $query = $db->query("SELECT SUM(threads) AS threads, SUM(posts) AS posts FROM {$tablepre}forums WHERE status='1'");
 @extract($db->fetch_array($query), EXTR_SKIP);
 
-echo "<p>$lang[stats]<br /><br />\n".
-	"$lang[stats_members]: $members<br />\n".
-	"$lang[stats_threads]: $threads<br />\n".
-	"$lang[stats_posts]: $posts</p>\n";
+echo "<p>{$lang['stats']}<br /><br />\n".
+	"{$lang['stats_members']}: $members<br />\n".
+	"{$lang['stats_threads']}: $threads<br />\n".
+	"{$lang['stats_posts']}: $posts</p>\n";
 
 ?>

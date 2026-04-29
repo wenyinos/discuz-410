@@ -57,10 +57,10 @@ if($do == 'newthread') {
 	if(empty($subject) || empty($message)) {
 
 		$typeselect = $forum['threadtypes']['required'] ? typeselect() : '';
-		echo ($typeselect ? "<p>$lang[type]:$typeselect</p>\n" : '').
-			"<p>$lang[subject]:<input type=\"text\" name=\"subject\" value=\"\" maxlength=\"80\" format=\"M*m\" /></p>\n".
-			"<p>$lang[message]:<input type=\"text\" name=\"message\" value=\"\" format=\"M*m\" /></p>\n".
-			"<p><anchor title=\"$lang[submit]\">$lang[submit]".
+		echo ($typeselect ? "<p>{$lang['type']}:$typeselect</p>\n" : '').
+			"<p>{$lang['subject']}:<input type=\"text\" name=\"subject\" value=\"\" maxlength=\"80\" format=\"M*m\" /></p>\n".
+			"<p>{$lang['message']}:<input type=\"text\" name=\"message\" value=\"\" format=\"M*m\" /></p>\n".
+			"<p><anchor title=\"{$lang['submit']}\">{$lang['submit']}".
 			"<go method=\"post\" href=\"index.php?action=post&amp;do=newthread&amp;fid=$fid&amp;sid=$sid\">\n".
 			"<postfield name=\"subject\" value=\"$(subject)\" />\n".
 			"<postfield name=\"message\" value=\"$(message)\" />\n".
@@ -98,7 +98,7 @@ if($do == 'newthread') {
 			$lastpost = "$tid\t$subject\t$timestamp\t$discuz_user";
 			$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost', threads=threads+1, posts=posts+1, todayposts=".todayposts()." WHERE fid='$fid'", 'UNBUFFERED');
 			if($forum['type'] == 'sub') {
-				$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='$forum[fup]'", 'UNBUFFERED');
+				$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='{$forum['fup']}'", 'UNBUFFERED');
 			}
 
 			wapmsg('post_newthread_succeed', array('title' => 'post_newthread_forward', 'link' => "index.php?action=thread&amp;tid=$tid"));
@@ -128,9 +128,9 @@ if($do == 'newthread') {
 
 	if(empty($subject) && empty($message)) {
 
-		echo "<p>$lang[subject]:<input type=\"text\" name=\"subject\" value=\"\" maxlength=\"80\" /></p>\n".
-			"<p>$lang[message]:<input type=\"text\" name=\"message\" value=\"\" format=\"M*m\" /></p>\n".
-			"<p><anchor title=\"$lang[submit]\">$lang[submit]".
+		echo "<p>{$lang['subject']}:<input type=\"text\" name=\"subject\" value=\"\" maxlength=\"80\" /></p>\n".
+			"<p>{$lang['message']}:<input type=\"text\" name=\"message\" value=\"\" format=\"M*m\" /></p>\n".
+			"<p><anchor title=\"{$lang['submit']}\">{$lang['submit']}".
 			"<go method=\"post\" href=\"index.php?action=post&amp;do=reply&amp;fid=$fid&amp;tid=$tid&amp;sid=$sid\">\n".
 			"<postfield name=\"subject\" value=\"$(subject)\" />\n".
 			"<postfield name=\"message\" value=\"$(message)\" />\n".
@@ -160,10 +160,10 @@ if($do == 'newthread') {
 	
 			updatepostcredits('+', $discuz_uid, $replycredits);
 	
-			$lastpost = "$thread[tid]\t".addslashes($thread['subject'])."\t$timestamp\t$discuz_user";
+			$lastpost = "{$thread['tid']}\t".addslashes($thread['subject'])."\t$timestamp\t$discuz_user";
 			$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost', posts=posts+1, todayposts=".todayposts()." WHERE fid='$fid'", 'UNBUFFERED');
 			if($forum['type'] == 'sub') {
-				$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='$forum[fup]'", 'UNBUFFERED');
+				$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='{$forum['fup']}'", 'UNBUFFERED');
 			}
 	
 			wapmsg('post_newreply_succeed', array('title' => 'post_newreply_forward', 'link' => "index.php?action=thread&amp;tid=$tid&amp;page=".(@ceil(($thread['replies'] + 2) / $wapppp))));

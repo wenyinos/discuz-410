@@ -78,7 +78,7 @@ if(!submitcheck('editsubmit')) {
 		require_once DISCUZ_ROOT.'./include/attachment.func.php';
 
 		$attachments = array();
-		$query = $db->query("SELECT * FROM {$tablepre}attachments WHERE pid='$postinfo[pid]'");
+		$query = $db->query("SELECT * FROM {$tablepre}attachments WHERE pid='{$postinfo['pid']}'");
 		while($attach = $db->fetch_array($query)) {
 			$attach['dateline'] = gmdate("$dateformat $timeformat", $attach['dateline'] + $timeoffset * 3600);
 			$attach['filesize'] = sizecount($attach[filesize]);
@@ -220,7 +220,7 @@ if(!submitcheck('editsubmit')) {
 		$query = $db->query("SELECT aid, readperm, description FROM {$tablepre}attachments WHERE pid='$pid'");
 		while($attach = $db->fetch_array($query)) {
 			if(($attachpermadd = $allowsetattachperm && $attach['readperm'] != $attachpermnew[$attach['aid']] ? ", readperm='{$attachpermnew[$attach['aid']]}'": '') || $attach['description'] != ($attachdescnew[$attach['aid']] = cutstr(dhtmlspecialchars($attachdescnew[$attach['aid']]), 100))) {
-				$db->query("UPDATE {$tablepre}attachments SET description='{$attachdescnew[$attach['aid']]}' $attachpermadd WHERE aid='$attach[aid]'");
+				$db->query("UPDATE {$tablepre}attachments SET description='{$attachdescnew[$attach['aid']]}' $attachpermadd WHERE aid='{$attach['aid']}'");
 			}
 		}
 
@@ -245,7 +245,7 @@ if(!submitcheck('editsubmit')) {
 			if($pattachment) {
 				foreach($attachments as $attach) {
 					$db->query("INSERT INTO {$tablepre}attachments (tid, pid, dateline, readperm, filename, description, filetype, filesize, attachment, downloads)
-						VALUES ('$tid', '$pid', '$timestamp', '$attach[perm]', '$attach[name]', '$attach[description]', '$attach[type]', '$attach[size]', '$attach[attachment]', '0')");
+						VALUES ('$tid', '$pid', '$timestamp', '{$attach['perm']}', '{$attach['name']}', '{$attach['description']}', '{$attach['type']}', '{$attach['size']}', '{$attach['attachment']}', '0')");
 				}
 				updatecredits($orig['authorid'], $creditspolicy['postattach'], count($attachments));
 			} else {
@@ -269,7 +269,7 @@ if(!submitcheck('editsubmit')) {
 		$forum['lastpost'] = explode("\t", $forum['lastpost']);
 
 		if($orig['dateline'] == $forum['lastpost'][2] && ($orig['author'] == $forum['lastpost'][3] || ($forum['lastpost'][3] == '' && $orig['anonymous']))) {
-			$lastpost = "$tid\t".($isfirstpost ? $subject : addslashes($thread['subject']))."\t$orig[dateline]\t".($isanonymous ? '' : addslashes($orig['author']));
+			$lastpost = "$tid\t".($isfirstpost ? $subject : addslashes($thread['subject']))."\t{$orig['dateline']}\t".($isanonymous ? '' : addslashes($orig['author']));
 			$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='$fid'", 'UNBUFFERED');
 		}
 
@@ -323,7 +323,7 @@ if(!submitcheck('editsubmit')) {
 			$query = $db->query("SELECT author, dateline FROM {$tablepre}posts WHERE tid='$tid' AND invisible='0' ORDER BY dateline DESC LIMIT 1");
 			$lastpost = $db->fetch_array($query);
 			$lastpost['author'] = addslashes($lastpost['author']);
-			$db->query("UPDATE {$tablepre}threads SET replies=replies-1, attachment='$thread_attachment', lastposter='$lastpost[author]', lastpost='$lastpost[dateline]' WHERE tid='$tid'", 'UNBUFFERED');
+			$db->query("UPDATE {$tablepre}threads SET replies=replies-1, attachment='$thread_attachment', lastposter='{$lastpost['author']}', lastpost='{$lastpost['dateline']}' WHERE tid='$tid'", 'UNBUFFERED');
 		}
 
 		$forum['lastpost'] = explode("\t", $forum['lastpost']);
@@ -331,7 +331,7 @@ if(!submitcheck('editsubmit')) {
 			$query = $db->query("SELECT tid, subject, lastpost, lastposter FROM {$tablepre}threads
 				WHERE fid='$fid' AND displayorder>='0' ORDER BY lastpost DESC LIMIT 1");
 			$lastthread = $db->fetch_array($query);
-			$forumadd .= ", lastpost='$lastthread[tid]\t$lastthread[subject]\t".addslashes($lastthread['lastpost'])."\t".addslashes($lastthread['lastposter'])."'";
+			$forumadd .= ", lastpost='{$lastthread['tid']}\t{$lastthread['subject']}\t".addslashes($lastthread['lastpost'])."\t".addslashes($lastthread['lastposter'])."'";
 		}
 
 		$db->query("UPDATE {$tablepre}forums SET $forumadd WHERE fid='$fid'", 'UNBUFFERED');

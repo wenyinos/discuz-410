@@ -53,8 +53,8 @@ while($post = $db->fetch_array($query)) {
 	}
 	$post['author'] = !$post['anonymous'] ? $post['author'] : $lang['anonymous'];
 	
-	$threadposts .= "<p>#".($start + 1)." $post[subject]<br /><small>".nl2br(dhtmlspecialchars(trim($post['message'])))."</small><br />\n".
-		($breaked ? '' : gmdate("$wapdateformat $timeformat", $post['dateline'] + $timeoffset * 3600)."<br />\n$post[author]<br />").
+	$threadposts .= "<p>#".($start + 1)." {$post['subject']}<br /><small>".nl2br(dhtmlspecialchars(trim($post['message'])))."</small><br />\n".
+		($breaked ? '' : gmdate("$wapdateformat $timeformat", $post['dateline'] + $timeoffset * 3600)."<br />\n{$post['author']}<br />").
 		"</p>\n";
 
 	if($breaked) {
@@ -68,22 +68,22 @@ while($post = $db->fetch_array($query)) {
 if($thread['displayorder'] > 0) {
 	$query = $db->query("SELECT tid, subject FROM {$tablepre}threads
 		WHERE fid='$fid' AND tid<>'$tid' AND
-		((displayorder>0 AND displayorder<='$thread[displayorder]' AND lastpost<'$thread[lastpost]') || (displayorder=0))
+		((displayorder>0 AND displayorder<='{$thread['displayorder']}' AND lastpost<'{$thread['lastpost']}') || (displayorder=0))
 		ORDER BY displayorder DESC, lastpost DESC LIMIT 1");
 } else {
 	$query = $db->query("SELECT tid, subject FROM {$tablepre}threads
-		WHERE fid='$fid' AND tid<>'$tid' AND displayorder=0 AND lastpost<'$thread[lastpost]' 
+		WHERE fid='$fid' AND tid<>'$tid' AND displayorder=0 AND lastpost<'{$thread['lastpost']}' 
 		ORDER BY lastpost DESC LIMIT 1");
 }
 
 $next_thread = $db->fetch_array($query);
 
 echo $threadposts."<p>#".($offset ? $start + 1 : $start).' '.
-	($start - 1 == $thread['replies'] && !$offset ? $lang['end'] : "<a href=\"index.php?action=thread&amp;tid=$tid&amp;start=$start&amp;offset=$offset\">&gt;&gt;$lang[next_page]</a>")."<br />\n".
-	($discuz_uid ? "<a href=\"index.php?action=post&amp;do=reply&amp;fid=$forum[fid]&amp;tid=$tid\">$lang[post_reply]</a><br /><a href=\"index.php?action=post&amp;do=newthread&amp;fid=$forum[fid]\">$lang[post_new]</a><br />\n" : '').
-	"<br />$lang[forum]:<a href=\"index.php?action=forum&amp;fid=$forum[fid]\">".dhtmlspecialchars(cutstr(strip_tags($forum['name']), 20))."</a>\n".
-	"<br />$lang[thread]:<a href=\"index.php?action=thread&amp;tid=$tid\">".cutstr($thread['subject'], 20)."</a>\n".
-	($next_thread ? "<br />$lang[next_thread]:<a href=\"index.php?action=thread&amp;tid=$next_thread[tid]\">".cutstr($next_thread['subject'], 20)."</a>\n" : '').
+	($start - 1 == $thread['replies'] && !$offset ? $lang['end'] : "<a href=\"index.php?action=thread&amp;tid=$tid&amp;start=$start&amp;offset=$offset\">&gt;&gt;{$lang['next_page']}</a>")."<br />\n".
+	($discuz_uid ? "<a href=\"index.php?action=post&amp;do=reply&amp;fid={$forum['fid']}&amp;tid=$tid\">{$lang['post_reply']}</a><br /><a href=\"index.php?action=post&amp;do=newthread&amp;fid={$forum['fid']}\">{$lang['post_new']}</a><br />\n" : '').
+	"<br />{$lang['forum']}:<a href=\"index.php?action=forum&amp;fid={$forum['fid']}\">".dhtmlspecialchars(cutstr(strip_tags($forum['name']), 20))."</a>\n".
+	"<br />{$lang['thread']}:<a href=\"index.php?action=thread&amp;tid=$tid\">".cutstr($thread['subject'], 20)."</a>\n".
+	($next_thread ? "<br />{$lang['next_thread']}:<a href=\"index.php?action=thread&amp;tid={$next_thread['tid']}\">".cutstr($next_thread['subject'], 20)."</a>\n" : '').
 	"</p>\n";
 
 ?>

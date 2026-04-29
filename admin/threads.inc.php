@@ -366,13 +366,13 @@ if(submitcheck('searchsubmit')) {
 			$query = $db->query("SELECT fid, tid, readperm, price, subject, authorid, author, views, replies, lastpost FROM {$tablepre}threads WHERE displayorder>='0' $sql");
 			while($thread = $db->fetch_array($query)) {
 				$thread['lastpost'] = gmdate("$dateformat $timeformat", $thread['lastpost'] + $timeoffset * 3600);
-				$threads .= "<tr><td align=\"center\" bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"tidarray[]\" value=\"$thread[tid]\" checked>\n".
-					"<td bgcolor=\"".ALTBG2."\"><a href=\"viewthread.php?tid=$thread[tid]\" target=\"_blank\">$thread[subject]</a>".($thread['readperm'] ? " - [$lang[threads_readperm] $thread[readperm]]" : '').($thread['price'] ? " - [$lang[threads_price] $thread[price]]" : '')."</td>\n".
-					"<td align=\"center\" bgcolor=\"".ALTBG1."\"><a href=\"forumdisplay.php?fid=$thread[fid]\" target=\"_blank\">{$_DCACHE[forums][$thread[fid]][name]}</a></td>\n".
-					"<td align=\"center\" bgcolor=\"".ALTBG2."\"><a href=\"viewpro.php?uid=$thread[authorid]\" target=\"_blank\">$thread[author]</a></td>\n".
-					"<td align=\"center\" bgcolor=\"".ALTBG1."\">$thread[replies]</td>\n".
-					"<td align=\"center\" bgcolor=\"".ALTBG2."\">$thread[views]</td>\n".
-					"<td align=\"center\" bgcolor=\"".ALTBG1."\">$thread[lastpost]</td></tr>\n";
+				$threads .= "<tr><td align=\"center\" bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"tidarray[]\" value=\"{$thread['tid']}\" checked>\n".
+					"<td bgcolor=\"".ALTBG2."\"><a href=\"viewthread.php?tid={$thread['tid']}\" target=\"_blank\">{$thread['subject']}</a>".($thread['readperm'] ? " - [{$lang['threads_readperm']} {$thread['readperm']}]" : '').($thread['price'] ? " - [{$lang['threads_price']} {$thread['price']}]" : '')."</td>\n".
+					"<td align=\"center\" bgcolor=\"".ALTBG1."\"><a href=\"forumdisplay.php?fid={$thread['fid']}\" target=\"_blank\">{{$_DCACHE['forums']}[{$thread['fid']}][name]}</a></td>\n".
+					"<td align=\"center\" bgcolor=\"".ALTBG2."\"><a href=\"viewpro.php?uid={$thread['authorid']}\" target=\"_blank\">{$thread['author']}</a></td>\n".
+					"<td align=\"center\" bgcolor=\"".ALTBG1."\">{$thread['replies']}</td>\n".
+					"<td align=\"center\" bgcolor=\"".ALTBG2."\">{$thread['views']}</td>\n".
+					"<td align=\"center\" bgcolor=\"".ALTBG1."\">{$thread['lastpost']}</td></tr>\n";
 			}
 		} else {
 			$query = $db->query("SELECT fid, tid FROM {$tablepre}threads WHERE displayorder>='0' $sql");

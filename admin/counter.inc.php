@@ -85,18 +85,18 @@ if(!submitcheck('forumsubmit', 1) && !submitcheck('digestsubmit', 1) && !submitc
 	while($forum = $db->fetch_array($queryf)) {
 		$processed = 1;
 
-		$query = $db->query("SELECT COUNT(*) AS threads, SUM(replies)+COUNT(*) AS posts FROM {$tablepre}threads WHERE fid='$forum[fid]' AND displayorder>='0'");
+		$query = $db->query("SELECT COUNT(*) AS threads, SUM(replies)+COUNT(*) AS posts FROM {$tablepre}threads WHERE fid='{$forum['fid']}' AND displayorder>='0'");
 		extract($db->fetch_array($query), EXTR_SKIP);
 
-		$query = $db->query("SELECT tid, subject, lastpost, lastposter FROM {$tablepre}threads WHERE fid='$forum[fid]' AND displayorder>='0' ORDER BY lastpost DESC LIMIT 1");
+		$query = $db->query("SELECT tid, subject, lastpost, lastposter FROM {$tablepre}threads WHERE fid='{$forum['fid']}' AND displayorder>='0' ORDER BY lastpost DESC LIMIT 1");
 		$thread = $db->fetch_array($query);
-		$lastpost = addslashes("$thread[tid]\t$thread[subject]\t$thread[lastpost]\t$thread[lastposter]");
+		$lastpost = addslashes("{$thread['tid']}\t{$thread['subject']}\t{$thread['lastpost']}\t{$thread['lastposter']}");
 
-		$db->query("UPDATE {$tablepre}forums SET threads='$threads', posts='$posts', lastpost='$lastpost' WHERE fid='$forum[fid]'");
+		$db->query("UPDATE {$tablepre}forums SET threads='$threads', posts='$posts', lastpost='$lastpost' WHERE fid='{$forum['fid']}'");
 	}
 
 	if($processed) {
-		cpmsg("$lang[counter_forum]: $lang[counter_processing]", $nextlink);
+		cpmsg("{$lang['counter_forum']}: {$lang['counter_processing']}", $nextlink);
 	} else {
 		$db->query("UPDATE {$tablepre}forums SET threads='0', posts='0' WHERE type='group'");
 		cpmsg('counter_forum_succeed');
@@ -131,7 +131,7 @@ if(!submitcheck('forumsubmit', 1) && !submitcheck('digestsubmit', 1) && !submitc
 	}
 
 	if($processed) {
-		cpmsg("$lang[counter_digest]: $lang[counter_processing]", $nextlink);
+		cpmsg("{$lang['counter_digest']}: {$lang['counter_processing']}", $nextlink);
 	} else {
 		cpmsg('counter_digest_succeed');
 	}
@@ -150,12 +150,12 @@ if(!submitcheck('forumsubmit', 1) && !submitcheck('digestsubmit', 1) && !submitc
 	$queryt = $db->query("SELECT uid FROM {$tablepre}members LIMIT $current, $pertask");
 	while($mem = $db->fetch_array($queryt)) {
 		$processed = 1;
-		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}posts WHERE authorid='$mem[uid]' AND invisible='0'");
-		$db->query("UPDATE {$tablepre}members SET posts='".$db->result($query, 0)."' WHERE uid='$mem[uid]'");
+		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}posts WHERE authorid='{$mem['uid']}' AND invisible='0'");
+		$db->query("UPDATE {$tablepre}members SET posts='".$db->result($query, 0)."' WHERE uid='{$mem['uid']}'");
 	}
 
 	if($processed) {
-		cpmsg("$lang[counter_member]: $lang[counter_processing]", $nextlink);
+		cpmsg("{$lang['counter_member']}: {$lang['counter_processing']}", $nextlink);
 	} else {
 		cpmsg('counter_member_succeed');
 	}
@@ -174,14 +174,14 @@ if(!submitcheck('forumsubmit', 1) && !submitcheck('digestsubmit', 1) && !submitc
 	$queryt = $db->query("SELECT tid FROM {$tablepre}threads WHERE displayorder>='0' LIMIT $current, $pertask");
 	while($threads = $db->fetch_array($queryt)) {
 		$processed = 1;
-		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}posts WHERE tid='$threads[tid]' AND invisible='0'");
+		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}posts WHERE tid='{$threads['tid']}' AND invisible='0'");
 		$replynum = $db->result($query, 0);
 		$replynum--;
-		$db->query("UPDATE {$tablepre}threads SET replies='$replynum' WHERE tid='$threads[tid]'");
+		$db->query("UPDATE {$tablepre}threads SET replies='$replynum' WHERE tid='{$threads['tid']}'");
 	}
 
 	if($processed) {
-		cpmsg("$lang[counter_thread]: $lang[counter_processing]", $nextlink);
+		cpmsg("{$lang['counter_thread']}: {$lang['counter_processing']}", $nextlink);
 	} else {
 		cpmsg('counter_thread_succeed');
 	}
@@ -214,7 +214,7 @@ if(!submitcheck('forumsubmit', 1) && !submitcheck('digestsubmit', 1) && !submitc
 	}
 
 	if($processed) {
-		cpmsg("$lang[counter_moved_thread]: $lang[counter_processing]", $nextlink);
+		cpmsg("{$lang['counter_moved_thread']}: {$lang['counter_processing']}", $nextlink);
 	} else {
 		cpmsg('counter_moved_thread_succeed');
 	}

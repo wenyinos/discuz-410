@@ -40,20 +40,20 @@ if(!empty($tid) && !empty($fid)) {
 	$query = $db->query("SELECT * FROM {$tablepre}threads WHERE tid='$tid' AND displayorder>='0'");
 	$thread = $db->fetch_array($query);
 	$fid = $thread['fid'];
-	$navigation = "&raquo; <a href=\"viewthread.php?tid=$tid\">$thread[subject]</a>";
-	$navtitle = " - $thread[subject]";
+	$navigation = "&raquo; <a href=\"viewthread.php?tid=$tid\">{$thread['subject']}</a>";
+	$navtitle = " - {$thread['subject']}";
 
 	if($thread['readperm'] && $thread['readperm'] > $readaccess && !$forum['ismoderator'] && $thread['authorid'] != $discuz_uid) {
 		showmessage('thread_nopermission', NULL, 'NOPERM');
 	}
 }
 
-$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fid".($extra ? '&'.preg_replace("/^(&)*/", '', $extra) : '')."\">$forum[name]</a> $navigation";
+$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fid".($extra ? '&'.preg_replace("/^(&)*/", '', $extra) : '')."\">{$forum['name']}</a> $navigation";
 $navtitle = ' - '.strip_tags($forum['name']).$navtitle;
 if($forum['type'] == 'sub') {
-	$query = $db->query("SELECT name, fid FROM {$tablepre}forums WHERE fid='$forum[fup]'");
+	$query = $db->query("SELECT name, fid FROM {$tablepre}forums WHERE fid='{$forum['fup']}'");
 	$fup = $db->fetch_array($query);
-	$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fup[fid]\">$fup[name]</a> $navigation";
+	$navigation = "&raquo; <a href=\"forumdisplay.php?fid={$fup['fid']}\">{$fup['name']}</a> $navigation";
 	$navtitle = ' - '.strip_tags($fup['name']).$navtitle;
 }
 

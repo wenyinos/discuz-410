@@ -44,7 +44,7 @@ if($thread['replies'] >= 1) {
 	while($post = $db->fetch_array($query)) {
 		$post['thisbg'] = $thisbg = isset($thisbg) && $thisbg == 'altbg1' ? 'altbg2' : 'altbg1';
 		$post['dateline'] = gmdate("$dateformat $timeformat", $post['dateline'] + $timeoffset * 3600);;
-		$post['message'] = preg_replace("/\[hide=?\d*\](.+?)\[\/hide\]/is", "[b]$language[post_hidden][/b]", $post['message']);
+		$post['message'] = preg_replace("/\[hide=?\d*\](.+?)\[\/hide\]/is", "[b]{$language['post_hidden']}[/b]", $post['message']);
 		$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], $post['htmlon'], $forum['allowsmilies'], $forum['allowbbcode'], $forum['allowimgcode'], $forum['allowhtml'], $forum['jammer']);
 
 		$postlist[] = $post;

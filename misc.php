@@ -80,12 +80,12 @@ if($action == 'maxpages') {
 	}
 
 	if($forum['type'] == 'forum') {
-		$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fid\">$forum[name]</a> &raquo; <a href=\"viewthread.php?tid=$tid\">$thread[subject]</a> ";
+		$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fid\">{$forum['name']}</a> &raquo; <a href=\"viewthread.php?tid=$tid\">{$thread['subject']}</a> ";
 		$navtitle = ' - '.strip_tags($forum['name']).' - '.$thread['subject'];
 	} elseif($forum['type'] == 'sub') {
-		$query = $db->query("SELECT name, fid FROM {$tablepre}forums WHERE fid='$forum[fup]'");
+		$query = $db->query("SELECT name, fid FROM {$tablepre}forums WHERE fid='{$forum['fup']}'");
 		$fup = $db->fetch_array($query);
-		$navigation = "&raquo; <a href=\"forumdisplay.php?fid=$fup[fid]\">$fup[name]</a> &raquo; <a href=\"forumdisplay.php?fid=$fid\">$forum[name]</a> &raquo; <a href=\"viewthread.php?tid=$tid\">$thread[subject]</a> ";
+		$navigation = "&raquo; <a href=\"forumdisplay.php?fid={$fup['fid']}\">{$fup['name']}</a> &raquo; <a href=\"forumdisplay.php?fid=$fid\">{$forum['name']}</a> &raquo; <a href=\"viewthread.php?tid=$tid\">{$thread['subject']}</a> ";
 		$navtitle = ' - '.strip_tags($fup['name']).' - '.strip_tags($forum['name']).' - '.$thread['subject'];
 	}
 
@@ -291,7 +291,7 @@ if($action == 'votepoll') {
 		@$fp = fopen(DISCUZ_ROOT.'./forumdata/ratelog.php', 'a');
 		@flock($fp, 2);
 		foreach($creditsarray as $id => $addcredits) {
-			@fwrite($fp, "$timestamp\t".dhtmlspecialchars($discuz_userss)."\t$adminid\t".dhtmlspecialchars($post['author'])."\t$id\t$addcredits\t$tid\t$thread[subject]\t$reason\n");
+			@fwrite($fp, "$timestamp\t".dhtmlspecialchars($discuz_userss)."\t$adminid\t".dhtmlspecialchars($post['author'])."\t$id\t$addcredits\t$tid\t{$thread['subject']}\t$reason\n");
 		}
 		@fclose($fp);
 
@@ -369,12 +369,12 @@ if($action == 'votepoll') {
 		}
 
 		if($updateauthor) {
-			$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans+$thread[netprice] WHERE uid='$thread[authorid]'");
+			$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans+{$thread['netprice']} WHERE uid='{$thread['authorid']}'");
 		}
 
-		$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans-$thread[price] WHERE uid='$discuz_uid'");
+		$db->query("UPDATE {$tablepre}members SET extcredits$creditstrans=extcredits$creditstrans-{$thread['price']} WHERE uid='$discuz_uid'");
 		$db->query("INSERT INTO {$tablepre}paymentlog (uid, tid, authorid, dateline, amount, netamount)
-			VALUES ('$discuz_uid', '$tid', '$thread[authorid]', '$timestamp', '$thread[price]', '$thread[netprice]')");
+			VALUES ('$discuz_uid', '$tid', '{$thread['authorid']}', '$timestamp', '{$thread['price']}', '{$thread['netprice']}')");
 
 		showmessage('thread_pay_succeed', "viewthread.php?tid=$tid");
 
@@ -488,7 +488,7 @@ if($action == 'votepoll') {
 	}
 
 	if($thread['authorid'] != $discuz_uid) {
-		$query = $db->query("SELECT adminid FROM {$tablepre}members WHERE uid='$thread[authorid]'");
+		$query = $db->query("SELECT adminid FROM {$tablepre}members WHERE uid='{$thread['authorid']}'");
 		$thread['adminid'] = $db->result($query, 0);
 		if(!$forum['ismoderator'] || (in_array($thread['adminid'], array(1, 2, 3)) && $adminid > $thread['adminid'])) {
 			showmessage('blog_add_illegal');

@@ -27,13 +27,13 @@ if(empty($do)) {
 		$pm['new'] ? $num_unread = $pm['num'] : $num_read = $pm['num'];
 	}
 
-	echo "<p><a href=\"index.php?action=pm&amp;do=list&amp;unread=yes\">$lang[pm_unread]($num_unread)</a><br />\n".
-		"<a href=\"index.php?action=pm&amp;do=list\">$lang[pm_all](".($num_read + $num_unread).")</a><br />\n".
-		"<a href=\"index.php?action=pm&amp;do=send\">$lang[pm_send]</a></p>\n";
+	echo "<p><a href=\"index.php?action=pm&amp;do=list&amp;unread=yes\">{$lang['pm_unread']}($num_unread)</a><br />\n".
+		"<a href=\"index.php?action=pm&amp;do=list\">{$lang['pm_all']}(".($num_read + $num_unread).")</a><br />\n".
+		"<a href=\"index.php?action=pm&amp;do=send\">{$lang['pm_send']}</a></p>\n";
 
 } else {
 
-	echo "<p align=\"center\"><a href=\"index.php?action=pm\">$lang[pm_home]</a><br /></p>\n";
+	echo "<p align=\"center\"><a href=\"index.php?action=pm\">{$lang['pm_home']}</a><br /></p>\n";
 
 	if($do == 'list') {
 
@@ -51,12 +51,12 @@ if(empty($do)) {
 			ORDER BY dateline DESC
 			LIMIT $start_limit, $waptpp");
 		while($pm = $db->fetch_array($query)) {
-			echo "<p><a href=\"index.php?action=pm&amp;do=view&amp;pmid=$pm[pmid]\">#".++$number.' '.(empty($unread) && $pm['new'] ? "($lang[unread])" : '').cutstr($pm['subject'], 30)."</a><br />\n".
+			echo "<p><a href=\"index.php?action=pm&amp;do=view&amp;pmid={$pm['pmid']}\">#".++$number.' '.(empty($unread) && $pm['new'] ? "({$lang['unread']})" : '').cutstr($pm['subject'], 30)."</a><br />\n".
 				"&nbsp; <small>".gmdate("$wapdateformat $timeformat", $pm['dateline'] + $timeoffset * 3600)."<br />\n".
-				"&nbsp; $pm[msgfrom]</small></p>\n";
+				"&nbsp; {$pm['msgfrom']}</small></p>\n";
 		}
-		echo "<p><br />$lang[page]$page ".
-			($start_limit + $waptpp < $totalpms ? "<a href=\"index.php?action=pm&amp;do=$do&amp;page=".($page + 1)."\">&gt;&gt;$lang[next_page]</a>" : $lang['end']).
+		echo "<p><br />{$lang['page']}$page ".
+			($start_limit + $waptpp < $totalpms ? "<a href=\"index.php?action=pm&amp;do=$do&amp;page=".($page + 1)."\">&gt;&gt;{$lang['next_page']}</a>" : $lang['end']).
 			"</p>\n";
 
 	} elseif($do == 'view') {
@@ -66,12 +66,12 @@ if(empty($do)) {
 			wapmsg('pm_nonexistence');
 		}
 
-		echo "<p>$pm[subject]</p>\n".
-			"<p><small>$pm[msgfrom]</small></p>\n".
+		echo "<p>{$pm['subject']}</p>\n".
+			"<p><small>{$pm['msgfrom']}</small></p>\n".
 			"<p><small>".gmdate("$wapdateformat $timeformat", $pm['dateline'] + $timeoffset * 3600)."</small></p>\n".
 			"<p><small><br />".nl2br(dhtmlspecialchars(trim($pm['message'])))."<br /></small></p>\n".
-			"<p align=\"center\"><a href=\"index.php?action=pm&amp;do=send&amp;pmid=$pmid\">$lang[reply]</a></p>\n".
-			"<p align=\"center\"><a href=\"index.php?action=pm&amp;do=delete&amp;pmid=$pmid\">$lang[delete]</a></p>\n";
+			"<p align=\"center\"><a href=\"index.php?action=pm&amp;do=send&amp;pmid=$pmid\">{$lang['reply']}</a></p>\n".
+			"<p align=\"center\"><a href=\"index.php?action=pm&amp;do=delete&amp;pmid=$pmid\">{$lang['delete']}</a></p>\n";
 		$db->query("UPDATE {$tablepre}pms SET new='0' WHERE pmid='$pmid'");
 
 	} elseif($do == 'send') {
@@ -86,10 +86,10 @@ if(empty($do)) {
 				$pm = array('msgfrom' => '', 'subject' => '');
 			}
 
-			echo "<p>$lang[pm_to]:<input type=\"text\" name=\"msgto\" value=\"$pm[msgfrom]\" maxlength=\"15\" format=\"M*m\" /></p>\n".
-				"<p>$lang[subject]:<input type=\"text\" name=\"subject\" value=\"$pm[subject]\" maxlength=\"70\" format=\"M*m\" /></p>\n".
-				"<p>$lang[message]:<input type=\"text\" name=\"message\" value=\"\" format=\"M*m\" /></p>\n".
-				"<p><anchor title=\"$lang[submit]\">$lang[submit]".
+			echo "<p>{$lang['pm_to']}:<input type=\"text\" name=\"msgto\" value=\"{$pm['msgfrom']}\" maxlength=\"15\" format=\"M*m\" /></p>\n".
+				"<p>{$lang['subject']}:<input type=\"text\" name=\"subject\" value=\"{$pm['subject']}\" maxlength=\"70\" format=\"M*m\" /></p>\n".
+				"<p>{$lang['message']}:<input type=\"text\" name=\"message\" value=\"\" format=\"M*m\" /></p>\n".
+				"<p><anchor title=\"{$lang['submit']}\">{$lang['submit']}".
 				"<go method=\"post\" href=\"index.php?action=pm&amp;do=send&amp;sid=$sid\">\n".
 				"<postfield name=\"msgto\" value=\"$(msgto)\" />\n".
 				"<postfield name=\"subject\" value=\"$(subject)\" />\n".
@@ -118,8 +118,8 @@ if(empty($do)) {
 
 			$subject = dhtmlspecialchars(cutstr(trim($subject), 75));
 			$db->query("INSERT INTO {$tablepre}pms (msgfrom, msgfromid, msgtoid, folder, new, subject, dateline, message)
-				VALUES('$discuz_user', '$discuz_uid', '$member[msgtoid]', 'inbox', '1', '$subject', '$timestamp', '$message')");
-			$db->query("UPDATE {$tablepre}members SET newpm='1' WHERE uid='$member[msgtoid]'", 'UNBUFFERED');
+				VALUES('$discuz_user', '$discuz_uid', '{$member['msgtoid']}', 'inbox', '1', '$subject', '$timestamp', '$message')");
+			$db->query("UPDATE {$tablepre}members SET newpm='1' WHERE uid='{$member['msgtoid']}'", 'UNBUFFERED');
 
 			if($floodctrl) {
 				$db->query("UPDATE {$tablepre}members SET lastpost='$timestamp' WHERE uid='$discuz_uid'");

@@ -56,7 +56,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck)) {
 		$message = $thaquote['message'];
 
 		if($bannedmessages && $thaquote['authorid']) {
-			$query = $db->query("SELECT groupid FROM {$tablepre}members WHERE uid='$thaquote[authorid]'");
+			$query = $db->query("SELECT groupid FROM {$tablepre}members WHERE uid='{$thaquote['authorid']}'");
 			$author = $db->fetch_array($query);
 			if(!$author['groupid'] || $author['groupid'] == 4 || $author['groupid'] == 5) {
 				$message = $language['post_banned'];
@@ -64,7 +64,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck)) {
 		}
 
 		$time = gmdate("$dateformat $timeformat", $thaquote['dateline'] + ($timeoffset * 3600));
-		$message = preg_replace("/\[hide=?\d*\](.+?)\[\/hide\]/is", "[b]$language[post_hidden][/b]", $message);
+		$message = preg_replace("/\[hide=?\d*\](.+?)\[\/hide\]/is", "[b]{$language['post_hidden']}[/b]", $message);
 		$message = preg_replace("/(\[quote])(.*)(\[\/quote])/siU", "", $message);
 		$message = preg_replace($language['post_edit_regexp'], '', $message);
 		$message = cutstr(dhtmlspecialchars(preg_replace("/\[.+?\]/", '', $message)), 200);
@@ -73,13 +73,13 @@ if(!submitcheck('replysubmit', 0, $seccodecheck)) {
 		if($thaquote['author'] && $thaquote['anonymous']) {
 		    $thaquote['author'] = "[i]Anonymous[/i]";
 		} elseif(!$thaquote['author']) {
-		    $thaquote['author'] = "[i]Guest[/i] from $thaquote[useip]";
+		    $thaquote['author'] = "[i]Guest[/i] from {$thaquote['useip']}";
 		} else {
-		    $thaquote['author'] = "[i]$thaquote[author][/i]";
+		    $thaquote['author'] = "[i]{$thaquote['author']}[/i]";
 		}
 
 		$language['post_reply_quote'] = dinterpolate($language[post_reply_quote]);
-		$message = "[quote]$language[post_reply_quote]\n$message [/quote]\n";
+		$message = "[quote]{$language['post_reply_quote']}\n$message [/quote]\n";
 
 	}
 
@@ -97,7 +97,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck)) {
 				include_once language('misc');
 				$post['message'] = $language['post_banned'];
 			} else {
-				$post['message'] = preg_replace("/\[hide=?\d*\](.+?)\[\/hide\]/is", "[b]$language[post_hidden][/b]", $post['message']);
+				$post['message'] = preg_replace("/\[hide=?\d*\](.+?)\[\/hide\]/is", "[b]{$language['post_hidden']}[/b]", $post['message']);
 				$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], $post['htmlon'], $forum['allowsmilies'], $forum['allowbbcode'], $forum['allowimgcode'], $forum['allowhtml'], $forum['jammer']);
 			}
 
@@ -168,7 +168,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck)) {
 	if($attachment) {
 		foreach($attachments as $attach) {
 			$db->query("INSERT INTO {$tablepre}attachments (tid, pid, dateline, readperm, filename, description, filetype, filesize, attachment, downloads)
-				VALUES ('$tid', '$pid', '$timestamp', '$attach[perm]', '$attach[name]', '$attach[description]', '$attach[type]', '$attach[size]', '$attach[attachment]', '0')");
+				VALUES ('$tid', '$pid', '$timestamp', '{$attach['perm']}', '{$attach['name']}', '{$attach['description']}', '{$attach['type']}', '{$attach['size']}', '{$attach['attachment']}', '0')");
 		}
 		updatecredits($discuz_uid, $creditspolicy['postattach'], count($attachments));
 	}
@@ -184,10 +184,10 @@ if(!submitcheck('replysubmit', 0, $seccodecheck)) {
 
 		updatepostcredits('+', $discuz_uid, $replycredits);
 
-		$lastpost = "$thread[tid]\t".addslashes($thread['subject'])."\t$timestamp\t$author";
+		$lastpost = "{$thread['tid']}\t".addslashes($thread['subject'])."\t$timestamp\t$author";
 		$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost', posts=posts+1, todayposts=".todayposts()." WHERE fid='$fid'", 'UNBUFFERED');
 		if($forum['type'] == 'sub') {
-			$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='$forum[fup]'", 'UNBUFFERED');
+			$db->query("UPDATE {$tablepre}forums SET lastpost='$lastpost' WHERE fid='{$forum['fup']}'", 'UNBUFFERED');
 		}
 
 		!$allowuseblog || empty($isblog) ? showmessage('post_reply_succeed', "viewthread.php?tid=$tid&pid=$pid&page=".(@ceil(($thread['replies'] + 2) / $ppp))."&extra=$extra#pid$pid") :

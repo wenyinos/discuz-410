@@ -89,7 +89,7 @@ if((empty($type) && empty($statstatus)) || (isset($type) && $type == 'posts')) {
 	$stats_monthposts = $stats_dayposts = array();
 
 	$stats_dayposts['starttime'] = gmdate('Ymd', $timestamp - 86400 * 30);
-	$db->query("DELETE FROM {$tablepre}statvars WHERE type='dayposts' AND variable<'$stats_dayposts[starttime]'");
+	$db->query("DELETE FROM {$tablepre}statvars WHERE type='dayposts' AND variable<'{$stats_dayposts['starttime']}'");
 
 	$query = $db->query("SELECT * FROM {$tablepre}statvars WHERE type='monthposts' OR type='dayposts' ORDER BY variable");
 	while($variable = $db->fetch_array($query)) {
@@ -102,7 +102,7 @@ if((empty($type) && empty($statstatus)) || (isset($type) && $type == 'posts')) {
 		$starttime = $db->result($query, 0);
 		$stats_monthposts['starttime'] = gmdate('Y-m-01', ($starttime ? $starttime : $timestamp));
 		$db->query("REPLACE INTO {$tablepre}statvars (type, variable, value)
-			VALUES ('monthposts', 'starttime', '$stats_monthposts[starttime]')");
+			VALUES ('monthposts', 'starttime', '{$stats_monthposts['starttime']}')");
 	}
 
 	for($dateline = strtotime($stats_monthposts['starttime']) - date('Z') + $_DCACHE['settings']['timeoffset'] * 3600; $dateline < strtotime(gmdate('Y-m-01', $timestamp + $_DCACHE['settings']['timeoffset'] * 3600)) - date('Z') + $_DCACHE['settings']['timeoffset'] * 3600; $dateline += gmdate('t', $dateline + 86400 * 15) * 86400) {
@@ -525,7 +525,7 @@ if(empty($type)) {
 	for($i = 0; $i < 20; $i++) {
 		$creditsrank .= "<tr $bgclass>";
 		foreach($extcredits as $id => $credit) {
-			$creditsrank .= "<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($extendedcredits[$id][$i]['username'])."\" target=\"_blank\">{$extendedcredits[$id][$i][username]}</a></td><td align=\"right\">{$extendedcredits[$id][$i][credits]} $credit[unit]</td><td bgcolor=\"".ALTBG1."\"></td>\n";
+			$creditsrank .= "<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($extendedcredits[$id][$i]['username'])."\" target=\"_blank\">{$extendedcredits[$id][$i][username]}</a></td><td align=\"right\">{$extendedcredits[$id][$i][credits]} {$credit['unit']}</td><td bgcolor=\"".ALTBG1."\"></td>\n";
 		}
 		$creditsrank .= "<td><li> <a href=\"viewpro.php?username=".rawurlencode($credits[$i]['username'])."\" target=\"_blank\">{$credits[$i][username]}</a></td><td align=\"right\">{$credits[$i][credits]}</td>\n";
 		$creditsrank .= "</tr>\n";

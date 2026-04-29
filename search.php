@@ -104,7 +104,7 @@ if(!submitcheck('searchsubmit', 1) && empty($page)) {
 		$index['searchtype'] = preg_replace("/^([a-z]+)\|.*/", "\\1", $index['searchstring']);
 
 		$threadlist = array();
-		$query = $db->query("SELECT * FROM {$tablepre}threads WHERE tid IN ($index[tids]) AND displayorder>='0' ORDER BY $orderby $ascdesc LIMIT $start_limit, $tpp");
+		$query = $db->query("SELECT * FROM {$tablepre}threads WHERE tid IN ({$index['tids']}) AND displayorder>='0' ORDER BY $orderby $ascdesc LIMIT $start_limit, $tpp");
 		while($thread = $db->fetch_array($query)) {
 			$threadlist[] = procthread($thread);
 		}
@@ -208,7 +208,7 @@ if(!submitcheck('searchsubmit', 1) && empty($page)) {
 					$srchuname = str_replace('*', '%', addcslashes($srchuname, '%_'));
 					$query = $db->query("SELECT uid FROM {$tablepre}members WHERE username LIKE '".str_replace('_', '\_', $srchuname)."' LIMIT 50");
 					while($member = $db->fetch_array($query)) {
-						$srchuid .= "$comma'$member[uid]'";
+						$srchuid .= "$comma'{$member['uid']}'";
 						$comma = ', ';
 					}
 					if(!$srchuid) {

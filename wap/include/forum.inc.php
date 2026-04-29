@@ -29,7 +29,7 @@ if(isset($fup)) {
 	echo "<p>\n";
 	foreach($forums as $fid => $forum) {
 		echo "<a href=\"index.php?action=forum&amp;fid=$fid\">".dhtmlspecialchars($forum['name'])."</a>".
-			($subforums[$fid] ? "<br />&nbsp;+[<a href=\"index.php?action=forum&amp;fup=$fid\">$subforums[$fid]$lang[sub_forums]</a>]" : '')."<br />\n";
+			($subforums[$fid] ? "<br />&nbsp;+[<a href=\"index.php?action=forum&amp;fup=$fid\">$subforums[$fid]{$lang['sub_forums']}</a>]" : '')."<br />\n";
 	}
 	echo "</p>\n";
 
@@ -53,15 +53,15 @@ if(isset($fup)) {
 		ORDER BY displayorder DESC, lastpost DESC LIMIT $start_limit, $waptpp");
 	while($thread = $db->fetch_array($query)) {
 		$thread['prefix'] = $thread['displayorder'] > 0 ? $lang['forum_thread_sticky'] : ($thread['digest'] ? $lang['forum_thread_digest'] : '');
-		echo "<p><a href=\"index.php?action=thread&amp;tid=$thread[tid]\">#".++$number." $thread[prefix]".cutstr($thread['subject'], 30)."</a><br />\n".
+		echo "<p><a href=\"index.php?action=thread&amp;tid={$thread['tid']}\">#".++$number." {$thread['prefix']}".cutstr($thread['subject'], 30)."</a><br />\n".
 			"&nbsp; <small>".gmdate("$wapdateformat $timeformat", $thread['lastpost'] + $timeoffset * 3600)."<br />\n".
-			"&nbsp; $thread[lastposter]</small></p>\n";
+			"&nbsp; {$thread['lastposter']}</small></p>\n";
 	}
 
-	echo "<p><br />$lang[page] $page ".
-		($start_limit + $waptpp < $forum['threads'] ? "<a href=\"index.php?action=forum&amp;fid=$fid&amp;page=".($page + 1)."\">&gt;&gt;$lang[next_page]</a>" : $lang['end'])."<br />\n".
-		($discuz_uid ? "<a href=\"index.php?action=post&amp;do=newthread&amp;fid=$fid\">$lang[post_new]</a><br />\n" : '').
-		"<br />$lang[forum]:<a href=\"index.php?action=forum&amp;fid=$fid\">".dhtmlspecialchars(cutstr(strip_tags($forum['name']), 20))."</a></p>\n";
+	echo "<p><br />{$lang['page']} $page ".
+		($start_limit + $waptpp < $forum['threads'] ? "<a href=\"index.php?action=forum&amp;fid=$fid&amp;page=".($page + 1)."\">&gt;&gt;{$lang['next_page']}</a>" : $lang['end'])."<br />\n".
+		($discuz_uid ? "<a href=\"index.php?action=post&amp;do=newthread&amp;fid=$fid\">{$lang['post_new']}</a><br />\n" : '').
+		"<br />{$lang['forum']}:<a href=\"index.php?action=forum&amp;fid=$fid\">".dhtmlspecialchars(cutstr(strip_tags($forum['name']), 20))."</a></p>\n";
 }
 
 ?>

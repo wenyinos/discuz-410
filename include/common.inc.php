@@ -137,7 +137,7 @@ if($sid) {
 				m.tpp, m.ppp, m.posts, m.digestposts, m.oltime, m.pageviews, m.credits, m.extcredits1, m.extcredits2, m.extcredits3, m.extcredits4, m.extcredits5,
 				m.extcredits6, m.extcredits7, m.extcredits8, m.timeformat, m.dateformat, m.pmsound, m.sigstatus, m.invisible,
 				m.lastvisit, m.lastactivity, m.lastpost, m.newpm, m.accessmasks
-				FROM {$tablepre}members m WHERE uid='$_DSESSION[sessionuid]'");
+				FROM {$tablepre}members m WHERE uid='{$_DSESSION['sessionuid']}'");
 			$_DSESSION = array_merge($_DSESSION, $db->fetch_array($query));
 		}
 	} else {

@@ -94,12 +94,12 @@ if($action == 'qihoo_config') {
 
 				$topics .= "<tr align=\"center\">\n".
 					"<td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[$key]\" value=\"".$value['topic']."\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"20\" name=\"settingsnew[qihoo_topics][$key][topic]\" value=\"$value[topic]\"></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"30\" name=\"settingsnew[qihoo_topics][$key][keyword]\" value=\"$value[keyword]\"></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"10\" name=\"settingsnew[qihoo_topics][$key][length]\" value=\"$value[length]\"></td>\n".
-					"<td bgcolor=\"".ALTBG1."\"><select name=\"settingsnew[qihoo_topics][$key][stype]\"><option value=\"0\" $checkstype[0]>$lang[qihoo_topics_type_fulltext]</option><option value=\"title\" $checkstype[title]>$lang[qihoo_topics_type_title]</option></select></td>\n".
-					"<td bgcolor=\"".ALTBG2."\"><select name=\"settingsnew[qihoo_topics][$key][relate]\"><option value=\"score\" $checkrelate[score]>$lang[qihoo_topics_orderby_relation]</option><option value=\"pdate\" $checkrelate[pdate]>$lang[qihoo_topics_orderby_dateline]</option><option value=\"rdate\" $checkrelate[rdate]>$lang[qihoo_topics_orderby_lastpost]</option></select></tr>\n".
-					"<td bgcolor=\"".ALTBG1."\"><a href=\"###\" onClick=\"window.open('topic.php?topic='+findobj('settingsnew[qihoo_topics][$key][topic]').value+'&keyword='+findobj('settingsnew[qihoo_topics][$key][keyword]').value+'&stype='+findobj('settingsnew[qihoo_topics][$key][stype]').value+'&length='+findobj('settingsnew[qihoo_topics][$key][length]').value+'&relate='+findobj('settingsnew[qihoo_topics][$key][relate]').value+'');\">[$lang[preview]]</a></tr>\n";
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"20\" name=\"settingsnew[qihoo_topics][$key][topic]\" value=\"{$value['topic']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"30\" name=\"settingsnew[qihoo_topics][$key][keyword]\" value=\"{$value['keyword']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"10\" name=\"settingsnew[qihoo_topics][$key][length]\" value=\"{$value['length']}\"></td>\n".
+					"<td bgcolor=\"".ALTBG1."\"><select name=\"settingsnew[qihoo_topics][$key][stype]\"><option value=\"0\" $checkstype[0]>{$lang['qihoo_topics_type_fulltext']}</option><option value=\"title\" {$checkstype['title']}>{$lang['qihoo_topics_type_title']}</option></select></td>\n".
+					"<td bgcolor=\"".ALTBG2."\"><select name=\"settingsnew[qihoo_topics][$key][relate]\"><option value=\"score\" {$checkrelate['score']}>{$lang['qihoo_topics_orderby_relation']}</option><option value=\"pdate\" {$checkrelate['pdate']}>{$lang['qihoo_topics_orderby_dateline']}</option><option value=\"rdate\" {$checkrelate['rdate']}>{$lang['qihoo_topics_orderby_lastpost']}</option></select></tr>\n".
+					"<td bgcolor=\"".ALTBG1."\"><a href=\"###\" onClick=\"window.open('topic.php?topic='+findobj('settingsnew[qihoo_topics][$key][topic]').value+'&keyword='+findobj('settingsnew[qihoo_topics][$key][keyword]').value+'&stype='+findobj('settingsnew[qihoo_topics][$key][stype]').value+'&length='+findobj('settingsnew[qihoo_topics][$key][length]').value+'&relate='+findobj('settingsnew[qihoo_topics][$key][relate]').value+'');\">[{$lang['preview']}]</a></tr>\n";
 			}
 		}
 
@@ -163,7 +163,7 @@ if($action == 'qihoo_config') {
 		}
 
 		$settingsnew['qihoo_topics'] = addslashes(serialize($topicarray));
-		$db->query("UPDATE {$tablepre}settings SET value='$settingsnew[qihoo_topics]' WHERE variable='qihoo_topics'");
+		$db->query("UPDATE {$tablepre}settings SET value='{$settingsnew['qihoo_topics']}' WHERE variable='qihoo_topics'");
 		updatecache('settings');
 		cpmsg('qihoo_topics_succeed', 'admincp.php?action=qihoo_topics');
 

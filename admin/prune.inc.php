@@ -114,8 +114,8 @@ if($action == 'prune') {
 			$prune['forums'][] = $post['fid'];
 			$prune['thread'][$post['tid']]++;
 
-			$pidsdelete .= ",$post[pid]";
-			$tidsdelete .= $post['first'] ? ",$post[tid]" : '';
+			$pidsdelete .= ",{$post['pid']}";
+			$tidsdelete .= $post['first'] ? ",{$post['tid']}" : '';
 		}
 
 		if($pidsdelete) {
@@ -220,7 +220,7 @@ if($action == 'prune') {
 			$uids = '-1';
 			$query = $db->query("SELECT uid FROM {$tablepre}members WHERE ".(empty($cins) ? 'BINARY' : '')." username IN ('".str_replace(',', '\',\'', str_replace(' ', '', $users))."')");
 			while($member = $db->fetch_array($query)) {
-				$uids .= ",$member[uid]";
+				$uids .= ",{$member['uid']}";
 			}
 			$sql .= " AND p.authorid IN ($uids)";
 		}
@@ -262,12 +262,12 @@ if($action == 'prune') {
 					$post['subject'] = cutstr($post['subject'], 30);
 					$post['message'] = dhtmlspecialchars(cutstr($post['message'], 50));
 
-					$posts .= "<tr><td align=\"center\" bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"pidarray[]\" value=\"$post[pid]\" checked>\n".
-						"<td bgcolor=\"".ALTBG2."\"><a href=\"viewthread.php?tid=$post[tid]\" target=\"_blank\">$post[subject]</a></td>\n".
-						"<td bgcolor=\"".ALTBG1."\">$post[message]</td>\n".
-						"<td align=\"center\" bgcolor=\"".ALTBG2."\"><a href=\"forumdisplay.php?fid=$post[fid]\" target=\"_blank\">{$_DCACHE[forums][$post[fid]][name]}</a></td>\n".
-						"<td align=\"center\" bgcolor=\"".ALTBG1."\"><a href=\"viewpro.php?uid=$post[authorid]\" target=\"_blank\">$post[author]</a></td>\n".
-						"<td align=\"center\" bgcolor=\"".ALTBG2."\">$post[dateline]</td></tr>\n";
+					$posts .= "<tr><td align=\"center\" bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"pidarray[]\" value=\"{$post['pid']}\" checked>\n".
+						"<td bgcolor=\"".ALTBG2."\"><a href=\"viewthread.php?tid={$post['tid']}\" target=\"_blank\">{$post['subject']}</a></td>\n".
+						"<td bgcolor=\"".ALTBG1."\">{$post['message']}</td>\n".
+						"<td align=\"center\" bgcolor=\"".ALTBG2."\"><a href=\"forumdisplay.php?fid={$post['fid']}\" target=\"_blank\">{{$_DCACHE['forums']}[{$post['fid']}][name]}</a></td>\n".
+						"<td align=\"center\" bgcolor=\"".ALTBG1."\"><a href=\"viewpro.php?uid={$post['authorid']}\" target=\"_blank\">{$post['author']}</a></td>\n".
+						"<td align=\"center\" bgcolor=\"".ALTBG2."\">{$post['dateline']}</td></tr>\n";
 					$pids .= ','.$post['pid'];
 				}
 			} else {
@@ -296,7 +296,7 @@ if($action == 'prune') {
 <?php
 
 		if($error) {
-			echo "<tr><td bgcolor=\"".ALTBG2."\"><b>$lang[discuz_message]: $lang[$error]</b></td></tr>";
+			echo "<tr><td bgcolor=\"".ALTBG2."\"><b>{$lang['discuz_message']}: $lang[$error]</b></td></tr>";
 		} else {
 
 ?>
