@@ -111,6 +111,23 @@
 - 改造：统一使用 `$_GET['key'] ?? ''` 或提取为局部变量
 - 剩余 9 处均有 `empty()` 守卫，无需处理
 
+### 4.11 模板编译器 `addquote()` 不支持 `$` 变量插值 — ✅ 已修复（2 处）
+
+- 根因：模板编译器 `addquote()` 的正则字符类 `[a-zA-Z0-9_\-\.\x7f-\xff]` 不含 `$`（ASCII 36），导致 `$GLOBALS[extcredits.$id]` 编译为 `<?=$GLOBALS[extcredits.$id]?>`（`extcredits` 被 PHP 8 视为未定义常量，Fatal Error）
+- 文件：`templates/default/index.htm:15`、`templates/default/memcp_credits.htm:39`
+- 改造：`$GLOBALS[extcredits.$id]` → `{$GLOBALS['extcredits'.$id]}`（使用 `{...}` 语法绕过 `addquote()`，编译为 `<?=$GLOBALS['extcredits'.$id]?>`，PHP 8 合法）
+
+### 4.12 运行时 `Undefined array key` / `Undefined variable` — ✅ 已修复（8 处）
+
+- `include/common.inc.php:337` — `$plugins['include']` 键可能不存在 → 补充 `!empty()` 守卫
+- `index.php:38` — `$qihoo_links['keywords']` 键可能不存在 → `?? ''`
+- `index.php:39` — `$qihoo_links['topics']` 键可能不存在 → `?? ''`
+- `index.php:43` — `$_DCOOKIE['customkw']` 键可能不存在 → `?? ''`
+- `include/forum.func.php:130` — `$modlist` 变量未初始化 → `.= ` 改为 `= `
+- `admin/menu.inc.php:33` — `$change`、`$collapse` 变量未初始化 → 补充 `??` 默认值
+- `admin/menu.inc.php:35` — `$collapse` 同上
+- `admin/home.inc.php:157` — `$lang['welcome_to']` 键名错误 → 改为 `$lang['home_welcome_to']`
+
 ## 5. 实施完成清单
 
 | # | 改造项 | 涉及文件数 | 状态 |
@@ -126,9 +143,11 @@
 | 4.8 | 死代码清理 | 2 | ✅ |
 | 4.9 | `eval()` 语言包替换 | 10 | ✅ |
 | 4.10 | `$_GET` 直接索引 | 5 | ✅ |
+| 4.11 | 模板 `$GLOBALS[extcredits.$id]` Fatal Error | 2 | ✅ |
+| 4.12 | 运行时 `Undefined array key` / `Undefined variable` | 5 | ✅ |
 | — | 新增 `dinterpolate()` 函数 | 1 | ✅ |
 | — | 项目文档更新 | 3 | ✅ |
-| **合计** | | **30 源文件 + 59 编译模板** | |
+| **合计** | | **37 源文件 + 59 编译模板** | |
 
 ## 6. 阶段 C：回归与灰度（待执行）
 

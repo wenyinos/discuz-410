@@ -35,12 +35,12 @@ $memberenc = rawurlencode($lastmember);
 $newthreads = round(($timestamp - $lastvisit + 600) / 1000) * 1000;
 
 $searchboxstatus = substr(sprintf('%03b', $qihoo_searchbox), -1, 1);
-$keywordlist = $qihoo_links['keywords'];
-$topiclist = $qihoo_links['topics'];
+$keywordlist = $qihoo_links['keywords'] ?? '';
+$topiclist = $qihoo_links['topics'] ?? '';
 
 if($qihoo_maxtopics) {
 	$customtopics = '';
-	foreach(explode("\t", $_DCOOKIE['customkw']) as $topic) {
+	foreach(explode("\t", $_DCOOKIE['customkw'] ?? '') as $topic) {
 		$topic = dhtmlspecialchars(trim(stripslashes($topic)));
 		$customtopics .= '<a href="topic.php?keyword='.rawurlencode($topic).'" target="_blank">'.$topic.'</a> ';
 	}

@@ -127,7 +127,7 @@ function visitedforums() {
 
 function moddisplay($moderators, $type, $inherit = 0) {
 	if($type == 'selectbox') {
-		$modlist .= '<img src="images/common/online_moderator.gif" align="absmiddle"><select name="modlist" style="width: 100px'.($inherit ? '; font-weight: bold"' : '').'">';
+		$modlist = '<img src="images/common/online_moderator.gif" align="absmiddle"><select name="modlist" style="width: 100px'.($inherit ? '; font-weight: bold"' : '').'">';
 
 		if($moderators) {
 			foreach(explode("\t", $moderators) as $moderator) {

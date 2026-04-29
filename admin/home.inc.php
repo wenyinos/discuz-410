@@ -154,7 +154,7 @@ cpheader();
 
 ?>
 <span class="outertxt">
-<b><?=$lang['welcome_to']?> <a href="http://www.Discuz.net" target="_blank">Discuz! <?=$version?></a> <?=$lang['admincp']?></b><br>
+<b><?=$lang['home_welcome_to']?> <a href="http://www.Discuz.net" target="_blank">Discuz! <?=$version?></a> <?=$lang['admincp']?></b><br>
 Copyright&copy; <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>, 2001-2006.</span><br><br><br>
 
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="0" width="85%" align="center" class="tableborder">

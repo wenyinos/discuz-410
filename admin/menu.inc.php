@@ -30,6 +30,8 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 <tr><td bgcolor="<?=ALTBG1?>" align="center"><b><a href="admincp.php?action=menu&collapse=0">[+]</a> &nbsp; <a href="admincp.php?action=menu&collapse=1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20">[-]</a></b></td></tr>
 <?php
 
+		$change = $change ?? '';
+		$collapse = $collapse ?? ($_DCOOKIE['cpcollapsed'] ?? '0');
 		if(preg_match("/(^|_)$change($|_)/", $collapse)) {
 			$collapsedlist = array();
 			foreach(explode('_', $collapse) as $collapsed) {

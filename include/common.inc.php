@@ -334,7 +334,7 @@ if($cronnextrun && $cronnextrun <= $timestamp) {
 	runcron();
 }
 
-if(is_array($plugins['include'])) {
+if(!empty($plugins['include']) && is_array($plugins['include'])) {
 	foreach($plugins['include'] as $include) {
 		if(!$include['adminid'] || ($include['adminid'] && $include['adminid'] >= $adminid)){
 			@include_once DISCUZ_ROOT.'./plugins/'.$include['script'].'.inc.php';

@@ -12,7 +12,7 @@
 {lang timenow} $currenttime, {lang your_lastvisit} $lastvisittime<br>
 {lang credits}: <span class="bold">$credits</span>&nbsp;
 <!--{loop $extcredits $id $credit}-->
-	$credit[title]: <span class="bold">$GLOBALS[extcredits.$id]</span>$credit[unit]&nbsp;
+	$credit[title]: <span class="bold">{$GLOBALS['extcredits'.$id]}</span>$credit[unit]&nbsp;
 <!--{/loop}-->
 / {lang index_status}:
 <!--{if $validdays}--><a href="member.php?action=groupexpiry"><span class="bold">$grouptitle</span>($validdays)</a><!--{else}--><span class="bold">$grouptitle</span><!--{/if}-->
