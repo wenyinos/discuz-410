@@ -1,36 +1,61 @@
-# Discuz! 4.1.0
+# Discuz! 4.1.0 (Community-Maintained Fork)
 
 [中文文档](README_zh.md)
 
-Open-source BBS/forum system originally developed by Comsenz Inc. (2001-2006). This is a community-maintained fork released under the MIT license.
+Discuz! is a classic BBS/forum system originally developed by Comsenz Inc. (2001-2006).  
+This repository is a community-maintained fork under the MIT license, updated for modern PHP environments.
 
-## Features
+## Current Fork Status
 
-- **Forum system**: Hierarchical categories, forums, sub-forums, threads, replies, polls
-- **User system**: Registration, login, user groups, permissions, credits/reputation, profiles, avatars
-- **Content**: BBCode editor, attachments (images/files with watermark support), smilies, thread types, moderation tools
-- **Communication**: Private messaging (PM), buddy lists, announcements, email notifications
-- **Administration**: Full admin control panel (`admincp.php`) for forums, users, groups, styles, templates, plugins, database, logs
-- **Plugin system**: Hook-based plugin architecture with `plugins/` directory
-- **Multi-language**: Simplified Chinese, Traditional Chinese (Big5/UTF-8), English language packs
-- **Mobile**: WAP interface (`wap/`), text-only archiver (`archiver/`)
-- **Integrations**: Passport SSO, Qihoo search, Alipay, Shopex, Avatar API
-- **Cron**: Built-in scheduled tasks (cleanup, statistics, promotions, announcements)
+- **PHP 8.4+ compatibility upgrade completed** (see `php84-upgrade-report.md`)
+- Major PHP8 warning/error-prone legacy paths have been hardened
+- Runtime compatibility warning filter added in `include/common.inc.php` (targeted legacy warning prefixes only)
+- Deprecated external integrations are force-disabled by default:
+  - Passport
+  - E-commerce (Alipay / Orders / ShopEx)
+  - AvatarShow
+- Matching admin actions are blocked in `admincp.php` and related menu entries are hidden
+
+## Features Currently Available
+
+- Forum core: categories, forums, sub-forums, threads, replies, polls
+- User core: registration, login, user groups, permissions, credits, profile, avatar
+- Content: BBCode, attachments, smilies, moderation tooling
+- Communication: PM, announcements, mail notifications
+- Admin control panel: `admincp.php` (forums, users, groups, templates, plugins, DB, logs)
+- Plugin mechanism: hook-based `plugins/`
+- Multi-interface: `wap/`, `archiver/`
+- Language packs: Simplified Chinese, Traditional Chinese, English
+
+## Features Disabled by Default
+
+To reduce dependency and legacy integration risk, this fork disables:
+
+- Passport / SiteEngine / ShopEx
+- Alipay / Orders
+- AvatarShow
+
+Notes:
+- Frontend entry points are removed or conditionally hidden
+- Admin entry points are blocked
+- Runtime switches are force-disabled in `include/common.inc.php`
 
 ## Requirements
 
-- PHP 7.4+
-- MySQL 4.1+ or PostgreSQL
-- Web server (Apache/Nginx)
+- Recommended: **PHP 8.4+**
+- Database: MySQL 4.1+ or PostgreSQL
+- Web server: Apache / Nginx
+
+Note: Older versions (such as PHP 7.4) may still run, but primary validation in this fork is done against PHP 8.4.
 
 ## Installation
 
-1. Create a MySQL database and import the schema:
+1. Import database schema
    ```bash
    mysql -u root -p your_database < install/discuz.sql
    ```
 
-2. Copy `config.inc.php` and configure database credentials:
+2. Configure `config.inc.php`
    ```php
    $dbhost = '127.0.0.1';
    $dbuser = 'your_user';
@@ -39,98 +64,62 @@ Open-source BBS/forum system originally developed by Comsenz Inc. (2001-2006). T
    $tablepre = 'cdb_';
    ```
 
-3. Set directory permissions:
+3. Set writable permissions
    ```bash
    chmod -R 777 attachments/ forumdata/
    ```
 
-4. Access `install/` in your browser for initial setup, then delete the `install/` directory.
+4. Open `install/` in browser for initial setup
 
-5. Access `admincp.php` for the admin panel.
+5. Open `admincp.php` for administration
 
-## Project Structure
+## Project Layout
 
-```
+```text
 ├── index.php               # Homepage / forum list
-├── forumdisplay.php        # Forum thread listing
+├── forumdisplay.php        # Forum thread list
 ├── viewthread.php          # Thread view
 ├── post.php                # New thread / reply
 ├── register.php            # User registration
 ├── logging.php             # Login / logout
-├── member.php              # User profile & settings
-├── pm.php                  # Private messaging
+├── member.php              # Profile & settings
+├── pm.php                  # Private messages
 ├── search.php              # Search
-├── admincp.php             # Admin control panel (entry point)
-├── plugin.php              # Plugin dispatcher
-├── misc.php                # Miscellaneous (rules, help, etc.)
-├── blog.php                # User blog
-├── stats.php               # Forum statistics
-├── attachment.php          # Attachment download
-├── config.inc.php          # Main configuration (DB, paths)
-├── mail_config.inc.php     # Email configuration
-├── include/
-│   ├── common.inc.php      # Bootstrap (loaded by every page)
-│   ├── global.func.php     # Core utility functions
-│   ├── db_mysql.class.php  # Database abstraction (MySQLi)
-│   ├── template.func.php   # Template compiler
-│   ├── cache.func.php      # Cache generation
-│   ├── forum.func.php      # Forum display functions
-│   ├── post.func.php       # Post/attachment handling
-│   ├── misc.func.php       # IP lookup, misc utilities
-│   ├── security.inc.php    # Attack evasion
-│   ├── attachment.func.php # Attachment type handling
-│   ├── crons/              # Scheduled task scripts
-│   └── tables/             # Charset conversion tables
-├── admin/
-│   ├── settings.inc.php    # Site settings
-│   ├── forums.inc.php      # Forum management
-│   ├── members.inc.php     # User management
-│   ├── groups.inc.php      # User group management
-│   ├── plugins.inc.php     # Plugin management
-│   ├── templates.inc.php   # Template management
-│   ├── database.inc.php    # Database backup/restore
-│   └── ...                 # Other admin modules
-├── templates/default/      # Template source files (.htm)
-├── forumdata/
-│   ├── cache/              # Generated PHP cache files
-│   └── templates/          # Compiled template PHP files
-├── api/                    # External API endpoints
-├── plugins/                # Plugin scripts
-├── wap/                    # Mobile WAP interface
-├── archiver/               # Text-only archive interface
-├── images/                 # Static images & CSS
-├── ipdata/                 # IP geolocation database
-├── install/                # Installation files & DB schema
-└── customavatars/          # User-uploaded avatars
+├── admincp.php             # Admin entry
+├── include/                # bootstrap, core funcs, DB layer, cache, security
+├── admin/                  # admin modules
+├── templates/default/      # template source files (edit here)
+├── forumdata/cache/        # generated runtime cache
+├── forumdata/templates/    # compiled templates (generated)
+├── api/                    # external API scripts
+├── plugins/                # plugin directory
+├── wap/                    # WAP interface
+├── archiver/               # text archive
+└── install/discuz.sql      # DB schema
 ```
 
-## PHP 8.4+ Upgrade
+## Maintenance Notes
 
-This fork has been upgraded from PHP 4/5 to PHP 8.4+ compatible:
+- Each entry script defines `CURSCRIPT` then includes `include/common.inc.php`
+- Keep access guard lines: `if(!defined('IN_DISCUZ')) exit('Access Denied');`
+- Do not edit `forumdata/cache/` or `forumdata/templates/` directly (generated files)
+- Edit templates in `templates/default/*.htm`
+- If template updates do not show up, enable `$tplrefresh = 1` or clear `forumdata/templates/`
+- Footer displays the real runtime PHP version and links to the matching official PHP release branch page
 
-- **Database**: `mysql_*` extension replaced with `mysqli_*` (`include/db_mysql.class.php`)
-- **Template compiler**: `preg_replace /e` modifier replaced with `preg_replace_callback` (`include/template.func.php`)
-- **URL rewrite**: `preg_replace /e` in `output()` replaced with `preg_replace_callback` (`include/global.func.php`)
-- **Security**: `extract()` uses `EXTR_SKIP` to prevent variable overwriting
-- **Compatibility**: Removed `set_magic_quotes_runtime`, `get_magic_quotes_gpc`, `$HTTP_*_VARS`, `$magic_quotes_gpc`
-- **Syntax**: All short open tags `<?` replaced with `<?php`
-- **PHP 8.1+**: Disabled `mysqli` exception mode for legacy error handling (`db_mysql.class.php`)
-- **PHP 8.0+**: Fixed `count()` on non-arrays, replaced `@count()` with `is_array()` guards
-- **PHP 8.1+**: Replaced `htmlspecialchars()` with `dhtmlspecialchars()` to avoid default flag changes
+## PHP 8.4 Upgrade Summary
 
-See [php84-upgrade-report.md](php84-upgrade-report.md) for the full upgrade report.
+- `mysql_*` replaced with `mysqli_*`
+- `preg_replace /e` replaced with `preg_replace_callback`
+- Added many null/type guards for stricter PHP8 behavior
+- Added `EXTR_SKIP` to risky `extract()` calls
+- Fixed short-tag/string interpolation incompatibilities under PHP8
 
-## Key Technical Notes
-
-- **Bootstrap**: Every page defines `CURSCRIPT` then requires `include/common.inc.php`
-- **Access guard**: All PHP files start with `if(!defined('IN_DISCUZ')) exit('Access Denied');` — never remove this
-- **Cache system**: `forumdata/cache/` files are auto-generated; editing them directly has no lasting effect
-- **Template system**: Edit `.htm` files in `templates/default/`, not the compiled `.tpl.php` files in `forumdata/templates/`
-- **Database**: Uses `$tablepre` prefix (default `cdb_`), queries via `$db->query()` / `$db->fetch_array()`
+Full details: [`php84-upgrade-report.md`](php84-upgrade-report.md)
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT License. See [LICENSE](LICENSE).
 
-Originally developed by Comsenz Inc. (2001-2006).
-Maintained by [Wenyin Root](https://github.com/wenyinos/discuz-410).
+Originally developed by Comsenz Inc.  
+Maintained by [Wenyin Root](https://github.com/wenyinos/discuz-410)
