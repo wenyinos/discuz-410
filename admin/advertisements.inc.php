@@ -134,7 +134,10 @@ if($action == 'adv') {
 		$adv['starttime'] = $adv['starttime'] ? gmdate('Y-n-j', $adv['starttime'] + $timeoffset * 3600) : '';
 		$adv['endtime'] = $adv['endtime'] ? gmdate('Y-n-j', $adv['endtime'] + $timeoffset * 3600) : '';
 
-		$styleselect = array($adv['parameters']['style'] => 'selected');
+			$styleselect = array('code' => '', 'text' => '', 'image' => '', 'flash' => '');
+			if(isset($styleselect[$adv['parameters']['style']])) {
+				$styleselect[$adv['parameters']['style']] = 'selected';
+			}
 
 ?>
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="90%" align="center" class="tableborder">

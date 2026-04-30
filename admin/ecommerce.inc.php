@@ -96,7 +96,17 @@ if($action == 'alipay') {
 
 	if(!submitcheck('ordersubmit')) {
 
-		$statusselect = array(($orderstatus = intval($orderstatus)) => 'selected');
+		$orderstatus = isset($orderstatus) ? intval($orderstatus) : 0;
+		$orderid = isset($orderid) ? $orderid : '';
+		$users = isset($users) ? $users : '';
+		$buyer = isset($buyer) ? $buyer : '';
+		$admin = isset($admin) ? $admin : '';
+		$sstarttime = isset($sstarttime) ? $sstarttime : '';
+		$sendtime = isset($sendtime) ? $sendtime : '';
+		$cstarttime = isset($cstarttime) ? $cstarttime : '';
+		$cendtime = isset($cendtime) ? $cendtime : '';
+		$statusselect = array(0 => '', 1 => '', 2 => '', 3 => '');
+		$statusselect[$orderstatus] = 'selected';
 
 		$orderid = dhtmlspecialchars($orderid);
 		$users = dhtmlspecialchars($users);

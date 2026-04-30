@@ -23,6 +23,12 @@ if($action == 'prune') {
 	if(!submitcheck('prunesubmit')) {
 
 		require_once DISCUZ_ROOT.'./include/forum.func.php';
+		$forums = isset($forums) ? $forums : '';
+		$starttime = isset($starttime) ? $starttime : '';
+		$endtime = isset($endtime) ? $endtime : '';
+		$users = isset($users) ? $users : '';
+		$useip = isset($useip) ? $useip : '';
+		$keywords = isset($keywords) ? $keywords : '';
 
 		if($adminid == 1 || $adminid == 2) {
 			$forumselect = '<select name="forums"><option value="">&nbsp;&nbsp;> '.$lang['select'].'</option>'.

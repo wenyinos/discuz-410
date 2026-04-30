@@ -67,9 +67,6 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 							array('name' => $lang['settings_javascript'], 'url' => 'admincp.php?action=settings#'.$lang['settings_javascript']),
 							array('name' => $lang['settings_wap'], 'url' => 'admincp.php?action=settings#'.$lang['settings_wap']),
 							array('name' => $lang['settings_misc'], 'url' => 'admincp.php?action=settings#'.$lang['settings_misc'])));
-			showmenu($lang['menu_passport'],array(array('name' => $lang['menu_passport_settings'], 'url' => 'admincp.php?action=passport'),
-							array('name' => $lang['menu_passport_siteengine'], 'url' => 'admincp.php?action=siteengine'),
-							array('name' => $lang['menu_passport_shopex'], 'url' => 'admincp.php?action=shopex')));
 			showmenu($lang['menu_forums'],	array(array('name' => $lang['menu_forums_add'], 'url' => 'admincp.php?action=forumadd'),
 							array('name' => $lang['menu_forums_edit'], 'url' => 'admincp.php?action=forumsedit'),
 							array('name' => $lang['menu_forums_merge'], 'url' => 'admincp.php?action=forumsmerge'),
@@ -92,12 +89,8 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 							array('name' => $lang['menu_posting_attachtypes'], 'url' => 'admincp.php?action=attachtypes')));
 			showmenu($lang['menu_qihoo'], array(array('name' => $lang['menu_qihoo_config'], 'url' => 'admincp.php?action=qihoo_config'),
 							array('name' => $lang['menu_qihoo_topics'], 'url' => 'admincp.php?action=qihoo_topics')));
-			showmenu($lang['menu_ecommerce'], array(array('name' => $lang['menu_ecommerce_alipay'], 'url' => 'admincp.php?action=alipay'),
-							array('name' => $lang['menu_ecommerce_orders'], 'url' => 'admincp.php?action=orders')));
 			showmenu($lang['menu_styles'],	array(array('name' => $lang['menu_styles'], 'url' => 'admincp.php?action=styles'),
 							array('name' => $lang['menu_styles_templates'], 'url' => 'admincp.php?action=templates')));
-			showmenu($lang['menu_avatarshow'],array(array('name' => $lang['menu_avatarshow_config'], 'url' => 'admincp.php?action=avatarshow_config'),
-							array('name' => $lang['menu_avatarshow_register'], 'url' => 'admincp.php?action=avatarshow_register')));
 			showmenu($lang['menu_misc'], 	array(array('name' => $lang['menu_misc_announces'], 'url' => 'admincp.php?action=announcements'),
 							array('name' => $lang['menu_misc_medals'], 'url' => 'admincp.php?action=medals'),
 							array('name' => $lang['menu_misc_onlinelist'], 'url' => 'admincp.php?action=onlinelist'),

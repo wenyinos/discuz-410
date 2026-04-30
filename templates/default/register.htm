@@ -240,10 +240,12 @@
 	<td class="altbg2"><input type="text" name="taobao" size="25"></td>
 	</tr>
 
-	<tr>
-	<td class="altbg1">{lang alipay}:</td>
-	<td class="altbg2"><input type="text" name="alipay" size="25"></td>
-	</tr>
+	<!--{if $ec_ratio > 0}-->
+		<tr>
+		<td class="altbg1">{lang alipay}:</td>
+		<td class="altbg2"><input type="text" name="alipay" size="25"></td>
+		</tr>
+	<!--{/if}-->
 
 	<tr>
 	<td class="altbg1" valign="top">{lang bio}:</td>

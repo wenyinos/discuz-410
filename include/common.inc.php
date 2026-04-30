@@ -293,6 +293,12 @@ if(!@include DISCUZ_ROOT.'./forumdata/cache/usergroup_'.$groupid.'.php') {
 	}
 }
 
+/* Force-disable deprecated integrations: passport, ecommerce(alipay/orders), avatarshow */
+$passport_status = '';
+$ec_ratio = 0;
+$avatarshowstatus = 0;
+$avatarshowlink = 0;
+
 if($passport_status) {
 	$passport_forward = rawurlencode('http://'.($_SERVER['HTTP_HOST'] ?? '').($_SERVER['REQUEST_URI'] ?? ''));
 	$link_login = $passport_url.$passport_login_url.(strpos($passport_login_url, '?') === FALSE ? '?' : '&').'forward='.$passport_forward;

@@ -21,6 +21,14 @@ cpheader();
 if(!submitcheck('rbsubmit')) {
 
 	require_once DISCUZ_ROOT.'./include/forum.func.php';
+	$inforum = isset($inforum) ? $inforum : '';
+	$authors = isset($authors) ? $authors : '';
+	$keywords = isset($keywords) ? $keywords : '';
+	$admins = isset($admins) ? $admins : '';
+	$pstarttime = isset($pstarttime) ? $pstarttime : '';
+	$pendtime = isset($pendtime) ? $pendtime : '';
+	$mstarttime = isset($mstarttime) ? $mstarttime : '';
+	$mendtime = isset($mendtime) ? $mendtime : '';
 
 	$forumselect = '<select name="inforum"><option value="">&nbsp;&nbsp;> '.$lang['select'].'</option>'.
 		'<option value="">&nbsp;</option>'.forumselect().'</select>';

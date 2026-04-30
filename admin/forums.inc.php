@@ -992,11 +992,12 @@ if($action == 'forumadd')  {
 </center></form><br>
 <?php
 
-		} else {
+			} else {
 
-			if($forum['alloweditrules'] != 2) {
-				$rulesnew = dhtmlspecialchars($rulesnew);
-			}
+				$rulesnew = isset($rulesnew) ? $rulesnew : '';
+				if($forum['alloweditrules'] != 2) {
+					$rulesnew = dhtmlspecialchars($rulesnew);
+				}
 
 			$db->query("UPDATE {$tablepre}forumfields SET rules='$rulesnew' WHERE fid='$fid'");
 

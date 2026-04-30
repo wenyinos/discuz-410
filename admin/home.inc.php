@@ -39,6 +39,10 @@ while($member = $db->fetch_array($query)) {
 }
 
 if(submitcheck('notesubmit')) {
+	$delete = isset($delete) && is_array($delete) ? $delete : array();
+	$newmessage = isset($newmessage) ? $newmessage : '';
+	$newexpiration = isset($newexpiration) ? $newexpiration : '';
+	$newaccess = isset($newaccess) && is_array($newaccess) ? $newaccess : array();
 	if(is_array($delete)) {
 		$db->query("DELETE FROM {$tablepre}adminnotes WHERE id IN ('".implode('\',\'', $delete)."') AND (admin='$discuz_user' OR adminid>='$adminid')");
 	}

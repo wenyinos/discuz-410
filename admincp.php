@@ -55,6 +55,12 @@ include language('admincp');
 $session = array('errorcount' => 0);
 $admin_password = isset($admin_password) ? $admin_password : '';
 
+$blockedActions = array('passport', 'siteengine', 'shopex', 'alipay', 'orders', 'avatarshow_config', 'avatarshow_register');
+if(isset($action) && in_array($action, $blockedActions)) {
+	cpheader();
+	cpmsg('undefined_action');
+}
+
 if($action == 'menu') {
 	require_once DISCUZ_ROOT.'./admin/menu.inc.php';
 } elseif($action == 'header') {

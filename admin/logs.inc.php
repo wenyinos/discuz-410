@@ -18,6 +18,7 @@ cpheader();
 $logs = array();
 $logspan = $timestamp - 86400 * 15;
 $lpp = empty($lpp) ? 50 : $lpp;
+$keyword = isset($keyword) ? $keyword : '';
 
 if(!in_array($action, array('illegallog', 'ratelog', 'modslog', 'medalslog', 'banlog', 'cplog', 'errorlog'))) {
 	cpmsg('undefined_action');

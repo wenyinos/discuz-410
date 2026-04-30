@@ -20,6 +20,21 @@ cpheader();
 if(!$operation) {
 
 		require_once DISCUZ_ROOT.'./include/forum.func.php';
+		$viewsless = isset($viewsless) ? $viewsless : '';
+		$viewsmore = isset($viewsmore) ? $viewsmore : '';
+		$repliesless = isset($repliesless) ? $repliesless : '';
+		$repliesmore = isset($repliesmore) ? $repliesmore : '';
+		$readpermmore = isset($readpermmore) ? $readpermmore : '';
+		$pricemore = isset($pricemore) ? $pricemore : '';
+		$starttime = isset($starttime) ? $starttime : '';
+		$endtime = isset($endtime) ? $endtime : '';
+		$noreplydays = isset($noreplydays) ? $noreplydays : '';
+		$users = isset($users) ? $users : '';
+		$keywords = isset($keywords) ? $keywords : '';
+		$sticky = isset($sticky) ? intval($sticky) : 0;
+		$digest = isset($digest) ? intval($digest) : 0;
+		$attach = isset($attach) ? intval($attach) : 0;
+		$blog = isset($blog) ? intval($blog) : 0;
 
 		$forumselect = '<select name="inforum"><option value="all">&nbsp;&nbsp;> '.$lang['all'].'</option>'.
 			'<option value="">&nbsp;</option>'.forumselect().'</select>';
@@ -39,10 +54,10 @@ if(!$operation) {
 		}
 
 		$checkcins	= empty($cins) ? '' : 'checked';
-		$checksticky	= array(intval($sticky) => 'checked');
-		$checkdigest	= array(intval($digest) => 'checked');
-		$checkattach	= array(intval($attach) => 'checked');
-		$checkblog	= array(intval($blog) => 'checked');
+		$checksticky	= array(0 => '', 1 => '', 2 => ''); $checksticky[$sticky] = 'checked';
+		$checkdigest	= array(0 => '', 1 => '', 2 => ''); $checkdigest[$digest] = 'checked';
+		$checkattach	= array(0 => '', 1 => '', 2 => ''); $checkattach[$attach] = 'checked';
+		$checkblog	= array(0 => '', 1 => '', 2 => ''); $checkblog[$blog] = 'checked';
 
 ?>
 <br><form method="post" action="admincp.php?action=threads">

@@ -37,6 +37,8 @@ if($action == 'updatecache') {
 	cpmsg('update_cache_succeed');
 
 } elseif($action == 'jswizard') {
+	$parameter = isset($parameter) && is_array($parameter) ? $parameter : array();
+	$displayorder = isset($displayorder) && is_array($displayorder) ? $displayorder : array();
 
 	/* Threads == Start == */
 	$tcheckorderby = array((isset($parameter['orderby']) ? $parameter['orderby'] : 'lastpost') => 'checked');
@@ -143,7 +145,7 @@ if($action == 'updatecache') {
 		$jsurl = "function=$function";
 		asort($displayorder);
 		foreach($displayorder as $key => $order) {
-			if($parameter[$key]['display']) {
+			if(!empty($parameter[$key]['display'])) {
 				$jsurl .= "&info[$key]=".rawurlencode($parameter[$key]['title']);
 			}
 		}
@@ -159,7 +161,7 @@ if($action == 'updatecache') {
 	foreach($predefined as $key) {
 		echo '<tr align="center"><td bgcolor="'.ALTBG1.'"><input type="checkbox" name="parameter['.$key.'][display]" value="1" '.(!isset($parameter[$key]) || $parameter[$key]['display'] ? 'checked' : '').'></td>'.
 			'<td bgcolor="'.ALTBG2.'">'.$lang['jswizard_stats_'.$key].'</td>'.
-			'<td bgcolor="'.ALTBG1.'"><input type="text" name="parameter['.$key.'][title]" size="20" value="'.($parameter[$key]['title'] ? $parameter[$key]['title'] : $lang['jswizard_stats_'.$key].':').'"></td>'.
+			'<td bgcolor="'.ALTBG1.'"><input type="text" name="parameter['.$key.'][title]" size="20" value="'.(!empty($parameter[$key]['title']) ? $parameter[$key]['title'] : $lang['jswizard_stats_'.$key].':').'"></td>'.
 			'<td bgcolor="'.ALTBG1.'"><input type="text" name="displayorder['.$key.']" size="3" value="'.(isset($displayorder[$key]) ? intval($displayorder[$key]) : ++$order).'"></td></tr>';
 	}
 	echo '</table><br><center><input type="submit" name="jssubmit" value="'.$lang['submit'].'"></center></form>';

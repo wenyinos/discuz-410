@@ -359,11 +359,14 @@ if($action == 'plugins') {
 
 	if(!submitcheck('editsubmit')) {
 
-		$modules = '';
-		if(is_array($plugin['modules'])) {
-			foreach($plugin['modules'] as $moduleid => $module) {
-				$adminidselect = array($module['adminid'] => 'selected');
-				$includecheck = empty($val['include']) ? $lang['no'] : $lang['yes'];
+			$modules = '';
+			if(is_array($plugin['modules'])) {
+				foreach($plugin['modules'] as $moduleid => $module) {
+					$adminidselect = array(0 => '', 1 => '', 2 => '', 3 => '');
+					if(isset($adminidselect[$module['adminid']])) {
+						$adminidselect[$module['adminid']] = 'selected';
+					}
+					$includecheck = empty($val['include']) ? $lang['no'] : $lang['yes'];
 
 				$modules .= "<tr class=\"altbg1\" align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[$moduleid]\"></td>\n".
 					"<td class=\"altbg2\"><input type=\"text\" size=\"15\" name=\"namenew[$moduleid]\" value=\"{$module['name']}\"></td>\n".
@@ -421,7 +424,10 @@ if($action == 'plugins') {
 <input type="hidden" name="formhash" value="<?=FORMHASH?>">
 <?php
 
-		$adminidselect = array($plugin['adminid'] => 'selected');
+			$adminidselect = array(1 => '', 2 => '', 3 => '');
+			if(isset($adminidselect[$plugin['adminid']])) {
+				$adminidselect[$plugin['adminid']] = 'selected';
+			}
 
 		showtype($lang['plugins_edit'].' - '.$plugin['name'], 'top');
 		showsetting('plugins_edit_name', 'namenew', $plugin['name'], 'text');
@@ -507,12 +513,19 @@ if($action == 'plugins') {
 </form><br>
 <?php
 
-	} else {
+		} else {
 
-		if($type == 'common') {
+			if($type == 'common') {
+				$namenew = isset($namenew) ? $namenew : '';
+				$directorynew = isset($directorynew) ? $directorynew : '';
+				$identifiernew = isset($identifiernew) ? $identifiernew : '';
+				$datatablesnew = isset($datatablesnew) ? $datatablesnew : '';
+				$descriptionnew = isset($descriptionnew) ? $descriptionnew : '';
+				$copyrightnew = isset($copyrightnew) ? $copyrightnew : '';
+				$adminidnew = isset($adminidnew) ? $adminidnew : 1;
 
-			$namenew	= dhtmlspecialchars(trim($namenew));
-			$directorynew	= dhtmlspecialchars($directorynew);
+				$namenew	= dhtmlspecialchars(trim($namenew));
+				$directorynew	= dhtmlspecialchars($directorynew);
 			$identifiernew	= trim($identifiernew);
 			$datatablesnew	= dhtmlspecialchars(trim($datatablesnew));
 			$descriptionnew	= dhtmlspecialchars($descriptionnew);

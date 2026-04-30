@@ -718,13 +718,14 @@ if($action == 'onlinelist') {
 
 	}
 
-} elseif($action == 'creditslog') {
+	} elseif($action == 'creditslog') {
 
-	$lpp = empty($lpp) ? 50 : $lpp;
-	$page = !ispage($page) ? 1 : $page;
-	$start_limit = ($page - 1) * $lpp;
+		$lpp = empty($lpp) ? 50 : $lpp;
+		$page = !ispage($page) ? 1 : $page;
+		$start_limit = ($page - 1) * $lpp;
+		$keyword = isset($keyword) ? $keyword : '';
 
-	$keywordadd = !empty($keyword) ? "AND c.fromto LIKE '%$keyword%'" : '';
+		$keywordadd = !empty($keyword) ? "AND c.fromto LIKE '%$keyword%'" : '';
 
 	$mpurl = "admincp.php?action=$action&keyword=".rawurlencode($keyword)."&lpp=$lpp";
 	if(!empty($operations) && is_array($operations)) {
@@ -746,15 +747,15 @@ if($action == 'onlinelist') {
 		$creditsoperations .= '<input type="checkbox" name="operations[]" value="'.$operation.'" '.(!empty($operations) && is_array($operations) && in_array($operation, $operations) ? 'checked' : '').'> '.$lang['logs_credit_operation_'.strtolower($operation)].' &nbsp; ';
 	}
 
-	$logs = '';
-	$total['send'] = $total['receive'] = array();
-	$query = $db->query("SELECT c.*, m.username FROM {$tablepre}creditslog c
-		LEFT JOIN {$tablepre}members m USING (uid)
-		WHERE 1 $keywordadd $operationadd ORDER BY dateline DESC LIMIT $start_limit, $lpp");
+		$logs = '';
+		$total['send'] = $total['receive'] = array();
+		$query = $db->query("SELECT c.*, m.username FROM {$tablepre}creditslog c
+			LEFT JOIN {$tablepre}members m USING (uid)
+			WHERE 1 $keywordadd $operationadd ORDER BY dateline DESC LIMIT $start_limit, $lpp");
 
-	while($log = $db->fetch_array($query)) {
-		$total['send'][$log['sendcredits']] += $log['send'];
-		$total['receive'][$log['receivecredits']] += $log['receive'];
+		while($log = $db->fetch_array($query)) {
+			$total['send'][$log['sendcredits']] = (isset($total['send'][$log['sendcredits']]) ? $total['send'][$log['sendcredits']] : 0) + $log['send'];
+			$total['receive'][$log['receivecredits']] = (isset($total['receive'][$log['receivecredits']]) ? $total['receive'][$log['receivecredits']] : 0) + $log['receive'];
 		$log['dateline'] = gmdate('y-n-j H:i', $log['dateline'] + $timeoffset * 3600);
 		$log['operation'] = $lang['logs_credit_operation_'.strtolower($log['operation'])];
 		$logs .= "<tr align=\"center\"><td class=\"altbg1\"><a href=\"viewpro.php?username=".rawurlencode($log['username'])."\" target=\"_blank\">{$log['username']}</td>".

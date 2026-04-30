@@ -219,7 +219,7 @@ if(empty($action) && $tid) {
 				}
 			}
 
-			if(!$allowpaytoauthor) {
+			if(!$allowpaytoauthor || !$ec_ratio) {
 				$post['alipay'] = '';
 			}
 

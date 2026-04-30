@@ -105,7 +105,9 @@
 <tr><td class="altbg1">Yahoo:</td><td width="80%" class="altbg2">$member[yahoo]&nbsp;</td></tr>
 <tr><td class="altbg1">MSN:</td><td width="80%" class="altbg2">$member[msn]&nbsp;</td></tr>
 <tr><td class="altbg1">{lang taobao}:</td><td width="80%" class="altbg2"><!--{if $member['taobao']}--><script language="JavaScript">document.write('<a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=2"><img src="http://amos1.taobao.com/online.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=2" alt="{lang taobao}" border="0">$member[taobao]</a>&nbsp;');</script><!--{else}-->&nbsp;<!--{/if}--></td></tr>
+<!--{if $ec_ratio > 0}-->
 <tr><td class="altbg1">{lang alipay}:</td><td width="80%" class="altbg2"><!--{if $member['alipay']}--><a href="https://www.alipay.com/payto:$member[alipay]?partner=20880020258585430156" target="_blank">$member[alipay]</a><!--{else}-->&nbsp;<!--{/if}--></td></tr>
+<!--{/if}-->
 </table>
 
 </td></tr></table></td></tr></table>

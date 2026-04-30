@@ -341,12 +341,12 @@ if($action == 'memberadd') {
 
 			} else {
 
-				if($next == 'updatecreditsubmit') {
-					$creditscols = $creditsvalue = '';
-					for($i = 1; $i <= 8; $i++) {
-						$creditscols .= '<td width="10%">'.(isset($extcredits[$i]) ? $extcredits[$i]['title'] : 'extcredits'.$i).'</td>';
-						$creditsvalue .= '<td class="altbg'.($i % 2 + 1).'">'.(isset($extcredits[$i]) ? '<input type="text" size="3" name="addextcredits['.$i.']" value="0"> '.$extcredits['$i']['unit'] : '<input type="text" size="3" value="N/A" disabled>').'</td>';
-					}
+					if($next == 'updatecreditsubmit') {
+						$creditscols = $creditsvalue = '';
+						for($i = 1; $i <= 8; $i++) {
+							$creditscols .= '<td width="10%">'.(isset($extcredits[$i]) ? $extcredits[$i]['title'] : 'extcredits'.$i).'</td>';
+							$creditsvalue .= '<td class="altbg'.($i % 2 + 1).'">'.(isset($extcredits[$i]) ? '<input type="text" size="3" name="addextcredits['.$i.']" value="0"> '.(isset($extcredits[$i]['unit']) ? $extcredits[$i]['unit'] : '') : '<input type="text" size="3" value="N/A" disabled>').'</td>';
+						}
 
 ?>
 <tr class="category" align="center"><td width="20%"><?=$lang['credits_title']?></td><?=$creditscols?></tr>
@@ -729,20 +729,30 @@ if($action == 'memberadd') {
 
 	if(!submitcheck('editsubmit')) {
 
-		$checkadminid = array(($member['adminid'] >= 0 ? $member['adminid'] : 0) => 'checked');
+			$checkadminid = array(0 => '', 1 => '', 2 => '', 3 => '');
+			$checkadminidkey = $member['adminid'] >= 0 ? intval($member['adminid']) : 0;
+			if(isset($checkadminid[$checkadminidkey])) {
+				$checkadminid[$checkadminidkey] = 'checked';
+			}
 
 		$member['groupterms'] = unserialize($member['groupterms']);
 
-		if($member['groupterms']['main']) {
-			$expirydate = gmdate('Y-n-j', $member['groupterms']['main']['time'] + $timeoffset * 3600);
-			$expirydays = ceil(($member['groupterms']['main']['time'] - $timestamp) / 86400);
-			$selecteaid = array($member['groupterms']['main']['adminid'] => 'selected');
-			$selectegid = array($member['groupterms']['main']['groupid'] => 'selected');
-		} else {
-			$expirydate = $expirydays = '';
-			$selecteaid = array($member['adminid'] => 'selected');
-			$selectegid = array(($member['grouptype'] == 'member' ? 0 : $member['groupid']) => 'selected');
-		}
+			if($member['groupterms']['main']) {
+				$expirydate = gmdate('Y-n-j', $member['groupterms']['main']['time'] + $timeoffset * 3600);
+				$expirydays = ceil(($member['groupterms']['main']['time'] - $timestamp) / 86400);
+				$selecteaid = array(0 => '', 1 => '', 2 => '', 3 => '');
+				if(isset($selecteaid[$member['groupterms']['main']['adminid']])) {
+					$selecteaid[$member['groupterms']['main']['adminid']] = 'selected';
+				}
+				$selectegid = array($member['groupterms']['main']['groupid'] => 'selected');
+			} else {
+				$expirydate = $expirydays = '';
+				$selecteaid = array(0 => '', 1 => '', 2 => '', 3 => '');
+				if(isset($selecteaid[$member['adminid']])) {
+					$selecteaid[$member['adminid']] = 'selected';
+				}
+				$selectegid = array(($member['grouptype'] == 'member' ? 0 : $member['groupid']) => 'selected');
+			}
 
 		$class = 'altbg1';
 		$extgroupcount = 0;
@@ -761,7 +771,7 @@ if($action == 'memberadd') {
 				continue;
 			}
 
-			$expgroups .= '<option name="expgroupidnew" value="'.$group['groupid'].'" '.$selectegid[$group['groupid']].'>'.$group['grouptitle'].'</option>';
+				$expgroups .= '<option name="expgroupidnew" value="'.$group['groupid'].'" '.(isset($selectegid[$group['groupid']]) ? $selectegid[$group['groupid']] : '').'>'.$group['grouptitle'].'</option>';
 
 			if($group['groupid'] != 0) {
 				$thisbg = $curtype == $group['type'] && $thisbg == ALTBG2 ? ALTBG1 : ALTBG2;
@@ -950,12 +960,12 @@ if($action == 'memberadd') {
 			$jscreditsformula = str_replace(array('digestposts', 'posts', 'pageviews', 'oltime'), array($member['digestposts'], $member['posts'],$member['pageviews'],$member['oltime']), $jscreditsformula);
 		}
 
-		$creditscols = $creditsvalue = '';
-		for($i = 1; $i <= 8; $i++) {
-			$jscreditsformula = str_replace('extcredits'.$i, "extcredits[$i]", $jscreditsformula);
-			$creditscols .= '<td width="9%">'.(isset($extcredits[$i]) ? $extcredits[$i]['title'] : 'extcredits'.$i).'</td>';
-			$creditsvalue .= '<td class="altbg'.(($i + 1) % 2 + 1).'">'.(isset($extcredits[$i]) ? '<input type="text" size="3" name="extcreditsnew['.$i.']" value="'.$member['extcredits'.$i].'" onkeyup="membercredits()"> '.$extcredits['$i']['unit'] : '<input type="text" size="3" value="N/A" disabled>').'</td>';
-		}
+			$creditscols = $creditsvalue = '';
+			for($i = 1; $i <= 8; $i++) {
+				$jscreditsformula = str_replace('extcredits'.$i, "extcredits[$i]", $jscreditsformula);
+				$creditscols .= '<td width="9%">'.(isset($extcredits[$i]) ? $extcredits[$i]['title'] : 'extcredits'.$i).'</td>';
+				$creditsvalue .= '<td class="altbg'.(($i + 1) % 2 + 1).'">'.(isset($extcredits[$i]) ? '<input type="text" size="3" name="extcreditsnew['.$i.']" value="'.$member['extcredits'.$i].'" onkeyup="membercredits()"> '.(isset($extcredits[$i]['unit']) ? $extcredits[$i]['unit'] : '') : '<input type="text" size="3" value="N/A" disabled>').'</td>';
+			}
 
 		$creditsrangs = $member['type'] == 'member' ? "{$member['creditshigher']}~{$member['creditslower']}" : 'N/A';
 
@@ -1224,6 +1234,9 @@ function membercredits() {
 
 			if($allowedituser) {
 				require_once DISCUZ_ROOT.'./include/discuzcode.func.php';
+				$signaturenew = isset($signaturenew) ? $signaturenew : '';
+				$locationnew = isset($locationnew) ? $locationnew : '';
+				$bionew = isset($bionew) ? $bionew : '';
 
 				$sightmlnew = addslashes(discuzcode(stripslashes($signaturenew), 1, 0, 0, 0, $member['allowsigbbcode'], $member['allowsigimgcode'], 0));
 				$locationnew = dhtmlspecialchars($locationnew);
