@@ -105,10 +105,29 @@ if($action == 'memberadd') {
 
 	if(!submitcheck('searchsubmit', 1) && !submitcheck('deletesubmit') && !submitcheck('sendsubmit', 1) && !submitcheck('editsubmit') && !submitcheck('updatecreditsubmit',1)) {
 
-		$adminselect = $groupselect = $extgroupselect = '';
-		$admingroupid = isset($admingroupid) && is_array($admingroupid) ? $admingroupid : array();
-		$usergroupid = isset($usergroupid) && is_array($usergroupid) ? $usergroupid : array();
-		$extusergroupid = isset($extusergroupid) && is_array($extusergroupid) ? $extusergroupid : array();
+			$adminselect = $groupselect = $extgroupselect = '';
+			$admingroupid = isset($admingroupid) && is_array($admingroupid) ? $admingroupid : array();
+			$usergroupid = isset($usergroupid) && is_array($usergroupid) ? $usergroupid : array();
+			$extusergroupid = isset($extusergroupid) && is_array($extusergroupid) ? $extusergroupid : array();
+			$birthmonth = isset($birthmonth) ? trim($birthmonth) : '';
+			$birthday = isset($birthday) ? trim($birthday) : '';
+			$year = isset($year) ? trim($year) : '';
+			$username = isset($username) ? trim($username) : '';
+			$srchemail = isset($srchemail) ? trim($srchemail) : '';
+			$postslower = isset($postslower) ? trim($postslower) : '';
+			$postshigher = isset($postshigher) ? trim($postshigher) : '';
+			$regip = isset($regip) ? trim($regip) : '';
+			$lastip = isset($lastip) ? trim($lastip) : '';
+			$regdatebefore = isset($regdatebefore) ? trim($regdatebefore) : '';
+			$regdateafter = isset($regdateafter) ? trim($regdateafter) : '';
+			$lastvisitbefore = isset($lastvisitbefore) ? trim($lastvisitbefore) : '';
+			$lastvisitafter = isset($lastvisitafter) ? trim($lastvisitafter) : '';
+			$lastpostbefore = isset($lastpostbefore) ? trim($lastpostbefore) : '';
+			$lastpostafter = isset($lastpostafter) ? trim($lastpostafter) : '';
+			$lower = isset($lower) && is_array($lower) ? $lower : array();
+			$higher = isset($higher) && is_array($higher) ? $higher : array();
+			$lower['credits'] = isset($lower['credits']) ? $lower['credits'] : '';
+			$higher['credits'] = isset($higher['credits']) ? $higher['credits'] : '';
 
 		$query = $db->query("SELECT groupid, grouptitle FROM {$tablepre}usergroups WHERE groupid NOT IN ('6', '7') ORDER BY (creditshigher<>'0' || creditslower<>'0'), creditslower");
 		while($group = $db->fetch_array($query)) {
@@ -136,13 +155,15 @@ if($action == 'memberadd') {
 
 		}
 
-		$searchcredits = '';
-		foreach($extcredits as $id => $credit) {
-			$searchcredits .= "<tr><td class=\"altbg1\">{$credit['title']} {$lang['members_search_lower']}:</td>\n".
-				"<td align=\"right\" class=\"altbg2\"><input type=\"text\" name=\"lower[extcredits$id]\" value=\"".dhtmlspecialchars($lower['extcredits'.$id])."\" size=\"40\"></td></tr>\n".
-				"<tr><td class=\"altbg1\">{$credit['title']} {$lang['members_search_higher']}:</td>\n".
-				"<td align=\"right\" class=\"altbg2\"><input type=\"text\" name=\"higher[extcredits$id]\" value=\"".dhtmlspecialchars($higher['extcredits'.$id])."\" size=\"40\"></td></tr>\n";
-		}
+			$searchcredits = '';
+			foreach($extcredits as $id => $credit) {
+				$lowerextkey = 'extcredits'.$id;
+				$higherextkey = 'extcredits'.$id;
+				$searchcredits .= "<tr><td class=\"altbg1\">{$credit['title']} {$lang['members_search_lower']}:</td>\n".
+					"<td align=\"right\" class=\"altbg2\"><input type=\"text\" name=\"lower[extcredits$id]\" value=\"".dhtmlspecialchars(isset($lower[$lowerextkey]) ? $lower[$lowerextkey] : '')."\" size=\"40\"></td></tr>\n".
+					"<tr><td class=\"altbg1\">{$credit['title']} {$lang['members_search_higher']}:</td>\n".
+					"<td align=\"right\" class=\"altbg2\"><input type=\"text\" name=\"higher[extcredits$id]\" value=\"".dhtmlspecialchars(isset($higher[$higherextkey]) ? $higher[$higherextkey] : '')."\" size=\"40\"></td></tr>\n";
+			}
 
 ?>
 <br><form method="post" action="admincp.php?action=members">

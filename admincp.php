@@ -52,6 +52,8 @@ require_once DISCUZ_ROOT.'./include/cache.func.php';
 $discuz_action = 211;
 
 include language('admincp');
+$session = array('errorcount' => 0);
+$admin_password = isset($admin_password) ? $admin_password : '';
 
 if($action == 'menu') {
 	require_once DISCUZ_ROOT.'./admin/menu.inc.php';
@@ -104,9 +106,9 @@ if($action == 'menu') {
 			case 0:
 				$extra = 'PERMISSION DENIED';
 				break;
-			case 1:
-				$extra = 'AUTHENTIFICATION(ERROR #'.intval($session['errorcount']).')';
-				break;
+				case 1:
+					$extra = 'AUTHENTIFICATION(ERROR #'.intval(isset($session['errorcount']) ? $session['errorcount'] : 0).')';
+					break;
 			case 2:
 				$extra = 'IP ACCESS DENIED';
 				break;

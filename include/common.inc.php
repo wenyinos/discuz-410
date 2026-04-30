@@ -11,6 +11,27 @@
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
+if(PHP_VERSION_ID >= 80000) {
+	set_error_handler(function($errno, $errstr) {
+		if(!($errno & (E_WARNING | E_NOTICE)) || !is_string($errstr)) {
+			return FALSE;
+		}
+		static $compatWarnings = array(
+			'Undefined variable $',
+			'Undefined array key',
+			'Undefined index',
+			'Trying to access array offset on null',
+			'Trying to access array offset on value of type null'
+		);
+		foreach($compatWarnings as $prefix) {
+			if(strpos($errstr, $prefix) === 0) {
+				return TRUE;
+			}
+		}
+		return FALSE;
+	});
+}
+
 $mtime = explode(' ', microtime());
 $discuz_starttime = $mtime[1] + $mtime[0];
 
