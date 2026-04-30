@@ -87,7 +87,7 @@ if($action == 'admingroups') {
 
 			} else {
 
-				$checkstick = array($group['allowstickthread'] => 'checked');
+				$checkstick = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkstick[$group['allowstickthread']] = 'checked';
 
 				showtype($lang['admingroups_edit'].' - '.$group['grouptitle'], 'top');
 				showsetting('admingroups_edit_edit_post', 'alloweditpostnew', $group['alloweditpost'], 'radio');
@@ -274,10 +274,10 @@ if($action == 'admingroups') {
 			$group = $db->fetch_array($query);
 
 			if(!submitcheck('detailsubmit')) {
-				$checksearch = array($group['allowsearch'] => 'checked');
-				$checkavatar = array($group['allowavatar'] => 'checked');
-				$checkreasonpm = array($group['reasonpm'] => 'checked');
-				$checkdirectpost = array($group['allowdirectpost'] => 'checked');
+				$checksearch = array(0 => '', 1 => '', 2 => ''); $checksearch[$group['allowsearch']] = 'checked';
+				$checkavatar = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkavatar[$group['allowavatar']] = 'checked';
+				$checkreasonpm = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkreasonpm[$group['reasonpm']] = 'checked';
+				$checkdirectpost = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkdirectpost[$group['allowdirectpost']] = 'checked';
 
 				echo "<form method=\"post\" action=\"admincp.php?action=usergroups&edit=$edit&formhash=".FORMHASH.($return == 'admingroups' ? '&return=admingroups' : '')."\">\n";
 

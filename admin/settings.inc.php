@@ -30,20 +30,20 @@ if(!submitcheck('settingsubmit')) {
 	}
 	$stylelist .= '</select>';
 
-	$checkrf = array($settings['regverify'] => 'checked');
-	$checkarchiver = array($settings['archiverstatus'] => 'checked');
-	$checkdelayvc = array($settings['delayviewcount'] => 'checked');
-	$checkrewrite = array($settings['rewritestatus'] => 'checked');
-	$checkbday = array($settings['bdaystatus'] => 'checked');
-	$checkonline = array($settings['whosonlinestatus'] => 'checked');
-	$checkstatusby = array($settings['userstatusby'] => 'checked');
-	$checkattach = array($settings['attachsave'] => 'checked');
-	$checkreport = array($settings['reportpost'] => 'checked');
+	$checkrf = array(0 => '', 1 => '', 2 => ''); $checkrf[$settings['regverify']] = 'checked';
+	$checkarchiver = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkarchiver[$settings['archiverstatus']] = 'checked';
+	$checkdelayvc = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkdelayvc[$settings['delayviewcount']] = 'checked';
+	$checkrewrite = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkrewrite[$settings['rewritestatus']] = 'checked';
+	$checkbday = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkbday[$settings['bdaystatus']] = 'checked';
+	$checkonline = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkonline[$settings['whosonlinestatus']] = 'checked';
+	$checkstatusby = array(0 => '', 1 => '', 2 => ''); $checkstatusby[$settings['userstatusby']] = 'checked';
+	$checkattach = array(0 => '', 1 => '', 2 => '', 3 => '', 4 => ''); $checkattach[$settings['attachsave']] = 'checked';
+	$checkreport = array(0 => '', 1 => '', 2 => '', 3 => ''); $checkreport[$settings['reportpost']] = 'checked';
 	$checkfastpost = array($settings['fastpost'] => 'checked');
-	$checktimeformat = array($settings['timeformat'] == 'H:i' ? 24 : 12 => 'checked');
-	$checkmoddisplay = array($settings['moddisplay'] => 'checked');
-	$checkwapcharset = array($settings['wapcharset'] => 'checked');
-	$checkwm = array($settings['watermarkstatus'] => 'checked');
+	$checktimeformat = array(12 => '', 24 => ''); $checktimeformat[$settings['timeformat'] == 'H:i' ? 24 : 12] = 'checked';
+	$checkmoddisplay = array('flat' => '', 'selectbox' => ''); $checkmoddisplay[$settings['moddisplay']] = 'checked';
+	$checkwapcharset = array(1 => '', 2 => ''); $checkwapcharset[$settings['wapcharset']] = 'checked';
+	$checkwm = array(0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => '', 6 => '', 7 => '', 8 => '', 9 => ''); $checkwm[$settings['watermarkstatus']] = 'checked';
 
 	$checksc = array();
 	$settings['seccodestatus'] = sprintf('%05b', $settings['seccodestatus']);

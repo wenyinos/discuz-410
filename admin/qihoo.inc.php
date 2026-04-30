@@ -24,7 +24,7 @@ if($action == 'qihoo_config') {
 		while($setting = $db->fetch_array($query)) {
 			$settings[$setting['variable']] = $setting['value'];
 		}
-		$checkstatus = array($settings['qihoo_status'] => 'checked');
+		$checkstatus = array(0 => '', 1 => '', 2 => ''); $checkstatus[$settings['qihoo_status']] = 'checked';
 		$settings['qihoo_searchbox'] = sprintf('%03b', $settings['qihoo_searchbox']);
 		for($i = 1; $i <= 3; $i++) {
 			$checks[$i] = $settings['qihoo_searchbox'][3 - $i] ? 'checked' : '';

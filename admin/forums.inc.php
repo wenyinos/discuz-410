@@ -514,7 +514,7 @@ if($action == 'forumadd')  {
 			} else {
 				$acoption = 0;
 			}
-			$checkac = array($acoption => 'checked');
+			$checkac = array(-1 => '', 0 => '', 1 => ''); $checkac[$acoption] = 'checked';
 
 			$checktrade = array();
 			$forum['allowtrade'] = sprintf('%02b', $forum['allowtrade']);
@@ -522,8 +522,8 @@ if($action == 'forumadd')  {
 				$checktrade[$i] = $forum['allowtrade'][2 - $i] ? 'checked' : '';
 			}
 
-			$checkmod = array($forum['modnewposts'] => 'checked');
-			$checkrules = array($forum['alloweditrules'] => 'checked');
+			$checkmod = array(0 => '', 1 => '', 2 => ''); $checkmod[$forum['modnewposts']] = 'checked';
+			$checkrules = array(0 => '', 1 => '', 2 => ''); $checkrules[$forum['alloweditrules']] = 'checked';
 
 			foreach($perms as $perm) {
 				$num = -1;

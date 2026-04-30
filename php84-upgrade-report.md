@@ -143,6 +143,12 @@
 - `include/cache.func.php:375` — `$data['plugins'] = array()` → `array('links' => array(), 'include' => array())`
 - 确保 `$plugins['links']` 和 `$plugins['include']` 键始终存在，避免模板和入口脚本访问时 Warning
 
+### 4.15 稀疏数组缺键 Warning — ✅ 已修复（7 文件）
+
+- 根因：`array($value => 'checked')` 仅创建当前值的键，访问其他键（如 `$arr[0]`、`$arr[1]`）时 PHP 8 产生 `Undefined array key` Warning
+- 涉及文件：`admin/settings.inc.php`、`admin/forums.inc.php`、`admin/groups.inc.php`、`admin/members.inc.php`、`admin/avatarshow.inc.php`、`admin/qihoo.inc.php`
+- 改造：预填充所有可能的键，如 `array(0 => '', 1 => '', 2 => ''); $arr[$value] = 'checked';`
+
 ## 5. 实施完成清单
 
 | # | 改造项 | 涉及文件数 | 状态 |
@@ -162,9 +168,10 @@
 | 4.12 | 运行时 `Undefined array key` / `Undefined variable` | 5 | ✅ |
 | 4.13 | 双引号字符串内裸常量数组键 | 68 | ✅ |
 | 4.14 | 缓存插件结构初始化 | 1 | ✅ |
+| 4.15 | 稀疏数组缺键 Warning | 6 | ✅ |
 | — | 新增 `dinterpolate()` 函数 | 1 | ✅ |
 | — | 项目文档更新 | 3 | ✅ |
-| **合计** | | **105 源文件 + 59 编译模板** | |
+| **合计** | | **111 源文件 + 59 编译模板** | |
 
 ## 6. 阶段 C：回归与灰度（待执行）
 

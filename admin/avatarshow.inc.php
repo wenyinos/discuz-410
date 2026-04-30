@@ -24,8 +24,8 @@ if($action == 'avatarshow_config') {
 		while($setting = $db->fetch_array($query)) {
 			$settings[$setting['variable']] = $setting['value'];
 		}
-		$checkstatus = array($settings['avatarshowstatus'] => 'checked');
-		$checkpos = array($settings['avatarshowpos'] => 'checked');
+		$checkstatus = array(0 => '', 1 => '', 2 => ''); $checkstatus[$settings['avatarshowstatus']] = 'checked';
+		$checkpos = array(1 => '', 2 => '', 3 => ''); $checkpos[$settings['avatarshowpos']] = 'checked';
 
 ?>
 <form method="post" name="settings" action="admincp.php?action=avatarshow_config">

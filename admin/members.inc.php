@@ -1339,9 +1339,9 @@ function membercredits() {
 		}
 		$styleselect .= '</select>';
 
-		$tfcheck = array($member['timeformat'] => 'checked');
-		$gendercheck = array($member['gender'] => 'checked');
-		$pscheck = array($member['pmsound'] => 'checked');
+		$tfcheck = array(0 => '', 1 => '', 2 => ''); $tfcheck[$member['timeformat']] = 'checked';
+		$gendercheck = array(0 => '', 1 => '', 2 => ''); $gendercheck[$member['gender']] = 'checked';
+		$pscheck = array(0 => '', 1 => '', 2 => '', 3 => ''); $pscheck[$member['pmsound']] = 'checked';
 
 		$member['dateformat'] = str_replace('n', 'mm', $member['dateformat']);
 		$member['dateformat'] = str_replace('j', 'dd', $member['dateformat']);
