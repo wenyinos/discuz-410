@@ -180,11 +180,12 @@ if(empty($action) && $tid) {
 		LEFT JOIN {$tablepre}memberfields mf ON mf.uid=m.uid
 		WHERE p.tid='$tid' AND p.invisible='0' ORDER BY dateline LIMIT $start_limit, $ppp");
 
-	while($post = $db->fetch_array($query)) {
+		while($post = $db->fetch_array($query)) {
+			$postgroup = isset($_DCACHE['usergroups'][7]) ? $_DCACHE['usergroups'][7] : array();
 
-		if(!$newpostanchor && $post['dateline'] > $lastvisit) {
-			$post['newpostanchor'] = '<a name="newpost"></a>';
-			$newpostanchor = 1;
+			if(!$newpostanchor && $post['dateline'] > $lastvisit) {
+				$post['newpostanchor'] = '<a name="newpost"></a>';
+				$newpostanchor = 1;
 		} else {
 			$post['newpostanchor'] = '';
 		}
@@ -193,18 +194,24 @@ if(empty($action) && $tid) {
 		$post['count'] = $postcount++;
 
 		$post['thisbg'] = $thisbg = isset($thisbg) && $thisbg == 'altbg1' ? 'altbg2' : 'altbg1';
-		$post['dateline'] = gmdate("$dateformat $timeformat", $post['dateline'] + $timeoffset * 3600);
+			$post['dateline'] = gmdate("$dateformat $timeformat", $post['dateline'] + $timeoffset * 3600);
 
-		if($post['username']) {
+			if($post['username']) {
 
-			$post['groupid'] = getgroupid($post['authorid'], $_DCACHE['usergroups'][$post['groupid']], $post);
-			$post['readaccess'] = $_DCACHE['usergroups'][$post['groupid']]['readaccess'];
-			if($userstatusby == 1 || $_DCACHE['usergroups'][$post['groupid']]['byrank'] === '0') {
-				$post['authortitle'] = $_DCACHE['usergroups'][$post['groupid']]['grouptitle'];
-				$post['stars'] = $_DCACHE['usergroups'][$post['groupid']]['stars'];
-			} elseif($userstatusby == 2) {
-				foreach($_DCACHE['ranks'] as $rank) {
-					if($post['posts'] > $rank['postshigher']) {
+				$membergroupid = isset($_DCACHE['usergroups'][$post['groupid']]) ? $post['groupid'] : 7;
+				$membergroup = isset($_DCACHE['usergroups'][$membergroupid]) ? $_DCACHE['usergroups'][$membergroupid] : array('type' => 'member', 'creditshigher' => 0, 'creditslower' => 0);
+				$post['groupid'] = getgroupid($post['authorid'], $membergroup, $post);
+				if(!isset($_DCACHE['usergroups'][$post['groupid']])) {
+					$post['groupid'] = $membergroupid;
+				}
+				$postgroup = isset($_DCACHE['usergroups'][$post['groupid']]) ? $_DCACHE['usergroups'][$post['groupid']] : $membergroup;
+				$post['readaccess'] = isset($postgroup['readaccess']) ? $postgroup['readaccess'] : 0;
+				if($userstatusby == 1 || (isset($postgroup['byrank']) && $postgroup['byrank'] === '0')) {
+					$post['authortitle'] = isset($postgroup['grouptitle']) ? $postgroup['grouptitle'] : '';
+					$post['stars'] = isset($postgroup['stars']) ? $postgroup['stars'] : 0;
+				} elseif($userstatusby == 2) {
+					foreach($_DCACHE['ranks'] as $rank) {
+						if($post['posts'] > $rank['postshigher']) {
 						$post['authortitle'] = $rank['ranktitle'];
 						$post['stars'] = $rank['stars'];
 						break;
@@ -216,13 +223,13 @@ if(empty($action) && $tid) {
 				$post['alipay'] = '';
 			}
 
-			$post['taobao'] = addslashes($post['taobao']);
-			$post['authoras'] = !$post['anonymous'] ? ' '.addslashes($post['author']) : '';
-			$post['regdate'] = gmdate($dateformat, $post['regdate'] + $timeoffset * 3600);
-			$post['allowuseblog'] = $_DCACHE['usergroups'][$post['groupid']]['allowuseblog'];
+				$post['taobao'] = addslashes($post['taobao']);
+				$post['authoras'] = !$post['anonymous'] ? ' '.addslashes($post['author']) : '';
+				$post['regdate'] = gmdate($dateformat, $post['regdate'] + $timeoffset * 3600);
+				$post['allowuseblog'] = !empty($postgroup['allowuseblog']);
 
-			if($post['medals']) {
-				require_once DISCUZ_ROOT.'./forumdata/cache/cache_medals.php';
+				if($post['medals']) {
+					require_once DISCUZ_ROOT.'./forumdata/cache/cache_medals.php';
 				foreach($post['medals'] = explode("\t", $post['medals']) as $key => $medalid) {
 					if(isset($_DCACHE['medals'][$medalid])) {
 						$post['medals'][$key] = $_DCACHE['medals'][$medalid];
@@ -231,15 +238,15 @@ if(empty($action) && $tid) {
 					}
 				}
 
-			}
+				}
 
-			$post['avatarshow'] = $avatarshowstatus && ($post['avatarshowid'] || $avatarshowdefault) ? avatarshow($post['avatarshowid'], $post['gender']) : '';
-			if($_DCACHE['usergroups'][$post['groupid']]['groupavatar']) {
-				$post['avatar'] = '<img src="'.$_DCACHE['usergroups'][$post['groupid']]['groupavatar'].'" border="0">';
-			} elseif($avatarshowstatus != 2 && $_DCACHE['usergroups'][$post['groupid']]['allowavatar'] && $post['avatar']) {
-				$post['avatar'] = '<img src="'.$post['avatar'].'" width="'.$post['avatarwidth'].'" height="'.$post['avatarheight'].'" border="0">';
-			} else {
-				$post['avatar'] = '';
+				$post['avatarshow'] = $avatarshowstatus && ($post['avatarshowid'] || $avatarshowdefault) ? avatarshow($post['avatarshowid'], $post['gender']) : '';
+				if(!empty($postgroup['groupavatar'])) {
+					$post['avatar'] = '<img src="'.$postgroup['groupavatar'].'" border="0">';
+				} elseif($avatarshowstatus != 2 && !empty($postgroup['allowavatar']) && $post['avatar']) {
+					$post['avatar'] = '<img src="'.$post['avatar'].'" width="'.$post['avatarwidth'].'" height="'.$post['avatarheight'].'" border="0">';
+				} else {
+					$post['avatar'] = '';
 			}
 
 		} else {
@@ -256,10 +263,10 @@ if(empty($action) && $tid) {
 			$post['attachment'] = 0;
 			if(preg_match("/\[attach\](\d+)\[\/attach\]/i", $post['message'])) {
 				$attachtags[] = $post['pid'];
+				}
 			}
-		}
 
-		$forum['allowbbcode'] = $forum['allowbbcode'] ? ($_DCACHE['usergroups'][$post['groupid']]['allowcusbbcode'] ? 2 : 1) : 0;
+			$forum['allowbbcode'] = $forum['allowbbcode'] ? (!empty($postgroup['allowcusbbcode']) ? 2 : 1) : 0;
 
 		$post['ratings'] = karmaimg($post['rate'], $post['ratetimes']);
 		$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], $post['htmlon'], $forum['allowsmilies'], $forum['allowbbcode'], $forum['allowimgcode'], $forum['allowhtml'], ($forum['jammer'] && $post['authorid'] != $discuz_uid ? 1 : 0));

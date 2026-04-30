@@ -178,13 +178,15 @@ if(empty($filter)) {
 	$threadcount = $db->result($query, 0);
 }
 
-if($globalstick) {
-	$thisgid = $forum['type'] == 'forum' ? $forum['fup'] : $_DCACHE['forums'][$forum['fup']]['fup'];
-	$stickytids = $_DCACHE['globalstick']['global']['tids'].(empty($_DCACHE['globalstick']['categories'][$thisgid]['count']) ? '' : ','.$_DCACHE['globalstick']['categories'][$thisgid]['tids']);
-	$stickycount = $_DCACHE['globalstick']['global']['count'] + $_DCACHE['globalstick']['categories'][$thisgid]['count'];
-} else {
-	$thisgid = $stickycount = $stickytids = 0;
-}
+	if($globalstick) {
+		$thisgid = $forum['type'] == 'forum' ? $forum['fup'] : (isset($_DCACHE['forums'][$forum['fup']]['fup']) ? $_DCACHE['forums'][$forum['fup']]['fup'] : 0);
+		$globalsticky = isset($_DCACHE['globalstick']['global']) ? $_DCACHE['globalstick']['global'] : array('tids' => '0', 'count' => 0);
+		$categorysticky = isset($_DCACHE['globalstick']['categories'][$thisgid]) ? $_DCACHE['globalstick']['categories'][$thisgid] : array('tids' => '', 'count' => 0);
+		$stickytids = $globalsticky['tids'].(empty($categorysticky['count']) ? '' : ','.$categorysticky['tids']);
+		$stickycount = intval($globalsticky['count']) + intval($categorysticky['count']);
+	} else {
+		$thisgid = $stickycount = $stickytids = 0;
+	}
 
 $threadcount = $threadcount + $stickycount;
 $multipage = multi($threadcount, $tpp, $page, "forumdisplay.php?fid=$fid$forumdisplayadd", $threadmaxpages);

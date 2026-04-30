@@ -23,6 +23,7 @@ $endtime = isset($endtime) ? intval($endtime) : 0;
 
 $page = empty($page) || !ispage($page) ? 1 : $page;
 $start_limit = ($page - 1) * $ppp;
+$guestgroup = isset($_DCACHE['usergroups'][7]) ? $_DCACHE['usergroups'][7] : array();
 
 if(!empty($uid)) {
 
@@ -64,13 +65,14 @@ if(!empty($uid)) {
 			showmessage('blog_category_isnull');
 		}
 
-	} else {
+		} else {
 
-		while($blog = $db->fetch_array($query)) {
-			$blog['allowbbcode'] = $blog['allowbbcode'] ? ($_DCACHE['usergroups'][$member['groupid']]['allowcusbbcode'] ? 2 : 1) : 0;
-			$blog['karma'] = karmaimg($blog['rate'], $blog['ratetimes']);
-			$blog['postedon'] = gmdate($dateformat, $blog['dateline'] + $timeoffset * 3600);
-			$blog['dateline'] = gmdate("$dateformat $timeformat", $blog['dateline'] + $timeoffset * 3600);
+			while($blog = $db->fetch_array($query)) {
+				$membergroup = isset($_DCACHE['usergroups'][$member['groupid']]) ? $_DCACHE['usergroups'][$member['groupid']] : $guestgroup;
+				$blog['allowbbcode'] = $blog['allowbbcode'] ? (!empty($membergroup['allowcusbbcode']) ? 2 : 1) : 0;
+				$blog['karma'] = karmaimg($blog['rate'], $blog['ratetimes']);
+				$blog['postedon'] = gmdate($dateformat, $blog['dateline'] + $timeoffset * 3600);
+				$blog['dateline'] = gmdate("$dateformat $timeformat", $blog['dateline'] + $timeoffset * 3600);
 			$blog['message'] = discuzcode(cutstr($blog['message'], 800), $blog['smileyoff'], $blog['bbcodeoff'], $blog['htmlon'], $blog['allowsmilies'], $blog['allowbbcode'], $blog['allowimgcode'], $blog['allowhtml'], ($blog['jammer'] && $blog['authorid'] != $discuz_uid ? 1 : 0));
 
 			$bloglist[] = $blog;
@@ -103,12 +105,13 @@ if(!empty($uid)) {
 
 	$multipage = $multipage = multi($blogtopic['replies'], $ppp, $page, "blog.php?tid=$tid&starttime=$starttime&endtime=$endtime");
 
-	$usesigcheck = $discuz_uid && $sigstatus ? 'checked' : '';
-	$allowpostreply = (!$blogtopic['closed'] || $forum['ismoderator']) && ((!$forum['replyperm'] && $allowreply) || ($forum['replyperm'] && forumperm($forum['replyperm'])) || $forum['allowreply']);
+		$usesigcheck = $discuz_uid && $sigstatus ? 'checked' : '';
+		$allowpostreply = (!$blogtopic['closed'] || $forum['ismoderator']) && ((!$forum['replyperm'] && $allowreply) || ($forum['replyperm'] && forumperm($forum['replyperm'])) || $forum['allowreply']);
 
-	$forum['allowbbcode'] = $forum['allowbbcode'] ? ($_DCACHE['usergroups'][$blogtopic['groupid']]['allowcusbbcode'] ? 2 : 1) : 0;
-	$blogtopic['message'] = discuzcode($blogtopic['message'], $blogtopic['smileyoff'], $blogtopic['bbcodeoff'], $blogtopic['htmlon'], $forum['allowsmilies'], $forum['allowbbcode'], $forum['allowimgcode'], $forum['allowhtml'], ($forum['jammer'] && $blogtopic['authorid'] != $discuz_uid ? 1 : 0));
-	$blogtopic['karma'] = karmaimg($blogtopic['rate'], $blogtopic['ratetimes']);
+		$blogtopicgroup = isset($_DCACHE['usergroups'][$blogtopic['groupid']]) ? $_DCACHE['usergroups'][$blogtopic['groupid']] : $guestgroup;
+		$forum['allowbbcode'] = $forum['allowbbcode'] ? (!empty($blogtopicgroup['allowcusbbcode']) ? 2 : 1) : 0;
+		$blogtopic['message'] = discuzcode($blogtopic['message'], $blogtopic['smileyoff'], $blogtopic['bbcodeoff'], $blogtopic['htmlon'], $forum['allowsmilies'], $forum['allowbbcode'], $forum['allowimgcode'], $forum['allowhtml'], ($forum['jammer'] && $blogtopic['authorid'] != $discuz_uid ? 1 : 0));
+		$blogtopic['karma'] = karmaimg($blogtopic['rate'], $blogtopic['ratetimes']);
 
 	$blogtopic['attachments'] = array();
 	if($blogtopic['attachment'] && (($allowgetattach && !$forum['getattachperm']) || (!$allowgetattach && forumperm($forum['getattachperm'])))) {
@@ -146,21 +149,22 @@ if(!empty($uid)) {
 			$comment['thisbg'] = $thisbg = isset($thisbg) && $thisbg == 'altbg1' ? 'altbg2' : 'altbg1';
 			$comment['dateline'] = gmdate("$dateformat $timeformat", $comment['dateline'] + $timeoffset * 3600);
 
-			if($comment['attachment'] && $allowgetattach) {
-				$attachpids .= ",{$comment['pid']}";
-				$comment['attachment'] = 0;
-			}
+				if($comment['attachment'] && $allowgetattach) {
+					$attachpids .= ",{$comment['pid']}";
+					$comment['attachment'] = 0;
+				}
 
-			$forum['allowbbcode'] = $forum['allowbbcode'] ? ($_DCACHE['usergroups'][$comment['groupid']]['allowcusbbcode'] ? 2 : 1) : 0;
-			$comment['message'] = discuzcode($comment['message'], $comment['smileyoff'], $comment['bbcodeoff'], $comment['htmlon'], $forum['allowsmilies'], $forum['allowbbcode'], $forum['allowimgcode'], $forum['allowhtml'], ($forum['jammer'] && $comment['authorid'] != $discuz_uid ? 1 : 0));
+				$commentgroup = isset($_DCACHE['usergroups'][$comment['groupid']]) ? $_DCACHE['usergroups'][$comment['groupid']] : $guestgroup;
+				$forum['allowbbcode'] = $forum['allowbbcode'] ? (!empty($commentgroup['allowcusbbcode']) ? 2 : 1) : 0;
+				$comment['message'] = discuzcode($comment['message'], $comment['smileyoff'], $comment['bbcodeoff'], $comment['htmlon'], $forum['allowsmilies'], $forum['allowbbcode'], $forum['allowimgcode'], $forum['allowhtml'], ($forum['jammer'] && $comment['authorid'] != $discuz_uid ? 1 : 0));
 
-			if($comment['username']) {
-				if($userstatusby == 1 || $_DCACHE['usergroups'][$comment['groupid']]['byrank'] === 0) {
-					$comment['authortitle'] = strip_tags($_DCACHE['usergroups'][$comment['groupid']]['grouptitle']);
-					$comment['stars'] = $_DCACHE['usergroups'][$comment['groupid']]['stars'];
-				} elseif($userstatusby == 2) {
-					foreach($_DCACHE['ranks'] as $rank) {
-						if($comment['posts'] > $rank['postshigher']) {
+				if($comment['username']) {
+					if($userstatusby == 1 || (isset($commentgroup['byrank']) && (string)$commentgroup['byrank'] === '0')) {
+						$comment['authortitle'] = strip_tags(isset($commentgroup['grouptitle']) ? $commentgroup['grouptitle'] : '');
+						$comment['stars'] = isset($commentgroup['stars']) ? $commentgroup['stars'] : 0;
+					} elseif($userstatusby == 2) {
+						foreach($_DCACHE['ranks'] as $rank) {
+							if($comment['posts'] > $rank['postshigher']) {
 							$comment['authortitle'] = $rank['ranktitle'];
 							$comment['stars'] = $rank['stars'];
 							break;
@@ -217,11 +221,11 @@ while($cache = $db->fetch_array($query)) {
 	$_DCACHE['blog'][$cache['variable']] = unserialize($cache['value']);
 }
 
-if($timestamp - $_DCACHE['blog']['forums']['lastupdate'] > 43200) {
+if($timestamp - (isset($_DCACHE['blog']['forums']['lastupdate']) ? intval($_DCACHE['blog']['forums']['lastupdate']) : 0) > 43200) {
 	updateblogcache($uid, 'forums');
 }
 
-if($timestamp - $_DCACHE['blog']['hot']['lastupdate'] > 86400) {
+if($timestamp - (isset($_DCACHE['blog']['hot']['lastupdate']) ? intval($_DCACHE['blog']['hot']['lastupdate']) : 0) > 86400) {
 	updateblogcache($uid, 'hot');
 }
 

@@ -28,13 +28,18 @@ if($action == 'adv') {
 
 			if($adv['targets'] == '') {
 				$adv['targets'] = $lang['all'];
-			} else {
-				$targetsarray = array();
-				foreach(explode("\t", $adv['targets']) as $target) {
-					$targetsarray[] = $target ? '<a href="forumdisplay.php?fid='.$target.'" target="_blank">'.$_DCACHE['forums'][$target]['name'].'</a>' : '<a href="index.php" target="_blank">'.$lang['home'].'</a>';
+				} else {
+					$targetsarray = array();
+					foreach(explode("\t", $adv['targets']) as $target) {
+						if($target) {
+							$targetname = isset($_DCACHE['forums'][$target]['name']) ? $_DCACHE['forums'][$target]['name'] : ('FID '.$target);
+							$targetsarray[] = '<a href="forumdisplay.php?fid='.$target.'" target="_blank">'.$targetname.'</a>';
+						} else {
+							$targetsarray[] = '<a href="index.php" target="_blank">'.$lang['home'].'</a>';
+						}
+					}
+					$adv['targets'] = implode(', ', $targetsarray);
 				}
-				$adv['targets'] = implode(', ', $targetsarray);
-			}
 
 			$adv['parameters'] = unserialize($adv['parameters']);
 
@@ -211,14 +216,14 @@ if($action == 'adv') {
 
 		$targetsarray = array();
 		if(is_array($advnew['targets'])) {
-			foreach($advnew['targets'] as $target) {
-				if($target == 'all') {
-					$targetsarray = array();
-					break;
-				} elseif(preg_match("/^\d+$/", $target) && ($target == 0 || in_array($_DCACHE['forums'][$target]['type'], array('forum', 'sub')))) {
-					$targetsarray[] = $target;
+				foreach($advnew['targets'] as $target) {
+					if($target == 'all') {
+						$targetsarray = array();
+						break;
+					} elseif(preg_match("/^\d+$/", $target) && ($target == 0 || (isset($_DCACHE['forums'][$target]['type']) && in_array($_DCACHE['forums'][$target]['type'], array('forum', 'sub'))))) {
+						$targetsarray[] = $target;
+					}
 				}
-			}
 		}
 		$advnew['targets'] = implode("\t", $targetsarray);
 

@@ -56,10 +56,10 @@ if(!submitcheck('searchsubmit', 1) && empty($page)) {
 
 		$stype = intval($stype) ? 'title' : '';
 
-		$url = 'http://search.qihoo.com/usearch.html?site='.rawurlencode(site()).
-			'&kw='.rawurlencode($srchtxt).'&ocs='.$charset.($orderby ? '&sort='.$orderby : '').
-			($srchfid ? '&chanl='.rawurlencode($_DCACHE['forums'][$srchfid]['name']) : '').
-			'&bbskw='.rawurlencode($keywordlist).
+			$url = 'http://search.qihoo.com/usearch.html?site='.rawurlencode(site()).
+				'&kw='.rawurlencode($srchtxt).'&ocs='.$charset.($orderby ? '&sort='.$orderby : '').
+				($srchfid && isset($_DCACHE['forums'][$srchfid]['name']) ? '&chanl='.rawurlencode($_DCACHE['forums'][$srchfid]['name']) : '').
+				'&bbskw='.rawurlencode($keywordlist).
 			'&summary='.$qihoo_summary.'&stype='.$stype.'&count='.$tpp.'&SITEREFER='.rawurlencode($boardurl).
 			'&ALTBG1='.rawurlencode(ALTBG1).'&ALTBG2='.rawurlencode(ALTBG2).
 			'&LINK='.rawurlencode(LINK).'&BORDERCOLOR='.rawurlencode(BORDERCOLOR).
