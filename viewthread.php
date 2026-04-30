@@ -62,7 +62,7 @@ if($forum['type'] == 'sub') {
 }
 
 if($thread['typeid'] && isset($forum['threadtypes']['types'][$thread['typeid']])) {
-	$thread['subject'] = ($forum['threadtypes']['listable'] ? '<a href="forumdisplay.php?fid='.$fid.'&filter=type&typeid='.$thread['typeid'].'">['.$forum['threadtypes']['types'][$thread['typeid']].']</a>' : '['.$forum['threadtypes']['types'][$thread['typeid']].']').' '.$thread['subject'];
+	$thread['subject'] = (!empty($forum['threadtypes']['listable']) ? '<a href="forumdisplay.php?fid='.$fid.'&filter=type&typeid='.$thread['typeid'].'">['.$forum['threadtypes']['types'][$thread['typeid']].']</a>' : '['.$forum['threadtypes']['types'][$thread['typeid']].']').' '.$thread['subject'];
 }
 
 if(empty($forum['allowview'])) {

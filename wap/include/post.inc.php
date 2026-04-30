@@ -56,7 +56,7 @@ if($do == 'newthread') {
 
 	if(empty($subject) || empty($message)) {
 
-		$typeselect = $forum['threadtypes']['required'] ? typeselect() : '';
+		$typeselect = !empty($forum['threadtypes']['required']) ? typeselect() : '';
 		echo ($typeselect ? "<p>{$lang['type']}:$typeselect</p>\n" : '').
 			"<p>{$lang['subject']}:<input type=\"text\" name=\"subject\" value=\"\" maxlength=\"80\" format=\"M*m\" /></p>\n".
 			"<p>{$lang['message']}:<input type=\"text\" name=\"message\" value=\"\" format=\"M*m\" /></p>\n".
@@ -77,7 +77,7 @@ if($do == 'newthread') {
 		}
 
 		$typeid = isset($forum['threadtypes']['types'][$typeid]) ? $typeid : 0;
-		if(!$typeid && $forum['threadtypes']['required']) {
+		if(!$typeid && !empty($forum['threadtypes']['required'])) {
 			wapmsg('post_type_isnull');
 		}
 

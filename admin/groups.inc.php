@@ -357,7 +357,7 @@ if($action == 'admingroups') {
 				for($i = 1; $i <= 8; $i++) {
 					echo '<tr align="center" '.(isset($extcredits[$i]) ? '' : 'disabled').'><td bgcolor="'.ALTBG1.'"><input type="checkbox" name="raterangenew['.$i.'][allowrate]" value="1" '.(empty($raterangearray[$i]) ? '' : 'checked').'></td>'.
 						'<td bgcolor="'.ALTBG2.'">extcredits'.$i.'</td>'.
-						'<td bgcolor="'.ALTBG1.'">'.$extcredits[$i]['title'].'</td>'.
+						'<td bgcolor="'.ALTBG1.'">'.(isset($extcredits[$i]) ? $extcredits[$i]['title'] : '').'</td>'.
 						'<td bgcolor="'.ALTBG2.'"><input type="text" name="raterangenew['.$i.'][min]" size="3" value="'.$raterangearray[$i]['min'].'"></td>'.
 						'<td bgcolor="'.ALTBG1.'"><input type="text" name="raterangenew['.$i.'][max]" size="3" value="'.$raterangearray[$i]['max'].'"></td>'.
 						'<td bgcolor="'.ALTBG2.'"><input type="text" name="raterangenew['.$i.'][mrpd]" size="3" value="'.$raterangearray[$i]['mrpd'].'"></td></tr>';

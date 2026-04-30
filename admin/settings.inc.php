@@ -365,7 +365,8 @@ if(!submitcheck('settingsubmit')) {
 
 	$settingsnew['creditsformulaexp'] = $settingsnew['creditsformula'];
 	foreach(array('digestposts', 'posts', 'oltime', 'pageviews', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8') as $var) {
-		if($extcreditsarray[$creditsid = preg_replace("/^extcredits(\d{1})$/", "\\1", $var)]['available']) {
+		$creditsid = preg_replace("/^extcredits(\d{1})$/", "\\1", $var);
+		if(isset($extcreditsarray[$creditsid]) && $extcreditsarray[$creditsid]['available']) {
 			$replacement = $extcreditsarray[$creditsid]['title'];
 		} else {
 			$replacement = $lang['settings_creditsformula_'.$var];

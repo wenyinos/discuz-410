@@ -137,7 +137,7 @@ if(!submitcheck('editsubmit')) {
 			$typeid = isset($forum['threadtypes']['types'][$typeid]) ? $typeid : 0;
 			$iconid = isset($_DCACHE['icons'][$iconid]) ? $iconid : 0;
 
-			if(!$typeid && $forum['threadtypes']['required']) {
+			if(!$typeid && !empty($forum['threadtypes']['required'])) {
 				showmessage('post_type_isnull');
 			}
 

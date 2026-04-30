@@ -241,7 +241,7 @@ if($action == 'alipay') {
 				"<td class=\"altbg1\">{$order['orderstatus']}</td>\n".
 				"<td class=\"altbg2\"><a href=\"viewpro.php?uid={$order['uid']}\" target=\"_blank\">{$order['username']}</a></td>\n".
 				"<td class=\"altbg1\"><a href=\"mailto:{$order['buyer']}\">{$order['buyer']}</a></td>\n".
-				"<td class=\"altbg2\">{$extcredits[$creditstrans]['title']} {$order['amount']} {$extcredits[$creditstrans]['unit']}</td>\n".
+				"<td class=\"altbg2\">".(isset($extcredits[$creditstrans]) ? $extcredits[$creditstrans]['title'] : '')." {$order['amount']} ".(isset($extcredits[$creditstrans]) ? $extcredits[$creditstrans]['unit'] : '')."</td>\n".
 				"<td class=\"altbg1\">{$lang['rmb']} {$order['price']} {$lang['rmb_yuan']}</td>\n".
 				"<td class=\"altbg2\">{$order['submitdate']}</td>\n".
 				"<td class=\"altbg1\">{$order['confirmdate']}</td></tr>\n";

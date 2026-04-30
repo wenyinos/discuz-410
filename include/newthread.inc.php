@@ -83,7 +83,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck)) {
 	$price = $maxprice ? ($price <= $maxprice ? $price : $maxprice) : 0;
 	$isanonymous = $isanonymous && $allowanonymous ? 1 : 0;
 
-	if(!$typeid && $forum['threadtypes']['required']) {
+	if(!$typeid && !empty($forum['threadtypes']['required'])) {
 		showmessage('post_type_isnull');
 	}
 

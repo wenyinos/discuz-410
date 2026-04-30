@@ -154,7 +154,7 @@ if($action == 'illegallog') {
 			$log[3] = "<b>$log[3]</b>";
 		}
 		$log[3] = "<a href=\"viewpro.php?username=".rawurlencode($log[3])."\" target=\"_blank\">$log[3]</a>";
-		$log[5] = $extcredits[$log[4]]['title'].' '.($log[5] < 0 ? "<b>$log[5]</b>" : "+$log[5]").' '.$extcredits[$log[4]]['unit'];
+		$log[5] = (isset($extcredits[$log[4]]) ? $extcredits[$log[4]]['title'] : 'extcredits'.$log[4]).' '.($log[5] < 0 ? "<b>$log[5]</b>" : "+$log[5]").' '.(isset($extcredits[$log[4]]) ? $extcredits[$log[4]]['unit'] : '');
 		$log[6] = $log[6] ? "<a href=\"./viewthread.php?tid=$log[6]\" target=\"_blank\" title=\"$log[7]\">".cutstr($log[7], 20)."</a>" : "<i>{$lang['logs_rating_manual']}</i>";
 
 		echo "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\">$log[1]</a></td><td bgcolor=\"".ALTBG2."\">$log[2]</td>\n".

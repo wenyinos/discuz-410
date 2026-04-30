@@ -141,14 +141,16 @@ function showsetting($setname, $varname, $value, $type = 'radio', $width = '60%'
 		'<td bgcolor="'.ALTBG2.'">';
 
 	if($type == 'radio') {
+		$check = array('true' => '', 'false' => '');
 		$value ? $check['true'] = "checked" : $check['false'] = "checked";
-		echo "<input type=\"radio\" name=\"$varname\" value=\"1\" {$check['true']}> {{$GLOBALS['lang']}[yes]} &nbsp; &nbsp; \n".
-			"<input type=\"radio\" name=\"$varname\" value=\"0\" {$check['false']}> {{$GLOBALS['lang']}[no]}\n";
+		echo "<input type=\"radio\" name=\"$varname\" value=\"1\" {$check['true']}> {$GLOBALS['lang']['yes']} &nbsp; &nbsp; \n".
+			"<input type=\"radio\" name=\"$varname\" value=\"0\" {$check['false']}> {$GLOBALS['lang']['no']}\n";
 	} elseif($type == 'radioplus') {
+		$check = array('default' => '', 'true' => '', 'false' => '');
 		$value == -1 ? $check['default'] = 'checked' : ($value ? $check['true'] = 'checked' : $check['false'] = 'checked');
-		echo "<input type=\"radio\" name=\"$varname\" value=\"-1\" {$check['default']}> ".$GLOBALS['lang']['default']." &nbsp; &nbsp; \n".
-			"<input type=\"radio\" name=\"$varname\" value=\"1\" {$check['true']}> {{$GLOBALS['lang']}[yes]} &nbsp; &nbsp; \n".
-			"<input type=\"radio\" name=\"$varname\" value=\"0\" {$check['false']}> {{$GLOBALS['lang']}[no]}\n";
+		echo "<input type=\"radio\" name=\"$varname\" value=\"-1\" {$check['default']}> {$GLOBALS['lang']['default']} &nbsp; &nbsp; \n".
+			"<input type=\"radio\" name=\"$varname\" value=\"1\" {$check['true']}> {$GLOBALS['lang']['yes']} &nbsp; &nbsp; \n".
+			"<input type=\"radio\" name=\"$varname\" value=\"0\" {$check['false']}> {$GLOBALS['lang']['no']}\n";
 	} elseif($type == 'color') {
 		$preview_varname = str_replace('[', '_', str_replace(']', '', $varname));
 		echo "<input type=\"text\" size=\"30\" value=\"$value\" name=\"$varname\" onchange=\"this.form.$preview_varname.style.backgroundColor=this.value;\">\n".

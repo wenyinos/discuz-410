@@ -608,17 +608,17 @@ if($action == 'forumadd')  {
 				'<tr align="center" class="header"><td>'.$lang['credits_id'].'</td><td>'.$lang['credits_title'].'</td><td>'.$lang['forums_edit_postcredits_add'].'</td><td>'.$lang['forums_edit_replycredits_add'].'</td></tr>';
 			for($i = 1; $i <= 8; $i++) {
 				echo "<tr align=\"center\" ".(isset($extcredits[$i]) ? '' : 'disabled')."><td bgcolor=\"".ALTBG1."\">extcredits$i</td>".
-					"<td bgcolor=\"".ALTBG2."\">{$extcredits[$i]['title']}</td>".
+					"<td bgcolor=\"".ALTBG2."\">".(isset($extcredits[$i]) ? $extcredits[$i]['title'] : '')."</td>".
 					"<td bgcolor=\"".ALTBG1."\"><input type=\"text\" size=\"2\" name=\"postcreditsnew[$i]\" value=\"".(isset($forum['postcredits'][$i]) ? $forum['postcredits'][$i] : 0)."\"></td>".
 					"<td bgcolor=\"".ALTBG2."\"><input type=\"text\" size=\"2\" name=\"replycreditsnew[$i]\" value=\"".(isset($forum['replycredits'][$i]) ? $forum['replycredits'][$i] : 0)."\"></td></tr>";
 			}
 			echo '</table></td></tr>';
 
 			showtype('forums_edit_threadtypes');
-			showsetting('forums_edit_threadtypes_status', 'threadtypesnew[status]', $forum['threadtypes']['status'], 'radio');
-			showsetting('forums_edit_threadtypes_required', 'threadtypesnew[required]', $forum['threadtypes']['required'], 'radio');
-			showsetting('forums_edit_threadtypes_listable', 'threadtypesnew[listable]', $forum['threadtypes']['listable'], 'radio');
-			showsetting('forums_edit_threadtypes_prefix', 'threadtypesnew[prefix]', $forum['threadtypes']['prefix'], 'radio');
+			showsetting('forums_edit_threadtypes_status', 'threadtypesnew[status]', isset($forum['threadtypes']['status']) ? $forum['threadtypes']['status'] : 0, 'radio');
+			showsetting('forums_edit_threadtypes_required', 'threadtypesnew[required]', isset($forum['threadtypes']['required']) ? $forum['threadtypes']['required'] : 0, 'radio');
+			showsetting('forums_edit_threadtypes_listable', 'threadtypesnew[listable]', isset($forum['threadtypes']['listable']) ? $forum['threadtypes']['listable'] : 0, 'radio');
+			showsetting('forums_edit_threadtypes_prefix', 'threadtypesnew[prefix]', isset($forum['threadtypes']['prefix']) ? $forum['threadtypes']['prefix'] : 0, 'radio');
 			showsetting('forums_edit_threadtypes_options', '', '', $typeselect);
 
 			showtype('forums_edit_perm');
