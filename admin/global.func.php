@@ -330,7 +330,7 @@ function cpfooter() {
 	global $version;
 
 ?>
-<br><br><br><br><hr size="0" noshade color="<?=BORDERCOLOR?>" width="80%"><center><font style="font-size: 11px; font-family: Tahoma, Verdana, Arial">
+<br><br><br><br><hr size="0" noshade color="<?=BORDERCOLOR?>" width="80%"><center><font style="font-size: 12px; font-family: Tahoma, Verdana, Arial">
 Powered by <a href="http://www.discuz.net" target="_blank" style="color: <?=TEXT?>"><b>Discuz!</b> <?=$version?></a> &nbsp;&copy; 2001-2006, <b>
 <a href="http://www.comsenz.com" target="_blank" style="color: <?=TEXT?>">Comsenz Inc.</a></b>
 &nbsp;&copy; 2026 <a href="https://github.com/wenyinos/discuz-410" target="_blank" style="color: <?=TEXT?>">Wenyin Root</a> &middot; PHP <?=PHP_VERSION?></font>

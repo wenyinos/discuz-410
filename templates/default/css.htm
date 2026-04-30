@@ -20,4 +20,7 @@ select			{ font: {SMFONTSIZE} {SMFONT}; color: {TABLETEXT}; font-weight: normal;
 .altbg1			{ background: {ALTBG1} }
 .altbg2			{ background: {ALTBG2} }
 .maintable		{ width: {MAINTABLEWIDTH}; background-color: {MAINTABLECOLOR} }
+/* Global one-step font size increase for both frontend and admincp */
+body, table, .nav, .outertxt	{ font-size: calc({FONTSIZE} + 1px) !important; }
+input, select, textarea, .smalltxt, .header, .category { font-size: calc({SMFONTSIZE} + 1px) !important; }
 --></style>
