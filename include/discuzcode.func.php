@@ -39,8 +39,6 @@ foreach($_DCACHE['smilies']['replacearray'] as $key => $smiley) {
 	$_DCACHE['smilies']['replacearray'][$key] = '<img src="'.SMDIR.'/'.$smiley.'" align="absmiddle" border="0">';
 }
 
-mt_srand((double)microtime() * 1000000);
-
 function attachtag($pid, $aid) {
 	global $language, $postlist, $attachrefcheck, $attachurl;
 	if(isset($postlist[$pid]['attachments'][$aid])) {

@@ -489,7 +489,6 @@ function quescrypt($questionid, $answer) {
 }
 
 function random($length, $numeric = 0) {
-	mt_srand((double)microtime() * 1000000);
 	if($numeric) {
 		$hash = sprintf('%0'.$length.'d', mt_rand(0, pow(10, $length) - 1));
 	} else {
