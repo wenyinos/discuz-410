@@ -31,7 +31,7 @@ if($action == 'logout') {
 	//get secure code checking status (pos. -2)
 	$seccodecheck = substr(sprintf('%05b', $seccodestatus), -2, 1);
 
-	if(!submitcheck('loginsubmit', 1, $seccodecheck)) {
+	if(!submitcheck('loginsubmit', 0, $seccodecheck)) {
 
 		$discuz_action = 6;
 

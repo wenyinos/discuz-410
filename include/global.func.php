@@ -65,6 +65,7 @@ function avatarshow($id, $gender = 0) {
 function clearcookies() {
 	global $timestamp, $cookiepath, $cookiedomain, $discuz_uid, $discuz_user, $discuz_pw, $discuz_secques, $adminid, $groupid, $credits;
 	dsetcookie('auth', '', -86400 * 365);
+	dsetcookie('sid', '', -86400 * 365);
 	dsetcookie('visitedfid', '', -86400 * 365);
 
 	// clear cookies defined in older version (transitional operation)
