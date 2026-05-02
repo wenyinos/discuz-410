@@ -94,7 +94,8 @@ if($action == 'logout') {
 
 			if($member['discuz_secques'] == $secques) {
 
-				extract($member, EXTR_SKIP);
+				// 使用 EXTR_OVERWRITE 覆盖初始空值，确保从数据库查询的值被正确赋值
+				extract($member, EXTR_OVERWRITE);
 
 				$discuz_userss = $discuz_user;
 				$discuz_user = addslashes($discuz_user);

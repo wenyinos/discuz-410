@@ -189,6 +189,8 @@ if(!$sessionexists) {
 
 	$_DSESSION['sid'] = random(6);
 	$_DSESSION['seccode'] = random(4, 1);
+	// 确保 $sid 使用新生成的 session ID，而非用户提供的旧值
+	$sid = $_DSESSION['sid'];
 }
 
 $_DSESSION['dateformat'] = empty($_DSESSION['dateformat']) ? $_DCACHE['settings']['dateformat'] : $_DSESSION['dateformat'];

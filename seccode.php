@@ -13,9 +13,16 @@ define('CURSCRIPT', 'seccode');
 
 require_once './include/common.inc.php';
 
-//debug �����������Ч���� �Ͳ���ʾͼƬ ��ֹ��������
-if($boardurl != dirname($_SERVER['HTTP_REFERER'] ?? '').'/') {
-	exit('Access Denied');
+//debug 验证来源有效性，防止直接访问
+$http_referer = $_SERVER['HTTP_REFERER'] ?? '';
+if($http_referer) {
+	$referer_dir = dirname($http_referer) . '/';
+	// 兼容 http 和 https，以及末尾斜杠差异
+	$boardurl_normalized = preg_replace('#^https?://#', '', $boardurl);
+	$referer_normalized = preg_replace('#^https?://#', '', $referer_dir);
+	if($boardurl_normalized != $referer_normalized) {
+		exit('Access Denied');
+	}
 }
 
 //debug ���¸�����֤������

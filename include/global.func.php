@@ -91,6 +91,10 @@ function checklowerlimit($creditsarray, $coef = 1) {
 }
 
 function cutstr($string, $length) {
+	// 处理数组类型，转换为字符串
+	if(is_array($string)) {
+		$string = 'Array(' . count($string) . ')';
+	}
 	$strcut = '';
 	if(strlen($string) > $length) {
 		for($i = 0; $i < $length - 3; $i++) {
@@ -648,7 +652,13 @@ function transsid($url, $tag = '', $wml = 0) {
 		}
 		$url .= (strpos($url, '?') ? ($wml ? '&amp;' : '&') : '?').'sid='.$sid.$urlret;
 	}
-	return $tag.$url;
+	// 检测并恢复闭合引号
+	$closing_quote = '';
+	if($tag && preg_match('/([\'"])$/', $tag, $qm)) {
+		$closing_quote = $qm[1];
+		$tag = substr($tag, 0, -1);
+	}
+	return $tag.$url.$closing_quote;
 }
 
 function typeselect($curtypeid = 0) {
@@ -692,11 +702,10 @@ function updatesession() {
 
 	if($oltimespan && $discuz_uid && $lastactivity && $timestamp - ($lastolupdate ? $lastolupdate : $lastactivity) > $oltimespan * 60) {
 		$lastolupdate = $timestamp;
-		$db->query("UPDATE {$tablepre}onlinetime SET total=total+'$oltimespan', thismonth=thismonth+'$oltimespan', lastupdate='$timestamp' WHERE uid='$discuz_uid' AND lastupdate<='".($timestamp - $oltimespan * 60)."'");
-		if(!$db->affected_rows()) {
-			$db->query("INSERT INTO {$tablepre}onlinetime (uid, thismonth, total, lastupdate)
-				VALUES ('$discuz_uid', '$oltimespan', '$oltimespan', '$timestamp')", 'SILENT');
-		}
+		// 使用 INSERT ... ON DUPLICATE KEY UPDATE 避免主键冲突
+		$db->query("INSERT INTO {$tablepre}onlinetime (uid, thismonth, total, lastupdate)
+			VALUES ('$discuz_uid', '$oltimespan', '$oltimespan', '$timestamp')
+			ON DUPLICATE KEY UPDATE thismonth=thismonth+'$oltimespan', total=total+'$oltimespan', lastupdate='$timestamp'");
 	} else {
 		$lastolupdate = intval($lastolupdate);
 	}

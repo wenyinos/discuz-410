@@ -127,6 +127,11 @@ foreach(array_merge($_DCACHE['fields_required'], $_DCACHE['fields_optional']) as
 
 unset($_DCACHE['fields_required'], $_DCACHE['fields_optional']);
 
+// 确保 $extcredits 变量已定义（来自缓存设置）
+if(!isset($extcredits) || !is_array($extcredits)) {
+	$extcredits = isset($_DCACHE['settings']['extcredits']) ? $_DCACHE['settings']['extcredits'] : array();
+}
+
 if($member['medals']) {
 	require_once DISCUZ_ROOT.'./forumdata/cache/cache_medals.php';
 	foreach($member['medals'] = explode("\t", $member['medals']) as $key => $medalid) {

@@ -255,15 +255,15 @@ if(empty($type)) {
 	}
 
 	$mempost = $members - $memnonpost;
-	@$mempostavg = sprintf ("%01.2f", $posts / $members);
-	@$threadreplyavg = sprintf ("%01.2f", ($posts - $threads) / $threads);
-	@$mempostpercent = sprintf ("%01.2f", 100 * $mempost / $members);
-	@$postsaddavg = round($posts / $runtime);
-	@$membersaddavg = round($members / $runtime);
+	$mempostavg = $members > 0 ? sprintf("%01.2f", $posts / $members) : '0.00';
+	$threadreplyavg = $threads > 0 ? sprintf("%01.2f", ($posts - $threads) / $threads) : '0.00';
+	$mempostpercent = $members > 0 ? sprintf("%01.2f", 100 * $mempost / $members) : '0.00';
+	$postsaddavg = $runtime > 0 ? round($posts / $runtime) : 0;
+	$membersaddavg = $runtime > 0 ? round($members / $runtime) : 0;
 
 	$stats_total['visitors'] = $stats_total['members'] + $stats_total['guests'];
-	@$pageviewavg = sprintf ("%01.2f", $stats_total['hits'] / $stats_total['visitors']);
-	@$activeindex = round(($membersaddavg / $members + $postsaddavg / $posts) * 1500 + $threadreplyavg * 10 + $mempostavg * 1 + $mempostpercent / 10 + $pageviewavg);
+	$pageviewavg = $stats_total['visitors'] > 0 ? sprintf("%01.2f", $stats_total['hits'] / $stats_total['visitors']) : '0.00';
+	$activeindex = ($members > 0 && $posts > 0) ? round(($membersaddavg / $members + $postsaddavg / $posts) * 1500 + $threadreplyavg * 10 + $mempostavg * 1 + $mempostpercent / 10 + $pageviewavg) : 0;
 
 	if($statstatus) {
 		$statsbar_month = statsdata('month', $maxmonth, 'ksort');
@@ -932,8 +932,8 @@ function statsdata($type, $max, $sortfunc = '') {
 				$variable = '<img src="images/stats/'.strtolower(str_replace('/', '', $variable)).'.gif" border="0"> '.$variable;
 				break;
 		}
-		@$width = intval(370 * $count / $max);
-		@$percent = sprintf ("%01.1f", 100 * $count / $sum);
+		$width = $max > 0 ? intval(370 * $count / $max) : 0;
+		$percent = $sum > 0 ? sprintf("%01.1f", 100 * $count / $sum) : '0.0';
 		$width = $width ? $width : '2';
 		$variable = $count == $max ? '<span class="bold"><i>'.$variable.'</i></span>' : $variable;
 		$count = '<img src="images/common/bar'.($barno % 10).'.gif" width="'.$width.'" height="10" border="0"> &nbsp; <span class="bold">'.$count.'</span> ('.$percent.'%)';
