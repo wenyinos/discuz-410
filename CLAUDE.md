@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 Discuz! 4.1.0 — legacy Chinese BBS/forum system (Comsenz Inc., 2001-2006), MIT-licensed community fork.
-**PHP 7.4 compatible** — upgraded from mysql_* to mysqli, removed magic_quotes, fixed preg_replace /e modifier.
+**PHP 8.4+ compatible** — upgraded from mysql_* to mysqli, removed magic_quotes, replaced preg_replace /e with preg_replace_callback, fixed count() TypeError, disabled mysqli exception mode.
 No modern tooling: no composer, no npm, no CI/CD, no test suite, no linter.
 
 ## Common Commands
@@ -42,7 +42,7 @@ Every page script defines `CURSCRIPT` then requires `include/common.inc.php`, wh
 - `forumdata/templates/` — compiled template PHP files (generated, do not edit)
 - `api/` — external integrations (passport, avatar, qihoo search, alipay)
 - `plugins/` — plugin scripts (empty by default)
-- `install/discuz.sql` — full database schema
+- `install/discuz.sql` — full database schema (1795 lines)
 
 ### Entry Points
 
@@ -63,6 +63,16 @@ Root `.php` files: `index.php`, `forumdisplay.php`, `viewthread.php`, `post.php`
 - **Cache files** in `forumdata/cache/` are auto-generated; editing them directly has no lasting effect
 - **Template workflow**: Edit `.htm` files in `templates/default/`, not the compiled `.tpl.php` files in `forumdata/templates/`. Set `$tplrefresh = 1` in `config.inc.php` to auto-recompile
 - **Database queries**: Use `$db->query()` / `$db->fetch_array()` / `$db->result()` — no parameterized queries, SQL built via string concatenation
+- **PHP 8.4 upgrade details**: See `php84-upgrade-report.md` for full migration notes
+
+## Disabled Features
+
+This fork disables certain legacy integrations by default to reduce dependency and security risk:
+- Passport / SiteEngine / ShopEx
+- Alipay / E-commerce / Orders
+- AvatarShow
+
+These are force-disabled in `include/common.inc.php` and blocked in `admincp.php`.
 
 ## Security Notes (Legacy Code)
 
@@ -70,3 +80,11 @@ Root `.php` files: `index.php`, `forumdisplay.php`, `viewthread.php`, `post.php`
 - `extract()` on raw user input in `common.inc.php` — mitigated with `EXTR_SKIP`
 - SQL queries use string concatenation, not prepared statements
 - `@` error suppression is common throughout
+- PHP 8 compatibility warnings are filtered via custom error handler in `common.inc.php`
+
+## Conventions
+
+- **File encoding**: Mixed (GBK source with UTF-8 output; `$charset = 'utf-8'` in config)
+- **PHP open tags**: Standard `<?php` but some files use short tags `<?`
+- **No namespaces**: All functions are global
+- **Database prefix**: Table names use `$tablepre` prefix (default `cdb_`)
