@@ -88,6 +88,10 @@ unset($prelength);
 
 
 $cachelost = (@include DISCUZ_ROOT.'./forumdata/cache/cache_settings.php') ? '' : 'settings';
+if(!is_array($_DCACHE['settings'])) {
+	$_DCACHE['settings'] = array();
+	$cachelost .= ' settings';
+}
 @extract($_DCACHE['settings'], EXTR_SKIP);
 
 if($gzipcompress && function_exists('ob_gzhandler') && CURSCRIPT != 'wap') {
