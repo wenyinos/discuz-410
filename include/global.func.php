@@ -652,13 +652,9 @@ function transsid($url, $tag = '', $wml = 0) {
 		}
 		$url .= (strpos($url, '?') ? ($wml ? '&amp;' : '&') : '?').'sid='.$sid.$urlret;
 	}
-	// 检测并恢复闭合引号
-	$closing_quote = '';
-	if($tag && preg_match('/([\'"])$/', $tag, $qm)) {
-		$closing_quote = $qm[1];
-		$tag = substr($tag, 0, -1);
-	}
-	return $tag.$url.$closing_quote;
+	// 原始结构 $tag + $url：开引号在 $tag 尾部、闭引号保留在原文中，直接拼接即为完整属性；
+	// 不要在此搬运引号，否则与原文闭引号叠加产生双引号（href=xxx""）
+	return $tag.$url;
 }
 
 function typeselect($curtypeid = 0) {

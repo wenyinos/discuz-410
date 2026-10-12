@@ -24,7 +24,7 @@ if(!$regstatus) {
 
 $query = $db->query("SELECT * FROM {$tablepre}settings WHERE variable IN ('doublee', 'bbrules', 'bbrulestxt', 'welcomemsg', 'welcomemsgtxt')");
 while($setting = $db->fetch_array($query)) {
-	$$setting['variable'] = $setting['value'];
+	${$setting['variable']} = $setting['value'];
 }
 
 $query = $db->query("SELECT groupid, allownickname, allowcstatus, allowavatar, allowcusbbcode, allowsigbbcode, allowsigimgcode, maxsigsize FROM {$tablepre}usergroups WHERE ".($regverify ? "groupid='8'" : "creditshigher<=".intval($initcredits)." AND ".intval($initcredits)."<creditslower LIMIT 1"));
@@ -88,6 +88,16 @@ if(!submitcheck('regsubmit', 0, $seccodecheck)) {
 	$email = trim($email);
 	$username = trim($username);
 	$alipay = trim($alipay);
+
+	// 反垃圾防护：蜂蜜罐字段（正常用户留空，填写即拒绝）
+	if(!empty($_POST['website'])) {
+		showmessage('submit_invalid', NULL, 'HALTED');
+	}
+	// 反垃圾防护：注册问答（提取答案中的数字比对，兼顾手输"1998年"等情况）
+	$guardanswer = isset($_POST['guardanswer']) ? preg_replace('#\D#', '', $_POST['guardanswer']) : '';
+	if(!in_array($guardanswer, array('1998', '98'), TRUE)) {
+		showmessage('register_guard_invalid');
+	}
 
 	if(strlen($username) > 15) {
 		showmessage('profile_username_toolang');

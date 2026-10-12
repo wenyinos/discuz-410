@@ -97,6 +97,7 @@ $language = array
 	'register_disable' => '对不起，目前论坛禁止新用户注册，请返回。',
 	'register_ctrl' => '对不起，您的 IP 地址在 $regctrl 小时内只能注册一个帐号，请返回。',
 	'register_flood_ctrl' => '对不起，同一 IP 地址在 24 小时内只能进行 $regfloodctrl 次注册尝试，请返回。',
+	'register_guard_invalid' => '防护问题回答不正确，无法注册。提示：答案是一个 4 位年份数字（如 19xx），请返回重试。',
 	'register_check_found' => '对不起，您输入的用户名 \"$username\" 已经被他人使用，请选择其他名字后再试。',
 	'register_check_notfound' => '恭喜您，您输入的用户名 \"$username\" 没有人使用，可以继续注册。',
 	'register_manual_verify' => '非常感谢您的注册，管理员设置了人工验证新注册用户，请等待审核通过，现在将转入控制面板首页。',

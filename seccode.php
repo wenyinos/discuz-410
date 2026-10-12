@@ -47,7 +47,7 @@ if(!$nocacheheaders) {
 }
 
 //debug ֧��gd������
-if(function_exists('imagecreate') && function_exists('imagecolorset') && function_exists('imagecopyresized') && function_exists('imagecolorallocate') && function_exists('imagesetpixel') && function_exists('imagechar') && function_exists('imagepng')) {
+if(function_exists('imagecreate') && function_exists('imagecolorset') && function_exists('imagecopyresized') && function_exists('imagecolorallocate') && function_exists('imagesetpixel') && function_exists('imagechar') && function_exists('imagegif')) {
 
 	$im = imagecreate(62, 25);
 	$backgroundcolor = imagecolorallocate ($im, 255, 255, 255);
@@ -91,8 +91,8 @@ if(function_exists('imagecreate') && function_exists('imagecolorset') && functio
 	imagerectangle($im, 0, 0, 61, 24, $bordercolor);
 		
 	//debug �ϳ�ͼƬ
-	header('Content-type: image/png');
-	imagepng($im);
+	header('Content-type: image/gif');
+	imagegif($im);
 	imagedestroy($im);
 
 //debug ��֧��gd����� ���bmpͼƬ

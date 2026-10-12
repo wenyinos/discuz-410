@@ -17,6 +17,9 @@
 - 后台对应入口已拦截（`admincp.php` blocked actions），菜单项已隐藏
 - 后台框架页不再在 frame URL 中携带 `sid` 会话参数——在拦截 `sid=` 请求的 WAF 规则下必需；会话由 cookie 维持
 - 修复 PHP 8 下用户资料页致命错误：`viewpro.htm` 积分循环改用带引号的数组键
+- PHP 8 修复：`register.php` 设置引导中的变量变量改为带引号写法（裸 `$$setting['key']` 在 PHP 8 下静默赋值失败）
+- `transsid()` 不再产生重复引号（`href="…""`）；已关闭 URL 传递 sid（`transsidstatus=0`，因 WAF 拦截含 `sid=` 的请求）
+- 注册规则页倒计时改为回调写法，在站点 CSP（无 `unsafe-eval`）下正常工作
 
 ## 功能特性（当前可用）
 
@@ -41,6 +44,21 @@
 - 前台展示入口已移除或条件隐藏
 - 后台管理入口已拦截为不可访问
 - 运行时设置在 `include/common.inc.php` 强制关闭相关开关
+
+## 反垃圾机制
+
+纯服务端实现，不依赖 JavaScript，完全兼容老旧浏览器（含 IE4）：
+
+- 游客发帖与回复全局关闭（游客组权限，主题与回复均受限）
+- 注册需回答社区防护问题（问题文本在 `templates/default/register.htm`，校验在 `register.php`）
+- 注册表单含蜜罐字段（"请保持本行为空"），自动填写即拒绝
+- 注册邮箱域名黑名单（`censoremail` 设置）；注册洪水控制（`regfloodctrl` 限制同 IP 注册尝试次数）
+- 新兵时间限制（`newbiespan` 小时数，注册后一段时间内无法发帖）
+- `cdb_words` 内容过滤：`{BANNED}` 条目直接拒绝含垃圾特征的主题/回复/私信
+- 验证码（`seccode.php`）输出 GIF（兼容旧浏览器），无 GD 环境时回退 BMP
+
+注意：通过 SQL 导入反垃圾设置或修改 `cdb_words` 后，请删除
+`forumdata/cache/cache_settings.php` 与 `forumdata/cache/cache_censor.php` 使其重建。
 
 ## 环境要求
 

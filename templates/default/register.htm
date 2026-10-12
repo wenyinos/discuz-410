@@ -26,26 +26,22 @@
 	</form>
 
 	<script language="JavaScript">
+	// 函数引用形式定时器：字符串形式会被 CSP（script-src 无 unsafe-eval）拦截，倒计时会卡死
 	var secs = 9;
-	var wait = secs * 1000;
+	var cnt = 0;
 	document.bbrules.rulesubmit.value = "{lang agree}(" + secs + ")";
 	document.bbrules.rulesubmit.disabled = true;
-	for(i = 1; i <= secs; i++) {
-	        window.setTimeout("update(" + i + ")", i * 1000);
-	}
-	window.setTimeout("timer()", wait);
-	function update(num, value) {
-	        if(num == (wait/1000)) {
+	function bbrules_update() {
+	        cnt++;
+	        if(cnt >= secs) {
+	                document.bbrules.rulesubmit.disabled = false;
 	                document.bbrules.rulesubmit.value = "{lang agree}";
 	        } else {
-	                printnr = (wait / 1000)-num;
-	                document.bbrules.rulesubmit.value = "{lang agree}(" + printnr + ")";
+	                document.bbrules.rulesubmit.value = "{lang agree}(" + (secs - cnt) + ")";
+	                window.setTimeout(bbrules_update, 1000);
 	        }
 	}
-	function timer() {
-	        document.bbrules.rulesubmit.disabled = false;
-	        document.bbrules.rulesubmit.value = "{lang agree}";
-	}
+	window.setTimeout(bbrules_update, 1000);
 	</script>
 <!--{else}-->
 	<form method="post" name="register" action="register.php?regsubmit=yes" $enctype onSubmit="this.regsubmit.disabled=true;">
@@ -63,6 +59,16 @@
 		<td class="altbg2"><input type="text" name="seccodeverify" size="4" maxlength="4"> <img src="seccode.php" align="absmiddle"> <span class="smalltxt">{lang seccode_comment}</span></td>
 		</tr>
 	<!--{/if}-->
+
+	<tr>
+	<td class="altbg1" width="21%">防护问题：</td>
+	<td class="altbg2"><input type="text" name="guardanswer" size="10" maxlength="10"> <span class="smalltxt">Windows 98 是哪一年发布的？（填 4 位数字）</span></td>
+	</tr>
+
+	<tr>
+	<td class="altbg1" width="21%">防机器人：</td>
+	<td class="altbg2"><input type="text" name="website" size="25"> <span class="smalltxt">请保持本行为空，若填写将无法注册</span></td>
+	</tr>
 
 	<tr>
 	<td class="altbg1" width="21%">{lang username}:</td>

@@ -106,6 +106,11 @@ $seccodecheck = substr(sprintf('%05b', $seccodestatus), -3, 1);
 //get trade thread status (pos. -1)
 $allowposttrade = substr(sprintf('%02b', $forum['allowtrade']), -1, 1);
 
+// 反垃圾防护：蜂蜜罐字段（正常用户留空，填写即拒绝）
+if(!empty($_POST['homepage'])) {
+	showmessage('submit_invalid', NULL, 'HALTED');
+}
+
 if(!empty($previewpost) || (empty($previewpost) && empty($topicsubmit) && empty($replysubmit) && empty($editsubmit))) {
 
 	$typeid = preg_replace("/.*typeid%3D(\d+).*/", "\\1", $extra);
