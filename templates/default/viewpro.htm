@@ -69,7 +69,7 @@
 <tr><td width="45%" class="bold">{lang readperm}:</td><td width="55%">$member[readaccess]</td></tr>
 <tr><td width="45%" class="bold">{lang credits}:</td><td width="55%">$member[credits]</td></tr>
 <!--{loop $extcredits $id $credit}-->
-	<tr><td width="45%" class="bold">$credit[title]:</td><td width="55%">{$member[extcredits.$id]} $credit[unit]</td></tr>
+	<tr><td width="45%" class="bold">$credit[title]:</td><td width="55%">{$member['extcredits'.$id]} $credit[unit]</td></tr>
 <!--{/loop}-->
 <tr><td width="45%" class="bold">{lang posts}:</td><td width="55%">$member[posts] ({lang post_percent} $percent%)</td></tr>
 <tr><td width="45%" class="bold">{lang posts_per_day}:</td><td width="55%">$postperday {lang posts}</td></tr>

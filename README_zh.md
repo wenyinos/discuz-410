@@ -15,6 +15,8 @@
   - 电子商务（Alipay / Orders / ShopEx）
   - 天下秀（AvatarShow）
 - 后台对应入口已拦截（`admincp.php` blocked actions），菜单项已隐藏
+- 后台框架页不再在 frame URL 中携带 `sid` 会话参数——在拦截 `sid=` 请求的 WAF 规则下必需；会话由 cookie 维持
+- 修复 PHP 8 下用户资料页致命错误：`viewpro.htm` 积分循环改用带引号的数组键
 
 ## 功能特性（当前可用）
 

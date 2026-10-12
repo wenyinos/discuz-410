@@ -36,10 +36,11 @@ if(empty($action) || isset($frames)) {
 </head>
 
 <frameset cols="160,*" frameborder="no" border="0" framespacing="0" rows="*">
-<frame name="menu" noresize scrolling="yes" src="admincp.php?action=menu&sid=<?=$sid?>">
+<!-- 不向 frame URL 传递 sid：部分 WAF 规则会拦截含 sid= 参数的请求（防旧版 Discuz sid 注入），会话由 cookie 维持 / omit sid in frame URLs to avoid WAF rules blocking sid= -->
+<frame name="menu" noresize scrolling="yes" src="admincp.php?action=menu">
 <frameset rows="20,*" frameborder="no" border="0" framespacing="0" cols="*">
-<frame name="header" noresize scrolling="no" src="admincp.php?action=header&sid=<?=$sid?>">
-<frame name="main" noresize scrolling="yes" src="admincp.php?<?=$extra?>&sid=<?=$sid?>">
+<frame name="header" noresize scrolling="no" src="admincp.php?action=header">
+<frame name="main" noresize scrolling="yes" src="admincp.php?<?=$extra?>">
 </frameset></frameset></html>
 <?php
 

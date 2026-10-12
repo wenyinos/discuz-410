@@ -220,6 +220,7 @@
 - ~~`mysqli` 异常模式~~ → 已在 `connect()` 中显式关闭
 - ~~`extract()` 缺失 `EXTR_SKIP`~~ → 4 处已补全
 - ~~`eval()` 语言包调用~~ → 12 处已替换为 `dinterpolate()`，剩余 6 处为不可替代的动态公式/插件钩子
+- ~~`viewpro.htm` 积分循环 `{$member[extcredits.$id]}` 编译为裸常量（PHP8 下 `Undefined constant "extcredits"` 致命错误）~~ → 已修复为 `{$member['extcredits'.$id]}`（模板编译器 `addquote()` 仅对纯 `[a-zA-Z0-9_.-]` 键加引号，含 `$` 的键不会自动加引号；修改模板后若未开启 `$tplrefresh`，需同步更新对应 `forumdata/templates/*.tpl.php` 编译产物）
 - `mysqli` 扩展在当前 CLI 环境未加载，部署前必须验证扩展可用性
 
 ## 9. 官方参考

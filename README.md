@@ -15,6 +15,8 @@ This repository is a community-maintained fork under the MIT license, updated fo
   - E-commerce (Alipay / Orders / ShopEx)
   - AvatarShow
 - Matching admin actions are blocked in `admincp.php` and related menu entries are hidden
+- Admin panel frameset no longer embeds the `sid` session token in frame URLs — required behind WAF rules that block requests containing `sid=`; the session continues via cookie
+- Fixed a PHP 8 fatal on user profile pages: the credits loop in `viewpro.htm` now uses a quoted array key
 
 ## Features Currently Available
 
