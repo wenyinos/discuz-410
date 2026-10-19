@@ -1,19 +1,23 @@
--- phpMyAdmin SQL Dump
--- version 2.6.3-rc1
--- http://www.phpmyadmin.net
+-- ============================================================================
+-- Discuz! 4.1.1 æ•°æ®åº“ç»“æ„ï¼ˆMySQL 5.7 / 8.0 å…¼å®¹ç‰ˆï¼‰
 --
--- Ö÷»ú: localhost
--- Éú³ÉÈÕÆÚ: 2005 Äê 09 ÔÂ 28 ÈÕ 09:51
--- ·şÎñÆ÷°æ±¾: 4.1.12
--- PHP °æ±¾: 5.0.2
+-- ç›¸å¯¹ 4.1.0 åŸå§‹è„šæœ¬çš„æ”¹åŠ¨ï¼š
+--   1. æ–‡ä»¶ç¼–ç  GBK â†’ UTF-8ï¼ˆä¸ç”Ÿäº§åº“ä¸€è‡´ï¼‰
+--   2. å»ºè¡¨å¼•æ“ TYPE=MyISAM â†’ ENGINE=InnoDBï¼ˆTYPE= è¯­æ³•åœ¨ MySQL 5.5+ å·²ç§»é™¤ï¼‰
+--   3. å»ºè¡¨è¯­å¥æ˜¾å¼å£°æ˜ DEFAULT CHARSET=utf8
+--   4. æ–‡ä»¶å¤´è®¾ç½® sql_mode=''ï¼Œå…¼å®¹å†å²æ•°æ®é‡Œçš„ '0000-00-00' é›¶æ—¥æœŸ
 --
--- Êı¾İ¿â: `dbname`
---
+-- è¡¨ç»“æ„ä¸ 4.1.0 ä¿æŒä¸€è‡´ï¼ˆæœªå¢åˆ å­—æ®µï¼‰ï¼›qihoo_*/ec_* ç­‰å·²åºŸå¼ƒé›†æˆçš„è®¾ç½®é¡¹
+-- ä¸ allowtrade / alipay å­—æ®µå‡ä¿ç•™ï¼Œä»¥ä¾¿ä»æ—§ç‰ˆæœ¬å¹³æ»‘å‡çº§ã€‚
+-- ============================================================================
+
+SET NAMES utf8;
+SET SESSION sql_mode='';
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_access`
+-- è¡¨çš„ç»“æ„ `cdb_access`
 --
 
 DROP TABLE IF EXISTS cdb_access;
@@ -26,17 +30,17 @@ CREATE TABLE cdb_access (
   allowgetattach tinyint(1) NOT NULL default '0',
   allowpostattach tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (uid,fid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_access`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_access`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_adminactions`
+-- è¡¨çš„ç»“æ„ `cdb_adminactions`
 --
 
 DROP TABLE IF EXISTS cdb_adminactions;
@@ -44,17 +48,17 @@ CREATE TABLE cdb_adminactions (
   admingid smallint(6) unsigned NOT NULL default '0',
   disabledactions text NOT NULL,
   PRIMARY KEY  (admingid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_adminactions`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_adminactions`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_admingroups`
+-- è¡¨çš„ç»“æ„ `cdb_admingroups`
 --
 
 DROP TABLE IF EXISTS cdb_admingroups;
@@ -77,10 +81,10 @@ CREATE TABLE cdb_admingroups (
   allowviewlog tinyint(1) NOT NULL default '0',
   disablepostctrl tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (admingid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_admingroups`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_admingroups`
 --
 
 INSERT INTO cdb_admingroups VALUES (1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -90,7 +94,7 @@ INSERT INTO cdb_admingroups VALUES (3, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0,
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_adminnotes`
+-- è¡¨çš„ç»“æ„ `cdb_adminnotes`
 --
 
 DROP TABLE IF EXISTS cdb_adminnotes;
@@ -103,17 +107,17 @@ CREATE TABLE cdb_adminnotes (
   expiration int(10) unsigned NOT NULL default '0',
   message text NOT NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_adminnotes`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_adminnotes`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_adminsessions`
+-- è¡¨çš„ç»“æ„ `cdb_adminsessions`
 --
 
 DROP TABLE IF EXISTS cdb_adminsessions;
@@ -122,17 +126,17 @@ CREATE TABLE cdb_adminsessions (
   ip char(15) NOT NULL default '',
   dateline int(10) unsigned NOT NULL default '0',
   errorcount tinyint(1) NOT NULL default '0'
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_adminsessions`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_adminsessions`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_advertisements`
+-- è¡¨çš„ç»“æ„ `cdb_advertisements`
 --
 
 DROP TABLE IF EXISTS cdb_advertisements;
@@ -148,17 +152,17 @@ CREATE TABLE cdb_advertisements (
   starttime int(10) unsigned NOT NULL default '0',
   endtime int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (advid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_advertisements`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_advertisements`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_announcements`
+-- è¡¨çš„ç»“æ„ `cdb_announcements`
 --
 
 DROP TABLE IF EXISTS cdb_announcements;
@@ -172,17 +176,17 @@ CREATE TABLE cdb_announcements (
   message text NOT NULL,
   PRIMARY KEY  (id),
   KEY timespan (starttime,endtime)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_announcements`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_announcements`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_attachments`
+-- è¡¨çš„ç»“æ„ `cdb_attachments`
 --
 
 DROP TABLE IF EXISTS cdb_attachments;
@@ -201,17 +205,17 @@ CREATE TABLE cdb_attachments (
   PRIMARY KEY  (aid),
   KEY tid (tid),
   KEY pid (pid,aid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_attachments`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_attachments`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_attachtypes`
+-- è¡¨çš„ç»“æ„ `cdb_attachtypes`
 --
 
 DROP TABLE IF EXISTS cdb_attachtypes;
@@ -220,17 +224,17 @@ CREATE TABLE cdb_attachtypes (
   extension char(12) NOT NULL default '',
   maxsize int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_attachtypes`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_attachtypes`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_banned`
+-- è¡¨çš„ç»“æ„ `cdb_banned`
 --
 
 DROP TABLE IF EXISTS cdb_banned;
@@ -244,17 +248,17 @@ CREATE TABLE cdb_banned (
   dateline int(10) unsigned NOT NULL default '0',
   expiration int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_banned`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_banned`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_bbcodes`
+-- è¡¨çš„ç»“æ„ `cdb_bbcodes`
 --
 
 DROP TABLE IF EXISTS cdb_bbcodes;
@@ -268,10 +272,10 @@ CREATE TABLE cdb_bbcodes (
   params tinyint(1) unsigned NOT NULL default '1',
   nest tinyint(3) unsigned NOT NULL default '1',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_bbcodes`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_bbcodes`
 --
 
 INSERT INTO cdb_bbcodes VALUES (1, 0, 'fly', '<marquee width="90%" behavior="alternate" scrollamount="3">{1}</marquee>', '[fly]This is sample text[/fly]', 'Make text move horizontal, the same effect as html tag <marquee>. NOTE: Only Internet Explorer supports this feature', 1, 1);
@@ -285,7 +289,7 @@ INSERT INTO cdb_bbcodes VALUES (7, 0, 'wmv', '<object height="400" width="500" c
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_blogcaches`
+-- è¡¨çš„ç»“æ„ `cdb_blogcaches`
 --
 
 DROP TABLE IF EXISTS cdb_blogcaches;
@@ -294,17 +298,17 @@ CREATE TABLE cdb_blogcaches (
   variable varchar(10) NOT NULL default '',
   `value` text NOT NULL,
   PRIMARY KEY  (uid,variable)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_blogcaches`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_blogcaches`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_buddys`
+-- è¡¨çš„ç»“æ„ `cdb_buddys`
 --
 
 DROP TABLE IF EXISTS cdb_buddys;
@@ -314,17 +318,17 @@ CREATE TABLE cdb_buddys (
   dateline int(10) unsigned NOT NULL default '0',
   description char(255) NOT NULL default '',
   KEY uid (uid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_buddys`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_buddys`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_creditslog`
+-- è¡¨çš„ç»“æ„ `cdb_creditslog`
 --
 
 DROP TABLE IF EXISTS cdb_creditslog;
@@ -338,13 +342,13 @@ CREATE TABLE cdb_creditslog (
   dateline int(10) unsigned NOT NULL default '0',
   operation char(3) NOT NULL default '',
   KEY uid (uid,dateline)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_crons`
+-- è¡¨çš„ç»“æ„ `cdb_crons`
 --
 
 DROP TABLE IF EXISTS cdb_crons;
@@ -362,25 +366,25 @@ CREATE TABLE cdb_crons (
   minute char(36) NOT NULL default '',
   PRIMARY KEY  (cronid),
   KEY nextrun (available,nextrun)
-) Type=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_crons`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_crons`
 --
 
-INSERT INTO cdb_crons VALUES (1, 1, 'system', 'Çå¿Õ½ñÈÕ·¢ÌûÊı', 'todayposts_daily.inc.php', 1130139337, 1130169600, -1, -1, 0, '0');
-INSERT INTO cdb_crons VALUES (2, 1, 'system', 'Çå¿Õ±¾ÔÂÔÚÏßÊ±¼ä', 'onlinetime_monthly.inc.php', 1130139557, 1130774400, -1, 1, 0, '0');
-INSERT INTO cdb_crons VALUES (3, 1, 'system', 'Ã¿ÈÕÊı¾İÇåÀí', 'cleanup_daily.inc.php', 1130142545, 1130189400, -1, -1, 5, '30');
-INSERT INTO cdb_crons VALUES (4, 1, 'system', 'ÉúÈÕÍ³¼ÆÓëÓÊ¼ş×£¸£', 'birthdays_daily.inc.php', 1130139241, 1130169600, -1, -1, 0, '0');
-INSERT INTO cdb_crons VALUES (5, 1, 'system', 'Ö÷Ìâ»Ø¸´Í¨Öª', 'notify_daily.inc.php', 1130142545, 1130189400, -1, -1, 5, '00');
-INSERT INTO cdb_crons VALUES (6, 1, 'system', 'Ã¿ÈÕ¹«¸æÇåÀí', 'announcements_daily.inc.php', 0, 1131284204, -1, -1, 0, '0');
-INSERT INTO cdb_crons VALUES (7, 1, 'system', 'ÏŞÊ±²Ù×÷ÇåÀí', 'threadexpiries_daily.inc.php',0,1138464000, -1, -1, 5, 0);
-INSERT INTO cdb_crons VALUES (8, 1, 'system', 'ÂÛÌ³ÍÆ¹ãÇåÀí', 'promotions_hourly.inc.php', 0,1130169600, -1, -1, 0, '00');
+INSERT INTO cdb_crons VALUES (1, 1, 'system', 'æ¸…ç©ºä»Šæ—¥å‘å¸–æ•°', 'todayposts_daily.inc.php', 1130139337, 1130169600, -1, -1, 0, '0');
+INSERT INTO cdb_crons VALUES (2, 1, 'system', 'æ¸…ç©ºæœ¬æœˆåœ¨çº¿æ—¶é—´', 'onlinetime_monthly.inc.php', 1130139557, 1130774400, -1, 1, 0, '0');
+INSERT INTO cdb_crons VALUES (3, 1, 'system', 'æ¯æ—¥æ•°æ®æ¸…ç†', 'cleanup_daily.inc.php', 1130142545, 1130189400, -1, -1, 5, '30');
+INSERT INTO cdb_crons VALUES (4, 1, 'system', 'ç”Ÿæ—¥ç»Ÿè®¡ä¸é‚®ä»¶ç¥ç¦', 'birthdays_daily.inc.php', 1130139241, 1130169600, -1, -1, 0, '0');
+INSERT INTO cdb_crons VALUES (5, 1, 'system', 'ä¸»é¢˜å›å¤é€šçŸ¥', 'notify_daily.inc.php', 1130142545, 1130189400, -1, -1, 5, '00');
+INSERT INTO cdb_crons VALUES (6, 1, 'system', 'æ¯æ—¥å…¬å‘Šæ¸…ç†', 'announcements_daily.inc.php', 0, 1131284204, -1, -1, 0, '0');
+INSERT INTO cdb_crons VALUES (7, 1, 'system', 'é™æ—¶æ“ä½œæ¸…ç†', 'threadexpiries_daily.inc.php',0,1138464000, -1, -1, 5, 0);
+INSERT INTO cdb_crons VALUES (8, 1, 'system', 'è®ºå›æ¨å¹¿æ¸…ç†', 'promotions_hourly.inc.php', 0,1130169600, -1, -1, 0, '00');
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_failedlogins`
+-- è¡¨çš„ç»“æ„ `cdb_failedlogins`
 --
 
 DROP TABLE IF EXISTS cdb_failedlogins;
@@ -389,17 +393,17 @@ CREATE TABLE cdb_failedlogins (
   count tinyint(1) unsigned NOT NULL default '0',
   lastupdate int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (ip)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_failedlogins`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_failedlogins`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_favorites`
+-- è¡¨çš„ç»“æ„ `cdb_favorites`
 --
 
 DROP TABLE IF EXISTS cdb_favorites;
@@ -407,17 +411,17 @@ CREATE TABLE cdb_favorites (
   uid mediumint(8) unsigned NOT NULL default '0',
   tid mediumint(8) unsigned NOT NULL default '0',
   KEY uid (uid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_favorites`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_favorites`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_forumfields`
+-- è¡¨çš„ç»“æ„ `cdb_forumfields`
 --
 
 DROP TABLE IF EXISTS cdb_forumfields;
@@ -439,10 +443,10 @@ CREATE TABLE cdb_forumfields (
   getattachperm text NOT NULL,
   postattachperm text NOT NULL,
   PRIMARY KEY  (fid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_forumfields`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_forumfields`
 --
 
 INSERT INTO cdb_forumfields VALUES (1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
@@ -450,7 +454,7 @@ INSERT INTO cdb_forumfields VALUES (1, '', '', '', '', '', '', '', '', '', '', '
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_forumlinks`
+-- è¡¨çš„ç»“æ„ `cdb_forumlinks`
 --
 
 DROP TABLE IF EXISTS cdb_forumlinks;
@@ -462,18 +466,18 @@ CREATE TABLE cdb_forumlinks (
   note varchar(200) NOT NULL default '',
   logo varchar(100) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_forumlinks`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_forumlinks`
 --
 
-INSERT INTO cdb_forumlinks VALUES (1, 0, 'Discuz! ¹Ù·½ÂÛÌ³', 'http://www.discuz.com', 'Ìá¹©×îĞÂ Discuz! ²úÆ·ĞÂÎÅ¡¢Èí¼şÏÂÔØÓë¼¼Êõ½»Á÷', 'images/logo.gif');
+INSERT INTO cdb_forumlinks VALUES (1, 0, 'Discuz! å®˜æ–¹è®ºå›', 'http://www.discuz.com', 'æä¾›æœ€æ–° Discuz! äº§å“æ–°é—»ã€è½¯ä»¶ä¸‹è½½ä¸æŠ€æœ¯äº¤æµ', 'images/logo.gif');
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_forums`
+-- è¡¨çš„ç»“æ„ `cdb_forums`
 --
 
 DROP TABLE IF EXISTS cdb_forums;
@@ -506,18 +510,18 @@ CREATE TABLE cdb_forums (
   PRIMARY KEY  (fid),
   KEY forum (`status`,`type`,displayorder),
   KEY fup (fup)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_forums`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_forums`
 --
 
-INSERT INTO cdb_forums VALUES (1, 0, 'forum', 'Ä¬ÈÏÂÛÌ³', 1, 0, 0, 0, 0, 0,'			', 1, 0, 1, 1, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO cdb_forums VALUES (1, 0, 'forum', 'é»˜è®¤è®ºå›', 1, 0, 0, 0, 0, 0,'			', 1, 0, 1, 1, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_medals`
+-- è¡¨çš„ç»“æ„ `cdb_medals`
 --
 
 DROP TABLE IF EXISTS cdb_medals;
@@ -527,10 +531,10 @@ CREATE TABLE cdb_medals (
   available tinyint(1) NOT NULL default '0',
   image varchar(30) NOT NULL default '',
   PRIMARY KEY  (medalid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_medals`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_medals`
 --
 
 INSERT INTO cdb_medals VALUES (1, 'Medal No.1', 0, 'medal1.gif');
@@ -547,7 +551,7 @@ INSERT INTO cdb_medals VALUES (10, 'Medal No.10', 0, 'medal10.gif');
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_memberfields`
+-- è¡¨çš„ç»“æ„ `cdb_memberfields`
 --
 
 DROP TABLE IF EXISTS cdb_memberfields;
@@ -574,10 +578,10 @@ CREATE TABLE cdb_memberfields (
   groupterms text NOT NULL,
   authstr varchar(20) NOT NULL default '',
   PRIMARY KEY  (uid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_memberfields`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_memberfields`
 --
 
 INSERT INTO cdb_memberfields VALUES (1, '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', '', '', '', '');
@@ -585,7 +589,7 @@ INSERT INTO cdb_memberfields VALUES (1, '', '', '', '', '', '', '', '', '', '', 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_members`
+-- è¡¨çš„ç»“æ„ `cdb_members`
 --
 
 DROP TABLE IF EXISTS cdb_members;
@@ -637,10 +641,10 @@ CREATE TABLE cdb_members (
   PRIMARY KEY  (uid),
   UNIQUE KEY username (username),
   KEY email (email)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_members`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_members`
 --
 
 INSERT INTO cdb_members VALUES (1, 'admin', '0cc175b9c0f1b6a831c399e269772661', '', 0, 1, 1, 0, '', 'hidden', 1127871817, '', 1127871817, 0, 1127871817, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'name@domain.com', '0000-00-00', 0, 0, 0, 0, '', 0, 0, 1, 1, 0, '9999', 0, 0);
@@ -648,7 +652,7 @@ INSERT INTO cdb_members VALUES (1, 'admin', '0cc175b9c0f1b6a831c399e269772661', 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_moderators`
+-- è¡¨çš„ç»“æ„ `cdb_moderators`
 --
 
 DROP TABLE IF EXISTS cdb_moderators;
@@ -658,17 +662,17 @@ CREATE TABLE cdb_moderators (
   displayorder tinyint(3) NOT NULL default '0',
   inherited tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (uid,fid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_moderators`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_moderators`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_modworks`
+-- è¡¨çš„ç»“æ„ `cdb_modworks`
 --
 DROP TABLE IF EXISTS cdb_modworks;
 CREATE TABLE cdb_modworks (
@@ -678,12 +682,12 @@ CREATE TABLE cdb_modworks (
   count smallint(6) unsigned NOT NULL default '0',
   posts smallint(6) unsigned NOT NULL default '0',
   KEY uid (uid,dateline)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_onlinelist`
+-- è¡¨çš„ç»“æ„ `cdb_onlinelist`
 --
 
 DROP TABLE IF EXISTS cdb_onlinelist;
@@ -692,21 +696,21 @@ CREATE TABLE cdb_onlinelist (
   displayorder tinyint(3) NOT NULL default '0',
   title varchar(30) NOT NULL default '',
   url varchar(30) NOT NULL default ''
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_onlinelist`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_onlinelist`
 --
 
-INSERT INTO cdb_onlinelist VALUES (1, 1, '¹ÜÀíÔ±', 'online_admin.gif');
-INSERT INTO cdb_onlinelist VALUES (2, 2, '³¬¼¶°æÖ÷', 'online_supermod.gif');
-INSERT INTO cdb_onlinelist VALUES (3, 3, '°æÖ÷', 'online_moderator.gif');
-INSERT INTO cdb_onlinelist VALUES (0, 4, '»áÔ±', 'online_member.gif');
+INSERT INTO cdb_onlinelist VALUES (1, 1, 'ç®¡ç†å‘˜', 'online_admin.gif');
+INSERT INTO cdb_onlinelist VALUES (2, 2, 'è¶…çº§ç‰ˆä¸»', 'online_supermod.gif');
+INSERT INTO cdb_onlinelist VALUES (3, 3, 'ç‰ˆä¸»', 'online_moderator.gif');
+INSERT INTO cdb_onlinelist VALUES (0, 4, 'ä¼šå‘˜', 'online_member.gif');
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_onlinetime`
+-- è¡¨çš„ç»“æ„ `cdb_onlinetime`
 --
 
 DROP TABLE IF EXISTS cdb_onlinetime;
@@ -716,10 +720,10 @@ CREATE TABLE cdb_onlinetime (
   total mediumint(8) unsigned NOT NULL default '0',
   lastupdate int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (uid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_onlinetime`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_onlinetime`
 --
 
 INSERT INTO cdb_onlinetime VALUES (1, 30, 30, 0);
@@ -727,7 +731,7 @@ INSERT INTO cdb_onlinetime VALUES (1, 30, 30, 0);
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_orders`
+-- è¡¨çš„ç»“æ„ `cdb_orders`
 --
 
 DROP TABLE IF EXISTS cdb_orders;
@@ -744,17 +748,17 @@ CREATE TABLE cdb_orders (
   UNIQUE KEY orderid (orderid),
   KEY submitdate (submitdate),
   KEY uid (uid,submitdate)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_orders`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_orders`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_paymentlog`
+-- è¡¨çš„ç»“æ„ `cdb_paymentlog`
 --
 
 DROP TABLE IF EXISTS cdb_paymentlog;
@@ -768,17 +772,17 @@ CREATE TABLE cdb_paymentlog (
   PRIMARY KEY  (tid,uid),
   KEY uid (uid),
   KEY authorid (authorid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_paymentlog`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_paymentlog`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_pluginhooks`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_pluginhooks`
 --
 
 DROP TABLE IF EXISTS cdb_pluginhooks;
@@ -792,8 +796,8 @@ CREATE TABLE cdb_pluginhooks (
   PRIMARY KEY  (pluginhookid),
   KEY pluginid (pluginid),
   KEY available (available)
-) TYPE=MyISAM;
--- ±íµÄ½á¹¹ `cdb_plugins`
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- è¡¨çš„ç»“æ„ `cdb_plugins`
 --
 
 DROP TABLE IF EXISTS cdb_plugins;
@@ -810,17 +814,17 @@ CREATE TABLE cdb_plugins (
   modules text NOT NULL,
   PRIMARY KEY  (pluginid),
   UNIQUE KEY identifier (identifier)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_plugins`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_plugins`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_pluginvars`
+-- è¡¨çš„ç»“æ„ `cdb_pluginvars`
 --
 
 DROP TABLE IF EXISTS cdb_pluginvars;
@@ -836,17 +840,17 @@ CREATE TABLE cdb_pluginvars (
   extra text NOT NULL,
   PRIMARY KEY  (pluginvarid),
   KEY pluginid (pluginid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_pluginvars`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_pluginvars`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_pms`
+-- è¡¨çš„ç»“æ„ `cdb_pms`
 --
 
 DROP TABLE IF EXISTS cdb_pms;
@@ -863,16 +867,16 @@ CREATE TABLE cdb_pms (
   PRIMARY KEY  (pmid),
   KEY msgtoid (msgtoid,folder,dateline),
   KEY msgfromid (msgfromid,folder,dateline)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_pms`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_pms`
 --
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_pmsearchindex`
+-- è¡¨çš„ç»“æ„ `cdb_pmsearchindex`
 --
 
 DROP TABLE IF EXISTS cdb_pmsearchindex;
@@ -886,12 +890,12 @@ CREATE TABLE cdb_pmsearchindex (
   pms smallint(6) unsigned NOT NULL default '0',
   pmids text NOT NULL,
   PRIMARY KEY  (searchid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_polls`
+-- è¡¨çš„ç»“æ„ `cdb_polls`
 --
 
 DROP TABLE IF EXISTS cdb_polls;
@@ -899,17 +903,17 @@ CREATE TABLE cdb_polls (
   tid mediumint(8) unsigned NOT NULL default '0',
   pollopts mediumtext NOT NULL,
   PRIMARY KEY  (tid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_polls`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_polls`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_posts`
+-- è¡¨çš„ç»“æ„ `cdb_posts`
 --
 
 DROP TABLE IF EXISTS cdb_posts;
@@ -941,17 +945,17 @@ CREATE TABLE cdb_posts (
   KEY invisible (invisible),
   KEY displayorder (tid,invisible,dateline),
   KEY `first` (tid,`first`)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_posts`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_posts`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_profilefields`
+-- è¡¨çš„ç»“æ„ `cdb_profilefields`
 --
 
 DROP TABLE IF EXISTS cdb_profilefields;
@@ -969,17 +973,17 @@ CREATE TABLE cdb_profilefields (
   selective tinyint(1) NOT NULL default '0',
   choices text NOT NULL,
   PRIMARY KEY  (fieldid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_profilefields`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_profilefields`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_polls`
+-- è¡¨çš„ç»“æ„ `cdb_polls`
 --
 
 DROP TABLE IF EXISTS cdb_promotions;
@@ -988,12 +992,12 @@ CREATE TABLE cdb_promotions (
   uid mediumint(8) NOT NULL default '0',
   username char(15) NOT NULL default '',
   PRIMARY KEY  (ip)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_ranks`
+-- è¡¨çš„ç»“æ„ `cdb_ranks`
 --
 
 DROP TABLE IF EXISTS cdb_ranks;
@@ -1004,22 +1008,22 @@ CREATE TABLE cdb_ranks (
   stars tinyint(3) NOT NULL default '0',
   color varchar(7) NOT NULL default '',
   PRIMARY KEY  (rankid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_ranks`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_ranks`
 --
 
-INSERT INTO cdb_ranks VALUES (1, 'ĞÂÉúÈëÑ§', 0, 1, '');
-INSERT INTO cdb_ranks VALUES (2, 'Ğ¡ÊÔÅ£µ¶', 50, 2, '');
-INSERT INTO cdb_ranks VALUES (3, 'ÊµÏ°¼ÇÕß', 300, 5, '');
-INSERT INTO cdb_ranks VALUES (4, '×ÔÓÉ×«¸åÈË', 1000, 4, '');
-INSERT INTO cdb_ranks VALUES (5, 'ÌØÆ¸×÷¼Ò', 3000, 5, '');
+INSERT INTO cdb_ranks VALUES (1, 'æ–°ç”Ÿå…¥å­¦', 0, 1, '');
+INSERT INTO cdb_ranks VALUES (2, 'å°è¯•ç‰›åˆ€', 50, 2, '');
+INSERT INTO cdb_ranks VALUES (3, 'å®ä¹ è®°è€…', 300, 5, '');
+INSERT INTO cdb_ranks VALUES (4, 'è‡ªç”±æ’°ç¨¿äºº', 1000, 4, '');
+INSERT INTO cdb_ranks VALUES (5, 'ç‰¹è˜ä½œå®¶', 3000, 5, '');
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_ratelog`
+-- è¡¨çš„ç»“æ„ `cdb_ratelog`
 --
 
 DROP TABLE IF EXISTS cdb_ratelog;
@@ -1033,17 +1037,17 @@ CREATE TABLE cdb_ratelog (
   reason char(40) NOT NULL default '',
   KEY pid (pid,dateline),
   KEY dateline (dateline)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_ratelog`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_ratelog`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_regips`
+-- è¡¨çš„ç»“æ„ `cdb_regips`
 --
 
 DROP TABLE IF EXISTS cdb_regips;
@@ -1052,17 +1056,17 @@ CREATE TABLE cdb_regips (
   dateline int(10) unsigned NOT NULL default '0',
   count smallint(6) NOT NULL default '0',
   KEY ip (ip)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_regips`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_regips`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_relatedthreads`
+-- è¡¨çš„ç»“æ„ `cdb_relatedthreads`
 --
 
 DROP TABLE IF EXISTS cdb_relatedthreads;
@@ -1072,12 +1076,12 @@ CREATE TABLE cdb_relatedthreads (
   keywords varchar(255) NOT NULL default '',
   relatedthreads text NOT NULL,
   PRIMARY KEY  (tid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_rsscaches`
+-- è¡¨çš„ç»“æ„ `cdb_rsscaches`
 --
 
 DROP TABLE IF EXISTS cdb_rsscaches;
@@ -1091,17 +1095,17 @@ CREATE TABLE cdb_rsscaches (
   `subject` char(80) NOT NULL default '',
   description char(255) NOT NULL default '',
   KEY fid (fid,dateline)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_rsscaches`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_rsscaches`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_searchindex`
+-- è¡¨çš„ç»“æ„ `cdb_searchindex`
 --
 
 DROP TABLE IF EXISTS cdb_searchindex;
@@ -1116,17 +1120,17 @@ CREATE TABLE cdb_searchindex (
   threads smallint(6) unsigned NOT NULL default '0',
   tids text NOT NULL,
   PRIMARY KEY  (searchid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_searchindex`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_searchindex`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_sessions`
+-- è¡¨çš„ç»“æ„ `cdb_sessions`
 --
 
 DROP TABLE IF EXISTS cdb_sessions;
@@ -1152,10 +1156,10 @@ CREATE TABLE cdb_sessions (
   UNIQUE KEY sid (sid),
   KEY uid (uid),
   KEY bloguid (bloguid)
-) TYPE=Heap;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_sessions`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_sessions`
 --
 
 INSERT INTO cdb_sessions VALUES (0x6d364758636b, 127, 0, 0, 1, 0, '', 7, 1, 0, 1, 1125560676, 0, 0, 8712, 0, 0, 0);
@@ -1163,7 +1167,7 @@ INSERT INTO cdb_sessions VALUES (0x6d364758636b, 127, 0, 0, 1, 0, '', 7, 1, 0, 1
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_settings`
+-- è¡¨çš„ç»“æ„ `cdb_settings`
 --
 
 DROP TABLE IF EXISTS cdb_settings;
@@ -1171,10 +1175,10 @@ CREATE TABLE cdb_settings (
   variable varchar(32) NOT NULL default '',
   `value` text NOT NULL,
   PRIMARY KEY  (variable)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_settings`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_settings`
 --
 
 INSERT INTO cdb_settings VALUES ('adminipaccess', '');
@@ -1223,7 +1227,7 @@ INSERT INTO cdb_settings VALUES ('ec_securitycode', '');
 INSERT INTO cdb_settings VALUES ('editedby', '1');
 INSERT INTO cdb_settings VALUES ('edittimelimit', '');
 INSERT INTO cdb_settings VALUES ('exchangemincredits', '100');
-INSERT INTO cdb_settings VALUES ('extcredits', 'a:2:{i:1;a:3:{s:5:"title";s:4:"ÍşÍû";s:12:"showinthread";s:0:"";s:9:"available";i:1;}i:2;a:3:{s:5:"title";s:4:"½ğÇ®";s:12:"showinthread";s:0:"";s:9:"available";i:1;}}');
+INSERT INTO cdb_settings VALUES ('extcredits', 'a:2:{i:1;a:3:{s:5:"title";s:4:"å¨æœ›";s:12:"showinthread";s:0:"";s:9:"available";i:1;}i:2;a:3:{s:5:"title";s:4:"é‡‘é’±";s:12:"showinthread";s:0:"";s:9:"available";i:1;}}');
 INSERT INTO cdb_settings VALUES ('fastpost', '1');
 INSERT INTO cdb_settings VALUES ('floodctrl', '15');
 INSERT INTO cdb_settings VALUES ('forumjump', '1');
@@ -1260,7 +1264,7 @@ INSERT INTO cdb_settings VALUES ('memliststatus', '1');
 INSERT INTO cdb_settings VALUES ('minpostsize', '0');
 INSERT INTO cdb_settings VALUES ('moddisplay', 'flat');
 INSERT INTO cdb_settings VALUES ('modratelimit', '0');
-INSERT INTO cdb_settings VALUES ('modreasons', '¹ã¸æ/SPAM\r\n¶ñÒâ¹àË®\r\nÎ¥¹æÄÚÈİ\r\nÎÄ²»¶ÔÌâ\r\nÖØ¸´·¢Ìû\r\n\r\nÎÒºÜÔŞÍ¬\r\n¾«Æ·ÎÄÕÂ\r\nÔ­´´ÄÚÈİ');
+INSERT INTO cdb_settings VALUES ('modreasons', 'å¹¿å‘Š/SPAM\r\næ¶æ„çŒæ°´\r\nè¿è§„å†…å®¹\r\næ–‡ä¸å¯¹é¢˜\r\né‡å¤å‘å¸–\r\n\r\næˆ‘å¾ˆèµåŒ\r\nç²¾å“æ–‡ç« \r\nåŸåˆ›å†…å®¹');
 INSERT INTO cdb_settings VALUES ('modworkstatus', '0');
 INSERT INTO cdb_settings VALUES ('newbiespan', '0');
 INSERT INTO cdb_settings VALUES ('newsletter', '');
@@ -1340,7 +1344,7 @@ INSERT INTO cdb_settings VALUES ('watermarkquality', '80');
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_smilies`
+-- è¡¨çš„ç»“æ„ `cdb_smilies`
 --
 
 DROP TABLE IF EXISTS cdb_smilies;
@@ -1351,10 +1355,10 @@ CREATE TABLE cdb_smilies (
   `code` varchar(30) NOT NULL default '',
   url varchar(30) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_smilies`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_smilies`
 --
 
 INSERT INTO cdb_smilies VALUES (1, 0, 'smiley', ':)', 'smile.gif');
@@ -1388,7 +1392,7 @@ INSERT INTO cdb_smilies VALUES (27, 0, 'icon', '', 'icon9.gif');
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_stats`
+-- è¡¨çš„ç»“æ„ `cdb_stats`
 --
 
 DROP TABLE IF EXISTS cdb_stats;
@@ -1397,10 +1401,10 @@ CREATE TABLE cdb_stats (
   variable char(10) NOT NULL default '',
   count int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`type`,variable)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_stats`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_stats`
 --
 
 INSERT INTO cdb_stats VALUES ('total', 'hits', 1);
@@ -1457,7 +1461,7 @@ INSERT INTO cdb_stats VALUES ('hour', '23', 0);
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_statvars`
+-- è¡¨çš„ç»“æ„ `cdb_statvars`
 --
 
 DROP TABLE IF EXISTS cdb_statvars;
@@ -1466,17 +1470,17 @@ CREATE TABLE cdb_statvars (
   variable varchar(20) NOT NULL default '',
   `value` mediumtext NOT NULL,
   PRIMARY KEY  (`type`,variable)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_statvars`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_statvars`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_styles`
+-- è¡¨çš„ç»“æ„ `cdb_styles`
 --
 
 DROP TABLE IF EXISTS cdb_styles;
@@ -1486,18 +1490,18 @@ CREATE TABLE cdb_styles (
   available tinyint(1) NOT NULL default '1',
   templateid smallint(6) unsigned NOT NULL default '0',
   PRIMARY KEY  (styleid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_styles`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_styles`
 --
 
-INSERT INTO cdb_styles VALUES (1, 'Ä¬ÈÏ·ç¸ñ', 1, 1);
+INSERT INTO cdb_styles VALUES (1, 'é»˜è®¤é£æ ¼', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_stylevars`
+-- è¡¨çš„ç»“æ„ `cdb_stylevars`
 --
 
 DROP TABLE IF EXISTS cdb_stylevars;
@@ -1508,10 +1512,10 @@ CREATE TABLE cdb_stylevars (
   substitute text NOT NULL,
   PRIMARY KEY  (stylevarid),
   KEY styleid (styleid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_stylevars`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_stylevars`
 --
 
 INSERT INTO cdb_stylevars VALUES (1, 1, 'bgcolor', '#9EB6D8');
@@ -1545,7 +1549,7 @@ INSERT INTO cdb_stylevars VALUES (28, 1, 'innerbordercolor', '#D6E0EF');
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_subscriptions`
+-- è¡¨çš„ç»“æ„ `cdb_subscriptions`
 --
 
 DROP TABLE IF EXISTS cdb_subscriptions;
@@ -1555,17 +1559,17 @@ CREATE TABLE cdb_subscriptions (
   lastpost int(10) unsigned NOT NULL,
   lastnotify int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (tid,uid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_subscriptions`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_subscriptions`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_templates`
+-- è¡¨çš„ç»“æ„ `cdb_templates`
 --
 
 DROP TABLE IF EXISTS cdb_templates;
@@ -1575,18 +1579,18 @@ CREATE TABLE cdb_templates (
   `directory` varchar(100) NOT NULL default '',
   copyright varchar(100) NOT NULL default '',
   PRIMARY KEY  (templateid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_templates`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_templates`
 --
 
-INSERT INTO cdb_templates VALUES (1, 'Ä¬ÈÏÄ£°åÌ×Ïµ', './templates/default', '±±¾©¿µÊ¢ÊÀ¼Í¿Æ¼¼ÓĞÏŞ¹«Ë¾');
+INSERT INTO cdb_templates VALUES (1, 'é»˜è®¤æ¨¡æ¿å¥—ç³»', './templates/default', 'åŒ—äº¬åº·ç››ä¸–çºªç§‘æŠ€æœ‰é™å…¬å¸');
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_threads`
+-- è¡¨çš„ç»“æ„ `cdb_threads`
 --
 
 DROP TABLE IF EXISTS cdb_threads;
@@ -1620,17 +1624,17 @@ CREATE TABLE cdb_threads (
   KEY displayorder (fid,displayorder,lastpost),
   KEY blog (blog,authorid,dateline),
   KEY typeid (fid,typeid,displayorder,lastpost)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_threads`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_threads`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_threadsmod`
+-- è¡¨çš„ç»“æ„ `cdb_threadsmod`
 --
 
 DROP TABLE IF EXISTS cdb_threadsmod;
@@ -1644,17 +1648,17 @@ CREATE TABLE cdb_threadsmod (
   `status` tinyint(1) NOT NULL default '0',
   KEY tid (tid,dateline),
   KEY expiration (expiration,`status`)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_threadsmod`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_threadsmod`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_threadtypes`
+-- è¡¨çš„ç»“æ„ `cdb_threadtypes`
 --
 
 DROP TABLE IF EXISTS cdb_threadtypes;
@@ -1664,17 +1668,17 @@ CREATE TABLE cdb_threadtypes (
   name varchar(255) NOT NULL default '',
   description varchar(255) NOT NULL default '',
   PRIMARY KEY  (typeid)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_threadtypes`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_threadtypes`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_usergroups`
+-- è¡¨çš„ç»“æ„ `cdb_usergroups`
 --
 
 DROP TABLE IF EXISTS cdb_usergroups;
@@ -1727,32 +1731,32 @@ CREATE TABLE cdb_usergroups (
   raterange char(150) NOT NULL default '',
   PRIMARY KEY  (groupid),
   KEY creditsrange (creditshigher,creditslower)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_usergroups`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_usergroups`
 --
 
-INSERT INTO cdb_usergroups VALUES (1, 1, 'system', 'private', '¹ÜÀíÔ±', 0, 0, 9, '', '', 200, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 30, 200, 500, 2048000, 0, '', '1	-30	30	500');
-INSERT INTO cdb_usergroups VALUES (2, 2, 'system', 'private', '³¬¼¶°æÖ÷', 0, 0, 8, '', '', 150, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 20, 120, 300, 2048000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-15	15	50');
-INSERT INTO cdb_usergroups VALUES (3, 3, 'system', 'private', '°æÖ÷', 0, 0, 7, '', '', 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 10, 80, 200, 2048000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-10	10	30');
-INSERT INTO cdb_usergroups VALUES (4, 0, 'system', 'private', '½ûÖ¹·¢ÑÔ', 0, 0, 0, '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
-INSERT INTO cdb_usergroups VALUES (5, 0, 'system', 'private', '½ûÖ¹·ÃÎÊ', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
-INSERT INTO cdb_usergroups VALUES (6, 0, 'system', 'private', '½ûÖ¹ IP', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
-INSERT INTO cdb_usergroups VALUES (7, 0, 'system', 'private', 'ÓÎ¿Í', 0, 0, 0, '', '', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
-INSERT INTO cdb_usergroups VALUES (8, 0, 'system', 'private', 'µÈ´ıÑéÖ¤»áÔ±', 0, 0, 0, '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
-INSERT INTO cdb_usergroups VALUES (9, 0, 'member', 'private', 'ÆòØ¤', -9999999, 0, 0, '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
-INSERT INTO cdb_usergroups VALUES (10, 0, 'member', 'private', 'ĞÂÊÖÉÏÂ·', 0, 50, 1, '', '', 10, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 20, 80, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
-INSERT INTO cdb_usergroups VALUES (11, 0, 'member', 'private', '×¢²á»áÔ±', 50, 200, 2, '', '', 20, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 30, 100, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '0	-4	4	10');
-INSERT INTO cdb_usergroups VALUES (12, 0, 'member', 'private', 'ÖĞ¼¶»áÔ±', 200, 500, 3, '', '', 30, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 50, 150, 256000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '0	-6	6	15');
-INSERT INTO cdb_usergroups VALUES (13, 0, 'member', 'private', '¸ß¼¶»áÔ±', 500, 1000, 4, '', '', 50, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 60, 200, 512000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-10	10	30');
-INSERT INTO cdb_usergroups VALUES (14, 0, 'member', 'private', '½ğÅÆ»áÔ±', 1000, 3000, 6, '', '', 70, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 80, 300, 1024000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-15	15	40');
-INSERT INTO cdb_usergroups VALUES (15, 0, 'member', 'private', 'ÂÛÌ³ÔªÀÏ', 3000, 9999999, 8, '', '', 90, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 100, 500, 2048000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-20	20	50');
+INSERT INTO cdb_usergroups VALUES (1, 1, 'system', 'private', 'ç®¡ç†å‘˜', 0, 0, 9, '', '', 200, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 30, 200, 500, 2048000, 0, '', '1	-30	30	500');
+INSERT INTO cdb_usergroups VALUES (2, 2, 'system', 'private', 'è¶…çº§ç‰ˆä¸»', 0, 0, 8, '', '', 150, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 20, 120, 300, 2048000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-15	15	50');
+INSERT INTO cdb_usergroups VALUES (3, 3, 'system', 'private', 'ç‰ˆä¸»', 0, 0, 7, '', '', 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 10, 80, 200, 2048000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-10	10	30');
+INSERT INTO cdb_usergroups VALUES (4, 0, 'system', 'private', 'ç¦æ­¢å‘è¨€', 0, 0, 0, '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
+INSERT INTO cdb_usergroups VALUES (5, 0, 'system', 'private', 'ç¦æ­¢è®¿é—®', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
+INSERT INTO cdb_usergroups VALUES (6, 0, 'system', 'private', 'ç¦æ­¢ IP', 0, 0, 0, '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
+INSERT INTO cdb_usergroups VALUES (7, 0, 'system', 'private', 'æ¸¸å®¢', 0, 0, 0, '', '', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
+INSERT INTO cdb_usergroups VALUES (8, 0, 'system', 'private', 'ç­‰å¾…éªŒè¯ä¼šå‘˜', 0, 0, 0, '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
+INSERT INTO cdb_usergroups VALUES (9, 0, 'member', 'private', 'ä¹ä¸', -9999999, 0, 0, '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
+INSERT INTO cdb_usergroups VALUES (10, 0, 'member', 'private', 'æ–°æ‰‹ä¸Šè·¯', 0, 50, 1, '', '', 10, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 20, 80, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '');
+INSERT INTO cdb_usergroups VALUES (11, 0, 'member', 'private', 'æ³¨å†Œä¼šå‘˜', 50, 200, 2, '', '', 20, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 30, 100, 0, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '0	-4	4	10');
+INSERT INTO cdb_usergroups VALUES (12, 0, 'member', 'private', 'ä¸­çº§ä¼šå‘˜', 200, 500, 3, '', '', 30, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 50, 150, 256000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '0	-6	6	15');
+INSERT INTO cdb_usergroups VALUES (13, 0, 'member', 'private', 'é«˜çº§ä¼šå‘˜', 500, 1000, 4, '', '', 50, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 60, 200, 512000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-10	10	30');
+INSERT INTO cdb_usergroups VALUES (14, 0, 'member', 'private', 'é‡‘ç‰Œä¼šå‘˜', 1000, 3000, 6, '', '', 70, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 80, 300, 1024000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-15	15	40');
+INSERT INTO cdb_usergroups VALUES (15, 0, 'member', 'private', 'è®ºå›å…ƒè€', 3000, 9999999, 8, '', '', 90, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 100, 500, 2048000, 0, 'chm,pdf,zip,rar,tar,gz,bzip2,gif,jpg,jpeg,png', '1	-20	20	50');
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_validating`
+-- è¡¨çš„ç»“æ„ `cdb_validating`
 --
 
 DROP TABLE IF EXISTS cdb_validating;
@@ -1767,17 +1771,17 @@ CREATE TABLE cdb_validating (
   remark text NOT NULL,
   PRIMARY KEY  (uid),
   KEY `status` (`status`)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_validating`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_validating`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- ±íµÄ½á¹¹ `cdb_words`
+-- è¡¨çš„ç»“æ„ `cdb_words`
 --
 
 DROP TABLE IF EXISTS cdb_words;
@@ -1787,9 +1791,9 @@ CREATE TABLE cdb_words (
   find varchar(255) NOT NULL default '',
   replacement varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- µ¼³ö±íÖĞµÄÊı¾İ `cdb_words`
+-- å¯¼å‡ºè¡¨ä¸­çš„æ•°æ® `cdb_words`
 --
 
