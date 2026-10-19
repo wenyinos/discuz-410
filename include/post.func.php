@@ -46,7 +46,10 @@ function attach_upload() {
 		}
 		$attach['name'] = dhtmlspecialchars($attach['name']);
 
-		if($attachextensions && (!preg_match("/(^|\s|,)".preg_quote($attach['ext'], '/')."($|\s|,)/i", $attachextensions) || !$attach['ext'])) {
+		if(!$attachextensions) {
+			$attachextensions = 'jpg jpeg gif png bmp zip rar 7z txt pdf doc docx xls xlsx ppt pptx mp3 mp4 avi rmvb wma swf chm';
+		}
+		if(!$attach['ext'] || !preg_match("/(^|\s|,)".preg_quote($attach['ext'], '/')."($|\s|,)/i", $attachextensions)) {
 			upload_error('post_attachment_ext_notallowed', $attacharray);
 		}
 
@@ -104,7 +107,7 @@ function attach_upload() {
 			$filename = str_replace('/', '', base64_encode(substr($filename, 0, 10)));
 		}
 
-		$attach['attachment'] .= preg_replace("/(php|phtml|php3|jsp|exe|dll|asp|aspx|cgi|fcgi|pl)(\.|$)/i", "_\\1\\2",
+		$attach['attachment'] .= preg_replace("/(php\d*|phtml?|phar|jspx?|exe|dll|asp|aspx|ashx|asmx|cgi|fcgi|pl|py|sh|htaccess|shtml)(\.|$)/i", "_\\1\\2",
 			substr($filename, 0, 64).'_'.random(12).'.'.$extension);
 
 		$target = $attachdir.'/'.stripslashes($attach['attachment']);

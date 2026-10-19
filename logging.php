@@ -145,8 +145,13 @@ if($action == 'logout') {
 
 		loginfailed($loginperm);
 
-		@$fp = fopen(DISCUZ_ROOT.'./forumdata/illegallog.php', 'a');
+		$illogfile = DISCUZ_ROOT.'./forumdata/illegallog.php';
+		$needsheader = !file_exists($illogfile) || @filesize($illogfile) == 0;
+		@$fp = fopen($illogfile, 'a');
 		@flock($fp, 2);
+		if($fp && $needsheader) {
+			@fwrite($fp, "<?PHP exit('Access Denied'); ?>\n");
+		}
 		@fwrite($fp, $errorlog);
 		@fclose($fp);
 

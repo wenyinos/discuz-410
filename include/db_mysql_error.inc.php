@@ -29,11 +29,12 @@ if($dberrno == 1114) {
 	}
 	$errmsg .= "<b>Time</b>: ".gmdate("Y-n-j g:ia", $timestamp + ($GLOBALS['timeoffset'] * 3600))."\n";
 	$errmsg .= "<b>Script</b>: ".$GLOBALS['PHP_SELF']."\n\n";
-	if($sql) {
+	$isadmin = in_array(intval($GLOBALS['adminid'] ?? 0), array(1, 2, 3));
+	if($sql && $isadmin) {
 		$errmsg .= "<b>SQL</b>: ".htmlspecialchars($sql)."\n";
 	}
-	$errmsg .= "<b>Error</b>:  $dberror\n";
-	$errmsg .= "<b>Errno.</b>:  $dberrno";
+	$errmsg .= "<b>Error</b>:  ".($isadmin ? $dberror : 'Database error')."\n";
+	$errmsg .= "<b>Errno.</b>:  ".($isadmin ? $dberrno : '');
 
 	echo "</table></table></table></table></table>\n";
 	echo "<p style=\"font-family: Verdana, Tahoma; font-size: 11px; background: #FFFFFF;\">";

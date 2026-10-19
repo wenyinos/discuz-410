@@ -199,7 +199,12 @@ function emailconv($email, $tolink = 1) {
 
 function errorlog($type, $message, $halt = 1) {
 	global $timestamp, $discuz_userss;
-	@$fp = fopen(DISCUZ_ROOT.'./forumdata/errorlog.php', 'a');
+	$logfile = DISCUZ_ROOT.'./forumdata/errorlog.php';
+	$needsheader = !file_exists($logfile) || @filesize($logfile) == 0;
+	@$fp = fopen($logfile, 'a');
+	if($fp && $needsheader) {
+		@fwrite($fp, "<?PHP exit('Access Denied'); ?>\n");
+	}
 	@fwrite($fp, "$timestamp\t$type\t$discuz_userss\t".str_replace(array("\r", "\n"), array(' ', ' '), trim(dhtmlspecialchars($message)))."\n");
 	@fclose($fp);
 	if($halt) {
