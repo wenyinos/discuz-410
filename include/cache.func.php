@@ -9,7 +9,7 @@
 	$Date: 2006/03/07 06:44:55 $
 */
 
-define('DISCUZ_KERNEL_VERSION', '4.1.1');
+define('DISCUZ_KERNEL_VERSION', '4.1.2');
 define('DISCUZ_KERNEL_RELEASE', '20060303');
 
 if(isset($_GET['kernel_version'])) {

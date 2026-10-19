@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Discuz! 4.1.1 — legacy Chinese BBS/forum system (Comsenz Inc., 2001-2006), MIT-licensed community fork.
+Discuz! 4.1.2 — legacy Chinese BBS/forum system (Comsenz Inc., 2001-2006), MIT-licensed community fork.
 **PHP 8.4+ compatible** — upgraded from mysql_* to mysqli, removed magic_quotes, replaced preg_replace /e with preg_replace_callback, fixed count() TypeError, disabled mysqli exception mode.
 No modern tooling: no composer, no npm, no CI/CD, no test suite, no linter.
 

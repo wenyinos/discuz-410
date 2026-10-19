@@ -1,4 +1,4 @@
-# Discuz! 4.1.1 (Community-Maintained Fork)
+# Discuz! 4.1.2 (Community-Maintained Fork)
 
 [中文文档](README_zh.md)
 
@@ -7,6 +7,7 @@ This repository is a community-maintained fork under the MIT license, updated fo
 
 ## Current Fork Status
 
+- **4.1.2 (2026-10-19)**: Security hardening — SQL injection in array-derived `IN()` clauses, several XSS sinks (admin frameset, attachment names, announcements), CSRF enforcement, attachment extension allowlist, SQL details hidden from non-admins, identity keys stripped from request input, HttpOnly cookies, CSPRNG tokens and constant-time credential comparison (see `CHANGELOG.md`).
 - **4.1.1 (2026-10-19)**: PHP 8.4+ compatibility hardening completed; removed three defunct integrations — Qihoo search, Alipay payment and trade threads (see `CHANGELOG.md`). The release package excludes runtime data (`config.inc.php`, `forumdata/cache/`, logs, `attachments/`).
 - **PHP 8.4+ compatibility upgrade completed** (see `php84-upgrade-report.md`)
 - Major PHP8 warning/error-prone legacy paths have been hardened

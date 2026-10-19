@@ -2,6 +2,22 @@
 
 本项目是 Discuz! 4.1.0 的社区维护分支。本文件记录本分支的版本变更。
 
+## [4.1.2] - 2026-10-19
+
+### 安全加固
+
+- **SQL 注入**：修复数组派生的 `IN()` 子句注入（`pm.php` 的 `msgtobuddys[]`、`memcp.php` 的 `delete[]`、`topicadmin.php` 的 `split[]`、后台批量操作）；修复数组**键**直接作为列名或条件值的注入（`memcp.php` 好友备注、`admin/members.inc.php` 的积分搜索与修改）；管理后台的表名、`LIMIT` 与 `api/javascript.php` 的 `fids/fups` 统一做白名单或 `intval`。
+- **XSS**：修复后台框架页未认证反射型 XSS（参数名未编码）、附件原始文件名存储型 XSS、公告主题转义被注释掉的存储型 XSS；`dreferer()`、`PHP_SELF` 回显与 `bbcodeurl()` 的引号过滤补齐。
+- **CSRF**：`submitcheck()` 的 `$allowget` 不再跳过 formhash 校验；后台改状态动作仍要求令牌。投票处理补上 `submitcheck()`。
+- **文件上传**：扩展名白名单为空时回退到内置安全白名单（不再放行任意扩展名）；危险扩展名过滤补上 `php4/5/7/8`、`pht`、`phar`、`shtml`、`htaccess` 等。
+- **信息泄露**：数据库错误页仅对管理员显示 SQL 语句与错误详情，访客只看到通用提示；`errorlog` 与失败登录日志在首次创建时写入 `exit` 保护头。
+- **认证与会话**：从请求输入中剔除 `adminid`、`groupid`、`discuz_uid`、`discuz_pw`、`credits` 等身份变量，阻止通过 URL 参数覆盖会话身份；`dsetcookie()` 统一加 `HttpOnly`；令牌生成改用 `random_int()`；密码、安全提问与找回密码令牌改为 `hash_equals()` 恒定时间比较。
+
+### 数据库
+
+- `install/discuz.sql` 改为 UTF-8 编码、`ENGINE=InnoDB`、显式 `DEFAULT CHARSET=utf8`，并设置 `sql_mode=''` 以兼容历史零日期；已在 MySQL 5.7 实测导入成功（59 张表）。
+- 生产库无需结构变更：表清单与 4.1.0 一致，已废弃功能对应的表均为空。
+
 ## [4.1.1] - 2026-10-19
 
 ### PHP 8.4+ 兼容性
