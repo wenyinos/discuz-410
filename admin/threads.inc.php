@@ -178,8 +178,9 @@ if(!$operation) {
 } else {
 
 	if(!isset($tids)) {
-		$tids = implode(',', $tidarray);
+		$tids = implode(',', array_map('intval', (array)$tidarray));
 	}
+	$tids = implode(',', array_map('intval', explode(',', (string)$tids)));
 
 	if($operation == 'moveforum') {
 

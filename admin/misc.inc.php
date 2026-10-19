@@ -720,7 +720,7 @@ if($action == 'onlinelist') {
 
 	} elseif($action == 'creditslog') {
 
-		$lpp = empty($lpp) ? 50 : $lpp;
+		$lpp = empty($lpp) ? 50 : intval($lpp);
 		$page = !ispage($page) ? 1 : $page;
 		$start_limit = ($page - 1) * $lpp;
 		$keyword = isset($keyword) ? $keyword : '';

@@ -55,7 +55,7 @@ unset($dbhost, $dbuser, $dbpw, $dbname, $pconnect);
 
 $expiration	=	0;
 $function	=	isset($_GET['function']) ? $_GET['function'] : NULL;
-$fids		=	isset($_GET['fids']) ? $_GET['fids'] : NULL;
+$fids		=	isset($_GET['fids']) ? preg_replace('/[^0-9_]/', '', $_GET['fids']) : NULL;
 $startrow	=	isset($_GET['startrow']) ? intval($_GET['startrow']) : 0;
 $items		=	isset($_GET['items']) ? intval($_GET['items']) : 10;
 $digest		=	isset($_GET['digest']) ? intval($_GET['digest']) : 0;
@@ -135,7 +135,7 @@ if ($function == 'threads') {
 
 } elseif ($function == 'forums') {
 	//��̳�б�
-	$fups		=	isset($_GET['fups']) ? $_GET['fups'] : NULL;
+	$fups		=	isset($_GET['fups']) ? preg_replace('/[^0-9_]/', '', $_GET['fups']) : NULL;
 	$orderby	=	isset($_GET['orderby']) ? (in_array($_GET['orderby'],array('displayorder','threads','posts')) ? $_GET['orderby'] : 'displayorder') : 'displayorder';
 	$cachefile	=	DISCUZ_ROOT.'./forumdata/cache/javascript_'.md5("forums|$fups|$startrow|$items|$orderby").'.php';
 	if((@!include($cachefile)) || $expiration < $timestamp) {

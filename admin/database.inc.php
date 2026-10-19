@@ -166,6 +166,14 @@ if($action == 'export') {
 			if( !is_array($tables) || empty($tables)) {
 				cpmsg('database_export_custom_invalid');
 			}
+			foreach($tables as $key => $table) {
+				if(!preg_match('/^[A-Za-z0-9_]+$/', (string)$table)) {
+					unset($tables[$key]);
+				}
+			}
+			if(empty($tables)) {
+				cpmsg('database_export_custom_invalid');
+			}
 		}
 
 		if($type == 'full' || $type == 'standard') {

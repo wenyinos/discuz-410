@@ -599,7 +599,7 @@ if(($action == 'moderate' && $fid) || in_array($action, array('delete', 'move', 
 		$pids = $comma = '';
 		if(is_array($split)) {
 			foreach($split as $pid) {
-				$pids .= $comma.$pid;
+				$pids .= $comma.intval($pid);
 				$comma = ',';
 			}
 		}

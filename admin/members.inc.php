@@ -259,20 +259,21 @@ if($action == 'memberadd') {
 		$conditions .= $username != '' ? " AND ".($cins ? '' : 'BINARY')." username LIKE '".str_replace(array('%', '*', '_'), array('\%', '%', '\_'), $username)."'" : '';
 		$conditions .= $srchemail != '' ? " AND email LIKE '".str_replace('*', '%', $srchemail)."'" : '';
 		$conditions .= !empty($admingroupid) && !in_array('all', $admingroupid) != '' ? " AND adminid IN ('".implode('\',\'', $admingroupid)."')" : '';
-		$conditions .= !empty($usergroupid) && !in_array('all', $usergroupid) != '' ? " AND groupid IN ('".implode('\',\'', $usergroupid)."')" : '';
-		$conditions .= !empty($extusergroupid) && !in_array('all', $extusergroupid) != '' ? " AND extgroupids IN ('".implode('\',\'', $extusergroupid)."')" : '';
+		$conditions .= !empty($usergroupid) && !in_array('all', $usergroupid) != '' ? " AND groupid IN ('".implode('\',\'', array_map('intval', (array)$usergroupid))."')" : '';
+		$conditions .= !empty($extusergroupid) && !in_array('all', $extusergroupid) != '' ? " AND extgroupids IN ('".implode('\',\'', array_map('intval', (array)$extusergroupid))."')" : '';
 
+		$creditfields = array('credits', 'posts', 'digestposts', 'oltime', 'pageviews', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8');
 		if(is_array($higher)) {
 			foreach($higher as $credit => $value) {
-				if($value != '') {
-					$conditions .= " AND $credit>'$value'";
+				if($value != '' && in_array($credit, $creditfields, true)) {
+					$conditions .= " AND $credit>'".intval($value)."'";
 				}
 			}
 		}
 		if(is_array($lower)) {
 			foreach($lower as $credit => $value) {
-				if($value != '') {
-					$conditions .= " AND $credit<'$value'";
+				if($value != '' && in_array($credit, $creditfields, true)) {
+					$conditions .= " AND $credit<'".intval($value)."'";
 				}
 			}
 		}
@@ -1013,6 +1014,10 @@ function membercredits() {
 		$sql = $comma = '';
 		if(is_array($extcreditsnew)) {
 			foreach($extcreditsnew as $id => $value) {
+				$id = intval($id);
+				if($id < 1 || $id > 8) {
+					continue;
+				}
 				if($member['extcredits'.$id] != ($value = intval($value))) {
 					$diffarray[$id] = $value - $member['extcredits'.$id];
 					$sql .= $comma."extcredits$id='$value'";

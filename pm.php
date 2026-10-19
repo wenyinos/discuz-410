@@ -201,7 +201,7 @@ if(empty($action)) {
 
 		$uids = $comma = '';
 		foreach($msgto as $uid) {
-			$uids .= $comma.$uid;
+			$uids .= $comma.intval($uid);
 			$comma = ',';
 		}
 
@@ -220,6 +220,7 @@ if(empty($action)) {
 		updatecredits($discuz_uid, $creditspolicy['pm'], -1);
 
 		foreach($msgto as $uid) {
+			$uid = intval($uid);
 			$db->query("INSERT INTO {$tablepre}pms (msgfrom, msgfromid, msgtoid, folder, new, subject, dateline, message)
 				VALUES('$discuz_user', '$discuz_uid', '$uid', 'inbox', '1', '$subject', '$timestamp', '$message')");
 		}

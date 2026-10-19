@@ -620,11 +620,12 @@ if(!isset($action)) {
 		}
 
 		if(!empty($delete) && is_array($delete)) {
-			$db->query("DELETE FROM {$tablepre}buddys WHERE uid='$discuz_uid' AND buddyid IN ('".implode('\',\'', $delete)."')");
+			$db->query("DELETE FROM {$tablepre}buddys WHERE uid='$discuz_uid' AND buddyid IN ('".implode('\',\'', array_map('intval', $delete))."')");
 		}
 
 		if(is_array($descriptionnew)) {
 			foreach($descriptionnew as $buddyid => $desc) {
+				$buddyid = intval($buddyid);
 				if(($desc = cutstr(dhtmlspecialchars($desc), 255)) != addslashes($buddyarray[$buddyid]['description'])) {
 					$db->query("UPDATE {$tablepre}buddys SET description='$desc' WHERE uid='$discuz_uid' AND buddyid='$buddyid'");
 				}
@@ -690,7 +691,7 @@ if(!isset($action)) {
 			$ids = $comma = '';
 			if(!empty($delete) && is_array($delete)) {
 				foreach($delete as $deleteid) {
-					$ids .= $comma.$deleteid;
+					$ids .= $comma.intval($deleteid);
 					$comma = ', ';
 				}
 			}
@@ -739,7 +740,7 @@ if(!isset($action)) {
 			$ids = $comma = '';
 			if(!empty($delete) && is_array($delete)) {
 				foreach($delete as $deleteid) {
-					$ids .= "$comma$deleteid";
+					$ids .= $comma.intval($deleteid);
 					$comma = ", ";
 				}
 			}
