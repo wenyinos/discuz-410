@@ -51,6 +51,10 @@ if($action == 'maxpages') {
 
 if($action == 'votepoll') {
 
+	if(!submitcheck('pollsubmit')) {
+		showmessage('submit_invalid');
+	}
+
 	if(!$allowvote) {
 		showmessage('group_nopermission', NULL, 'NOPERM');
 	}

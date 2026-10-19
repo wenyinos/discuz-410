@@ -558,8 +558,8 @@ function submitcheck($var, $allowget = 0, $seccodecheck = 0) {
 		return FALSE;
 	} else {
 		global $_SERVER, $adminid, $submitrefcheck, $seccode, $seccodeverify;
-		if($allowget || (($_SERVER['REQUEST_METHOD'] ?? '') == 'POST' && $GLOBALS['formhash'] == formhash() && (empty($_SERVER['HTTP_REFERER']) ||
-			preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER'] ?? '') == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'] ?? '')))) {
+		if(($allowget || (($_SERVER['REQUEST_METHOD'] ?? '') == 'POST')) && isset($GLOBALS['formhash']) && $GLOBALS['formhash'] === formhash() && (empty($_SERVER['HTTP_REFERER']) ||
+			preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER'] ?? '') == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'] ?? ''))) {
 			if($seccodecheck) {
 				if(intval($seccodeverify) == intval($seccode)) {
 					$seccode = random(4, 1);
