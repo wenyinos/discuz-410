@@ -44,6 +44,7 @@ function attach_upload() {
 		if(strlen($attach['name']) > 90) {
 			$attach['name'] = 'abbr_'.substr($attach['name'], -80);
 		}
+		$attach['name'] = dhtmlspecialchars($attach['name']);
 
 		if($attachextensions && (!preg_match("/(^|\s|,)".preg_quote($attach['ext'], '/')."($|\s|,)/i", $attachextensions) || !$attach['ext'])) {
 			upload_error('post_attachment_ext_notallowed', $attacharray);

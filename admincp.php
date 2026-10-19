@@ -22,7 +22,7 @@ if(empty($action) || isset($frames)) {
 	$extra = $and = '';
 	foreach($getarray as $key => $value) {
 		if(!in_array($key, array('sid', 'frames'))) {
-			$extra .= $and.$key.'='.rawurlencode($value);
+			$extra .= $and.rawurlencode($key).'='.rawurlencode($value);
 			$and = '&';
 		}
 	}
@@ -165,7 +165,7 @@ if($action == 'menu') {
 
 ?>
 <br><br><br><br><br><br>
-<form method="post" name="login" action="admincp.php?<?=$_SERVER['QUERY_STRING'] ?? ''?>">
+<form method="post" name="login" action="admincp.php?<?=dhtmlspecialchars($_SERVER['QUERY_STRING'] ?? '')?>">
 <input type="hidden" name="sid" value="<?=$sid?>">
 <table cellspacing="<?=INNERBORDERWIDTH?>" cellpadding="<?=TABLESPACE?>" width="60%" align="center" class="tableborder">
 <tr class="header"><td colspan="2"><?=$lang['password_required']?></td></tr>

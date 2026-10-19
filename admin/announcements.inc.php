@@ -127,6 +127,7 @@ if($action == 'announcements') {
 			} elseif(!trim($subjectnew) || !trim($messagenew)) {
 				cpmsg('announce_invalid');
 			} else {
+				$subjectnew = dhtmlspecialchars($subjectnew);
 				$db->query("UPDATE {$tablepre}announcements SET subject='$subjectnew', starttime='$starttimenew', endtime='$endtimenew', message='$messagenew' WHERE id='$edit'");
 				updatecache('announcements');
 				updatecache('announcements_forum');
@@ -157,7 +158,7 @@ if($action == 'announcements') {
 
 	} elseif(submitcheck('addsubmit')) {
 
-		//$newsubject = dhtmlspecialchars($newsubject);
+		$newsubject = dhtmlspecialchars($newsubject);
 		$newstarttime = $newstarttime ? strtotime($newstarttime) : 0;
 		$newendtime = $newendtime ? strtotime($newendtime) : 0;
 

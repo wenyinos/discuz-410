@@ -45,7 +45,7 @@ if($ignorepm == 'yes') {
 			if($rewritestatus == 2 || $rewritestatus == 3) {
 				$ignorelink = (defined('CURSCRIPT') && in_array(CURSCRIPT, array('forumdisplay', 'viewthread')) ? CURSCRIPT : 'index').'.php?ignorepm=yes';
 			} else {
-				$ignorelink = $PHP_SELF.'?ignorepm=yes';
+				$ignorelink = dhtmlspecialchars($PHP_SELF).'?ignorepm=yes';
 			}
 
 			foreach($_GET as $key => $val) {

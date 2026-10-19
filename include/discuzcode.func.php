@@ -278,6 +278,7 @@ function bbcodeurl($url, $tags) {
 		if(!in_array(strtolower(substr($url, 0, 6)), array('http:/', 'ftp://', 'rtsp:/', 'mms://'))) {
 			$url = 'http://'.$url;
 		}
+		$url = str_replace(array('"', "'", '<', '>'), '', $url);
 		return str_replace(array('submit', 'logging.php'), array('', ''), sprintf($tags, $url, addslashes($url)));
 	} else {
 		return '&nbsp;'.$url;

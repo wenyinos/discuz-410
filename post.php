@@ -173,7 +173,7 @@ if(!empty($previewpost) || (empty($previewpost) && empty($topicsubmit) && empty(
 			$request = array
 				(
 				'method' => $_SERVER['REQUEST_METHOD'] ?? '',
-				'action' => $PHP_SELF,
+				'action' => dhtmlspecialchars($PHP_SELF),
 				'elements' => ''
 				);
 

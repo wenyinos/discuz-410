@@ -176,9 +176,8 @@ function dreferer($default = 'index.php') {
 	if(empty($referer) && isset($GLOBALS['_SERVER']['HTTP_REFERER'])) {
 		$referer = preg_replace("/([\?&])((sid\=[a-z0-9]{6})(&|$))/i", '\\1', $GLOBALS['_SERVER']['HTTP_REFERER']);
 		$referer = substr($referer, -1) == '?' ? substr($referer, 0, -1) : $referer;
-	} else {
-		$referer = dhtmlspecialchars($referer);
 	}
+	$referer = dhtmlspecialchars($referer);
 
 	if(!preg_match("/(\.php|[a-z]+(\-\d+)+\.html)/", $referer) || strpos($referer, 'logging.php')) {
 		$referer = $default;
