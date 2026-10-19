@@ -90,9 +90,9 @@ if($action == 'logout') {
 		}
 		*/
 
-		if($member['discuz_uid'] && $member['discuz_pw'] == $md5_password) {
+		if($member['discuz_uid'] && hash_equals((string)$member['discuz_pw'], (string)$md5_password)) {
 
-			if($member['discuz_secques'] == $secques) {
+			if(hash_equals((string)$member['discuz_secques'], (string)$secques)) {
 
 				// 使用 EXTR_OVERWRITE 覆盖初始空值，确保从数据库查询的值被正确赋值
 				extract($member, EXTR_OVERWRITE);

@@ -189,7 +189,7 @@ function dsetcookie($var, $value, $life = 0, $prefix = 1) {
 	global $tablepre, $cookiedomain, $cookiepath, $timestamp, $_SERVER;
 	setcookie(($prefix ? $tablepre : '').$var, $value,
 		$life ? $timestamp + $life : 0, $cookiepath,
-		$cookiedomain, ($_SERVER['SERVER_PORT'] ?? 80) == 443 ? 1 : 0);
+		$cookiedomain, ($_SERVER['SERVER_PORT'] ?? 80) == 443 ? 1 : 0, TRUE);
 }
 
 function emailconv($email, $tolink = 1) {
@@ -455,14 +455,19 @@ function quescrypt($questionid, $answer) {
 }
 
 function random($length, $numeric = 0) {
+	$length = intval($length);
+	if($length < 1) {
+		return '';
+	}
 	if($numeric) {
-		$hash = sprintf('%0'.$length.'d', mt_rand(0, pow(10, $length) - 1));
+		$max = (int)pow(10, $length) - 1;
+		$hash = sprintf('%0'.$length.'d', $max > 0 ? random_int(0, $max) : 0);
 	} else {
 		$hash = '';
 		$chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
 		$max = strlen($chars) - 1;
 		for($i = 0; $i < $length; $i++) {
-			$hash .= $chars[mt_rand(0, $max)];
+			$hash .= $chars[random_int(0, $max)];
 		}
 	}
 	return $hash;

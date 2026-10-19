@@ -148,7 +148,7 @@ if(!isset($action)) {
 		$newpasswdadd = '';
 		$secquesnew = $questionidnew == -1 ? $discuz_secques : quescrypt($questionidnew, $answernew);
 		if($newpassword || $secquesnew != $discuz_secques) {
-			if(md5($oldpassword) != $discuz_pw) {
+			if(!hash_equals((string)md5($oldpassword), (string)$discuz_pw)) {
 				showmessage('profile_passwd_wrong', NULL, 'HALTED');
 			}
 			if($newpassword) {

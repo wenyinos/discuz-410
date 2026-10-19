@@ -197,7 +197,7 @@ if($action == 'clearcookies') {
 
 	list($dateline, $operation, $idstring) = explode("\t", $member['authstr']);
 
-	if($operation == 2 && $idstring == $id) {
+	if($operation == 2 && hash_equals((string)$idstring, (string)$id)) {
 		$query = $db->query("SELECT groupid FROM {$tablepre}usergroups WHERE type='member' AND {$member['credits']}>=creditshigher AND {$member['credits']}<creditslower LIMIT 1");
 		$db->query("UPDATE {$tablepre}members SET groupid='".$db->result($query, 0)."' WHERE uid='{$member['uid']}'");
 		$db->query("UPDATE {$tablepre}memberfields SET authstr='' WHERE uid='{$member['uid']}'");
@@ -239,7 +239,7 @@ if($action == 'clearcookies') {
 
 	list($dateline, $operation, $idstring) = explode("\t", $member['authstr']);
 
-	if($dateline < $timestamp - 86400 * 3 || $operation != 1 || $idstring != $id) {
+	if($dateline < $timestamp - 86400 * 3 || $operation != 1 || !hash_equals((string)$idstring, (string)$id)) {
 		showmessage('getpasswd_illegal', NULL, 'HALTED');
 	}
 

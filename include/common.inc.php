@@ -41,6 +41,10 @@ define('DISCUZ_AVATARSHOW', '3560626219401401200');
 
 require_once DISCUZ_ROOT.'./include/global.func.php';
 
+$sensitivekeys = array('adminid', 'groupid', 'extgroupids', 'discuz_uid', 'discuz_user', 'discuz_pw', 'discuz_secques', 'credits', 'groupexpiry', 'accessmasks', 'grouptype', 'newpm', 'ismoderator');
+foreach($sensitivekeys as $sensitivekey) {
+	unset($_COOKIE[$sensitivekey], $_POST[$sensitivekey], $_GET[$sensitivekey]);
+}
 @extract(daddslashes($_COOKIE), EXTR_SKIP);
 @extract(daddslashes($_POST), EXTR_SKIP);
 @extract(daddslashes($_GET), EXTR_SKIP);
