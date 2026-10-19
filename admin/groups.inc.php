@@ -21,10 +21,10 @@ if($action == 'admingroups') {
 		'forumdetail', 'forumdelete', 'forumcopy', 'moderators', 'threadtypes', 'memberadd', 'members', 'membersmerge',
 		'editgroups', 'access', 'editcredits', 'editmedals', 'memberprofile', 'profilefields', 'ipban', 'usergroups',
 		'admingroups', 'ranks', 'announcements', 'styles', 'templates', 'tpladd', 'tpledit', 'modmembers',
-		'modthreads', 'modreplies', 'recyclebin', 'alipay', 'orders', 'forumlinks', 'onlinelist', 'medals',
+		'modthreads', 'modreplies', 'recyclebin', 'forumlinks', 'onlinelist', 'medals',
 		'censor', 'discuzcodes', 'smilies', 'attachtypes', 'creditslog', 'adv', 'advadd', 'advedit', 'export', 'import',
 		'runquery', 'optimize', 'attachments', 'counter', 'threads', 'prune', 'pmprune', 'updatecache', 'jswizard',
-		'fileperms', 'crons', 'avatarshow_config', 'avatarshow_register', 'qihoo_config', 'qihoo_topics',
+		'fileperms', 'crons', 'avatarshow_config', 'avatarshow_register',
 		'pluginsconfig', 'pluginsedit', 'pluginhooks', 'pluginvars', 'illegallog', 'ratelog', 'modslog', 'medalslog',
 		'banlog', 'cplog', 'creditslog', 'errorlog');
 
@@ -606,4 +606,4 @@ if($action == 'admingroups') {
 	}
 }
 
-?>
+?>

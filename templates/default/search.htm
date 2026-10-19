@@ -4,7 +4,7 @@
 <td align="right" width="10%">&nbsp;<a href="#bottom"><img src="{IMGDIR}/arrow_dw.gif" border="0" align="absmiddle"></a></td>        
 </tr></table><br>
 
-<form method="post" action="search.php" onSubmit="if(this.srchtype[0].value=='qihoo' && this.srchtype[0].checked) this.target='_blank'; else this.target=''; return true;">
+<form method="post" action="search.php">
 <input type="hidden" name="formhash" value="{FORMHASH}">
 
 <table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
@@ -28,7 +28,6 @@
 <select name="srchfid">
 <option value="all">{lang search_all_forums}</option>
 <option value="">&nbsp;</option>$forumselect</select><br><br>
-<!--{if $qihoo_status}--><input type="radio" name="srchtype" value="qihoo" $checktype[qihoo]> {lang search_qihoo} &nbsp; <!--{/if}-->
 <input type="radio" name="srchtype" value="title" $checktype[title] $disabled[title]> {lang search_title}<br>
 <input type="radio" name="srchtype" value="fulltext" $disabled[fulltext]> {lang search_fulltext} &nbsp; 
 <input type="radio" name="srchtype" value="blog" $disabled[blog]> {lang search_blog}

@@ -117,7 +117,7 @@ function multi($total, $page, $perpage, $link) {
 	$pages = @ceil($total / $perpage) + 1;
 	$pagelink = '';
 	if($pages > 1) {
-		$pagelink .= "<b>{$GLOBALS[lang][page]}: </b>\n";
+		$pagelink .= "<b>{$GLOBALS['lang']['page']}: </b>\n";
 		for($i = 1; $i < $pages; $i++) {
 			$pagelink .= ($i == $page ? "<b>[$i]</b>" : "<a href=archiver/$link-page-$i.html>$i</a>")." \n";
 		}
@@ -129,4 +129,4 @@ function forumperm($viewperm) {
 	return (empty($viewperm) || ($viewperm && strstr($viewperm, "\t7\t")));
 }
 
-?>
+?>

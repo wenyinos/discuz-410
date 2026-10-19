@@ -46,36 +46,6 @@
 		</marquee>
 	<!--{/if}-->
 	</td></tr>
-	<!--{if $qihoo_status && $searchboxstatus}-->
-		<tr class="altbg2"><td>
-		<table width="100%" border="0" cellpadding="1" cellspacing="0">
-		<tr><td width="50%">
-		<!--{if $qihoo_links['keywords']}-->
-			<span class="bold">{lang qihoo_hot_searches}</span>&nbsp;
-			<!--{loop $qihoo_links['keywords'] $link}-->
-				$link&nbsp;
-			<!--{/loop}-->
-		<!--{/if}-->
-		</td><td align="right">
-		<img src="{IMGDIR}/search.gif" border="0" align="bottom" width="16" height="16">&nbsp;&nbsp;<input type="text" name="searchbox" value="{lang qihoo_keyword}" size="30" class="altbg2" onmouseover="this.focus()" onfocus="this.select()">
-		<select name="stype"><option value="" selected>{lang qihoo_search_filltext}</option><option value="1">{lang qihoo_search_title}</option></select>
-		<input name="button" type="button" style="height: 1.8em" onclick="window.open('search.php?srchtype=qihoo&amp;srchtxt='+findobj('searchbox').value+'&amp;stype='+findobj('stype').value+'&amp;searchsubmit=yes');" value="{lang qihoo_search}">
-		</td></tr>
-		<tr><td>
-		<!--{if $qihoo_links['topics']}-->
-			<span class="bold">{lang qihoo_topics}</span>&nbsp;
-			<!--{loop $qihoo_links['topics'] $url}-->
-				{$url} &nbsp;
-			<!--{/loop}-->
-		<!--{/if}-->
-		</td><td align="right">
-		<!--{if $customtopics}-->
-			<span class="bold">{lang qihoo_custom_topics}</span>&nbsp;&nbsp;$customtopics [<a href="###" onclick="window.open('misc.php?action=customtopics', '', 'width=320,height=450,resizable=yes,scrollbars=yes');">{lang edit}</a>]
-		<!--{/if}-->
-		</td></tr>
-		</table>
-		</td></tr>
-	<!--{/if}-->
 	</table><br></div>
 <!--{/if}-->
 
@@ -219,3 +189,4 @@
 <img src="{IMGDIR}/red_forum.gif" align="absmiddle">&nbsp; {lang forum_newposts}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 <img src="{IMGDIR}/forum.gif" align="absmiddle">&nbsp; {lang forum_nonewpost}</td></tr></table>
 {template footer}
+

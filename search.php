@@ -21,7 +21,7 @@ $cachelife_text = 3600;		// Life span for cache of text searching
 if(!submitcheck('searchsubmit', 1) && empty($page)) {
 
 	$forumselect = forumselect();
-	$checktype = array(($qihoo_status == 2 || ($qihoo_status == 1 && !$allowsearch) ? 'qihoo' : 'title') => 'checked');
+	$checktype = array('title' => 'checked');
 
 	$disabled = array();
 	$disabled['title'] = $disabled['blog'] = !$allowsearch ? 'disabled' : '';
@@ -30,57 +30,6 @@ if(!submitcheck('searchsubmit', 1) && empty($page)) {
 	include template('search');
 
 } else {
-
-	if($srchtype == 'qihoo') {
-
-		if(!$srchtxt && !$srchuname) {
-			showmessage('search_invalid');
-		}
-
-		$keywordlist = '';
-		foreach(explode("\n", trim($qihoo_keyword)) as $key => $keyword) {
-			$keywordlist .= $comma.trim($keyword);
-			$comma = '|';
-			if(strlen($keywordlist) >= 100) {
-				break;
-			}
-		}
-
-		if($orderby == 'lastpost') {
-			$orderby = 'rdate';
-		} elseif($orderby == 'dateline') {
-			$orderby = 'pdate';
-		} else {
-			$orderby = '';
-		}
-
-		$stype = intval($stype) ? 'title' : '';
-
-			$url = 'http://search.qihoo.com/usearch.html?site='.rawurlencode(site()).
-				'&kw='.rawurlencode($srchtxt).'&ocs='.$charset.($orderby ? '&sort='.$orderby : '').
-				($srchfid && isset($_DCACHE['forums'][$srchfid]['name']) ? '&chanl='.rawurlencode($_DCACHE['forums'][$srchfid]['name']) : '').
-				'&bbskw='.rawurlencode($keywordlist).
-			'&summary='.$qihoo_summary.'&stype='.$stype.'&count='.$tpp.'&SITEREFER='.rawurlencode($boardurl).
-			'&ALTBG1='.rawurlencode(ALTBG1).'&ALTBG2='.rawurlencode(ALTBG2).
-			'&LINK='.rawurlencode(LINK).'&BORDERCOLOR='.rawurlencode(BORDERCOLOR).
-			'&BGCODE='.rawurlencode(BGCODE).'&BOLD='.rawurlencode(BOLD).
-			'&HEADERTEXT='.rawurlencode(HEADERTEXT).'&TABLETEXT='.rawurlencode(TABLETEXT).
-			'&TEXT='.rawurlencode(TEXT).'&BORDERWIDTH='.rawurlencode(BORDERWIDTH).
-			'&TABLEWIDTH='.rawurlencode(TABLEWIDTH).'&TABLESPACE='.rawurlencode(TABLESPACE).
-			'&FONT='.rawurlencode(FONT).'& FONTSIZE='.rawurlencode(FONTSIZE).
-			'&NOBOLD='.rawurlencode(NOBOLD).'&IMGDIR='.rawurlencode(IMGDIR).
-			'&CATTEXT='.rawurlencode(CATTEXT).'&SMFONTSIZE='.rawurlencode(SMFONTSIZE).
-			'&SMFONT='.rawurlencode(SMFONT).'&MAINTABLESPACE='.rawurlencode(MAINTABLESPACE).
-			'&MAINTABLEWIDTH='.rawurlencode(MAINTABLEWIDTH).
-			'&INNERBORDERWIDTH='.rawurlencode(INNERBORDERWIDTH).
-			'&INNERBORDERCOLOR='.rawurlencode(INNERBORDERCOLOR).
-			'&BGCODE MAINTABLEBGCODE='.rawurlencode(BGCODEMAINTABLEBGCODE).
-			'&CATBGCODE='.rawurlencode(CATBGCODE).
-			'&HEADERBGCODE='.rawurlencode(HEADERBGCODE);
-		header("Location: $url");
-		dexit();
-
-	}
 
 	if(!$allowsearch) {
 		showmessage('group_nopermission', NULL, 'NOPERM');
@@ -282,3 +231,4 @@ if(!submitcheck('searchsubmit', 1) && empty($page)) {
 }
 
 ?>
+

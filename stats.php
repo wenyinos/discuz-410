@@ -308,8 +308,8 @@ if(empty($type)) {
 	}
 
 	for($i = 0; $i < 20; $i++) {
-		$threadsrank .= "<tr $bgclass><td><a href=\"viewthread.php?tid={$threadview[$i][tid]}\">{$threadview[$i][subject]}</a></td><td align=\"right\">{$threadview[$i][views]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><a href=\"viewthread.php?tid={$threadreply[$i][tid]}\">{$threadreply[$i][subject]}</a><td align=\"right\">{$threadreply[$i][replies]}</td></tr>\n";
+		$threadsrank .= "<tr $bgclass><td><a href=\"viewthread.php?tid={$threadview[$i]['tid']}\">{$threadview[$i]['subject']}</a></td><td align=\"right\">{$threadview[$i]['views']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><a href=\"viewthread.php?tid={$threadreply[$i]['tid']}\">{$threadreply[$i]['subject']}</a><td align=\"right\">{$threadreply[$i]['replies']}</td></tr>\n";
 		$bgclass = empty($bgclass) ? 'class="altbg2"' : '';
 	}
 
@@ -386,10 +386,10 @@ if(empty($type)) {
 	}
 
 	for($i = 0; $i < 20; $i++) {
-		$forumsrank .= "<tr $bgclass><td><li> <a href=\"forumdisplay.php?fid={$threads[$i][fid]}\" target=\"_blank\">{$threads[$i][name]}</a></td><td align=\"right\">{$threads[$i][threads]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><li type=\"square\"> <a href=\"forumdisplay.php?fid={$posts[$i][fid]}\" target=\"_blank\">{$posts[$i][name]}</a></td><td align=\"right\">{$posts[$i][posts]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><li> <a href=\"forumdisplay.php?fid={$thismonth[$i][fid]}\" target=\"_blank\">{$thismonth[$i][name]}</a></td><td align=\"right\">{$thismonth[$i][posts]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><li type=\"square\"> <a href=\"forumdisplay.php?fid={$today[$i][fid]}\" target=\"_blank\">{$today[$i][name]}</a></td><td align=\"right\">{$today[$i][posts]}</td></tr>\n";
+		$forumsrank .= "<tr $bgclass><td><li> <a href=\"forumdisplay.php?fid={$threads[$i]['fid']}\" target=\"_blank\">{$threads[$i]['name']}</a></td><td align=\"right\">{$threads[$i]['threads']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><li type=\"square\"> <a href=\"forumdisplay.php?fid={$posts[$i]['fid']}\" target=\"_blank\">{$posts[$i]['name']}</a></td><td align=\"right\">{$posts[$i]['posts']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><li> <a href=\"forumdisplay.php?fid={$thismonth[$i]['fid']}\" target=\"_blank\">{$thismonth[$i]['name']}</a></td><td align=\"right\">{$thismonth[$i]['posts']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><li type=\"square\"> <a href=\"forumdisplay.php?fid={$today[$i]['fid']}\" target=\"_blank\">{$today[$i]['name']}</a></td><td align=\"right\">{$today[$i]['posts']}</td></tr>\n";
 		$bgclass = empty($bgclass) ? 'class="altbg2"' : '';
 	}
 
@@ -467,10 +467,10 @@ if(empty($type)) {
 	}
 
 	for($i = 0; $i < 20; $i++) {
-		$postsrank .= "<tr $bgclass><td><li> <a href=\"viewpro.php?username=".rawurlencode($posts[$i]['username'])."\" target=\"_blank\">{$posts[$i][username]}</a></td><td align=\"right\">{$posts[$i][posts]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($digestposts[$i]['username'])."\" target=\"_blank\">{$digestposts[$i][username]}</a></td><td align=\"right\">{$digestposts[$i][digestposts]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><li> <a href=\"viewpro.php?username=".rawurlencode($thismonth[$i]['username'])."\" target=\"_blank\">{$thismonth[$i][username]}</a></td><td align=\"right\">{$thismonth[$i][posts]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($today[$i]['username'])."\" target=\"_blank\">{$today[$i][username]}</a></td><td align=\"right\">{$today[$i][posts]}</td></tr>\n";
+		$postsrank .= "<tr $bgclass><td><li> <a href=\"viewpro.php?username=".rawurlencode($posts[$i]['username'])."\" target=\"_blank\">{$posts[$i]['username']}</a></td><td align=\"right\">{$posts[$i]['posts']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($digestposts[$i]['username'])."\" target=\"_blank\">{$digestposts[$i]['username']}</a></td><td align=\"right\">{$digestposts[$i]['digestposts']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><li> <a href=\"viewpro.php?username=".rawurlencode($thismonth[$i]['username'])."\" target=\"_blank\">{$thismonth[$i]['username']}</a></td><td align=\"right\">{$thismonth[$i]['posts']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($today[$i]['username'])."\" target=\"_blank\">{$today[$i]['username']}</a></td><td align=\"right\">{$today[$i]['posts']}</td></tr>\n";
 		$bgclass = empty($bgclass) ? 'class="altbg2"' : '';
 	}
 
@@ -525,9 +525,9 @@ if(empty($type)) {
 	for($i = 0; $i < 20; $i++) {
 		$creditsrank .= "<tr $bgclass>";
 		foreach($extcredits as $id => $credit) {
-			$creditsrank .= "<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($extendedcredits[$id][$i]['username'])."\" target=\"_blank\">{$extendedcredits[$id][$i][username]}</a></td><td align=\"right\">{$extendedcredits[$id][$i][credits]} {$credit['unit']}</td><td bgcolor=\"".ALTBG1."\"></td>\n";
+			$creditsrank .= "<td><li type=\"square\"> <a href=\"viewpro.php?username=".rawurlencode($extendedcredits[$id][$i]['username'])."\" target=\"_blank\">{$extendedcredits[$id][$i]['username']}</a></td><td align=\"right\">{$extendedcredits[$id][$i]['credits']} {$credit['unit']}</td><td bgcolor=\"".ALTBG1."\"></td>\n";
 		}
-		$creditsrank .= "<td><li> <a href=\"viewpro.php?username=".rawurlencode($credits[$i]['username'])."\" target=\"_blank\">{$credits[$i][username]}</a></td><td align=\"right\">{$credits[$i][credits]}</td>\n";
+		$creditsrank .= "<td><li> <a href=\"viewpro.php?username=".rawurlencode($credits[$i]['username'])."\" target=\"_blank\">{$credits[$i]['username']}</a></td><td align=\"right\">{$credits[$i]['credits']}</td>\n";
 		$creditsrank .= "</tr>\n";
 		$bgclass = empty($bgclass) ? 'class="altbg2"' : '';
 	}
@@ -588,8 +588,8 @@ if(empty($type)) {
 	}
 
 	for($i = 0; $i < 20; $i++) {
-		$onlines .= "<tr $bgclass><td><li> <a href=\"viewpro.php?uid={$total[$i][uid]}\" target=\"_blank\">{$total[$i][username]}</a></td><td align=\"right\">{$total[$i][time]}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
-			"<td><li type=\"square\"> <a href=\"viewpro.php?uid={$thismonth[$i][uid]}\" target=\"_blank\">{$thismonth[$i][username]}</a></td><td align=\"right\">{$thismonth[$i][time]}</td></tr>\n";
+		$onlines .= "<tr $bgclass><td><li> <a href=\"viewpro.php?uid={$total[$i]['uid']}\" target=\"_blank\">{$total[$i]['username']}</a></td><td align=\"right\">{$total[$i]['time']}</td><td bgcolor=\"".ALTBG1."\"></td>\n".
+			"<td><li type=\"square\"> <a href=\"viewpro.php?uid={$thismonth[$i]['uid']}\" target=\"_blank\">{$thismonth[$i]['username']}</a></td><td align=\"right\">{$thismonth[$i]['time']}</td></tr>\n";
 		$bgclass = empty($bgclass) ? 'class="altbg2"' : '';
 	}
 

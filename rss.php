@@ -57,6 +57,7 @@ $PHP_SELF = $_SERVER['PHP_SELF'] ?? $_SERVER['SCRIPT_NAME'] ?? '';
 $boardurl = 'http://'.($_SERVER['HTTP_HOST'] ?? '').substr($PHP_SELF, 0, strrpos($PHP_SELF, '/') + 1);
 
 $bbname = dhtmlspecialchars(strip_tags($_DCACHE['settings']['bbname']));
+$forumname = $req_fid = '';
 
 if(empty($_GET['fid'])) {
 	foreach($_DCACHE['forums'] as $fid => $forum) {

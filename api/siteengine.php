@@ -224,7 +224,7 @@ function onlineip() {
 }
 
 function passport_encrypt($txt, $key) {
-	srand((double)microtime() * 1000000);
+	srand((float)microtime() * 1000000);
 	$encrypt_key = md5(rand(0, 32000));
 	$ctr = 0;
 	$tmp = '';

@@ -299,9 +299,8 @@ if(!@include DISCUZ_ROOT.'./forumdata/cache/usergroup_'.$groupid.'.php') {
 	}
 }
 
-/* Force-disable deprecated integrations: passport, ecommerce(alipay/orders), avatarshow */
+/* Force-disable deprecated integrations: passport, avatarshow */
 $passport_status = '';
-$ec_ratio = 0;
 $avatarshowstatus = 0;
 $avatarshowlink = 0;
 
@@ -403,3 +402,4 @@ if((!empty($fromuid) || !empty($fromuser)) && ($creditspolicy['promotion_visit']
 }
 
 ?>
+

@@ -1,4 +1,4 @@
-# Discuz! 4.1.0（社区维护分支）
+# Discuz! 4.1.1（社区维护分支）
 
 [English](README.md)
 
@@ -7,6 +7,7 @@
 
 ## 当前维护分支状态
 
+- **4.1.1（2026-10-19）**：完成 PHP 8.4+ 兼容性收尾；移除三个已停服的集成 —— 奇虎搜索、支付宝支付与交易帖功能（详见 `CHANGELOG.md`）。发布包不含运行数据（`config.inc.php`、`forumdata/cache/`、日志、`attachments/`）。
 - 已完成 **PHP 8.4+ 兼容改造**（详见 `php84-upgrade-report.md`）
 - 已修复大量 PHP8 常见告警场景（未定义变量/数组键、空偏移等）
 - 已加入运行时兼容告警拦截（`include/common.inc.php`，仅拦截指定 legacy 告警前缀）

@@ -40,8 +40,8 @@ echo "<ul>\n";
 foreach($categories as $category) {
 	if(isset($forums[$category['fid']])) {
 		echo "<li><b>$category[name]</b></li><ul>\n";
-		foreach($forums[$category[fid]] as $forum) {
-			echo "<li><a href=\"archiver/{$qm}fid-{$forum[fid]}.html\">$forum[name]</a></li>\n";
+		foreach($forums[$category['fid']] as $forum) {
+			echo "<li><a href=\"archiver/{$qm}fid-{$forum['fid']}.html\">$forum[name]</a></li>\n";
 			if(isset($subforums[$forum['fid']])) {
 				echo "<ul>\n";
 				foreach($subforums[$forum['fid']] as $subforum) {
@@ -56,4 +56,4 @@ foreach($categories as $category) {
 
 echo "</td></tr></table>\n";
 
-?>
+?>

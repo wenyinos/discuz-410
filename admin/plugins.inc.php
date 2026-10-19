@@ -393,9 +393,9 @@ if($action == 'plugins') {
 			$hook['evalcode'] = 'eval($hooks[\''.$plugin['identifier'].'_'.$hook['title'].'\']);';
 			$hooks .= "<tr align=\"center\"><td class=\"altbg1\"><input type=\"checkbox\" name=\"delete[{$hook['pluginhookid']}]\"></td>\n".
 				"<td class=\"altbg2\"><input type=\"text\" name=\"titlenew[{$hook['pluginhookid']}]\" size=\"15\" value=\"{$hook['title']}\"></td>\n".
-				"<td class=\"altbg1\"><input type=\"text\" name=\"hookevalcode{{$hook['pluginhookid']}}\" size=\"30\" value=\"".($hook['available'] ? $hook[evalcode] : 'N/A')."\" readonly></td>\n".
+				"<td class=\"altbg1\"><input type=\"text\" name=\"hookevalcode{{$hook['pluginhookid']}}\" size=\"30\" value=\"".($hook['available'] ? $hook['evalcode'] : 'N/A')."\" readonly></td>\n".
 				"<td class=\"altbg2\">{$hook['description']}</td>\n".
-				"<td class=\"altbg1\"><input type=\"checkbox\" name=\"availablenew[{$hook['pluginhookid']}]\" value=\"1\" ".($hook['available'] ? 'checked' : '')." onclick=\"if(this.checked){findobj('hookevalcode{{$hook['pluginhookid']}}').value='".addslashes($hook[evalcode])."';}else{findobj('hookevalcode{{$hook['pluginhookid']}}').value='N/A';}\"></td>\n".
+				"<td class=\"altbg1\"><input type=\"checkbox\" name=\"availablenew[{$hook['pluginhookid']}]\" value=\"1\" ".($hook['available'] ? 'checked' : '')." onclick=\"if(this.checked){findobj('hookevalcode{{$hook['pluginhookid']}}').value='".addslashes($hook['evalcode'])."';}else{findobj('hookevalcode{{$hook['pluginhookid']}}').value='N/A';}\"></td>\n".
 				"<td class=\"altbg2\"><a href=\"admincp.php?action=pluginhooks&pluginid={$plugin['pluginid']}&pluginhookid={$hook['pluginhookid']}\">[{$lang['edit']}]</a></td></tr>";
 		}
 
@@ -771,3 +771,4 @@ if($action == 'plugins') {
 }
 
 ?>
+

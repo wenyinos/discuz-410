@@ -216,7 +216,7 @@ if($action == 'export') {
 			if(trim($sqldump)) {
 
 				$sqldump = "$idstring".
-					"# <?exit();?>\n".
+					"# <?php exit();?>\n".
 					"# Discuz! Multi-Volume Data Dump Vol.$volume\n".
 					"# Version: Discuz! $version\n".
 					"# Time: $time\n".
@@ -271,7 +271,7 @@ if($action == 'export') {
 
 				if(@is_writeable($dumpfile)) {
 					$fp = fopen($dumpfile, 'rb+');
-					fwrite($fp, $idstring."# <?exit();?>\n ".$setnames."\n #");
+					fwrite($fp, $idstring."# <?php exit();?>\n ".$setnames."\n #");
 					fclose($fp);
 				}
 				cpmsg('database_export_succeed');
@@ -559,4 +559,4 @@ if($action == 'export') {
 	echo '</table></form>';
 }
 
-?>
+?>

@@ -67,10 +67,10 @@ $lang = array
 	'post_newbie_span' => '注册{$newbiespan}小时后才可发帖',
 	'post_hide_nopermission' => '无权使用[hide]代码',
 	'post_newthread_nopermission' => '无权在本论坛发新话题',
-	'post_newthread_succeed' => '主题发表成功<br /><a href=\"index.php?action=forum&amp;fid=$fid\">返回论坛</a>',
+	'post_newthread_succeed' => '主题发表成功<br /><a href="index.php?action=forum&amp;fid=$fid">返回论坛</a>',
 	'post_newthread_forward' => '查看主题',
 	'post_newreply_nopermission' => '无权在本论坛发表回复',
-	'post_newreply_succeed' => '主题回复成功<br /><a href=\"index.php?action=forum&amp;fid=$fid\">返回论坛</a>',
+	'post_newreply_succeed' => '主题回复成功<br /><a href="index.php?action=forum&amp;fid=$fid">返回论坛</a>',
 	'post_newreply_forward' => '查看回复',
 
 	'pm' => '短消息',

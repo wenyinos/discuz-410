@@ -116,8 +116,8 @@ if($action == 'forumadd')  {
 		}
 
 		$type = $forum['type'] == 'forum' ? 'sub' : 'forum';
-		$db->query("INSERT INTO {$tablepre}forums (fup, type, name, status, allowsmilies, allowbbcode, allowimgcode, allowblog, allowtrade)
-			VALUES ('$fup', '$type', '$newforum', '1', '1', '1', '1', '1', '3')");
+		$db->query("INSERT INTO {$tablepre}forums (fup, type, name, status, allowsmilies, allowbbcode, allowimgcode, allowblog)
+			VALUES ('$fup', '$type', '$newforum', '1', '1', '1', '1', '1')");
 		$fid = $db->insert_id();
 
 		$db->query("INSERT INTO {$tablepre}forumfields (fid)
@@ -485,7 +485,7 @@ if($action == 'forumadd')  {
 </td></tr></table><br><br>
 <?php
 
-			$fupselect = "<select name=\"fupnew\">\n<option value=\"0\" ".(!$forum[fup] ? "selected=\"selected\"" : NULL)."> - {$lang['none']} - </option>\n";
+			$fupselect = "<select name=\"fupnew\">\n<option value=\"0\" ".(!$forum['fup'] ? "selected=\"selected\"" : NULL)."> - {$lang['none']} - </option>\n";
 			$query = $db->query("SELECT fid, name FROM {$tablepre}forums WHERE fid<>'$fid' AND type<>'sub' ORDER BY displayorder");
 			while($fup = $db->fetch_array($query)) {
 				$selected = $fup['fid'] == $forum['fup'] ? "selected=\"selected\"" : NULL;
@@ -515,12 +515,6 @@ if($action == 'forumadd')  {
 				$acoption = 0;
 			}
 			$checkac = array(-1 => '', 0 => '', 1 => ''); $checkac[$acoption] = 'checked';
-
-			$checktrade = array();
-			$forum['allowtrade'] = sprintf('%02b', $forum['allowtrade']);
-			for($i = 1; $i <= 2; $i++) {
-				$checktrade[$i] = $forum['allowtrade'][2 - $i] ? 'checked' : '';
-			}
 
 			$checkmod = array(0 => '', 1 => '', 2 => ''); $checkmod[$forum['modnewposts']] = 'checked';
 			$checkrules = array(0 => '', 1 => '', 2 => ''); $checkrules[$forum['alloweditrules']] = 'checked';
@@ -596,7 +590,6 @@ if($action == 'forumadd')  {
 			showsetting('forums_edit_jammer', 'jammernew', $forum['jammer'], 'radio');
 			showsetting('forums_edit_anonymous', 'allowanonymousnew', $forum['allowanonymous'], 'radio');
 			showsetting('forums_edit_disablewatermark', 'disablewatermarknew', $forum['disablewatermark'], 'radio');
-			showsetting('forums_edit_trade', '', '', '<input type="checkbox" name="allowtradenew[1]" value="1" '.$checktrade[1].'> '.$lang['forums_edit_trade_thread'].'<br><input type="checkbox" name="allowtradenew[2]" value="1" '.$checktrade[2].'> '.$lang['forums_edit_trade_payto']);
 			showsetting('forums_edit_autoclose', '', '', '<input type="radio" name="autoclosenew" value="0" '.$checkac[0].' onclick="this.form.autoclosetimenew.disabled=true;"> '.$lang['forums_edit_autoclose_none'].'<br><input type="radio" name="autoclosenew" value="1" '.$checkac[1].' onclick="this.form.autoclosetimenew.disabled=false;"> '.$lang['forums_edit_autoclose_dateline'].'<br><input type="radio" name="autoclosenew" value="-1" '.$checkac[-1].' onclick="this.form.autoclosetimenew.disabled=false;"> '.$lang['forums_edit_autoclose_lastpost']);
 			showsetting('forums_edit_autoclose_time', '', '', '<input type="text" size="30" value="'.$forum['autoclose'].'" name="autoclosetimenew" '.($acoption ? '' : 'disabled').'>');
 			showsetting('forums_edit_attach_ext', 'attachextensionsnew', $forum['attachextensions'], 'text');
@@ -709,10 +702,8 @@ if($action == 'forumadd')  {
 				$db->query("UPDATE {$tablepre}threads SET blog='0' WHERE fid='$fid'");
 			}
 
-			$allowtradenew = bindec(intval($allowtradenew[2]).intval($allowtradenew[1]));
-
 			$db->query("UPDATE {$tablepre}forums SET status='$statusnew', name='$namenew', styleid='$styleidnew', allowblog='$allowblognew',
-				allowtrade='$allowtradenew', allowhtml='$allowhtmlnew', allowbbcode='$allowbbcodenew', allowimgcode='$allowimgcodenew',
+				allowhtml='$allowhtmlnew', allowbbcode='$allowbbcodenew', allowimgcode='$allowimgcodenew',
 				allowsmilies='$allowsmiliesnew', alloweditrules='$alloweditrulesnew', modnewposts='$modnewpostsnew',
 				recyclebin='$recyclebinnew', jammer='$jammernew', allowanonymous='$allowanonymousnew',
 				disablewatermark='$disablewatermarknew', autoclose='".intval($autoclosenew * $autoclosetimenew)."' $fupadd
@@ -1020,7 +1011,7 @@ if($action == 'forumadd')  {
 
 	$optgroups = array
 		(
-		'normal'	=> array('modnewposts', 'recyclebin', 'allowblog', 'allowhtml', 'allowbbcode', 'allowimgcode', 'allowsmilies', 'jammer', 'allowanonymous' ,'disablewatermark' ,'allowtrade'),
+		'normal'	=> array('modnewposts', 'recyclebin', 'allowblog', 'allowhtml', 'allowbbcode', 'allowimgcode', 'allowsmilies', 'jammer', 'allowanonymous' ,'disablewatermark'),
 		'credits'	=> array('postcredits', 'replycredits'),
 		'access'	=> array('password', 'viewperm', 'postperm', 'replyperm', 'getattachperm' ,'postattachperm'),
 		'misc'		=> array('threadtypes', 'attachextensions')
@@ -1113,3 +1104,4 @@ if($action == 'forumadd')  {
 }
 
 ?>
+

@@ -503,7 +503,7 @@ if($action == 'modthreads') {
 
 				$threads[$post['tid']]['posts']++;
 				$threads[$post['tid']]['lastpostadd'] = $post['dateline'] > $post['lastpost'] && $post['dateline'] > $lastpost[$post['tid']] ?
-					", lastpost='{$post['dateline']}', lastposter='".addslashes($post[author])."'" : '';
+					", lastpost='{$post['dateline']}', lastposter='".addslashes($post['author'])."'" : '';
 				$threads[$post['tid']]['attachadd'] = $threads[$post['tid']]['attachadd'] || $post['attachment'] ? ', attachment=\'1\'' : '';
 			}
 
@@ -534,4 +534,4 @@ if($action == 'modthreads') {
 
 }
 
-?>
+?>

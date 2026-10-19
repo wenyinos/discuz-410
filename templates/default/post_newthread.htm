@@ -79,11 +79,9 @@ function validate(theform) {
 <td class="altbg2">$typeselect <input type="text" name="subject" size="45" value="$subject" tabindex="3"></td>
 </tr>
 
-<!--{if empty($trade)}-->
 	<tr>
 	<td class="altbg1">{lang icon}:</td><td class="altbg2"><input type="radio" name="iconid" value="0" checked> {lang none} $icons</td>
 	</tr>
-<!--{/if}-->
 
 {template post_bbinsert}
 
@@ -96,40 +94,6 @@ function validate(theform) {
 	</span></td><td class="altbg2">
 	<textarea rows="4" name="polloptions" style="width: 80%; word-break: break-all" tabindex="5">$polloptions</textarea></td>
 	</tr>
-<!--{elseif isset($trade) && $allowposttrade}-->
-	<input type="hidden" name="trade" value="yes">
-	<tr>
-	<td class="altbg1">{lang post_trade_seller}:</td>
-	<td class="altbg2"><input type="text" name="seller" size="30" value="$seller"></td>
-	</tr>
-	<tr>
-	<td class="altbg1">{lang post_trade_name}:</td>
-	<td class="altbg2"><input type="text" name="item_name" size="30" value="$item_name"></td>
-	</tr>
-	<tr>
-	<td class="altbg1">{lang post_trade_price}:</td>
-	<td class="altbg2"><input type="text" name="item_price" size="30" value="$item_price"></td>
-	</tr>
-	<tr>
-	<td class="altbg1">{lang post_trade_quality}:</td>
-	<td class="altbg2"><input type="text" name="item_quality" size="30" value="$item_quality"> {lang optional}</td>
-	</tr>
-	<tr>
-	<td class="altbg1">{lang post_trade_locus}:</td>
-	<td class="altbg2"><input type="text" name="item_locus" size="30" value="$item_locus"> {lang optional}</td>
-	</tr>
-	<tr>
-	<td class="altbg1" valign="top">{lang post_trade_transport}:</td>
-	<td class="altbg2">
-	<input type="radio" name="transport" value="virtual" $checktp[virtual] onclick="this.form.postage_mail.disabled=true; this.form.postage_express.disabled=true"> {lang post_trade_transport_virtual}<br>
-	<input type="radio" name="transport" value="seller" $checktp[seller] onclick="this.form.postage_mail.disabled=true; this.form.postage_express.disabled=true"> {lang post_trade_transport_seller}<br>
-	<input type="radio" name="transport" value="buyer" $checktp[buyer] onclick="this.form.postage_mail.disabled=false; this.form.postage_express.disabled=false"> {lang post_trade_transport_buyer}<br>
-	{lang post_trade_transport_comment}<br>
-	{lang post_trade_transport_mail} <input type="text" name="postage_mail" size="3" value="$postage_mail" $postagedisabled> {lang post_trade_transport_mail_unit}<br>
-	{lang post_trade_transport_express} <input type="text" name="postage_express" size="3" value="$postage_express" $postagedisabled> {lang post_trade_transport_express_unit}<br>
-	</td>
-	</tr>
-<!--{/if}-->
 
 <tr>
 <td class="altbg1" valign="top">

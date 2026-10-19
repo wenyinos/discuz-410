@@ -40,14 +40,14 @@ if(!$thread || !(!$thread['viewperm'] || ($thread['viewperm'] && forumperm($thre
 <?php
 } else {
 
-	$navsub = $thread['type'] == 'sub' ? " <a href=\"archiver/{$qm}fid-$thread[fup].html\">{$_DCACHE[forums][$thread[fup]][name]}</a> <b>&raquo;</b> ": ' ';
+	$navsub = $thread['type'] == 'sub' ? " <a href=\"archiver/{$qm}fid-$thread[fup].html\">{$_DCACHE['forums'][$thread['fup']]['name']}</a> <b>&raquo;</b> ": ' ';
 	$fullversion = array('title' => $thread['subject'], 'link' => "viewthread.php?tid=$tid");
 
 	$ppp = $_DCACHE['settings']['postperpage'] * 2;
 	$start = ($page - 1) * $ppp;
 
 ?>
-<tr><td bgcolor="<?=ALTBG1?>" class="bold"><a href="archiver/"><?=$_DCACHE['settings']['bbname']?></a> <b>&raquo;</b><?=$navsub?><a href="archiver/<?=$qm?>fid-<?=$thread['fid']?>.html"><?=$thread['name']?></a> <b>&raquo;</b> <?=$thread[subject]?></td></tr></table>
+<tr><td bgcolor="<?=ALTBG1?>" class="bold"><a href="archiver/"><?=$_DCACHE['settings']['bbname']?></a> <b>&raquo;</b><?=$navsub?><a href="archiver/<?=$qm?>fid-<?=$thread['fid']?>.html"><?=$thread['name']?></a> <b>&raquo;</b> <?=$thread['subject']?></td></tr></table>
 <table cellspacing="0" cellpadding="0" width="<?=TABLEWIDTH?>" align="center"><tr><td align="center"><br><?=multi($thread['replies'] + 1, $page, $ppp, "{$qm}tid-$tid")?><br><br></td></tr></table>
 <?php
 	$query = $db->query("SELECT author, dateline, subject, message, anonymous
@@ -56,7 +56,7 @@ if(!$thread || !(!$thread['viewperm'] || ($thread['viewperm'] && forumperm($thre
 		ORDER BY dateline LIMIT $start, $ppp");
 
 	while($post = $db->fetch_array($query)) {
-		$post['dateline'] = gmdate($_DCACHE['settings']['dateformat'].' '.$_DCACHE['settings']['timeformat'], $post['dateline'] + $_DCACHE['timeoffset'] * 3600);
+		$post['dateline'] = gmdate($_DCACHE['settings']['dateformat'].' '.$_DCACHE['settings']['timeformat'], $post['dateline'] + $_DCACHE['settings']['timeoffset'] * 3600);
 		$post['message'] = ($post['subject'] ? '<b>'.$post['subject'].'</b><br><br>' : '').nl2br(preg_replace(array('/&amp;(#\d{3,5};)/', "/\[hide=?\d*\](.+?)\[\/hide\]/is"),
 			array('&\\1', '<b>**** Hidden Message *****</b>'),
 			str_replace(array('&', '"', '<', '>', "\t", '   ', '  '),
@@ -86,4 +86,4 @@ function jammer() {
 		'<br /><span style="display:none">'.$randomstr.'</span>';
 }
 
-?>
+?>

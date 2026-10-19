@@ -316,11 +316,7 @@ $usesigcheck = $discuz_uid && $sigstatus ? 'checked' : '';
 $allowpost = (!$forum['postperm'] && $allowpost) || ($forum['postperm'] && forumperm($forum['postperm'])) || !empty($forum['allowpost']);
 $allowpostpoll = $allowpost && $allowpostpoll;
 
-//get trade thread status (pos. -1)
-$allowposttrade = substr(sprintf('%02b', $forum['allowtrade']), -1, 1);
-
-$searchboxstatus = substr(sprintf('%03b', $qihoo_searchbox), -2, 1);
-
 include template('forumdisplay');
 
 ?>
+

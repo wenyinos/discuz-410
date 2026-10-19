@@ -187,10 +187,6 @@ if(!isset($action)) {
 			showmessage('profile_email_illegal');
 		}
 
-		if($alipaynew && !isemail($alipaynew)) {
-			showmessage('profile_alipay_illegal');
-		}
-
 		if($maxsigsize) {
 			if(strlen($signaturenew) > $maxsigsize) {
 				showmessage('profile_sig_toolang');
@@ -258,7 +254,6 @@ if(!isset($action)) {
 		$yahoonew = dhtmlspecialchars($yahoonew);
 		$msnnew = dhtmlspecialchars($msnnew);
 		$taobaonew = dhtmlspecialchars($taobaonew);
-		$alipaynew = dhtmlspecialchars($alipaynew);
 
 		$bdaynew = dhtmlspecialchars($bdaynew);
 
@@ -321,7 +316,7 @@ if(!isset($action)) {
 		}
 
 		$db->query("UPDATE {$tablepre}memberfields SET nickname='$nicknamenew', site='$sitenew', location='$locationnew', bio='$bionew', signature='$signaturenew', sightml='$sightmlnew',
-			icq='$icqnew', qq='$qqnew', yahoo='$yahoonew', msn='$msnnew', taobao='$taobaonew', alipay='$alipaynew' $avataradd $cstatusadd $fieldadd $authstradd2 WHERE uid='$discuz_uid'");
+			icq='$icqnew', qq='$qqnew', yahoo='$yahoonew', msn='$msnnew', taobao='$taobaonew' $avataradd $cstatusadd $fieldadd $authstradd2 WHERE uid='$discuz_uid'");
 
 		$styleid = $styleidnew;
 
@@ -418,92 +413,6 @@ if(!isset($action)) {
 			showmessage('credits_transaction_succeed', 'memcp.php?action=credits&operation=creditslog');
 
 		}
-
-	} elseif($operation == 'addfunds' && $ec_ratio) {
-
-		if(!submitcheck('creditssubmit')) {
-
-			include template('memcp_credits');
-
-		} else {
-
-			$amount = intval($amount);
-			if(!$amount || ($ec_mincredits && $amount < $ec_mincredits) || ($ec_maxcredits && $amount > $ec_maxcredits)) {
-				showmessage('credits_addfunds_amount_invalid');
-			}
-
-			$query = $db->query("SELECT COUNT(*) FROM {$tablepre}orders WHERE uid='$discuz_uid' AND submitdate>='$timestamp'-180 LIMIT 1");
-			if($db->result($query, 0)) {
-				showmessage('credits_addfunds_ctrl');
-			}
-
-			if($ec_maxcreditspermonth) {
-				$query = $db->query("SELECT SUM(amount) FROM {$tablepre}orders WHERE uid='$discuz_uid' AND submitdate>='$timestamp'-2592000 AND status IN (2, 3)");
-				if(($db->result($query, 0)) + $amount > $ec_maxcreditspermonth) {
-					showmessage('credits_addfunds_toomuch');
-				}
-			}
-
-			$price = ceil($amount / $ec_ratio * 100) / 100;
-			$orderid = gmdate('YmdHis', $timestamp + $_DCACHE['settings']['timeoffset'] * 3600).random(18);
-
-			$query = $db->query("SELECT orderid FROM {$tablepre}orders WHERE orderid='$orderid'");
-			if($db->num_rows($query)) {
-				showmessage('credits_addfunds_order_invalid');
-			}
-
-			$db->query("INSERT INTO {$tablepre}orders (orderid, status, uid, amount, price, submitdate)
-				VALUES ('$orderid', '1', '$discuz_uid', '$amount', '$price', '$timestamp')");
-
-			showmessage('credits_addfunds_succeed', payment($price, $orderid));
-
-		}
-
-	} elseif($operation == 'paymentlog') {
-
-		$page = empty($page) || !ispage($page) ? 1 : $page;
-		$start_limit = ($page - 1) * $tpp;
-
-		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}paymentlog WHERE uid='$discuz_uid'");
-		$multipage = multi($db->result($query, 0), $tpp, $page, "memcp.php?action=credits&operation=paymentlog");
-
-		$loglist = array();
-		$query = $db->query("SELECT p.*, f.fid, f.name, t.subject, t.author, t.dateline AS tdateline FROM {$tablepre}paymentlog p
-			LEFT JOIN {$tablepre}threads t ON t.tid=p.tid
-			LEFT JOIN {$tablepre}forums f ON f.fid=t.fid
-			WHERE p.uid='$discuz_uid' ORDER BY p.dateline DESC
-			LIMIT $start_limit, $tpp");
-		while($log = $db->fetch_array($query)) {
-			$log['authorenc'] = rawurlencode($log['authorenc']);
-			$log['dateline'] = gmdate("$dateformat $timeformat", $log['dateline'] + $timeoffset * 3600);
-			$log['tdateline'] = gmdate("$dateformat $timeformat", $log['tdateline'] + $timeoffset * 3600);
-			$loglist[] = $log;
-		}
-
-		include template('memcp_credits');
-
-	} elseif($operation == 'incomelog') {
-
-		$page = empty($page) || !ispage($page) ? 1 : $page;
-		$start_limit = ($page - 1) * $tpp;
-
-		$query = $db->query("SELECT COUNT(*) FROM {$tablepre}paymentlog WHERE authorid='$discuz_uid'");
-		$multipage = multi($db->result($query, 0), $tpp, $page, "memcp.php?action=credits&operation=incomelog");
-
-		$loglist = array();
-		$query = $db->query("SELECT p.*, m.username, f.fid, f.name, t.subject, t.dateline AS tdateline FROM {$tablepre}paymentlog p
-			LEFT JOIN {$tablepre}threads t ON t.tid=p.tid
-			LEFT JOIN {$tablepre}forums f ON f.fid=t.fid
-			LEFT JOIN {$tablepre}members m ON m.uid=p.uid
-			WHERE p.authorid='$discuz_uid' ORDER BY p.dateline DESC
-			LIMIT $start_limit, $tpp");
-		while($log = $db->fetch_array($query)) {
-			$log['dateline'] = gmdate("$dateformat $timeformat", $log['dateline'] + $timeoffset * 3600);
-			$log['tdateline'] = gmdate("$dateformat $timeformat", $log['tdateline'] + $timeoffset * 3600);
-			$loglist[] = $log;
-		}
-
-		include template('memcp_credits');
 
 	} else {
 

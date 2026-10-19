@@ -103,9 +103,6 @@ $maxattachsize_kb = $maxattachsize / 1000;
 //get secure code checking status (pos. -3)
 $seccodecheck = substr(sprintf('%05b', $seccodestatus), -3, 1);
 
-//get trade thread status (pos. -1)
-$allowposttrade = substr(sprintf('%02b', $forum['allowtrade']), -1, 1);
-
 // 反垃圾防护：蜂蜜罐字段（正常用户留空，填写即拒绝）
 if(!empty($_POST['homepage'])) {
 	showmessage('submit_invalid', NULL, 'HALTED');
@@ -135,26 +132,6 @@ if(!empty($previewpost) || (empty($previewpost) && empty($topicsubmit) && empty(
 
 	if($discuz_uid && $sigstatus && !$usesigcheck) {
 		$usesigcheck = 'checked';
-	}
-
-	if(!empty($trade)) {
-		if(isset($seller)) {
-			$seller = dhtmlspecialchars(stripslashes($seller));
-		} else {
-			$query = $db->query("SELECT alipay FROM {$tablepre}memberfields WHERE uid='$discuz_uid'");
-			$alipay = $db->result($query, 0);
-			$seller = $alipay ? $alipay : $email;
-		}
-
-		$item_price = isset($item_price) ? (float)$item_price : '';
-		$item_name = isset($item_name) ? dhtmlspecialchars(stripslashes($item_name)) : '';
-		$item_quality = isset($item_quality) ? dhtmlspecialchars(stripslashes($item_quality)) : '';
-		$item_locus = isset($item_locus) ? dhtmlspecialchars(stripslashes($item_locus)) : '';
-		$postage_mail = isset($postage_mail) ? dhtmlspecialchars(stripslashes($postage_mail)) : '';
-		$postage_express = isset($postage_express) ? dhtmlspecialchars(stripslashes($postage_express)) : '';
-
-		$checktp = array((isset($transport) ? $transport : 'seller') => 'checked');
-		$postagedisabled = isset($transport) && $transport == 'buyer' ? '' : 'disabled';
 	}
 
 	if(empty($previewpost)) {

@@ -180,9 +180,6 @@ function discuzcode($message, $smileyoff, $bbcodeoff, $htmlon = 0, $allowsmilies
 			$discuzcodes['searcharray']['bbcode_regexp'] = array_merge($discuzcodes['searcharray']['bbcode_regexp'], $discuzcodes['searcharray']['bbcode_regexp']);
 			$discuzcodes['replacearray']['bbcode_regexp'] = array_merge($discuzcodes['replacearray']['bbcode_regexp'], $discuzcodes['replacearray']['bbcode_regexp']);
 
-			$discuzcodes['searcharray']['bbcode_regexp'][] = "/\[payto\]\s*\(seller\)(.*)\(\/seller\)\s*(\(subject\)(.*)\(\/subject\))?\s*(\(body\)(.*)\(\/body\))?\s*(\(gross\)(.*)\(\/gross\))?\s*(\(price\)(.*)\(\/price\))?\s*(\(url\)(.*)\(\/url\))?\s*(\(type\)(.*)\(\/type\))?\s*(\(transport\)(.*)\(\/transport\))?\s*(\(ordinary_fee\)(.*)\(\/ordinary_fee\))?\s*(\(express_fee\)(.*)\(\/express_fee\))?\s*\[\/payto\]/isU";
-			$discuzcodes['replacearray']['bbcode_regexp'][] = "<a href=\"https://www.alipay.com/payto:\\1\" target=\"_blank\"><img src=\"".IMGDIR."/alipaybutton.gif\" border=\"0\"></a>";
-
 			$discuzcodes['searcharray']['bbcode_str'] = array(
 				'[/color]', '[/size]', '[/font]', '[/align]', '[b]', '[/b]',
 				'[i]', '[/i]', '[u]', '[/u]', '[list]', '[list=1]', '[list=a]',
@@ -198,19 +195,6 @@ function discuzcode($message, $smileyoff, $bbcodeoff, $htmlon = 0, $allowsmilies
 
 		$message = preg_replace_callback("/\[url\]\s*(www.|https?:\/\/|ftp:\/\/|gopher:\/\/|news:\/\/|telnet:\/\/|rtsp:\/\/|mms:\/\/|callto:\/\/|ed2k:\/\/){1}([^\[\"']+?)\s*\[\/url\]/is", function($m) {
 			return cuturl($m[1].$m[2]);
-		}, $message);
-		$message = preg_replace_callback("/\[payto\]\s*\(seller\)(.*)\(\/seller\)\s*(\(subject\)(.*)\(\/subject\))?\s*(\(body\)(.*)\(\/body\))?\s*(\(gross\)(.*)\(\/gross\))?\s*(\(price\)(.*)\(\/price\))?\s*(\(url\)(.*)\(\/url\))?\s*(\(type\)(.*)\(\/type\))?\s*(\(transport\)(.*)\(\/transport\))?\s*(\(ordinary_fee\)(.*)\(\/ordinary_fee\))?\s*(\(express_fee\)(.*)\(\/express_fee\))?\s*\[\/payto\]/isU", function($m) {
-			return payto($m[1], array(
-				'subject' => isset($m[3]) ? $m[3] : '',
-				'body' => isset($m[5]) ? $m[5] : '',
-				'gross' => isset($m[7]) ? $m[7] : '',
-				'price' => isset($m[9]) ? $m[9] : '',
-				'url' => isset($m[11]) ? $m[11] : '',
-				'type' => isset($m[13]) ? $m[13] : '',
-				'transport' => isset($m[15]) ? $m[15] : '',
-				'ordinary_fee' => isset($m[17]) ? $m[17] : '',
-				'express_fee' => isset($m[19]) ? $m[19] : ''
-			));
 		}, $message);
 
 		@$message = str_replace($discuzcodes['searcharray']['bbcode_str'], $discuzcodes['replacearray']['bbcode_str'],
@@ -317,3 +301,4 @@ function jammer() {
 }
 
 ?>
+

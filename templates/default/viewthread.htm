@@ -31,7 +31,6 @@
 $multipage</td><td align="right" valign="bottom">
 <!--{if $allowpost || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra"><img src="{IMGDIR}/newtopic.gif" border="0"></a><!--{/if}-->
 <!--{if $allowpostpoll || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&poll=yes"><img src="{IMGDIR}/poll.gif" border="0"></a><!--{/if}-->
-<!--{if ($allowpost || !$discuz_uid) && $allowposttrade}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&trade=yes"><img src="{IMGDIR}/newtrade.gif" border="0"></a><!--{/if}-->
 <!--{if $allowpostreply || !$discuz_uid}-->&nbsp;<a href="post.php?action=reply&fid=$fid&tid=$tid&extra=$extra"><img src="{IMGDIR}/reply.gif" border="0"></a><!--{/if}-->
 </td></tr></table></div>
 
@@ -50,11 +49,6 @@ function fastreply(subject) {
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr style="color: {HEADERTEXT}"><td class="bold" width="65%">{lang subject}: $thread[subject]</td>
 <td width="35%" align="right" nowrap>&nbsp;
-<!--{if $searchboxstatus}-->
-	<img src="{IMGDIR}/search.gif" border="0" align="bottom" width="16" height="16">&nbsp;&nbsp;<input type="text" name="searchbox" value="{lang qihoo_keyword}" size="30" class="altbg2" onmouseover="this.focus()" onfocus="this.select()">
-	<select name="stype"><option value="" selected>{lang qihoo_search_filltext}</option><option value="1">{lang qihoo_search_title}</option></select>
-	<input name="button" type="button" style="height: 1.8em" onclick="window.open('search.php?srchtype=qihoo&amp;srchtxt='+findobj('searchbox').value+'&amp;stype='+findobj('stype').value+'&amp;searchsubmit=yes');" value="{lang qihoo_search}">
-<!--{/if}-->
 </td></tr></table></td></tr>
 
 <!--{if $lastmod['modaction'] || $thread['blog'] || $thread['readperm'] || $thread['price'] > 0}-->
@@ -126,7 +120,6 @@ function fastreply(subject) {
 		<!--{/if}-->
 		<!--{if $avatarshowpos == 2}--><br><br><center>$post[avatarshow]</center><!--{/if}-->
 		</span>
-	<!--{if $post['alipay']}--><br><a href="https://www.alipay.com/payto:$post[alipay]?partner=20880020258585430156" target="_blank"><img src="{IMGDIR}/payto.gif" border="0" alt="{lang payto_author}"></a><!--{/if}-->
 	<!--{else}-->
 		<!--{if !$post['authorid']}-->
 			<span class="bold">{lang guest}</span> <span class="smalltxt">$post[useip]</span><br><span class="smalltxt">{lang unregistered}
@@ -174,7 +167,6 @@ function fastreply(subject) {
 				<!--{/if}-->
 			<!--{/loop}-->
 		<!--{/if}-->
-		<!--{if $post['number'] == 1 && $relatedkeywords}--><br><br><span class="bold">{lang thread_keywords}</span> $relatedkeywords<br><br><br><!--{/if}-->
 		<!--{if $post['signature'] && !$post['anonymous']}--><br><br><br></td></tr><tr><td valign="bottom" $maxsigrows><img src="images/common/sigline.gif"><br>$post[signature]<!--{/if}-->
 	<!--{/if}-->
 	</td></tr></table>
@@ -218,41 +210,9 @@ function fastreply(subject) {
 <td valign="top">$multipage</td><td align="right">
 <!--{if $allowpost || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra"><img src="{IMGDIR}/newtopic.gif" border="0"></a><!--{/if}-->
 <!--{if $allowpostpoll || !$discuz_uid}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&poll=yes"><img src="{IMGDIR}/poll.gif" border="0"></a><!--{/if}-->
-<!--{if ($allowpost || !$discuz_uid) && $allowposttrade}-->&nbsp;<a href="post.php?action=newthread&fid=$fid&extra=$extra&trade=yes"><img src="{IMGDIR}/newtrade.gif" border="0"></a><!--{/if}-->
 <!--{if $allowpostreply || !$discuz_uid}-->&nbsp;<a href="post.php?action=reply&fid=$fid&tid=$tid&extra=$extra"><img src="{IMGDIR}/reply.gif" border="0"></a><!--{/if}--></td></tr>
 </table><br></div>
 
-<!--{if $relatedthreadlist}-->
-	<div class="maintable">
-	<table cellspacing="{INNERBORDERWIDTH}" cellpadding="{TABLESPACE}" width="{TABLEWIDTH}" align="center" class="tableborder">
-	<tr class="header"><td colSpan=6><table cellspacing="0" cellpadding="0" border="0" width="100%" class="smalltxt" style="table-layout: fixed; word-wrap: break-word">
-	<tr style="color: {HEADERTEXT}"><td class="bold" width="60%">{lang qihoo_relatedthreads}</td>
-	<td width="40%" align="right" nowrap><a href="http://search.qihoo.com/usearch.html?kw=$searchkeywords&relate=$thread['subjectenc']&sort=rdate&site=discuzall&site=$site" target="_blank">{lang thread_more_related_threads}</a>
-	&nbsp;<a href="###" onclick="toggle_collapse('relatedthreads');"><img id="relatedthreads_img" src="{IMGDIR}/{$relatedthreads['img']}" border="0"></td></tr></table></td></tr>
-	<tbody id="relatedthreads" style="$relatedthreads['style']">
-	<tr class="category">
-	<td width="45%" align="center">{lang subject}</td>
-	<td width="14%" align="center">{lang forum}</td>
-	<td width="14%" align="center">{lang author}</td>
-	<td width="6%" align="center">{lang replies}</td>
-	<td width="6%" align="center">{lang views}</td>
-	<td width="15%" align="center">{lang lastpost}</td>
-	</tr>
-	<!--{loop $relatedthreadlist $key $threads}-->
-		<!--{if $threads[title]}-->
-			<tr>
-			<td class="altbg2" onMouseOver="this.className='altbg1'" onMouseOut="this.className='altbg2'"><a href="viewthread.php?tid=$threads[tid]" target="_blank">$threads[title]</td>
-			<td class="altbg1" align="center"><a href="forumdisplay.php?fid=$threads[fid]" target="_blank">$threads[chanl]</a></td>
-			<td class="altbg2" align="center"><a href="viewpro.php?username={echo rawurlencode($threads[author])}" target="_blank">$threads[author]</a><br>$threads[pdate]</td>
-			<td class="altbg1" align="center">$threads[rnum]</td>
-			<td class="altbg2" align="center">$threads[vnum]</td>
-			<td class="altbg1" align="center">$threads[rdate]</td>
-			</tr>
-		<!--{/if}-->
-	<!--{/loop}-->
-	</tbody>
-	</table><br></div>
-<!--{/if}-->
 
 <!--{if $fastpost && $allowpostreply}-->
 	<script language="JavaScript">
@@ -362,6 +322,4 @@ function fastreply(subject) {
 </td>
 </tr></table>
 {template footer}
-<!--{if $relatedthreadupdate}-->
-<script language="JavaScript" src="relatethread.php?tid=$tid&subjectenc=$thread[subjectenc]&verifykey=$verifykey"></script>
-<!--{/if}-->
+

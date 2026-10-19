@@ -17,6 +17,11 @@ class dbstuff {
 	public $conn = null;
 
 	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $pconnect = 0) {
+		// PHP 8.1+ defaults to MYSQLI_REPORT_ERROR|MYSQLI_REPORT_STRICT, which
+		// throws exceptions instead of returning false. Disable before connecting
+		// so connection and query failures keep the legacy return-value behavior.
+		mysqli_report(MYSQLI_REPORT_OFF);
+
 		if($pconnect) {
 			$this->conn = @new mysqli('p:' . $dbhost, $dbuser, $dbpw);
 		} else {
@@ -45,11 +50,6 @@ class dbstuff {
 		if($dbname) {
 			$this->conn->select_db($dbname);
 		}
-
-		// PHP 8.1+ defaults to MYSQLI_REPORT_ERROR|MYSQLI_REPORT_STRICT,
-		// which throws exceptions instead of returning false. Disable to
-		// preserve legacy error-handling behavior in query().
-		$this->conn->report_mode = MYSQLI_REPORT_OFF;
 
 	}
 

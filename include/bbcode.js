@@ -76,36 +76,6 @@ function getSelectedText() {
         return selected;
 }
 
-function alipay() {
-	if (helpmode) {
-		alert(alipay_help);
-	} else if (advmode) {
-		AddTxt = "\r[payto]\r[seller][/seller]\r[subject][/subject]\r[body][/body]\r[url][/url]\r[type][/type]\r[/payto][list]";
-		AddText(AddTxt);
-	} else {
-		var re=/^[\w.-]+@([0-9a-z][\w-]+\.)+[a-z]{2,3}$/i;
-		txt = prompt(alipay_normal_account,"");
-		if(txt != null) {
-			while(!re.test(txt)) {
-				txt = prompt(alipay_normal_account_error,"");
-				if(txt == null) return;
-			}
-    			var promptHint = new Array(alipay_normal_merchandise, alipay_normal_description, alipay_normal_price, alipay_normal_homepage, alipay_normal_type, alipay_normal_transport);
-    			var promptValue = new Array("subject", "body", "price", "url", "type", "transport");
-    			var AddTxt = "[payto]\r\n(seller)" + txt + "(/seller)\r\n";
-    			for(i = 0; i < promptHint.length; i++) {
-        			var txt = prompt(promptHint[i], "");
-        			if(txt == null) break;
-        			AddTxt+="("+promptValue[i]+")"+txt+"(/"+promptValue[i]+")\r\n";
-    			}
-    			if(txt!=null) {
-    				AddTxt+="[/payto]";
-    				AddText(AddTxt);
-    			}
-		}
-	}
-}
-
 function email() {
 	if (helpmode) {
 		alert(email_help);
@@ -391,4 +361,4 @@ function underline() {
 
 function setfocus() {
 	document.input.message.focus();
-}
+}

@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "4.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "要发布的 tag（需已存在）"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${GITHUB_REF_NAME}"
+          fi
+          case "$TAG" in
+            v*) VERSION="${TAG#v}" ;;
+            *)  VERSION="$TAG" ;;
+          esac
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Verify version constants
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          grep -q "DISCUZ_VERSION', '$VERSION'" discuz_version.php || {
+            echo "discuz_version.php 中的版本号与 tag $VERSION 不一致" >&2
+            exit 1
+          }
+          grep -q "DISCUZ_KERNEL_VERSION', '$VERSION'" include/cache.func.php || {
+            echo "include/cache.func.php 中的版本号与 tag $VERSION 不一致" >&2
+            exit 1
+          }
+
+      - name: Build full package
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          mkdir -p dist
+          tar -czf "dist/discuz-${VERSION}.tar.gz" \
+            --exclude=./.git \
+            --exclude=./.github \
+            --exclude=./.claude \
+            --exclude=./.codex \
+            --exclude=./.zcode \
+            --exclude=./dist \
+            --exclude=./config.inc.php \
+            --exclude=./404.html.back \
+            --exclude=./forumdata/cache \
+            --exclude=./forumdata/templates \
+            --exclude=./forumdata/banlog.php \
+            --exclude=./forumdata/cplog.php \
+            --exclude=./forumdata/errorlog.php \
+            --exclude=./forumdata/illegallog.php \
+            --exclude=./forumdata/medalslog.php \
+            --exclude=./forumdata/modslog.php \
+            --exclude=./forumdata/ratelog.php \
+            --exclude=./forumdata/dberror.log \
+            -C . .
+          echo "--- package contents (sample) ---"
+          tar -tzf "dist/discuz-${VERSION}.tar.gz" | head -10
+          echo "--- entry count: $(tar -tzf "dist/discuz-${VERSION}.tar.gz" | wc -l) ---"
+          echo "--- size ---"
+          ls -lh "dist/discuz-${VERSION}.tar.gz"
+
+      - name: Check package excludes runtime data
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          LISTING="$(tar -tzf "dist/discuz-${VERSION}.tar.gz")"
+          for bad in "./forumdata/cache/" "./forumdata/templates/" "./.git/" "./config.inc.php" "./dist/"; do
+            if echo "$LISTING" | grep -qF "$bad"; then
+              echo "交付包不应包含: $bad" >&2
+              exit 1
+            fi
+          done
+          echo "排除规则校验通过"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: "Discuz! ${{ steps.ver.outputs.version }}"
+          body_path: .github/release-notes.md
+          files: dist/*.tar.gz
+          fail_on_unmatched_files: true

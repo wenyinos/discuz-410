@@ -87,7 +87,6 @@ if(!submitcheck('regsubmit', 0, $seccodecheck)) {
 
 	$email = trim($email);
 	$username = trim($username);
-	$alipay = trim($alipay);
 
 	// 反垃圾防护：蜂蜜罐字段（正常用户留空，填写即拒绝）
 	if(!empty($_POST['website'])) {
@@ -125,10 +124,6 @@ if(!submitcheck('regsubmit', 0, $seccodecheck)) {
 	$censorexp = '/('.str_replace("\r\n", '|', preg_quote($censoremail, '/')).')$/i';
 	if(!isemail($email) || ($censoremail && preg_match($censorexp, $email))) {
 		showmessage('profile_email_illegal');
-	}
-
-	if($alipay && !isemail($alipay)) {
-		showmessage('profile_alipay_illegal');
 	}
 
 	$fieldadd1 = $fieldadd2 = '';
@@ -253,7 +248,6 @@ if(!submitcheck('regsubmit', 0, $seccodecheck)) {
 	$msn = dhtmlspecialchars($msn);
 	$taobao = dhtmlspecialchars($taobao);
 	$email = dhtmlspecialchars($email);
-	$alipay = dhtmlspecialchars($alipay);
 	$bday = dhtmlspecialchars($bday);
 
 	$signature = censor($signature);
@@ -276,8 +270,8 @@ if(!submitcheck('regsubmit', 0, $seccodecheck)) {
 		VALUES ('$username', '$password', '$secques', '$gendernew', '0', '{$groupinfo['groupid']}', '$onlineip', '$timestamp', '$timestamp', '$timestamp', '0', $initcredits, '$email', '$bday', '$sigstatus', '$tppnew', '$pppnew', '$styleidnew', '$dateformatnew', '$timeformatnew', '$pmsoundnew', '$showemail', '$newsletter', '$invisiblenew', '$timeoffsetnew')");
 	$uid = $db->insert_id();
 
-	$db->query("INSERT INTO {$tablepre}memberfields (uid, nickname, site, icq, qq, yahoo, msn, taobao, alipay, location, bio, signature, sightml, customstatus, authstr $fieldadd1)
-		VALUES ('$uid', '$nickname', '$site', '$icq', '$qq', '$yahoo', '$msn', '$taobao', '$alipay', '$locationnew', '$bio', '$signature', '$sightml', '$cstatus', '$authstr' $fieldadd2)");
+	$db->query("INSERT INTO {$tablepre}memberfields (uid, nickname, site, icq, qq, yahoo, msn, taobao, location, bio, signature, sightml, customstatus, authstr $fieldadd1)
+		VALUES ('$uid', '$nickname', '$site', '$icq', '$qq', '$yahoo', '$msn', '$taobao', '$locationnew', '$bio', '$signature', '$sightml', '$cstatus', '$authstr' $fieldadd2)");
 
 	if($regctrl || $regfloodctrl) {
 		$db->query("DELETE FROM {$tablepre}regips WHERE dateline<='$timestamp'-".($regctrl > 72 ? $regctrl : 72)."*3600", 'UNBUFFERED');

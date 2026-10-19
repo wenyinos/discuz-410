@@ -426,49 +426,6 @@ function rewrite_profile($uid, $username, $extra = '') {
 	return '<a href="profile-'.($uid ? 'uid-'.$uid : 'username-'.$username).'.html"'.stripslashes($extra).'>';
 }
 
-function payment($amount, $orderid) {
-	global $bbname, $boardurl, $extcredits, $creditstrans, $timestamp, $authkey, $ec_ratio, $ec_account, $ec_securitycode, $discuz_userss, $onlineip;
-
-	$ec_securitycode = authcode($ec_securitycode, 'DECODE', $authkey);
-
-	$params = array
-		(
-		'subject'	=> $bbname.' - '.$discuz_userss.' - ���ֳ�ֵ('.$boardurl.')',
-		'body'		=> '��̳���ֳ�ֵ '.$extcredits[$creditstrans]['title'].' '.intval($amount * $ec_ratio).' '.$extcredits[$creditstrans]['unit'].' ('.$onlineip.')',
-		'order_no'	=> $orderid,
-		'date'		=> gmdate("Ymd", $timestamp + 8 * 3600),
-		'price'		=> $amount,
-		'type'		=> 2,
-		'number'	=> 1,
-		'transport'	=> 3,
-		'seller'	=> $ec_account,
-		'partner'	=> '20880020258585430156'
-		);
-
-	$ac = '';
-	$url = 'https://www.alipay.com/trade/direct_pay.htm?';
-
-	foreach($params as $key => $val) {
-		$ac .= $key.$val;
-		$url .= $key.'='.rawurlencode($val).'&';
-	}
-
-	$ac .= $ec_securitycode;
-	$url .= 'ac='.md5($ac);
-
-	return $url;
-}
-
-function payto($seller, $detail) {
-	$detailarray = array();
-	foreach(array_merge($detail, array('partner' => '20880020258585430156', 'readonly' => 'true')) as $key => $val) {
-		if($val = trim($val)) {
-			$detailarray[] = $key.'='.rawurlencode($val);
-		}
-	}
-	return '<a href="https://www.alipay.com/payto:'.$seller.'?'.implode('&', $detailarray).'" target="_blank"><img src="'.IMGDIR.'/alipaybutton.gif" border="0"></a>';
-}
-
 function periodscheck($periods, $showmessage = 1) {
 	global $timestamp, $disableperiodctrl, $_DCACHE, $banperiods;
 
@@ -750,3 +707,4 @@ function updatemodworks($modaction, $posts = 1) {
 }
 
 ?>
+

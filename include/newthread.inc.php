@@ -108,33 +108,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck)) {
 		$pollarray['multiple'] = !empty($multiplepoll);
 		$pollarray['voters'] = array();
 		$pollopts = addslashes(serialize($pollarray));
-	} elseif(isset($trade) && $allowposttrade && !empty($seller) && !empty($item_name) && !empty($item_price)) {
-		include language('misc');
-
-		$iconid = 25;
-
-		switch($transport) {
-			case 'seller':	$item_transport = 1; break;
-			case 'virtual': $item_transport = 3; break;
-			default:	$item_transport = 2; break;
-		}
-
-		$message = "[b]{$language['post_trade_seller']}:[/b] $seller\r\n\r\n".
-			"[b]{$language['post_trade_name']}:[/b] $item_name\r\n\r\n".
-			"[b]{$language['post_trade_price']}:[/b] $item_price {$language['post_trade_yuan']}\r\n\r\n".
-			(!empty($item_quality) ? "[b]{$language['post_trade_quality']}:[/b] $item_quality\r\n\r\n" : '').
-			(!empty($item_locus) ? "[b]{$language['post_trade_locus']}:[/b] $item_locus\r\n\r\n" : '').
-			"[b]{$language['post_trade_transport']}:[/b] ".$language['post_trade_transport_'.$transport].($transport == 'buyer' ? (!empty($postage_mail) ? ", {$language['post_trade_transport_mail']} $postage_mail {$language['post_trade_yuan']}" : '').(!empty($postage_express) ? ", {$language['post_trade_transport_express']} $postage_express {$language['post_trade_yuan']}" : '') : '')."\r\n\r\n".
-			"[b]{$language['post_trade_description']}:[/b] $message\r\n\r\n".
-			"[payto]\r\n".
-			"(seller)$seller(/seller)\r\n".
-			"(subject)$item_name(/subject)\r\n".
-			"(body)".cutstr($message, 400)."(/body)\r\n".
-			"(price)$item_price(/price)\r\n".
-			"(transport)$item_transport(/transport)\r\n".
-			"(ordinary_fee)$postage_mail(/ordinary_fee)\r\n".
-			"(express_fee)$postage_express(/express_fee)\r\n".
-			"[/payto]";
 	} else {
 		$poll = 0;
 		$pollopts = '';

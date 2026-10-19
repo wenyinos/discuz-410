@@ -110,15 +110,6 @@ if(empty($action) && $tid) {
 		require_once DISCUZ_ROOT.'./include/pmprompt.inc.php';
 	}
 
-	//get trade thread status (pos. -1)
-	$allowposttrade = substr(sprintf('%02b', $forum['allowtrade']), -1, 1);
-
-	//get pay to author status (pos. -2)
-	$allowpaytoauthor = substr(sprintf('%02b', $forum['allowtrade']), -2, 1);
-
-	//get qihoo status (pos. -3)
-	$searchboxstatus = substr(sprintf('%03b', $qihoo_searchbox), -3, 1);
-
 	$highlightstatus = isset($highlight) && str_replace('+', '', $highlight) ? 1 : 0;
 	$maxsigrows = $maxsigrows ? 'style="height: '.$maxsigrows.'em"' : '';
 
@@ -173,7 +164,7 @@ if(empty($action) && $tid) {
 	$query = $db->query("SELECT p.*, m.uid, m.username, m.groupid, m.regdate, m.lastactivity, m.posts, m.digestposts, m.oltime,
 		m.pageviews, m.credits, m.extcredits1, m.extcredits2, m.extcredits3, m.extcredits4, m.extcredits5, m.extcredits6,
 		m.extcredits7, m.extcredits8, m.email, m.gender, m.showemail, m.invisible, m.avatarshowid, mf.nickname, mf.site,
-		mf.icq, mf.qq, mf.yahoo, mf.msn, mf.taobao, mf.alipay, mf.location, mf.medals, mf.avatar, mf.avatarwidth,
+		mf.icq, mf.qq, mf.yahoo, mf.msn, mf.taobao, mf.location, mf.medals, mf.avatar, mf.avatarwidth,
 		mf.avatarheight, mf.sightml AS signature, mf.customstatus $fieldsadd
 		FROM {$tablepre}posts p
 		LEFT JOIN {$tablepre}members m ON m.uid=p.authorid
@@ -217,10 +208,6 @@ if(empty($action) && $tid) {
 						break;
 					}
 				}
-			}
-
-			if(!$allowpaytoauthor || !$ec_ratio) {
-				$post['alipay'] = '';
 			}
 
 				$post['taobao'] = addslashes($post['taobao']);
@@ -306,37 +293,6 @@ if(empty($action) && $tid) {
 		showmessage('undefined_action', NULL, 'HALTED');
 	}
 
-	$relatedthreadlist = array();
-	$relatedthreadupdate = FALSE;
-	if($qihoo_status && $qihoo_relatedthreads) {
-		$site = site();
-		$relatedkeywords = '';
-		$query = $db->query("SELECT expiration, keywords, relatedthreads FROM {$tablepre}relatedthreads WHERE tid=$tid");
-		$related = $db->fetch_array($query);
-		if($related['expiration'] > $timestamp) {
-			$relatedthreadlist = unserialize($related['relatedthreads']);
-			if($related['keywords']) {
-				$searchkeywords = rawurlencode(str_replace("\t", ' ', $related['keywords']));
-				foreach(explode("\t", $related['keywords']) as $keyword) {
-					$relatedkeywords .= $keyword ? '<a href="search.php?srchtype=qihoo&srchtxt='.rawurlencode($keyword).'&searchsubmit=yes" target="_blank"><span class="bold"><font color=red>'.$keyword.'</font></span></a> ' : '';
-				}
-			}
-		} else {
-			$relatedthreadupdate = TRUE;
-			$verifykey = md5($authkey.$tid.$thread[subjectenc].$charset.$site);
-		}
-	}
-
-	$relatedthreads = array();
-	if(!empty($relatedthreadlist)) {
-		if(!isset($_COOKIE['discuz_collapse']) || strpos($_COOKIE['discuz_collapse'], 'relatedthreads') === FALSE) {
-			$relatedthreads['img'] = 'collapsed_no.gif';
-			$relatedthreads['style'] = '';
-		} else {
-			$relatedthreads['img'] = 'collapsed_yes.gif';
-			$relatedthreads['style'] = 'display: none';
-		}
-	}
 
 	$visitedforums = $visitedforums ? visitedforums() : '';
 	$forumselect = $forumjump ? forumselect() : '';
@@ -371,3 +327,4 @@ if(empty($action) && $tid) {
 }
 
 ?>
+

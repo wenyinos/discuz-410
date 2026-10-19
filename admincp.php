@@ -56,7 +56,7 @@ include language('admincp');
 $session = array('errorcount' => 0);
 $admin_password = isset($admin_password) ? $admin_password : '';
 
-$blockedActions = array('passport', 'siteengine', 'shopex', 'alipay', 'orders', 'avatarshow_config', 'avatarshow_register');
+$blockedActions = array('passport', 'siteengine', 'shopex', 'avatarshow_config', 'avatarshow_register');
 if(isset($action) && in_array($action, $blockedActions)) {
 	cpheader();
 	cpmsg('undefined_action');
@@ -204,8 +204,6 @@ document.login.admin_password.focus();
 			$cpscript = 'passport';
 		} elseif($action == 'avatarshow_config' || $action == 'avatarshow_register') {
 			$cpscript = 'avatarshow';
-		} elseif($action == 'qihoo_config' || $action == 'qihoo_topics') {
-			$cpscript = 'qihoo';
 		} elseif($action == 'forumadd' || $action == 'forumsedit' || $action == 'forumsmerge' || $action == 'forumdetail' || $action == 'forumdelete' || $action == 'moderators' || $action == 'threadtypes' || $action=='forumcopy') {
 			$cpscript = 'forums';
 		} elseif($action == 'memberadd' || $action == 'members' || $action == 'membersmerge' || $action == 'editgroups' || $action == 'access' || $action == 'editcredits' || $action == 'editmedals' || $action == 'memberprofile' || $action == 'profilefields' || $action == 'ipban') {
@@ -222,8 +220,6 @@ document.login.admin_password.focus();
 			$cpscript = 'moderate';
 		} elseif($action == 'recyclebin') {
 			$cpscript = 'recyclebin';
-		} elseif($action == 'alipay' || $action == 'orders') {
-			$cpscript = 'ecommerce';
 		} elseif($action == 'forumlinks' || $action == 'onlinelist' || $action == 'medals' || $action == 'censor' || $action == 'discuzcodes' || $action == 'smilies' || $action == 'attachtypes' || $action == 'crons' || $action == 'creditslog' || $action == 'logout') {
 			$cpscript = 'misc';
 		} elseif($action == 'adv' || $action == 'advadd' || $action == 'advedit') {
@@ -294,3 +290,4 @@ document.login.admin_password.focus();
 output();
 
 ?>
+

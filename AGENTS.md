@@ -1,4 +1,4 @@
-# Discuz! 4.1.0 - Agent Guide
+# Discuz! 4.1.1 - Agent Guide
 
 ## Project Overview
 

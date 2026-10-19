@@ -9,7 +9,7 @@
 	$Date: 2006/03/07 06:44:55 $
 */
 
-define('DISCUZ_KERNEL_VERSION', '4.1.0');
+define('DISCUZ_KERNEL_VERSION', '4.1.1');
 define('DISCUZ_KERNEL_RELEASE', '20060303');
 
 if(isset($_GET['kernel_version'])) {
@@ -274,7 +274,6 @@ function getcachearray($cachename) {
 	$query = $db->query("SELECT $cols FROM {$tablepre}$table $conditions");
 	switch($cachename) {
 		case 'settings':
-			$data['qihoo_links'] = array();
 			while($setting = $db->fetch_array($query)) {
 				if($setting['variable'] == 'extcredits') {
 					if(is_array($setting['value'] = unserialize($setting['value']))) {
@@ -286,20 +285,6 @@ function getcachearray($cachename) {
 							}
 						}
 					}
-				} elseif($setting['variable'] == 'qihoo_keywords') {
-					foreach(explode("\n", trim($setting['value'])) as $keyword) {
-						if($keyword = trim($keyword)) {
-							$data['qihoo_links']['keywords'][] = '<a href="search.php?srchtype=qihoo&srchtxt='.rawurlencode($keyword).'&searchsubmit=yes" target="_blank">'.dhtmlspecialchars(trim($keyword)).'</a>';
-						}
-					}
-				} elseif($setting['variable'] == 'qihoo_topics') {
-					if(is_array($topics = unserialize($setting['value']))) {
-						foreach($topics as $topic) {
-							if($topic['topic'] = trim($topic['topic'])) {
-								$data['qihoo_links']['topics'][] = '<a href="topic.php?topic='.rawurlencode($topic['topic']).'&keyword='.rawurlencode($topic['keyword']).'&stype='.$topic['stype'].'&length='.$topic['length'].'&relate='.$topic['relate'].'" target="_blank">'.dhtmlspecialchars(trim($topic['topic'])).'</a>';
-							}
-						}
-					}
 				} elseif($setting['variable'] == 'creditspolicy') {
 					$setting['value'] = unserialize($setting['value']);
 				} elseif($setting['variable'] == 'creditsformula') {
@@ -308,9 +293,7 @@ function getcachearray($cachename) {
 					$setting['value'] = $setting['value'] <= 0 ? -1 : $setting['value'];
 				}
 
-				if(!in_array($setting['variable'], array('qihoo_keywords', 'qihoo_topics'))) {
-					$GLOBALS[$setting['variable']] = $data[$setting['variable']] = $setting['value'];
-				}
+				$GLOBALS[$setting['variable']] = $data[$setting['variable']] = $setting['value'];
 			}
 			if($data['stylejump']) {
 				$data['stylejump'] = array();

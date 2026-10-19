@@ -44,7 +44,7 @@ if(!$forum || !forumperm($forum['viewperm'])) {
 <?php
 } else {
 
-	$navsub = $forum['type'] == 'sub' ? "<a href=\"archiver/{$qm}fid-$forum[fup].html\">{$_DCACHE[forums][$forum[fup]][name]}</a> <b>&raquo;</b>": ' ';
+	$navsub = $forum['type'] == 'sub' ? "<a href=\"archiver/{$qm}fid-$forum[fup].html\">{$_DCACHE['forums'][$forum['fup']]['name']}</a> <b>&raquo;</b>": ' ';
 	$fullversion = array('title' => $forum['name'], 'link' => "forumdisplay.php?fid=$fid");
 
 	$tpp = $_DCACHE['settings']['topicperpage'] * 2;
@@ -67,4 +67,4 @@ if(!$forum || !forumperm($forum['viewperm'])) {
 
 }
 
-?>
+?>

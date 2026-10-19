@@ -127,7 +127,7 @@ if(($action == 'moderate' && $fid) || in_array($action, array('delete', 'move', 
 						case 'highlight': $actionarray = array('EHL'); break;
 						case 'close': $actionarray = array('ECL', 'EOP'); break;
 					}
-					$query = $db->query("SELECT * FROM {$tablepre}threadsmod WHERE tid='{$threadlist[0][tid]}' ORDER BY dateline DESC");
+					$query = $db->query("SELECT * FROM {$tablepre}threadsmod WHERE tid='{$threadlist[0]['tid']}' ORDER BY dateline DESC");
 					while($log = $db->fetch_array($query)) {
 						$log['dateline'] = gmdate("$dateformat $timeformat", $log['dateline'] + $timeoffset * 3600);
 						$log['expiration'] = !empty($log['expiration']) ? gmdate("$dateformat", $log['expiration'] + $timeoffset * 3600) : '';

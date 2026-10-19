@@ -45,7 +45,7 @@ $extrahead
 <!--{/if}-->
 
 <!--{if $memliststatus}-->| <a href="member.php?action=list">{lang memberlist}</a> <!--{/if}-->
-<!--{if $allowsearch || $qihoo_status}-->| <a href="search.php">{lang search}</a> <!--{/if}-->
+<!--{if $allowsearch}-->| <a href="search.php">{lang search}</a> <!--{/if}-->
 <!--{if $allowviewstats}-->| <a href="stats.php">{lang statistics}</a> <!--{/if}-->
 <!--{loop $plugins['links'] $plugin}-->
 	<!--{loop $plugin $module}-->

@@ -87,8 +87,6 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 							array('name' => $lang['menu_posting_censors'], 'url' => 'admincp.php?action=censor'),
 							array('name' => $lang['menu_posting_smilies'], 'url' => 'admincp.php?action=smilies'),
 							array('name' => $lang['menu_posting_attachtypes'], 'url' => 'admincp.php?action=attachtypes')));
-			showmenu($lang['menu_qihoo'], array(array('name' => $lang['menu_qihoo_config'], 'url' => 'admincp.php?action=qihoo_config'),
-							array('name' => $lang['menu_qihoo_topics'], 'url' => 'admincp.php?action=qihoo_topics')));
 			showmenu($lang['menu_styles'],	array(array('name' => $lang['menu_styles'], 'url' => 'admincp.php?action=styles'),
 							array('name' => $lang['menu_styles_templates'], 'url' => 'admincp.php?action=templates')));
 			showmenu($lang['menu_misc'], 	array(array('name' => $lang['menu_misc_announces'], 'url' => 'admincp.php?action=announcements'),
@@ -172,3 +170,4 @@ if(!defined('IN_DISCUZ') || !isset($PHP_SELF) || !preg_match("/[\/\\\\]admincp\.
 
 </body>
 </html>
+

@@ -238,7 +238,7 @@ if($action == 'styles' && !$export) {
 					$stylestuff[$stylevar['variable']] = array('id' => $stylevar['stylevarid'], 'subst' => $stylevar['substitute']);
 				} else {
 					$stylecustom .= "<tr align=\"center\"><td bgcolor=\"".ALTBG1."\"><input type=\"checkbox\" name=\"delete[]\" value=\"{$stylevar['stylevarid']}\"></td>\n".
-						"<td bgcolor=\"".ALTBG2."\"><b>{".strtoupper($stylevar[variable])."}</b></td>\n".
+						"<td bgcolor=\"".ALTBG2."\"><b>{".strtoupper($stylevar['variable'])."}</b></td>\n".
 						"<td bgcolor=\"".ALTBG1."\"><textarea name=\"stylevar[{$stylevar['stylevarid']}]\" cols=\"50\" rows=\"2\">{$stylevar['substitute']}</textarea></td>\n".
 						"</tr>";
 				}
@@ -344,4 +344,4 @@ if($action == 'styles' && !$export) {
 
 }
 
-?>
+?>

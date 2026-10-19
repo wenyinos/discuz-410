@@ -81,7 +81,7 @@ if(!submitcheck('editsubmit')) {
 		$query = $db->query("SELECT * FROM {$tablepre}attachments WHERE pid='{$postinfo['pid']}'");
 		while($attach = $db->fetch_array($query)) {
 			$attach['dateline'] = gmdate("$dateformat $timeformat", $attach['dateline'] + $timeoffset * 3600);
-			$attach['filesize'] = sizecount($attach[filesize]);
+			$attach['filesize'] = sizecount($attach['filesize']);
 			$attach['filetype'] = attachtype(fileext($attach['attachment'])."\t".$attach['filetype']);
 			$attachments[] = $attach;
 		}

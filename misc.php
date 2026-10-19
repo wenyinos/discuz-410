@@ -20,48 +20,6 @@ if($action == 'maxpages') {
 		showmessage('max_pages');
 	}
 
-} elseif($action == 'customtopics') {
-
-	if(!submitcheck('keywordsubmit', 1)) {
-
-		if($_DCOOKIE['customkw']) {
-			$customkwlist = array();
-			foreach(explode("\t", trim($_DCOOKIE['customkw'])) as $key => $keyword) {
-				$keyword = dhtmlspecialchars(trim(stripslashes($keyword)));
-				$customkwlist[$key]['keyword'] = $keyword;
-				$customkwlist[$key]['url'] = '<a href="topic.php?keyword='.rawurlencode($keyword).'" target="_blank">'.$keyword.'</a> ';
-			}
-		}
-
-		include template('customtopics');
-
-	} else {
-
-		if(!empty($delete) && is_array($delete)) {
-			$keywords = implode("\t", array_diff(explode("\t", $_DCOOKIE['customkw']), $delete));
-		} else {
-			$keywords = $_DCOOKIE['customkw'];
-		}
-
-		if($newkeyword = cutstr(dhtmlspecialchars(preg_replace("/[\s\|\t\,\'\<\>]/", '', $newkeyword)), 20)) {
-			if($_DCOOKIE['customkw']) {
-				if(!preg_match("/(^|\t)".preg_quote($newkeyword, '/')."($|\t)/i", $keywords)) {
-					if(count(explode("\t", $keywords)) >= $qihoo_maxtopics) {
-						$keywords = substr($keywords, (strpos($keywords, "\t") + 1))."\t".$newkeyword;
-					} else {
-						$keywords .= "\t".$newkeyword;
-					}
-				}
-			} else {
-				$keywords = $newkeyword;
-			}
-		}
-
-		dsetcookie('customkw', stripslashes($keywords), 315360000);
-		header("Location: {$boardurl}misc.php?action=customtopics");
-
-	}
-
 } else {
 
 	if(empty($forum['allowview'])) {
